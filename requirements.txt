@@ -1,7 +1,7 @@
 astroid==2.2.5
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.2.3
+Django==2.2.4
 djangorestframework==3.10.2
 djangorestframework-api-key==1.4.0
 djangorestframework-camel-case==1.0.3
