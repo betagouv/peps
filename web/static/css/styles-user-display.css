@@ -1,0 +1,294 @@
+html {
+    background-color: #FAFAFA;
+}
+
+body {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    color: #241c15;
+    font-family: "Graphik Web","Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+h1 {
+    display: block;
+    margin: 0;
+    padding: 0;
+    color: #202020;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 125%;
+    letter-spacing: normal;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.columns {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.columns:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.column {
+    width: 50%;
+    float: left;
+}
+
+.column-item {
+    font-size: 12px;
+    font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
+    line-height: 150%;
+    color: #202020;
+    font-weight: bold;
+}
+
+.column-item-title {
+    color: #696969;
+    font-weight: normal;
+}
+
+.practice-header {
+    background-color: #008763;
+    padding: 15px;
+    color: white;
+}
+
+.practice-header .title {
+    font-family: source sans pro,helvetica neue,helvetica,arial,sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.mechanism {
+    font-size: 12px;
+    font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
+    word-break: break-word;
+    line-height: 150%;
+}
+
+.mechanism-description {
+    color: #202020;
+    margin-top: 20px;
+}
+
+.resource-inline {
+    font-weight: bold;
+}
+
+.practice .description, .practice .resources {
+    word-break: break-word;
+    color: #202020;
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.practice .cta>button {
+
+    border-collapse: separate !important;
+    border-radius: 50px;
+    background-color: #008763;
+    border: none;
+    padding: 18px;
+    font-weight: bold;
+    letter-spacing: normal;
+    line-height: 100%;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.cta {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: #DEDEDE solid 2px;
+}
+
+img {
+    object-fit: cover;
+}
+
+td {
+    border: none !important;
+}
+
+img.practice {
+    border-radius: 5px;
+    padding: 0 !important;
+    margin-right: 10px;
+}
+
+.login {
+    width: 400px;
+}
+
+.media.practice, .media.suggestion {
+    border-radius: 5px;
+    border: solid 1px #DEDEDE;
+    padding: 5px;
+    position: relative;
+}
+
+.media.suggestion {
+    border: solid 1px #CACACA;
+    margin: 10px;
+    background: white;
+}
+
+.media.suggestion .media {
+    padding-right: 30px;
+}
+
+.media.practice:hover {
+    cursor: pointer;
+    background: #f0faff;
+}
+
+.navbar {
+    background: #ddd;
+    margin-top: 5px;
+}
+
+h4.practice_name, h5.form-date {
+    margin-top: 0;
+}
+
+h4.practice_name {
+    font-size: 16px;
+}
+
+.label-as-badge {
+    border-radius: 1em;
+}
+
+.item img {
+    padding: 10px;
+    background: #DDD;
+    margin-right: 15px;
+}
+
+#form {
+    width: 50%;
+    float: left;
+}
+
+#results, #suggestions, #blacklist {
+    width: 50%;
+    float: right;
+}
+
+.navbar-button {
+    float: right;
+    margin-top: 11px;
+    margin-right: 10px;
+}
+
+.practice-description {
+    font-size: 0.8em;
+}
+
+#suggestions {
+    margin-bottom: 20px;
+    background: #e4ffeb;
+    border-radius: 6px;
+    border: 2px solid #BDE8C9;
+}
+
+#blacklist {
+    margin-bottom: 20px;
+    background: #e1e1e1;
+    border-radius: 6px;
+    border: 1px solid #9F9F9F;
+    opacity: 0.7;
+}
+#suggestions:empty, #blacklist:empty {
+    border: none;
+}
+
+.list-toggle-button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    text-align: center;
+}
+.list-toggle-button:hover {
+    cursor: pointer;
+}
+#suggestions .list-toggle-button {
+    background: #ffc0c0;
+    color: #954545;
+    border: 1px solid #e68d8d;
+}
+
+#suggestions .list-toggle-button::before {
+    content: "▼";
+}
+
+#suggestions .list-toggle-button:hover {
+    background: #f28a8a;
+}
+
+#blacklist .list-toggle-button {
+    background: #d4ffc0;
+    color: #33b30b;;
+    border: 1px solid #90e68d;
+}
+
+#blacklist .list-toggle-button::before {
+    content: "▲";
+}
+
+#blacklist .practice-badges, #blacklist .practice-number {
+    display: none;
+}
+
+#blacklist .list-toggle-button:hover {
+    background: #8df28a;
+}
+
+.label-default {
+    border: 1px solid #5bc0de;
+    border-radius: 3px;
+    background: white;
+    color: #5bc0de;
+    padding: 0.3em 0.6em;
+}
+
+.label-danger {
+    background-color: white;
+    color: #d9534f;
+    border: 1px solid #d9534f;
+    padding: 0.3em 0.6em;
+}
+
+.label-warning {
+    background-color: white;
+    color: #f0ad4e;
+    border: 1px solid #f0ad4e;
+    padding: 0.3em 0.6em;
+}
+
+.label-success {
+    background-color: white;
+    color: #5cb85c;
+    border: 1px solid #5cb85c;
+    padding: 0.3em 0.6em;
+}

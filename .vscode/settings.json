@@ -1,0 +1,25 @@
+{
+    "python.autoComplete.extraPaths": [
+        "${workspaceRoot}/venv/lib/",
+        "${workspaceRoot}/venv/lib/python3.6/site-packages/"
+    ],
+    "python.pythonPath": "${workspaceRoot}/venv/bin/python",
+
+    "python.linting.pylintPath": "${workspaceRoot}/venv/bin/pylint",
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django",
+        "--rcfile",
+        "${workspaceRoot}/.pylintrc"
+    ],
+    "python.linting.ignorePatterns": [
+        "${workspaceRoot}/venv/**/*.py"
+    ],
+    "search.exclude": {
+        "**/venv": true,
+        "**/__pycache__": true
+    },
+    "python.formatting.provider": "none",
+    "python.linting.enabled": true,
+}

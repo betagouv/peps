@@ -1,0 +1,44 @@
+{% load static %}
+<head>
+        <title>Peps</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg">
+            <p class="navbar-brand">Login</p>
+        </nav>
+    <div id="content-container" class="login container p-none">
+        <div class="lgn-container">
+            <form id="login-form" method="post" 
+                  action="{% url 'login' %}">
+                {% csrf_token %}
+                <table class="table">
+                    <tr>
+                        <td><label for="id_username">Username</label></td>
+                        <td><input id="id_username" name="username" 
+                                   type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="id_password">Password</label></td>
+                        <td><input id="id_password" name="password" 
+                                   type="password" class="form-control"></td>
+                    </tr>
+                </table>
+                {% if form.errors %}
+                    <p class=" label label-danger">
+                        Your username and password didn't match. 
+                        Please try again.
+                    </p>
+                {% endif %}
+
+                <input type="submit" value="Login" 
+                       class="btn btn-primary pull-right" />
+                <input type="hidden" name="next" value="/" />
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
