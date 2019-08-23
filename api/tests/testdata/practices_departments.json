@@ -1,0 +1,85 @@
+{
+    "records": [
+        {
+            "id": "recqYTBrTU2q8Vnu3",
+            "fields": {
+                "Pratique": [
+                    "recA8s2p2PC2FBg9c"
+                ],
+                "Departement": [
+                    "rec516ccAAAKrRJ5y"
+                ],
+                "Multiplicateur": 1,
+                "Name":"10 - Profiter de l'action des auxiliaires sur le puceron de l'épi"
+            },
+            "createdTime": "2019-07-09T06:54:01.000Z"
+        },
+        {
+            "id": "recTLbA4Hb7IXtBO6",
+            "fields": {
+                "Pratique": [
+                    "recx8ErM9GlGA6BD2"
+                ],
+                "Departement": [
+                    "recTzw71JiNTpExgy"
+                ],
+                "Multiplicateur": 1,
+                "Name": "17 - Faux semis combiné au décalage de la date de semis"
+            },
+            "createdTime": "2019-07-09T06:55:12.000Z"
+        },
+        {
+            "id": "recxdMHr9YnQDboQs",
+            "fields": {
+                "Pratique": [
+                    "recrD49Ih5S54FOhq"
+                ],
+                "Departement": [
+                    "recFW6HXlt5b1o5y1"
+                ],
+                "Multiplicateur": 1,
+                "Name": "92 - [DETAILS] Introduire le sarrasin en interculture longue"
+            },
+            "createdTime": "2019-07-09T06:55:29.000Z"
+        },
+        {
+            "id": "recUqbAvT03tU7Ew7",
+            "fields": {
+                "Pratique": [
+                    "recKs8PER2AqemNs1"
+                ],
+                "Departement": [
+                    "recC8uHeMnihx7z4j"
+                ],
+                "Multiplicateur": 1,
+                "Name":"13 - Mettre à profit la capacité étouffante d'une légumineuse gélive en inter-rang de colza"
+            },
+            "createdTime": "2019-07-09T06:55:48.000Z"
+        },
+        {
+            "id": "recVHTAhcAVP4akkT",
+            "fields": {
+                "Departement": [
+                    "rectvTqGAidoFpoHI"
+                ],
+                "Multiplicateur": 1,
+                "Name": "69 - "
+            },
+            "createdTime": "2019-07-09T06:56:08.000Z"
+        },
+        {
+            "id": "recRk9zyxDOqzdIAP",
+            "fields": {
+                "Pratique": [
+                    "recze8GDGOm8i4ul9"
+                ],
+                "Departement": [
+                    "recDQYZHd1qnbHeHi"
+                ],
+                "Multiplicateur": 1,
+                "Name": "50 - [DETAILS] Exploiter un couvert d’inter-rang sur blé pour réduire la place disponible"
+            },
+            "createdTime": "2019-07-09T06:56:41.000Z"
+        }
+    ]
+}

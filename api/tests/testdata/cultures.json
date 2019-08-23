@@ -1,0 +1,578 @@
+{
+    "records": [
+        {
+            "id": "recuVebqXEqCg8kK0",
+            "fields": {
+                "Name": "Blé",
+                "Type": [
+                    "recmVvDWpF5ocs0qF"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attJxg9dMPcKfJpNr",
+                        "url": "https://dl.airtable.com/.attachments/0440288ec38f0ee931ca72d5289e51d9/3de030af/ble.jpg",
+                        "filename": "ble.jpg",
+                        "size": 203857,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/5e46c260f95cc805224c2f7e80ef5bff/ebab296c",
+                                "width": 58,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/e9042afb658e048df14ac402d8b4fb20/f176a9bf",
+                                "width": 640,
+                                "height": 400
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/19993fa4c6e8da747fea479e782de5f8/b296fab8",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "BLE",
+                "Pratiques 2": [
+                    "recze8GDGOm8i4ul9",
+                    "recA8s2p2PC2FBg9c",
+                    "reczVjM7nqyo1w7wO",
+                    "recfRSkbVDIXjfse5",
+                    "recqd1WJzKgs6PHg6",
+                    "recswKhe3JNRErR0L"
+                ]
+            },
+            "createdTime": "2019-07-03T14:47:25.000Z"
+        },
+        {
+            "id": "recfGVtMZSz05Rfl8",
+            "fields": {
+                "Name": "Orge",
+                "Type": [
+                    "recmVvDWpF5ocs0qF"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attHm2PGdjEXxK1fc",
+                        "url": "https://dl.airtable.com/.attachments/78fc6be7dd9cee17e173669422729e74/60e42024/orge.jpg",
+                        "filename": "orge.jpg",
+                        "size": 49208,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/5dc26e76f02d9a4013f56e549cd80dfa/363a7752",
+                                "width": 60,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/ca91ba100e45d3294bc6c8009934efd8/b71386f5",
+                                "width": 600,
+                                "height": 360
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/9e494b3467dfd590e19e4ffa1f0f9c96/ef798d6e",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "ORGE",
+                "Pratiques 2": [
+                    "recA8s2p2PC2FBg9c",
+                    "recswKhe3JNRErR0L"
+                ]
+            },
+            "createdTime": "2019-07-03T14:47:25.000Z"
+        },
+        {
+            "id": "recsPtaEneeYVoEWx",
+            "fields": {
+                "Name": "Maïs",
+                "Type": [
+                    "recmVvDWpF5ocs0qF"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attNLBqxm4sTKZ3s6",
+                        "url": "https://dl.airtable.com/.attachments/1b45d47811873ef32b819cea6f2faa3c/ad462e72/AdobeStock_89177014reduit_0.jpg",
+                        "filename": "AdobeStock_89177014reduit_0.jpg",
+                        "size": 32567,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/8f59c656a38ac07d36d5907fe35d7051/eace3b5f",
+                                "width": 55,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/d20cfd6953ea372ed6e21c080c147909/c6897d74",
+                                "width": 587,
+                                "height": 384
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/9fff7158a8c3f4bedc19dd2ea65e7eb4/1be66206",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Enum code": "MAIS",
+                "Pratiques 2": [
+                    "recm36pvLfVRSrqBS",
+                    "reckSRYZHVC6QDxe3",
+                    "recQU0imezS2QMbrh"
+                ]
+            },
+            "createdTime": "2019-07-03T14:47:25.000Z"
+        },
+        {
+            "id": "rec5MHmc9xIgAg8ha",
+            "fields": {
+                "Name": "Tournesol",
+                "Type": [
+                    "recuyXFrlpR9MfYOk"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attJPlXSRcy9xPGGW",
+                        "url": "https://dl.airtable.com/.attachments/8b08b28333fac49b7f826063a76bf0fd/e270c590/tournesol_5803793.jpg",
+                        "filename": "tournesol_5803793.jpg",
+                        "size": 54113,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/5d233b28f24f3b21aaad6892d09fb7e4/88c692db",
+                                "width": 64,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/bb2ab15878a7210dae7e552e2433c251/3109b7ab",
+                                "width": 640,
+                                "height": 360
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/dcae09ebb61e1b6acdc2064c420fb62f/dae63e9c",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Enum code": "TOURNESOL"
+            },
+            "createdTime": "2019-07-03T14:52:24.000Z"
+        },
+        {
+            "id": "recZj4cTO0dwcYhbe",
+            "fields": {
+                "Name": "Colza",
+                "Type": [
+                    "rec8lBMyyeHxsqquL"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attuB5DNjzYyh5FXZ",
+                        "url": "https://dl.airtable.com/.attachments/0479d6257ba44834d8fa5ba8ccc835a4/f666d3a0/tag-Colza.JPG",
+                        "filename": "tag-Colza.JPG",
+                        "size": 109615,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/81d8ce8dbec32402eace91dfef96e41e/c8789ce0",
+                                "width": 64,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/6c205b25f3ba19cd9a138e08982a3208/5947e131",
+                                "width": 690,
+                                "height": 388
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/7be57f1f75837f57629caecbc8666dfa/586030be",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "COLZA",
+                "Pratiques 2": [
+                    "recsdus73DmGsI9ae",
+                    "recze8GDGOm8i4ul9",
+                    "recKs8PER2AqemNs1",
+                    "recyMe1cHBaIrm58o"
+                ]
+            },
+            "createdTime": "2019-07-03T14:52:25.000Z"
+        },
+        {
+            "id": "recs8TxZArv0xOWzu",
+            "fields": {
+                "Name": "Pois",
+                "Type": [
+                    "recIxmQjsX7cegYQz"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attwhbgrQAW0sfwri",
+                        "url": "https://dl.airtable.com/.attachments/9ec5684ca93f900ec438e11076f4f1f1/94bf5631/pois.jpeg",
+                        "filename": "pois.jpeg",
+                        "size": 11429,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/18aad2bc803ba4211fbe3404417768ac/6dd71dda",
+                                "width": 59,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/83b450c19012e09658a910418392145f/d641d3ea",
+                                "width": 286,
+                                "height": 176
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/a9488713010376131d59fb97dc043d63/941b8bb5",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Enum code": "POIS"
+            },
+            "createdTime": "2019-07-03T14:52:32.000Z"
+        },
+        {
+            "id": "rectAd8Qjo4elTNzw",
+            "fields": {
+                "Name": "Féveroles",
+                "Type": [
+                    "recIxmQjsX7cegYQz"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attxnRZAwASIBSSJ7",
+                        "url": "https://dl.airtable.com/.attachments/8c5835e7600a61731e6e479ff90834cc/384edd35/fever.jpg",
+                        "filename": "fever.jpg",
+                        "size": 276917,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/3d67e517c99e978c9da1066703928b53/269393ba",
+                                "width": 54,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/82eb6010a175e67bcf6f86ce0e12c78c/9c1fe20c",
+                                "width": 768,
+                                "height": 512
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/044100a1aae03229f9ff6a0c92824606/921ac1c6",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "FEVEROLES"
+            },
+            "createdTime": "2019-07-03T14:52:32.000Z"
+        },
+        {
+            "id": "recO2AS9ndt3GwP2A",
+            "fields": {
+                "Name": "Prairies et cultures fourragères",
+                "Type": [
+                    "recJfyhn7Ptt0nuwO"
+                ],
+                "Attachments": [
+                    {
+                        "id": "att42dp8mUrmu3Dpm",
+                        "url": "https://dl.airtable.com/.attachments/c5e0608e3746aeda1473b3ec01b29c54/87163915/prairie_multi_especes4313120067402521624.jpg",
+                        "filename": "prairie_multi_especes4313120067402521624.jpg",
+                        "size": 192938,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/0efa522188bdbc6012da93b869687cc0/3b7cbdc4",
+                                "width": 64,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/87f3d091546274c12fac646fb3a61728/778abcaa",
+                                "width": 800,
+                                "height": 449
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/63edd1b9c5ae1d52460baede2d290b6f/0c1d74e2",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "PRAIRIES_CULTURES_FOURRAGERES"
+            },
+            "createdTime": "2019-07-03T14:52:41.000Z"
+        },
+        {
+            "id": "recwHs4aAiZc9okg9",
+            "fields": {
+                "Name": "Soja",
+                "Type": [
+                    "rec8lBMyyeHxsqquL"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attn8LQEtaC5smWbc",
+                        "url": "https://dl.airtable.com/.attachments/a544446862b6a1a4f43e839e067a3bc6/4702d3c8/soja.jpeg",
+                        "filename": "soja.jpeg",
+                        "size": 10127,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/32baa4ca9e600e491e4145bd24c566bf/6b1346f2",
+                                "width": 50,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/1d963798aebd93f009f3c49e69a890d8/36df8c65",
+                                "width": 266,
+                                "height": 190
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/b5594d590c386cbef2b0bde0acf5f19a/b507c618",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "SOJA"
+            },
+            "createdTime": "2019-07-03T14:52:55.000Z"
+        },
+        {
+            "id": "recvopi6FLS3gJL7S",
+            "fields": {
+                "Name": "Chanvre",
+                "Type": [
+                    "recmVvDWpF5ocs0qF",
+                    "recNaZDywDZL0Zkjj"
+                ],
+                "Attachments": [
+                    {
+                        "id": "attPYb1qhog4Boqb4",
+                        "url": "https://dl.airtable.com/.attachments/e971e7e516b3b62fec1c3c51a3456410/1cc706e2/chanvre.jpg",
+                        "filename": "chanvre.jpg",
+                        "size": 149167,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/c0616cdf44e72b62133e71762f85282a/914bf24c",
+                                "width": 54,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/41ba51bab882e78623c3c1d2d6f6bcde/19b53171",
+                                "width": 769,
+                                "height": 512
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/d28747524b764fdbd7a7ff09d91076e5/d1c64e4c",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Pratiques": [
+                    "rec0ZC79AGBk0vuTv"
+                ],
+                "Enum code": "CHANVRE"
+            },
+            "createdTime": "2019-07-03T15:16:24.000Z"
+        },
+        {
+            "id": "rec3MMGtn1Yd8KRnx",
+            "fields": {
+                "Name": "Lentille",
+                "Type": [
+                    "recSMDjbXDXnNuBzz",
+                    "recIxmQjsX7cegYQz"
+                ],
+                "Attachments": [
+                    {
+                        "id": "att1jbPLqaccu0YJh",
+                        "url": "https://dl.airtable.com/.attachments/d2a27c642e179141b98b41710ad44057/299f36fd/r62-lentilles-verte-fotolia.jpg",
+                        "filename": "r62-lentilles-verte-fotolia.jpg",
+                        "size": 64608,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/15c6c322c6ac60fdaa2fcf3f43874f2d/c0721b42",
+                                "width": 54,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/466c8bae2a63b26540dc4b1c5d227f0b/1cd0745d",
+                                "width": 768,
+                                "height": 512
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/327e68fa8c1f0f0e78966abed6dbf408/ba57ef0a",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "LENTILLES"
+            },
+            "createdTime": "2019-07-03T15:24:33.000Z"
+        },
+        {
+            "id": "recmm8lo1bGXCYSA3",
+            "fields": {
+                "Name":"Blé d'hiver",
+                "Type": [
+                    "recmVvDWpF5ocs0qF"
+                ],
+                "Enum code": "BLE_HIVER",
+                "Pratiques 2": [
+                    "reczVjM7nqyo1w7wO",
+                    "recfRSkbVDIXjfse5",
+                    "recswKhe3JNRErR0L"
+                ]
+            },
+            "createdTime": "2019-07-22T07:09:16.000Z"
+        },
+        {
+            "id": "recSmDBTPyv0R1Rik",
+            "fields": {
+                "Name": "Blé de printemps",
+                "Type": [
+                    "recmVvDWpF5ocs0qF"
+                ],
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Enum code": "BLE_PRINTEMPS",
+                "Pratiques 2": [
+                    "recswKhe3JNRErR0L"
+                ]
+            },
+            "createdTime": "2019-07-22T07:09:24.000Z"
+        },
+        {
+            "id": "recKDNdfSiV33djzf",
+            "fields": {
+                "Name": "Betterave",
+                "Enum code": "BETTRAVE",
+                "Pratiques 2": [
+                    "recD7QrzTgOBT5OHl"
+                ]
+            },
+            "createdTime": "2019-07-22T07:11:04.000Z"
+        },
+        {
+            "id": "rec5t8AmLBoCuKHMF",
+            "fields": {
+                "Name": "Lin",
+                "Enum code": "LIN",
+                "Pratiques 2": [
+                    "rec6piDwAwKf5dfMk"
+                ]
+            },
+            "createdTime": "2019-07-22T07:11:20.000Z"
+        },
+        {
+            "id": "recURJ9JQS9u6OHva",
+            "fields": {
+                "Name": "Pomme de terre",
+                "Enum code": "POMME_DE_TERRE",
+                "Pratiques 2": [
+                    "recHLVNm0nhc2R1mN",
+                    "rec5RshLKLcZfQ2t9"
+                ]
+            },
+            "createdTime": "2019-07-22T07:11:41.000Z"
+        },
+        {
+            "id": "recDj6iPO41gku4rK",
+            "fields": {
+                "Name": "Sarrasin",
+                "Type": [
+                    "recmVvDWpF5ocs0qF"
+                ],
+                "Enum code": "SARRASIN",
+                "Notes": "Le sarrasin est une culture intermédiaire qui peut être utilisé en tant que biomasse ou récoltée."
+            },
+            "createdTime": "2019-07-25T09:25:47.000Z"
+        },
+        {
+            "id": "recEEz6LZ3MRDdV99",
+            "fields": {
+                "Name": "Orge de printemps",
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Enum code": "ORGE_PRINTEMPS",
+                "Pratiques 2": [
+                    "recswKhe3JNRErR0L"
+                ]
+            },
+            "createdTime": "2019-08-06T08:09:43.000Z"
+        },
+        {
+            "id": "recT3CrK0EqgCGL8z",
+            "fields": {
+                "Name": "Vigne",
+                "Attachments": [
+                    {
+                        "id": "attRSfUJtJfOntMVz",
+                        "url": "https://dl.airtable.com/.attachments/c1648772f078c2b513c58af69da8f096/28d196e6/23677740015_778d049392_z.jpg",
+                        "filename": "23677740015_778d049392_z.jpg",
+                        "size": 229786,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/7fa08df961ad349c2336fe36c2ae231c/0e6e908a",
+                                "width": 27,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/f5ae780cf4a16d7115d5da692e3a4890/9b35a0b1",
+                                "width": 480,
+                                "height": 640
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/4f87407411432297d48a3a99719050d4/1bf2e11e",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Enum code": "VIGNE",
+                "Pratiques 2": [
+                    "recopQwOR1Bxr4m5S"
+                ]
+            },
+            "createdTime": "2019-08-06T15:28:53.000Z"
+        }
+    ]
+}

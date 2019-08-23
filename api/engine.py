@@ -52,26 +52,35 @@ class Engine:
         # add the element of the highest weight of each chunk, as long as its practice
         # groups haven't been used before.
         chunk_size = len(eligible_results) // number_of_suggestions
-        suggestions = []
 
-        used_practice_groups = []
-        for i in range(number_of_suggestions):
+        # We need to create the chunks in which we will take practices.
+        chunks = [eligible_results[x:x + chunk_size] for x in range(0, len(eligible_results), chunk_size)]
+        if len(chunks) > number_of_suggestions:
+            chunks[number_of_suggestions - 1] += chunks[number_of_suggestions]
+            chunks = chunks[:number_of_suggestions]
 
-            # First we obtain the chunk in which we will select a practice.
-            if i + 1 < number_of_suggestions:
-                chunk = eligible_results[chunk_size * i : chunk_size * (i + 1)]
-            else:
-                chunk = eligible_results[chunk_size * i :]
+        # Now we will find the best practices accross the board and
+        # add them if no other practice with the same family has been
+        # already added
+        suggestions = [None for x in range(number_of_suggestions)]
 
-            # We exclude all practices inside this chunk that are part of
-            # groups that have already been used. For now I pass through the
-            # airtable_json to avoid making a bunck of requests to the DB.
-            eligible_chunk_practices = [x for x in chunk if x.practice.airtable_json['fields'].get('Famille', []) not in used_practice_groups]
+        for _ in range(number_of_suggestions):
+            max_values = list(map(lambda x: max(x, key=lambda y: y.weight) if x else None, chunks))
+            candidate = max(list(filter(lambda x: x is not None, max_values)), key=lambda x: x.weight)
+            index = max_values.index(candidate)
 
-            suggestion = max(eligible_chunk_practices, key=lambda x: x.weight)
-            used_practice_groups.extend(suggestion.practice.airtable_json['fields'].get('Famille', []))
-            suggestions.append(suggestion)
+            # Remove all practices from that chunk because we
+            # already have a suggestion from there
+            chunks[index] = []
 
+            # Remove all practices with its family because we
+            # already have a suggestion from that family
+            family = candidate.practice.airtable_json['fields'].get('Famille')
+            if family:
+                for i in range(len(chunks)):
+                    chunks[i] = list(filter(lambda x: x.practice.airtable_json['fields'].get('Famille') != family, chunks[i]))
+
+            suggestions[index] = candidate
 
         return suggestions
 

@@ -1,0 +1,152 @@
+{
+    "records": [
+        {
+            "id": "rec9rE3SWSoY2fYnp",
+            "fields": {
+                "Name":"Bénéficier des services d'auxiliaires ",
+                "Pratiques": [
+                    "recA8s2p2PC2FBg9c",
+                    "recQU0imezS2QMbrh"
+                ],
+                "Description": "Un auxiliaire est un organisme vivant qui remplace tout ou partie du travail et des intrants apportés par l’agriculteur. Certaines pratiques agricoles et un aménagement des parcelles peuvent contribuer à favoriser leur présence et donc avoir une action sur les ravageurs indésirables.  "
+            },
+            "createdTime": "2019-08-05T08:50:03.000Z"
+        },
+        {
+            "id": "recTNvJsPzzqEZS3q",
+            "fields": {
+                "Name": "Limiter la nuisibilité du ravageur ",
+                "Pratiques": [
+                    "recm36pvLfVRSrqBS",
+                    "recsdus73DmGsI9ae",
+                    "recCTxrBvBKXwdZon",
+                    "recyMe1cHBaIrm58o",
+                    "recfRSkbVDIXjfse5"
+                ],
+                "Description": "Les ravageurs peuvent être détournés de la culture cible pour limiter ses dégâts "
+            },
+            "createdTime": "2019-08-05T08:51:26.000Z"
+        },
+        {
+            "id": "recRcRPuPF8QsGt4Z",
+            "fields": {
+                "Name": "Epuiser le stock de graines / organes végétatifs",
+                "Pratiques": [
+                    "recx8ErM9GlGA6BD2",
+                    "recopQwOR1Bxr4m5S"
+                ],
+                "Description":"L'objectif est d’épuiser le stock semencier ou le rhizome de l'’adventice. Cela en stimulant leur levée par des travaux superficiels répétés lors de l’inter-culture, puis en les détruisant peu après la germination. "
+            },
+            "createdTime": "2019-08-05T08:53:55.000Z"
+        },
+        {
+            "id": "reczgwrTl91lcXh0V",
+            "fields": {
+                "Name": "Augmenter la compétitivité de la culture",
+                "Pratiques": [
+                    "recKs8PER2AqemNs1",
+                    "recze8GDGOm8i4ul9",
+                    "rec6piDwAwKf5dfMk",
+                    "recfRSkbVDIXjfse5",
+                    "rec5RshLKLcZfQ2t9",
+                    "reczVjM7nqyo1w7wO",
+                    "recqd1WJzKgs6PHg6",
+                    "recD7QrzTgOBT5OHl"
+                ],
+                "Description":"Par des leviers variétaux, d'aménagement de la parcelle ou d'association de cultures il est possible de mettre la culture cible dans de meilleures conditions de production "
+            },
+            "createdTime": "2019-08-05T08:54:37.000Z"
+        },
+        {
+            "id": "reclHkrRmtx5tHbcm",
+            "fields": {
+                "Name": "Destruction mécanique des adventices",
+                "Pratiques": [
+                    "recplecMZuFr1VHAA",
+                    "recfhdTh4CvU7nDUO",
+                    "recHLVNm0nhc2R1mN"
+                ],
+                "Description": "Le principe des outils disponibles est d’arracher ou de sectionner les adventices qui, sous l’effet de conditions climatiques favorables, se dessèchent et ne peuvent pas se repiquer."
+            },
+            "createdTime": "2019-08-05T09:09:21.000Z"
+        },
+        {
+            "id": "recgeI9W5HGE8kROG",
+            "fields": {
+                "Name": "Perturber le cycle des adventices",
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Description": "Introduire de la variabilité dans la date de semis et les travaux effectués sur les cultures de la rotation permet de perturber le cycle des adventices. Cela participe à restreindre ou empêcher la levée, la croissance ou la reproduction des populations problématiques."
+            },
+            "createdTime": "2019-08-05T08:54:58.000Z"
+        },
+        {
+            "id": "recdC2kSUBU4qodhU",
+            "fields": {
+                "Name": "Étouffer les adventices ",
+                "Pratiques": [
+                    "rec0ZC79AGBk0vuTv",
+                    "recrD49Ih5S54FOhq",
+                    "reckSRYZHVC6QDxe3",
+                    "recE07yTLayT1Z9mB",
+                    "recWr7fObtkAZW0X8",
+                    "recPHhsiuCrUxgQ9P"
+                ],
+                "Description": "Introduire une culture ou un couvert étouffant permet de limiter le développement ou la levée des adventices par leur capacité à se développer rapidement, à bien couvrir le sol mais aussi à exercer une forte compétition pour les ressources (lumière, nutriments, eau)."
+            },
+            "createdTime": "2019-08-05T08:55:30.000Z"
+        },
+        {
+            "id": "rec5JPWl9Dt24H7j4",
+            "fields": {
+                "Name": "Empêcher la reproduction des adventices"
+            },
+            "createdTime": "2019-08-05T08:56:12.000Z"
+        },
+        {
+            "id": "recq7GhgqRjKUVfA3",
+            "fields": {
+                "Name": "Optimiser les traitements",
+                "Pratiques": [
+                    "recpS7kDIMsZNngR0",
+                    "recWQRthF3exmoOzb"
+                ]
+            },
+            "createdTime": "2019-08-05T08:57:39.000Z"
+        },
+        {
+            "id": "recx4PnsjYzWc0ri8",
+            "fields": {
+                "Name": "Enfouir les semences en profondeur",
+                "Pratiques": [
+                    "recfhdTh4CvU7nDUO"
+                ],
+                "Description":"L'objectif est de placer les semences dans des conditions où elles ne vont pas germer. A partir de 5cm de profondeur, l'oxygène et les conditions d’humidité et de température sont ne sont plus favorables pour la plupart des espèces. L'enfouissement permet ainsi de profiter du fait que chaque année la proportion du stock de graine qui peut germer correctement diminue. Cette proportion peut se réduire très vite (réduction de 69% par an pour le vulpin)."
+            },
+            "createdTime": "2019-08-19T09:16:18.000Z"
+        },
+        {
+            "id": "recoTvaab95JGaDHj",
+            "fields": {
+                "Name": "Eviter la réalimentation du stock de graines",
+                "Pratiques": [
+                    "recswKhe3JNRErR0L"
+                ],
+                "Description":"L'ensemble des graines non germées qui tombent au sol représentent le stock de graine d'une parcelle. Lorsqu'une graine d'une espèce germe dans une culture où elle n'est pas souhaitée elle est qualifiée d'adventice et peut limiter les rendements ou apporter des éléments toxiques (cas du datura par exemple). C'est pourquoi, lorsqu'il est possible de prélever des graines avant qu'elle ne tombe au sol c'est un avantage pour la gestion future des adventices. Cette marge de manœuvre peut être actionnée au moment des moissons ou à tout autre moment où des graines d'adventices peuvent être collectées."
+            },
+            "createdTime": "2019-08-19T09:33:30.000Z"
+        },
+        {
+            "id": "recTIwDw4cBSUnbaa",
+            "fields": {
+                "Name": "Détruire les formes cachées de ravageurs",
+                "Pratiques": [
+                    "recm36pvLfVRSrqBS"
+                ],
+                "Description":"Pour partir sur des bases plus saines en début de saison, il est utile de réduire le nombre des ravageurs qui restent dans la parcelle durant l'hiver. Pour mobiliser cette marge de manœuvre, il est bien souvent indispensable de retirer, d'enfouir ou de broyer des résidus végétaux, il est aussi possible de nettoyer ou chauler les plantes en place dans le cas des plantes pérennes."
+            },
+            "createdTime": "2019-08-19T10:02:09.000Z"
+        }
+    ]
+}

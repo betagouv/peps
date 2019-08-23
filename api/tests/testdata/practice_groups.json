@@ -1,0 +1,15 @@
+{
+    "records": [
+        {
+            "id": "recYfzQxTcWcoCn4p",
+            "fields": {
+                "Nom": "Étouffantes",
+                "Pratiques": [
+                    "rec0ZC79AGBk0vuTv",
+                    "recPHhsiuCrUxgQ9P"
+                ]
+            },
+            "createdTime": "2019-08-02T15:41:19.000Z"
+        }
+    ]
+}

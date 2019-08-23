@@ -1,0 +1,69 @@
+{
+    "records": [
+        {
+            "id": "recjzIBqwGkton9Ed",
+            "fields": {
+                "Name": "Ray-grass",
+                "Enum code": "RAY_GRASS",
+                "Pratiques": [
+                    "recPHhsiuCrUxgQ9P",
+                    "recv3EGEPhu0meZkB",
+                    "recfRSkbVDIXjfse5"
+                ]
+            },
+            "createdTime": "2019-07-22T07:16:59.000Z"
+        },
+        {
+            "id": "recZkVZESGvUlCtNi",
+            "fields": {
+                "Name": "Chardon",
+                "Enum code": "CHARDON",
+                "Pratiques": [
+                    "recKGS5iSIiD26eah"
+                ]
+            },
+            "createdTime": "2019-07-22T07:16:59.000Z"
+        },
+        {
+            "id": "recBD6n3k77eFRHES",
+            "fields": {
+                "Name": "Liseron",
+                "Enum code": "LISERON"
+            },
+            "createdTime": "2019-07-22T07:16:59.000Z"
+        },
+        {
+            "id": "recTFtGv6zIdKbACJ",
+            "fields": {
+                "Name": "Vulpin",
+                "Enum code": "VULPIN",
+                "Pratiques": [
+                    "recPHhsiuCrUxgQ9P",
+                    "recv3EGEPhu0meZkB",
+                    "recfRSkbVDIXjfse5"
+                ]
+            },
+            "createdTime": "2019-07-22T07:18:14.000Z"
+        },
+        {
+            "id": "rec2wnpJOAJzUFe5v",
+            "fields": {
+                "Name": "Rumex",
+                "Enum code": "RUMEX",
+                "Pratiques": [
+                    "recKGS5iSIiD26eah",
+                    "receQv5LLVFF1m769"
+                ]
+            },
+            "createdTime": "2019-07-22T07:18:20.000Z"
+        },
+        {
+            "id": "recpsKrpvDjjLVIj0",
+            "fields": {
+                "Name": "Laiteron",
+                "Enum code": "LAITERON"
+            },
+            "createdTime": "2019-07-22T07:18:21.000Z"
+        }
+    ]
+}

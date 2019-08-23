@@ -1,0 +1,989 @@
+{
+    "records": [
+        {
+            "id": "rec95bemcA5uQi6bd",
+            "fields": {
+                "Nom":"Itinéraires techniques intégrés du blé tendre d'hiver",
+                "Description": "Ce document synthétise sous forme de fiches pratiques les itinéraires techniques intégrés du blé d’hiver.",
+                "Url": "http://www.agro-transfert-rt.org/wp-content/uploads/2016/02/Intin%C3%A9raire_technique_du_bl%C3%A9_tendre_hiver_en_Picardie.pdf",
+                "Pratiques": [
+                    "recA8s2p2PC2FBg9c"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-27T09:32:35.000Z"
+        },
+        {
+            "id": "recjPzjI5nqLpXBIM",
+            "fields": {
+                "Nom":"Puceron de l'épi",
+                "Description":"Cette fiche décrit les symptômes, biologie, nuisibilité et méthodes de lutte du puceron de l'épi.",
+                "Url": "http://www.fiches.arvalis-infos.fr/fiche_accident/fiches_accidents.php?mode=fa&type_cul=1&type_acc=3&id_acc=37",
+                "Pratiques CTA": [
+                    "recA8s2p2PC2FBg9c"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-27T09:35:13.000Z"
+        },
+        {
+            "id": "recA9nZjgbsjKngCa",
+            "fields": {
+                "Nom": "Conseils Terres Inovia pour le Chanvre",
+                "Description": "Contient divers articles liés à la culture du chanvre.",
+                "Url": "https://www.terresinovia.fr/chanvre?p_r_p_categoryId=223076&p_r_p_tag=",
+                "Pratiques": [
+                    "rec0ZC79AGBk0vuTv"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-27T14:30:05.000Z"
+        },
+        {
+            "id": "rec0D6BakHYb8Y8xq",
+            "fields": {
+                "Nom": "Information sur la culture du chanvre fibre",
+                "Description": "Ce site contient des informations liés à la culture du chanvre fibre : dates de semis, installation, croissance, technique, et autres.",
+                "Url": "https://manche.chambres-agriculture.fr/cultures/chanvre/la-culture-du-chanvre-fibre/",
+                "Pratiques CTA": [
+                    "rec0ZC79AGBk0vuTv"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-27T14:31:34.000Z"
+        },
+        {
+            "id": "rec3qm2TiEQxDrV2F",
+            "fields": {
+                "Nom": "Vidéo sur la technique du faux semis ",
+                "Description": "Vidéo décrivant les conditions de réussite du faux semis réalisée dans le cadre du Comité Technique de Désherbage Grandes Cultures Région Centre / Île de France.",
+                "Url": "https://www.youtube.com/watch?v=-d6C_-Y2sgE",
+                "Pratiques": [
+                    "recx8ErM9GlGA6BD2"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-06-28T06:44:35.000Z"
+        },
+        {
+            "id": "reclIfUMCDKHAqG7x",
+            "fields": {
+                "Nom":"PDF de l'ITAB décrivant les caractéristiques biologiques des adventices",
+                "Description": "Ce document décrit les adventices principales ainsi que leur période de levé préférentielle.",
+                "Url": "http://www.itab.asso.fr/downloads/programmes/centre-rapport2009ann3_1.pdf",
+                "Pratiques": [
+                    "recx8ErM9GlGA6BD2"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-28T06:52:01.000Z"
+        },
+        {
+            "id": "reciXJLewkZgNbt39",
+            "fields": {
+                "Nom":"Fiche GECO : Réaliser des faux-semis pendant l'interculture",
+                "Description": "Site GECO contenant la fiche technique au sujet des faux-semis.",
+                "Url": "https://geco.ecophytopic.fr/geco/Concept/Realiser_Des_Faux-semis_Pendant_L_Interculture",
+                "Pratiques CTA": [
+                    "recx8ErM9GlGA6BD2"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T06:53:22.000Z"
+        },
+        {
+            "id": "rec9dEOLb1QNTxIGt",
+            "fields": {
+                "Nom": "Choix des couverts",
+                "Description": "Outil créé par Arvalis qui permet de bien choisir son couvert végétal",
+                "Url": "http://www.choix-des-couverts.arvalis-infos.fr/",
+                "Pratiques CTA": [
+                    "recWr7fObtkAZW0X8"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T07:10:33.000Z"
+        },
+        {
+            "id": "recZbSlR0rUotSMsq",
+            "fields": {
+                "Nom": "Pratiquer le désherbage mécanique en plein - Herse étrille",
+                "Description": "Site Ecophyto contenant des informations sur le désherbage mécanique avec herse-étrille, qui agit par arrachement ou recouvrement des adventices.",
+                "Url": "https://geco.ecophytopic.fr/concept/-/concept/voir/http%253A%252F%252Fwww%252Egeco%252Eecophytopic%252Efr%252Fgeco%252FConcept%252FPratiquer_Le_Desherbage_Mecanique_-_Herse_Etrille",
+                "Pratiques CTA": [
+                    "recplecMZuFr1VHAA"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T07:17:11.000Z"
+        },
+        {
+            "id": "recxUdYsIkPYOK4AB",
+            "fields": {
+                "Nom": "Vidéo sur le désherbage mécanique avec herse étrille",
+                "Description":"Contient des informations sur les réglages et mode d'utilisation de 2 machines fortement représentées.",
+                "Url": "https://www.youtube.com/watch?v=1nUsvLsW7_E",
+                "Pratiques": [
+                    "recplecMZuFr1VHAA"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-06-28T07:19:27.000Z"
+        },
+        {
+            "id": "recaZ0u7G7TnEquSZ",
+            "fields": {
+                "Nom":"Vidéo sur l'herse-étrille : un outil polyvalent",
+                "Description":"Vidéo d'Arvalis sur l'utilisation de l'herse-étrille pour le désherbage mécanique. ",
+                "Url": "https://www.youtube.com/watch?v=jfjfvq9Dr58",
+                "Pratiques": [
+                    "recplecMZuFr1VHAA"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-06-28T07:22:01.000Z"
+        },
+        {
+            "id": "recRod6qWm0C2vRDz",
+            "fields": {
+                "Nom": "Vidéo démonstration du désherbage mécanique sur céréales",
+                "Description":"Vidéo de la Chambre d'Agriculture de l'Aisne démontrant le désherbage mécanique avec trois types différents de matériel.",
+                "Url": "https://www.youtube.com/watch?v=-v8ZqDwqwIg",
+                "Pratiques": [
+                    "recplecMZuFr1VHAA"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-06-28T07:23:57.000Z"
+        },
+        {
+            "id": "recBi7imslOlOe2Gv",
+            "fields": {
+                "Nom": "Colza et céréale associés aux légumineuses : un avenir en vert",
+                "Description": "Document décrivant les avantages à gagner à cultiver un colza ou une céréale associé à une légumineuse.",
+                "Url": "https://agriculture-de-conservation.com/sites/agriculture-de-conservation.com/IMG/pdf/sillon-colza-associe.pdf",
+                "Pratiques": [
+                    "recKs8PER2AqemNs1"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-28T08:42:01.000Z"
+        },
+        {
+            "id": "recILlR9w8Nd3lrEV",
+            "fields": {
+                "Nom":"Les légumineuses pour apporter de l'azote dans la rotation",
+                "Description":"Document d'Agro Transfert qui permet de raisonner l'introduction des légumineuses dans la rotation ainsi que valoriser au mieux l'azote après un légumineuse",
+                "Url": "http://www.agro-transfert-rt.org/wp-content/uploads/2017/01/Fiche-l%C3%A9gumineuses.pdf",
+                "Pratiques CTA": [
+                    "recE07yTLayT1Z9mB"
+                ],
+                "Pratiques": [
+                    "recKs8PER2AqemNs1"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-28T08:44:39.000Z"
+        },
+        {
+            "id": "recCevFjD3uPAyP88",
+            "fields": {
+                "Nom":"Réaliser des faux-semis pendant l'interculture",
+                "Description":"Site GECO avec des informations techniques sur les faux-semis pendant l'interculture",
+                "Url": "https://geco.ecophytopic.fr/concept/-/concept/voir/http%253A%252F%252Fwww%252Egeco%252Eecophytopic%252Efr%252Fgeco%252FConcept%252FRealiser_Des_Faux-semis_Pendant_L_Interculture",
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T09:30:16.000Z"
+        },
+        {
+            "id": "rec4zDMOGcoSZHIVs",
+            "fields": {
+                "Nom": "Valoriser les rotations et les périodes de semis",
+                "Description":"Article d'Arvalis sur l'importance agronomique de la diversification des cultures d'hiver et de printemps",
+                "Url": "https://www.arvalis-infos.fr/valoriser-les-rotations-et-les-periodes-de-semis-@/view-11615-arvarticle.html",
+                "Pratiques CTA": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T11:33:03.000Z"
+        },
+        {
+            "id": "recWkUARxRBBW7Udp",
+            "fields": {
+                "Nom": "Implanter des couverts sous maïs",
+                "Description":"Document d'Arvalis sur la technique des sous-semis de couverts sur des parcelles de maïs",
+                "Url": "https://www.arvalis-infos.fr/implanter-des-couverts-sous-ma-s-une-technique-interessante-mais-delicate-@/view-10314-arvarticle.html",
+                "Pratiques CTA": [
+                    "reckSRYZHVC6QDxe3"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T11:44:17.000Z"
+        },
+        {
+            "id": "recvCgO6Ur4BtFiFc",
+            "fields": {
+                "Nom": "Vidéo sur la semence du maïs sous un couvert de légumineuse",
+                "Description":"Vidéo d'Arvalis avec des explications de Stéphane Jézéquel. Cette nouvelle approche de la culture du maïs mise sur l’amélioration de la fertilité de la couche de surface.",
+                "Url": "https://www.youtube.com/watch?v=r8PCN1Epf1I",
+                "Pratiques": [
+                    "reckSRYZHVC6QDxe3"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-06-28T11:47:03.000Z"
+        },
+        {
+            "id": "recZzkqFbLyT3ywQ6",
+            "fields": {
+                "Nom": "Eviter un traitement contre les méligèthes en associant une variété de colza à floraison précoce",
+                "Description":"L'action vise à mélanger au moment du semis deux variétés de colza dont l’une, sensiblement plus précoce à floraison (environ 15 jours), représente moins de 10 % du total de semences.\\n\\nL’apparition des fleurs de cette variété plus précoce attire les méligèthes et permet de leur fournir le pollen qu’ils recherchent, sans que ces insectes ne détruisent les boutons floraux de la variété principale. ",
+                "Url": "http://www.ecophytopic.fr/tr/cepp/cepp-colza-association",
+                "Pratiques": [
+                    "recyMe1cHBaIrm58o"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T11:52:48.000Z"
+        },
+        {
+            "id": "recjSYJVYcuYBDfmZ",
+            "fields": {
+                "Nom":"Remplacer les traitements herbicide et insecticide d'automne en associant des légumineuses gélives avec du colza d'hiver",
+                "Description":"Documentation d'Ecophyto sur cette pratique qui vise à mettre en place une association de légumineuses gélives à implantation rapide, semée (en plein) à même date que le colza.",
+                "Url": "http://www.ecophytopic.fr/tr/cepp/cepp-colza-vari%C3%A9t%C3%A9s",
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T12:22:34.000Z"
+        },
+        {
+            "id": "recFfK8EqtLHWkaNn",
+            "fields": {
+                "Nom": "Fiche de trajectoire pour la mise en place un couvert inter-rang à Port-sur-Saône,",
+                "Description":"Témoignage des techniques d'amélioration mises en place dans l'exploitation du lycée agricole à Port-sur-Saône.",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/GCPE_FRANCHECOMTE_TSCHENN_TRAJ_2014.pdf",
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-28T12:24:52.000Z"
+        },
+        {
+            "id": "recOJ3WNi3lB5TJSW",
+            "fields": {
+                "Nom":"Fiche de trajectoire d'un système polyculture-élevage à Yonne",
+                "Description":"Témoignage des techniques d'amélioration mises en place dans une exploitation polyculture-élevage à Yonne.",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/GCPE_BOURGOGNE_GONZALEZ_TRAJ_2014_2_0.pdf",
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-28T12:35:32.000Z"
+        },
+        {
+            "id": "recAM7vc96uh5LlIy",
+            "fields": {
+                "Nom":"Fiche de trajectoire d'une exploitation céréales/colza/élevage",
+                "Description":"Témoignage des techniques d'amélioration mises en place dans une exploitation céréales/colza/élevage au Département de la Loire.",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/GCPE_RHONEALPES_FABRE_TRAJ_2014_0.pdf",
+                "Type": "PDF"
+            },
+            "createdTime": "2019-06-28T12:56:45.000Z"
+        },
+        {
+            "id": "rec28xFNRWNRHqGj4",
+            "fields": {
+                "Nom": "Et si vous passiez au colza associé ?",
+                "Description": "Document de Terres Inovia sur la technique des colzas associés permet d’accroître la production de biomasse.",
+                "Url": "https://www.terresinovia.fr/-/avez-vous-pens%C3%A9-au-colza-associ%C3%A9-?inheritRedirect=true&redirect=%2Frecherche%3Fp_r_p_categoryId%3D73592%26p_r_p_tag%3D69905%26p_r_p_tags%3D524417%26q%3Dl%25C3%25A9gumineuses%2520associ%25C3%25A9es",
+                "Pratiques CTA": [
+                    "recKs8PER2AqemNs1"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-06-28T13:06:21.000Z"
+        },
+        {
+            "id": "rec1pa9COEpoTeUv4",
+            "fields": {
+                "Nom":"OADs d'Arvalis pour la fertilisation raisonnée",
+                "Description":"Liste des outils d'aide à la décision développés par Arvalis ayant comme but la fertilisation raisonnée. ",
+                "Url": "https://www.arvalis-infos.fr/tous-les-outils-d-aide-a-la-decision-fertilisation-raisonnee-@/view-1458-arvstatiques.html",
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-01T08:12:25.000Z"
+        },
+        {
+            "id": "recjkGT1C5SWxyVyN",
+            "fields": {
+                "Nom":"OADs d'Arvalis pour la protection des cultures",
+                "Description":"Outils d'aide à la décision développés par Arvalis ayant comme but la protection des cultures.",
+                "Url": "https://www.arvalis-infos.fr/tous-les-outils-d-aide-a-la-decision-protection-des-cultures-@/view-1459-arvstatiques.html",
+                "Pratiques CTA": [
+                    "recpS7kDIMsZNngR0"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-01T08:14:54.000Z"
+        },
+        {
+            "id": "recY41znioLqsw4xA",
+            "fields": {
+                "Nom": "Implanter des couverts sous maïs",
+                "Description":"Article d'Arvalis sur la technique d'implanter des couverts sous maïs, avec des données techniques comme les doses de semis, les types de semoir à utiliser, et des détails sur le désherbage.",
+                "Url": "https://www.arvalis-infos.fr/implanter-des-couverts-sous-ma-s-une-technique-interessante-mais-delicate-@/view-10314-arvarticle.html",
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-01T08:30:29.000Z"
+        },
+        {
+            "id": "recBMiyfGqSNHD30I",
+            "fields": {
+                "Nom":"Vidéo du retour d'expérience de maïs sous couvert de trèfle",
+                "Description":"Retour d'expérience de Denis Labri, agriculteur Farre dans les Landes, qui explique sa culture de maïs sous couvert de trèfle : ses objectifs, ses résultats et ses limites.\\n",
+                "Url": "https://www.youtube.com/watch?v=_8EFV300bRU",
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-01T08:33:08.000Z"
+        },
+        {
+            "id": "recqhMiSDkeQP1zkN",
+            "fields": {
+                "Nom": "Vidéo semis de maïs bio sur couvert végétal et désherbage mécanique",
+                "Description":"Vidéo sur le semis de maïs bio sur couvert végétal ainsi que le désherbage mécanique de cette même parcelle. Sur ce chantier vous retrouvez le John Deere 3030 pour le roulage avec un rouleau Cambridge ainsi que pour le désherbage mécanique avec un Roll'n sem un mois plus tard.",
+                "Url": "https://www.youtube.com/watch?v=Bvf_8dMTQj0",
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-01T08:35:11.000Z"
+        },
+        {
+            "id": "recso7skh6bDRlc9p",
+            "fields": {
+                "Nom":"Vidéo d'une parcelle en semis direct sous couvert végétal",
+                "Description":"Vidéo de SKY Agriculture du suivi d'une parcelle en semis direct sous couvert végétal.",
+                "Url": "https://www.youtube.com/watch?v=oOVQEXe0m3M",
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-01T08:37:04.000Z"
+        },
+        {
+            "id": "recKFrstze4UoHQ3W",
+            "fields": {
+                "Nom":"Vidéo sur l'ensilage maïs épis et le ramassage de paille de maïs ",
+                "Description":"Vidéo d'AgriDoubs sur l'ensilage maïs épis et le ramassage paille de maïs au GAEC du Mont du Ciel.",
+                "Url": "https://www.youtube.com/watch?v=ZcoaHdOK7hg",
+                "Pratiques CTA": [
+                    "recm36pvLfVRSrqBS"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-01T08:43:25.000Z"
+        },
+        {
+            "id": "recWPjyu3MkbWy3fb",
+            "fields": {
+                "Nom": "Vidéo récolte de paille de maïs avec un Broyeur Berti - Biog",
+                "Description":"Chantier de broyage de paille de maïs avec un Fendt 820 accompagné d'un Broyeur Berti - Biog. La paille sera ensuite récolté et amené au Biogaz.",
+                "Url": "https://www.youtube.com/watch?v=nK5AzBXkWFw",
+                "Pratiques": [
+                    "recm36pvLfVRSrqBS"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-01T08:45:01.000Z"
+        },
+        {
+            "id": "recJtDJ7FzWWDmzAT",
+            "fields": {
+                "Nom":"Vidéo sur le broyage de cannes de mais à l'aide du broyeur Chipper de chez BioG",
+                "Description":"Broyage de cannes de mais à l'aide du broyeur Chipper de chez BioG, d'une l'envergure de 8 à 9 Rangs. Celle-ci pour fini par l'aplanissement du sol par un rouleau.",
+                "Url": "https://www.youtube.com/watch?v=ILE5nXls508",
+                "Pratiques": [
+                    "recm36pvLfVRSrqBS"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-01T08:46:39.000Z"
+        },
+        {
+            "id": "rec2TvJQ1p41i1Zh9",
+            "fields": {
+                "Nom": "fiche trajectoire sur les cultures étouffantes",
+                "Description": "utilisation de chanvre allongeant la rotation dans une exploitation de Bourgogne",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/GCPE_BOURGOGNE_GONZALEZ_TRAJ_2014.pdf",
+                "Pratiques CTA": [
+                    "recPHhsiuCrUxgQ9P"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-01T14:51:46.000Z"
+        },
+        {
+            "id": "recJRWpd7GnlMQvjN",
+            "fields": {
+                "Nom": "fiche GECO des cultures étouffantes",
+                "Description":"Fiche indiquant les intérêts des cultures étouffantes pour réduire les usages d'herbicides",
+                "Url": "https://geco.ecophytopic.fr/geco/Concept/Cultiver_Des_Especes_Etouffantes",
+                "Pratiques": [
+                    "recPHhsiuCrUxgQ9P"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-01T15:00:16.000Z"
+        },
+        {
+            "id": "recLtJyXcGHNaVtam",
+            "fields": {
+                "Nom": "Répartir les labours, document GECO",
+                "Description": "Page GECO à propos de la répartition des labour dans la rotation.",
+                "Url": "https://geco.ecophytopic.fr/concept/-/concept/voir/http%253A%252F%252Fwww%252Egeco%252Eecophytopic%252Efr%252Fgeco%252FConcept%252FLabourer_%2528et_Repartir_Les_Labours_Dans_La_Rotation%2529",
+                "Pratiques CTA": [
+                    "recfhdTh4CvU7nDUO"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-02T09:01:43.000Z"
+        },
+        {
+            "id": "recJw4HZI0b3RQIF6",
+            "fields": {
+                "Nom": "Définition agronomique du labour AgroParisTech",
+                "Description":"Cours d'AgroParisTech à propos du Labour",
+                "Url": "https://tice.agroparistech.fr/coursenligne/courses/SIAFEEAGRONOMIE9cea/document/machinisme/techniques/tc-tsol-labour.htm",
+                "Pratiques": [
+                    "recfhdTh4CvU7nDUO"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-02T09:04:55.000Z"
+        },
+        {
+            "id": "recOwJnxg2iJctjPD",
+            "fields": {
+                "Nom": "ETS Thiérart collecte les menues paille",
+                "Description": "Les entreprises Thierart collectent les menues pailles dans les Ardennes.",
+                "Url": "https://www.menuepaille.fr/",
+                "Pratiques CTA": [
+                    "recswKhe3JNRErR0L"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-19T14:11:29.000Z"
+        },
+        {
+            "id": "recp1XMiyMOlPjf1B",
+            "fields": {
+                "Nom": "Page du site soufflet à propos du mélange menier",
+                "Description":"La page précise les intérêts que voient le groupes soufflet à l'utilisation de mélanges de 5 variétés de blé. Ils utilisent ensuite ce blé en meunerie. ",
+                "Url": "https://www.soufflet.com/fr/regularite-des-rendements-et-des-farines-avec-le-melange-moulins-soufflet",
+                "Pratiques": [
+                    "recqd1WJzKgs6PHg6"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-23T06:58:48.000Z"
+        },
+        {
+            "id": "rec8OcYrhInj2L2VC",
+            "fields": {
+                "Nom": "Bilan Arvalis sur les avantages des mélanges",
+                "Description":"Le document présente les résultats des essais menés par Arvalis entre 2010 et 2012. ces éléments confirment que le mélange se comporte en général comme la moyenne des 5 variétés utilisées semées en solo. cette observation indique que l'espérance de rendement est lissé par rapport au choix de l'une des variétés qui peut certaines années se comporter très favorablement et d'autres années moins bien. D'autres expériences antérieures indiquent que les mélanges sont intéressants pour gérer la rouille jaune. la nuisibilités de cette maladie sur les essais Arvalis était trop faible pour confirmer résultat.",
+                "Url": "https://www.arvalis-infos.fr/melanges-de-varietes-quels-avantages-en-attendre--@/view-15911-arvarticle.html",
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-23T07:05:17.000Z"
+        },
+        {
+            "id": "recptXD0UdTdIULwu",
+            "fields": {
+                "Nom": "Présentation projet Wheatamix",
+                "Description": "La page présente le projet et les principaux éléments à retenir de ce projet.",
+                "Url": "http://www.versailles-grignon.inra.fr/Toutes-les-actualites/2017-Wheatamix",
+                "Pratiques CTA": [
+                    "recqd1WJzKgs6PHg6"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-23T07:59:43.000Z"
+        },
+        {
+            "id": "rec9z2xWr24trWgn4",
+            "fields": {
+                "Nom": "Outil choix variétés de blé",
+                "Description":"L'outil permet de déterminer des variétés de blé en fonction du code postal, du sol et de la date projetée pour le semis.",
+                "Url": "https://choix-des-varietes.arvalis-infos.fr/bletendre/",
+                "Pratiques CTA": [
+                    "reczVjM7nqyo1w7wO"
+                ]
+            },
+            "createdTime": "2019-07-23T08:55:33.000Z"
+        },
+        {
+            "id": "recURnrBqL4YQ1bc0",
+            "fields": {
+                "Nom": "Présentation de la culture du Sarrasin",
+                "Description": "Le document présente un tableau synthétique à propos de la culture de sarrasin.",
+                "Url": "https://www.arvalis-infos.fr/les-principales-caracteristiques-du-sarrasin-@/view-10395-arvarticle.html",
+                "Pratiques CTA": [
+                    "recrD49Ih5S54FOhq"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-23T09:29:31.000Z"
+        },
+        {
+            "id": "recD3bkk67lcpkgSa",
+            "fields": {
+                "Nom": "Vidéo Terre Inovia sur les pratiques de prévention contre les grosses altises",
+                "Description": "Cette vidéo de terres Inovia présente les pratiques préventives de limitation des dégâts de grosses altises. ",
+                "Url": "https://www.terresinovia.fr/-/comment-prevenir-puis-gerer-les-attaques-de-grosses-altises-adultes%E2%80%AF-?p_r_p_categoryId=73592&p_r_p_tag=40916&p_r_p_tags=222079",
+                "Pratiques CTA": [
+                    "recsdus73DmGsI9ae"
+                ],
+                "Type": "Vidéo"
+            },
+            "createdTime": "2019-07-29T12:58:26.000Z"
+        },
+        {
+            "id": "recFqUgjblNuM48Wn",
+            "fields": {
+                "Nom": "Système DEPHY Expé légumier avec moins de désherbage",
+                "Description": "Le document présente le système testé en région nord pour limiter le recours au désherbage dans les systèmes grandes cultures et légumier de plein champ",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/Synth%C3%A8se_L%C3%A9gumes_EXPE_focus_adventices_plein_champ.pdf",
+                "Pratiques CTA": [
+                    "recHLVNm0nhc2R1mN"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T13:05:52.000Z"
+        },
+        {
+            "id": "recI0yLHY1ztFcb2h",
+            "fields": {
+                "Nom": "Gestion des adventices en lin : se baser sur des méthodes agronomiques",
+                "Description": "La page présente les différents leviers pour gérer les adventices dans le lin avec des méthodes agronomiques.",
+                "Url": "https://www.terresinovia.fr/-/gestion-des-adventices-en-lin-se-baser-sur-des-methodes-agronomiques?p_r_p_categoryId=131889&p_r_p_tag=69905&p_r_p_tags=614814",
+                "Pratiques CTA": [
+                    "rec6piDwAwKf5dfMk"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-29T13:16:58.000Z"
+        },
+        {
+            "id": "reccpnJOAGS1rIykl",
+            "fields": {
+                "Nom": "Focus GECO sur la PIC contre les ravageurs des cultures annuelles",
+                "Description": "le dossier présente les différentes mesures qui peuvent être prises pour limiter les dégâts contre les ravageurs des cultures annuelles",
+                "Url": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=2ahUKEwiHnpfuja3jAhXSDGMBHZ-3AUIQFjABegQIBBAC&url=http%3A%2F%2Fwww.ecophytopic.fr%2Fsites%2Fdefault%2Ffiles%2Factualites_doc%2FFocus%2520ravageurs.pdf&usg=AOvVaw3MjH9nYqkP_16k1VEdAJee",
+                "Pratiques CTA": [
+                    "recTkRWOEaTyZpdwM"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T13:32:03.000Z"
+        },
+        {
+            "id": "rect5u4GRkYzJAanJ",
+            "fields": {
+                "Nom":"Document de l'ITAB à propos des pratiques contre les adventices vivaces",
+                "Description":"Le document présente une synthèse des pratiques luttant contre les adventices vivaces. Pour chacune d'elles il présente les caractéristiques de la plantes et liste les différents actions à envisager.",
+                "Url": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=7&ved=2ahUKEwi1-P2Uq7bjAhUF4YUKHfL2CdAQFjAGegQICRAC&url=http%3A%2F%2Fwww.itab.asso.fr%2Fdownloads%2Fdesherb-meca%2Fdm-brochure-adventices_2_vivaces.pdf&usg=AOvVaw2XLgUD7yoJ1YPcoSIkb7Zo",
+                "Pratiques CTA": [
+                    "recKGS5iSIiD26eah"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T16:31:55.000Z"
+        },
+        {
+            "id": "recqC5vwvfWgThzGM",
+            "fields": {
+                "Nom": "Document de Seine et Marne environnement sur le chardon",
+                "Description": "Le document présente les pratiques qui favorisent ou défavorisent le chardon ainsi que les autres plantes qui ne sont pas des chardons et qui peuvent apporter des services à la biodiversité.",
+                "Url": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&ved=2ahUKEwjYz6HepLbjAhWoyoUKHQI6DiAQFjAEegQIAhAC&url=http%3A%2F%2Fwww.me77.fr%2FIMG%2Fpdf%2Fseme_chardons2015web_bd.pdf&usg=AOvVaw37bFSfbaDr9EE2N06OmHee",
+                "Pratiques": [
+                    "recKGS5iSIiD26eah"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T16:32:28.000Z"
+        },
+        {
+            "id": "recopaemThWiEw1B4",
+            "fields": {
+                "Nom": "Sondage ITAB rumex et chardons",
+                "Description":"Le document est une synthèse d'un sondage mené auprès d'agriculteurs bio pour leur demander comment ils gèrent les rumex et les chardons dans leurs grandes cultures.",
+                "Url": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjYz6HepLbjAhWoyoUKHQI6DiAQFjAAegQIBhAC&url=http%3A%2F%2Fwww.itab.asso.fr%2Fdownloads%2Fcom-gc%2Fitab_resultats-enq-adv-ete-2015.pdf&usg=AOvVaw2QjjPJ2JW8WCQLzr_7yz1F",
+                "Pratiques": [
+                    "recKGS5iSIiD26eah"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T16:33:05.000Z"
+        },
+        {
+            "id": "recI3PBPeezbHigSd",
+            "fields": {
+                "Nom":"Fiche trajectoire d'un système comportant de la luzerne",
+                "Description":"Le document présente un système ayant recherché à réduire l'utilisation de produits phytosanitaire et l'autonomie fourragère par l'introduction de luzerne dans sa rotation.",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/GCPE_BRETAGNE_LABORDE-DEBAT_TRAJ_2014.pdf",
+                "Pratiques CTA": [
+                    "recRxwOf6OQtk70Nl"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T16:36:41.000Z"
+        },
+        {
+            "id": "rec0KEYdgSTBNwUPp",
+            "fields": {
+                "Nom": "Page Arvalis à propos des Rumex",
+                "Description":"La page présente l'ensemble des pratiques mobilisables contre les rumex.",
+                "Url": "https://www.arvalis-infos.fr/conna-tre-et-controler-les-rumex-@/view-25880-arvarticle.html",
+                "Pratiques CTA": [
+                    "receQv5LLVFF1m769"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-07-29T17:19:18.000Z"
+        },
+        {
+            "id": "recEL80qYCGXrv9yK",
+            "fields": {
+                "Nom": "Fiche agro-transfert à propos des rumex",
+                "Description":"La fiche présente l'ensemble des pratiques utilisables pour limiter le développement des Rumex",
+                "Url": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=2ahUKEwjDnIeqvLbjAhUK3BoKHc85BjIQFjAAegQIARAC&url=http%3A%2F%2Fwww.agro-transfert-rt.org%2Fwp-content%2Fuploads%2F2016%2F11%2FFiche-gestion-rumex.pdf&usg=AOvVaw0cgzsVL8B3uLdMUFocsnkr",
+                "Pratiques": [
+                    "receQv5LLVFF1m769"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-07-29T17:19:58.000Z"
+        },
+        {
+            "id": "recuweJX5XyteZrBu",
+            "fields": {
+                "Nom": "Lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes",
+                "Description": "PERSPECTIVES AGRICOLES • N° 341",
+                "Url": "https://www.arvalis-infos.fr/file/galleryelement/pj/a2/a2/7f/d6/341_4816778424011784680.pdf",
+                "Pratiques CTA": [
+                    "recQU0imezS2QMbrh"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-02T07:38:47.000Z"
+        },
+        {
+            "id": "recFrYh3VokHc0L5u",
+            "fields": {
+                "Nom": "Fiche action consolidée pour lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes",
+                "Description": "Fiche action consolidée sur la technique de lutte contre la pyrale du maïs au moyen de lâchers de trichogrammes",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/actualites_doc/CEPP_2017006_version%20consolid%C3%A9e%20du%2007%2012%202018.pdf",
+                "Pratiques": [
+                    "recQU0imezS2QMbrh"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-02T07:40:12.000Z"
+        },
+        {
+            "id": "rec4I7UIjaXIIE9IM",
+            "fields": {
+                "Nom":"LA BOÎTE À OUTILS DES AGRICULTEURS - produits anti-limaces d'origine naturelle",
+                "Description":"Ce site approfondi sur la substitution des produits anti-limaces à base de métaldéhyde par des produits molluscicides d’origine naturelle et fourni des références commerciales ainsi que des fiches d'action.",
+                "Url": "http://www.boitagri.com/toolbox/production/__colza/__ravageurs/R_Biocontrole_phosphate_ferrique/fiche:0087-Prophylaxie+et+Biocontrôle+contre+les+limaces",
+                "Pratiques CTA": [
+                    "recCTxrBvBKXwdZon"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-02T08:01:46.000Z"
+        },
+        {
+            "id": "recAHTRy1a5PZJfJ7",
+            "fields": {
+                "Nom": "Liste des produits anti-limaces à base de phosphate ferrique",
+                "Description": "Afin de substituer des produits anti-limaces à base de métaldéhyde par des produits d’origine naturelle, cette liste présente des produits à base de phosphate ferrique.",
+                "Url": "https://ephy.anses.fr/substance/ferric-phosphate",
+                "Pratiques": [
+                    "recCTxrBvBKXwdZon"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-02T08:03:34.000Z"
+        },
+        {
+            "id": "recFn1A2Ew1EftVo2",
+            "fields": {
+                "Nom":"Fiche action consolidée sur les agroéquipements permettant l'application localisée d'herbicides",
+                "Description":"Fiche d'action décrivant la technique de réduction les doses d'herbicides au moyen d'agroéquipements permettant l'application localisée sur le rang, ainsi que des références commerciales pertinentes. ",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/actualites_doc/arr%C3%AAt%C3%A9%20CEPP_20mars18_31_consol.pdf",
+                "Pratiques": [
+                    "recWQRthF3exmoOzb"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-02T08:19:18.000Z"
+        },
+        {
+            "id": "rec7TsDodd3MASbp1",
+            "fields": {
+                "Nom": "Article Arvalis sur le désherbage chimique du maïs sur le rang",
+                "Description": "Présente les avantages et limites du désherbage chimique de maïs sur le rang.",
+                "Url": "https://www.arvalis-infos.fr/localiser-le-desherbage-chimique-du-ma-s-sur-le-rang-@/view-12806-arvarticle.html",
+                "Pratiques CTA": [
+                    "recWQRthF3exmoOzb"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-02T08:21:43.000Z"
+        },
+        {
+            "id": "rec9OH48aMfzMkoSa",
+            "fields": {
+                "Nom": "Enquête sur les principales grandes cultures",
+                "Description": "Ce document donne un tableau récapitulatif des date de semis / récolte des principales grandes culture ainsi que leur répartition géographique.",
+                "Url": "http://agreste.agriculture.gouv.fr/IMG/file/dossier8_cultures_panorama.pdf",
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-05T12:34:37.000Z"
+        },
+        {
+            "id": "reca8tUyjBBbGvPyO",
+            "fields": {
+                "Nom": "Arena - anticiper les régulations naturelles",
+                "Description":"Ce site permet de caractériser facilement une bête et d'avoir accès à sa fiche descriptive",
+                "Url": "http://arena-auximore.fr/jai-capture-une-bete/",
+                "Pratiques": [
+                    "recA8s2p2PC2FBg9c"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-05T13:05:02.000Z"
+        },
+        {
+            "id": "recGOjXQeCwICwKPr",
+            "fields": {
+                "Nom": "Guide de culture du Chanvre",
+                "Description": "11 chapitres permettent de tout savoir sur la conduite de la culture du chanvre : atouts, variétés, culture intermédiaire, implantation, fertilisation, irrigation, désherbage, maladies, ravageurs, récolte et conservation. ",
+                "Url": "https://www.terresinovia.fr/documents/20126/453413/Guide_chanvre_2017_Terres-Inovia.pdf/a112d08b-6632-f114-6c87-22344394c6af?t=1553962904793",
+                "Pratiques": [
+                    "rec0ZC79AGBk0vuTv"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-05T13:51:42.000Z"
+        },
+        {
+            "id": "recLvFltFkC8eKbhN",
+            "fields": {
+                "Nom": "Eviter un traitement insecticide  contre les méligèthes en associant une variété de colza à floraison très précoce avec la variété d’intérêt",
+                "Description": "Fiche 40 du contrat de solutions",
+                "Url": "http://www.fopoleopro.com/wp-content/uploads/2019/04/Eviter-traitement-melighete-par-association-variete-colza-floraison-tres-precoce.pdf",
+                "Pratiques CTA": [
+                    "recyMe1cHBaIrm58o"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-06T08:35:32.000Z"
+        },
+        {
+            "id": "recdMDphDqfL1SoQr",
+            "fields": {
+                "Nom": "Optimiser la lutte contre la Pyrale grâce aux réseaux de surveillance",
+                "Description":"Article d'Arvalis : Optimiser la lutte contre la Pyrale grâce aux réseaux de surveillance",
+                "Url": "https://www.arvalis-infos.fr/optimiser-la-lutte-contre-la-pyrale-gr-ce-aux-reseaux-de-surveillance-@/view-10298-arvarticle.html",
+                "Pratiques": [
+                    "recm36pvLfVRSrqBS"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T09:06:42.000Z"
+        },
+        {
+            "id": "recvPMX8RGH2xOwta",
+            "fields": {
+                "Nom": "La sésamie, un insecte foreur des tiges de maïs",
+                "Description":"Article d'Arvalis, la sésamie, un insecte foreur des tiges de maïs",
+                "Url": "https://www.arvalis-infos.fr/la-sesamie-un-insecte-foreur-des-tiges-de-ma-s-@/view-12949-arvarticle.html",
+                "Pratiques": [
+                    "recm36pvLfVRSrqBS"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T09:07:50.000Z"
+        },
+        {
+            "id": "rec3tRmihtklngAkx",
+            "fields": {
+                "Nom":"Notice d'utilisation des plaquettes de trichogrammes",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/Noticetechniquetricho.pdf",
+                "Pratiques": [
+                    "recQU0imezS2QMbrh"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-06T12:48:48.000Z"
+        },
+        {
+            "id": "recyw1c9sfIMLuEwE",
+            "fields": {
+                "Nom": "Fiche CEPP lâchers de trichogrammes - liste des références commerciales",
+                "Url": "http://www.ecophytopic.fr/tr/cepp/cepp-ms-tricho",
+                "Pratiques": [
+                    "recQU0imezS2QMbrh"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T12:50:52.000Z"
+        },
+        {
+            "id": "recGz2mucD3lsDd39",
+            "fields": {
+                "Nom": "Fiche trajectore DEPHY - L’adaptation: une clé de la réussite en semis direct",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/GCPE_BOURGOGNE_GONZALEZ_TRAJ_2014_2_0.pdf",
+                "Pratiques": [
+                    "recCTxrBvBKXwdZon"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-06T13:06:59.000Z"
+        },
+        {
+            "id": "recYn0Q70A1cxCtWY",
+            "fields": {
+                "Nom": "Fiche Contrat de Solutions explicative de la pratique",
+                "Url": "https://contratsolutions.fr/le-contrat-de-solutions/decalage-de-la-date-de-semis-en-ble-tendre-dhiver-2/",
+                "Pratiques CTA": [
+                    "recfRSkbVDIXjfse5"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T13:57:58.000Z"
+        },
+        {
+            "id": "recfnMrfkdnYwuKSO",
+            "fields": {
+                "Nom":"Article de Arvalis sur l'intérêt de décaler la date de semis",
+                "Url": "https://www.arvalis-infos.fr/quel-est-l-inter-t-du-decalage-de-la-date-de-semis-du-ble-tendre-d-hiver--@/view-19700-arvarticle.html",
+                "Pratiques": [
+                    "recfRSkbVDIXjfse5"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T14:00:45.000Z"
+        },
+        {
+            "id": "recs9ozssmGgd3x0K",
+            "fields": {
+                "Nom": "Fiche Contrat de Solution - Eviter un traitement insecticide contre les méligèthes en associant une variété de colza à floraison très précoce avec la variété d’intérêt",
+                "Url": "https://contratsolutions.fr/le-contrat-de-solutions/eviter-un-traitement-insecticide-contre-les-meligethes-en-associant-une-variete-de-colza-a-floraison-tres-precoce-avec-la-variete-dinteret/",
+                "Pratiques": [
+                    "recyMe1cHBaIrm58o"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T14:08:37.000Z"
+        },
+        {
+            "id": "recNXtWhUoFD5XfFR",
+            "fields": {
+                "Nom": "Fiche Contrat de Solutions - Associer au semis un colza avec des légumineuses gélives",
+                "Url": "https://contratsolutions.fr/le-contrat-de-solutions/associer-au-semis-un-colza-avec-des-legumineuses-gelives/",
+                "Pratiques": [
+                    "recKs8PER2AqemNs1"
+                ]
+            },
+            "createdTime": "2019-08-06T14:09:34.000Z"
+        },
+        {
+            "id": "reccx3KF1jQvkOaDu",
+            "fields": {
+                "Nom": "INRA - Pommes de terre résistantes aux bioagresseurs",
+                "Url": "http://www.inra.fr/Entreprises-Monde-agricole/Resultats-innovation-transfert/Toutes-les-actualites/Pommes-de-terre-resistantes",
+                "Pratiques CTA": [
+                    "rec5RshLKLcZfQ2t9"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T14:17:18.000Z"
+        },
+        {
+            "id": "recfe71XvP4cr3Cfb",
+            "fields": {
+                "Nom": "Fiche Contrat de Solutions - Résistance variétale des pommes de terre vis-à-vis du mildiou",
+                "Url": "https://contratsolutions.fr/le-contrat-de-solutions/resistance-varietale-des-pommes-de-terre-vis-a-vis-du-mildiou/",
+                "Pratiques": [
+                    "rec5RshLKLcZfQ2t9"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T14:17:56.000Z"
+        },
+        {
+            "id": "recnrLXolVWVIoIgH",
+            "fields": {
+                "Nom": "Fiche Contrat de Solutions - Lutte contre les maladies du blé tendre par la résistance des variétés",
+                "Url": "https://contratsolutions.fr/le-contrat-de-solutions/lutte-contre-les-maladies-du-ble-tendre-par-la-resistance-des-varietes/",
+                "Pratiques": [
+                    "reczVjM7nqyo1w7wO"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-06T14:23:55.000Z"
+        },
+        {
+            "id": "recPIJIM77lSOEwfR",
+            "fields": {
+                "Nom": "Tableau récapitulatif des équipements de désherbage du pied de la vigne",
+                "Description":"tableau réalisé par la FNCuma d'Occitanie pour indiquer les moments opportun d'utilisation des divers équipements de désherbage du sol.",
+                "Url": "https://geco.ecophytopic.fr/documents/20182/21720/Upload_2019-2-26_10-57-17-963.pdf/7591be07-3464-4123-a54b-d1e62a48830b",
+                "Pratiques CTA": [
+                    "recopQwOR1Bxr4m5S"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-06T15:16:46.000Z"
+        },
+        {
+            "id": "recNcdo6nC4gC41fI",
+            "fields": {
+                "Nom": "Fiche action variétés de betteraves sucrières résistantes",
+                "Description":"Dans le dispositif des CEPP la valeur associée à une variété est reliée aux résistances qu'elles comportent. ",
+                "Url": "http://www.ecophytopic.fr/sites/default/files/actualites_doc/arr%C3%AAt%C3%A9%20CEPP%2005122018-48.pdf",
+                "Pratiques CTA": [
+                    "recD7QrzTgOBT5OHl"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-12T14:40:23.000Z"
+        },
+        {
+            "id": "recoLmHUhygNrDSZr",
+            "fields": {
+                "Nom": "Le labour, un moyen agronomique important pour la gestion préventive des adventices",
+                "Description":"Le document de 4 pages présentes les intérêts agronomiques d'un labour réalisé tous les 2 à 3 ans en fonction des adventices présentes. l'objectif de cette fiches est d'expliquer comment optimiser l'enfouissement prolongé des graines pour limiter le nombre de celles qui vont germer pendant la culture",
+                "Url": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwjVh-uBxY7kAhVsxYUKHVheBPgQFjACegQIBRAC&url=http%3A%2F%2Fwww.agro-transfert-rt.org%2Fwp-content%2Fuploads%2F2016%2F02%2FLe_labour.pdf&usg=AOvVaw3L38uFISE8WMy0SKIgI3JJ",
+                "Pratiques": [
+                    "recfhdTh4CvU7nDUO"
+                ],
+                "Type": "PDF"
+            },
+            "createdTime": "2019-08-19T09:26:56.000Z"
+        },
+        {
+            "id": "recjMikJBCX1uXIjt",
+            "fields": {
+                "Nom":"Contacter les experts de l'Institut Technique de la Betterave",
+                "Description":"L'ITB vous propose un formulaire de contact pour avoir une réponse spécifique à votre question directement auprès de leurs experts.",
+                "Url": "http://www.itbfr.org/nous-connaitre/contacts/",
+                "Pratiques": [
+                    "recD7QrzTgOBT5OHl"
+                ],
+                "Type": "Site web"
+            },
+            "createdTime": "2019-08-19T12:01:39.000Z"
+        }
+    ]
+}
