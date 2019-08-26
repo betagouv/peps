@@ -12,8 +12,8 @@ class Problem(PepsEnum):
         display_texts = {
             'DESHERBAGE': 'Mieux gérer les adventices',
             'RAVAGEURS': 'Lutter contre les ravageurs',
-            'DEPENSE': 'Éviter des maladies fongiques',
-            'MALADIES_FONGIQUES': 'Réduire ma consommation des produits phytosanitaires',
+            'DEPENSE': 'Réduire ma consommation des produits phytosanitaires',
+            'MALADIES_FONGIQUES': 'Éviter des maladies fongiques',
             'AUTRES': 'Autres',
         }
 
