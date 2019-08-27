@@ -64,7 +64,7 @@ FORM_SCHEMA = {
                 }
             },
             "wheat": {
-                "title": "Si le blé fait partie de votre rotation, combien de traitements appliquez-vous par campagne ?",
+                "title": "Pour le blé, combien de traitements appliquez-vous par campagne ?",
                 "required": False
             },
             "department": {
@@ -74,7 +74,8 @@ FORM_SCHEMA = {
         },
         "dependencies": {
             "pests": ["problem"],
-            "weeds": ["problem"]
+            "weeds": ["problem"],
+            "wheat": ["rotation"],
         }
     },
     "options": {
@@ -140,6 +141,9 @@ FORM_SCHEMA = {
                 }
             },
             "wheat": {
+                "dependencies": {
+                    "rotation": ["BLE", "BLE_HIVER", "BLE_PRINTEMPS"]
+                },
                 "sort": False,
                 "hideNone": True,
                 "type": "radio",
