@@ -40,9 +40,9 @@ class PracticeType(models.Model):
     # Must be part of the PracticeTypeEnum enum
     category = models.IntegerField()
 
-    @classmethod
-    def get_form_practice_types(cls):
-        return cls.objects.filter(penalty__lte=1.0)
+    @staticmethod
+    def get_form_practice_types():
+        return PracticeType.objects.filter(penalty__lte=1.0)
 
     def get_category_name(self):
         if not self.category:
