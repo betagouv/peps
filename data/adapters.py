@@ -4,7 +4,7 @@ import requests
 from django.conf import settings
 from django.utils import timezone
 from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType
-from data.models import Culture, Practice, PracticeGroup, Mechanism
+from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
 
 class AirtableAdapter:
     """
@@ -32,10 +32,15 @@ class AirtableAdapter:
 
         practices = _fetch_practices(mechanisms, resources)
         practice_groups = _fetch_pratice_groups()
+        practice_types = _fetch_practice_types()
 
         PracticeGroup.objects.all().delete()
         for practice_group in practice_groups:
             practice_group.save()
+
+        PracticeType.objects.all().delete()
+        for practice_type in practice_types:
+            practice_type.save()
 
         Practice.objects.all().delete()
         for practice in practices:
@@ -43,6 +48,7 @@ class AirtableAdapter:
 
         _link_practices_with_groups(practices, practice_groups)
         _link_practices_with_resources(practices, resources)
+        _link_practices_with_types(practices, practice_types)
 
 
 def _fetch_practices(mechanisms, resources):
@@ -82,7 +88,6 @@ def _fetch_practices(mechanisms, resources):
             problems_addressed=_get_problems_addressed(json_practice),
             weeds=_get_weeds(json_practice, json_weeds),
             pests=_get_pests(json_practice, json_pests),
-            types=_get_types(json_practice),
             image_url=_get_image_url(json_practice),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
             soil_type_multipliers=_get_soil_type_multipliers(json_practice, json_soil_types, json_soil_practices),
@@ -107,6 +112,28 @@ def _fetch_pratice_groups():
     return practice_groups
 
 
+def _fetch_practice_types():
+    json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view')
+
+    practice_types = []
+    for json_practice_type in json_practice_types:
+        practice_types.append(PracticeType(
+            external_id=json_practice_type.get('id'),
+            airtable_json=json_practice_type,
+            airtable_url='https://airtable.com/tblTwpbVXTqbQAYfB/' + json_practice_type.get('id') + '/',
+            modification_date=timezone.now(),
+            display_text=json_practice_type['fields'].get('Name'),
+            penalty=json_practice_type['fields'].get('Malus'),
+            category=_get_practice_type_category(json_practice_type),
+        ))
+    return practice_types
+
+def _get_practice_type_category(json_practice_type):
+    try:
+        return PracticeTypeCategory[json_practice_type['fields'].get('Enum code')].value
+    except Exception as _:
+        return None
+
 def _link_practices_with_groups(practices, practice_groups):
     for practice in practices:
         if practice.airtable_json:
@@ -120,6 +147,11 @@ def _link_practices_with_resources(practices, resources):
             secondary_resource_ids = practice.airtable_json['fields'].get('Liens', [])
             practice.secondary_resources.set(list(x for x in resources if x.external_id in secondary_resource_ids))
 
+def _link_practices_with_types(practices, types):
+    for practice in practices:
+        if practice.airtable_json:
+            types_ids = practice.airtable_json['fields'].get('Types', [])
+            practice.types.set(list(x for x in types if x.external_id in types_ids))
 
 def _get_added_cultures(json_practice, json_cultures):
     added_cultures = json_practice['fields'].get('Ajout dans la rotation cultures')
@@ -214,20 +246,6 @@ def _get_pests(json_practice, json_pests):
         except KeyError as _:
             continue
     return pests
-
-
-def _get_types(json_practice):
-    airtable_practice_types = json_practice['fields'].get('Types')
-    if not airtable_practice_types:
-        return None
-
-    practice_types = []
-    for code in airtable_practice_types:
-        try:
-            practice_types.append(PracticeType[code].value)
-        except KeyError as _:
-            continue
-    return practice_types
 
 
 def _get_soil_type_multipliers(json_practice, json_soil_types, json_soil_types_practices):

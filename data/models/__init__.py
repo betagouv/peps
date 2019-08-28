@@ -2,7 +2,7 @@ from .practice import Practice
 from .airtablerecords import AirtableRecords
 from .culture import Culture
 from .pest import Pest
-from .practicetype import PracticeType
+from .practicetype import PracticeType, PracticeTypeCategory
 from .problem import Problem
 from .soiltype import SoilType
 from .weed import Weed

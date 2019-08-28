@@ -1,6 +1,10 @@
-from .pepsenum import PepsEnum
+import uuid
+from enum import Enum
+from django.utils import timezone
+from django.db import models
+from django.contrib.postgres.fields import JSONField
 
-class PracticeType(PepsEnum):
+class PracticeTypeCategory(Enum):
     REDUCTION_DOSES = 1
     ALLONGEMENT_ROTATION = 2
     NOUVELLES_CULTURES = 3
@@ -13,22 +17,34 @@ class PracticeType(PepsEnum):
     ALTERNER_PRINTEMPS_AUTOMNE = 10
     SEMIS_DIRECT = 11
     PLANTES_DE_SERVICE = 12
+    PRODUIT_BIOCONTROLE = 13
+    MELANGE_VARIETES = 14
+    VARIETE_RESISTANTE = 15
+    DATE_SEMIS = 16
+    PROPHYLAXIE = 17
+    DESHERBAGE_MECANIQUE = 18
 
-    @property
-    def display_text(self):
-        display_texts = {
-            'REDUCTION_DOSES': 'Réduction des doses',
-            'ALLONGEMENT_ROTATION': 'Allongement de la rotation',
-            'NOUVELLES_CULTURES': 'Introduction des nouvelles cultures dans la rotation',
-            'TRAVAIL_DU_SOL': 'Travail du sol',
-            'COUVERTS_VEGETAUX': 'Couverts végétaux',
-            'FAUX_SEMIS': 'Faux semis',
-            'PLANTES_COMPAGNES': 'Plantes compagnes',
-            'COUVERT_INTER_RANG': 'Couvert d\'inter-rang',
-            'INSECTES_AUXILIAIRES': 'Insectes auxiliaires',
-            'ALTERNER_PRINTEMPS_AUTOMNE': 'Alterner cultures de printemps et automne',
-            'SEMIS_DIRECT': 'Semis direct',
-            'PLANTES_DE_SERVICE': 'Plantes de service',
-        }
+class PracticeType(models.Model):
 
-        return display_texts.get(self.name) or self.name
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    external_id = models.CharField(max_length=100)
+    modification_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now)
+
+    airtable_json = JSONField(null=True, blank=True)
+    airtable_url = models.TextField(null=True, blank=True)
+
+    display_text = models.TextField(null=True, blank=True)
+    penalty = models.DecimalField(null=True, max_digits=7, decimal_places=6)
+
+    # Must be part of the PracticeTypeEnum enum
+    category = models.IntegerField()
+
+    @classmethod
+    def get_form_practice_types(cls):
+        return cls.objects.filter(penalty__lte=1.0)
+
+    def get_category_name(self):
+        if not self.category:
+            return None
+        return PracticeTypeCategory(self.category).name

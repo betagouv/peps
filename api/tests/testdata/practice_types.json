@@ -1,0 +1,217 @@
+{
+    "records": [
+        {
+            "id": "rec8HRoPa3LnI95oU",
+            "fields": {
+                "Name": "Réduction des doses",
+                "Enum code": "REDUCTION_DOSES",
+                "Malus": 0.4,
+                "Pratiques": [
+                    "recpS7kDIMsZNngR0",
+                    "recWQRthF3exmoOzb"
+                ]
+            },
+            "createdTime": "2019-08-28T12:53:08.000Z"
+        },
+        {
+            "id": "recU3ZGEjrGxvtJkb",
+            "fields": {
+                "Name": "Allongement de la rotation",
+                "Enum code": "ALLONGEMENT_ROTATION",
+                "Pratiques": [
+                    "rec0ZC79AGBk0vuTv",
+                    "recv3EGEPhu0meZkB",
+                    "recE07yTLayT1Z9mB",
+                    "recPHhsiuCrUxgQ9P",
+                    "recRxwOf6OQtk70Nl",
+                    "reccdlRtfXVIVKrvx"
+                ]
+            },
+            "createdTime": "2019-08-28T12:53:08.000Z"
+        },
+        {
+            "id": "recRNfK34e9yvKvEd",
+            "fields": {
+                "Name": "Introduction des nouvelles cultures dans la rotation",
+                "Enum code": "NOUVELLES_CULTURES"
+            },
+            "createdTime": "2019-08-28T12:53:08.000Z"
+        },
+        {
+            "id": "reciTfZiZI2otTUFN",
+            "fields": {
+                "Name": "Travail du sol",
+                "Enum code": "TRAVAIL_DU_SOL",
+                "Pratiques": [
+                    "recplecMZuFr1VHAA",
+                    "recm36pvLfVRSrqBS",
+                    "recfhdTh4CvU7nDUO",
+                    "recHLVNm0nhc2R1mN",
+                    "recopQwOR1Bxr4m5S"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recRziN10xevuxNY7",
+            "fields": {
+                "Name": "Couverts végétaux",
+                "Enum code": "COUVERTS_VEGETAUX",
+                "Pratiques": [
+                    "recrD49Ih5S54FOhq",
+                    "recWr7fObtkAZW0X8"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recgq4CLS9GJPPRsh",
+            "fields": {
+                "Name": "Faux semis",
+                "Enum code": "FAUX_SEMIS",
+                "Malus": 0.4,
+                "Pratiques": [
+                    "recx8ErM9GlGA6BD2"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recimbcMPK39uMbnc",
+            "fields": {
+                "Name": "Plantes compagnes",
+                "Enum code": "PLANTES_COMPAGNES",
+                "Pratiques": [
+                    "recKs8PER2AqemNs1",
+                    "reckSRYZHVC6QDxe3",
+                    "recze8GDGOm8i4ul9"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "reczYpg6OeEc3nOfh",
+            "fields": {
+                "Name":"Couvert d'inter-rang",
+                "Enum code": "COUVERT_INTER_RANG"
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "rec98dN53uRWiC9ot",
+            "fields": {
+                "Name": "Insectes auxiliaires",
+                "Enum code": "INSECTES_AUXILIAIRES",
+                "Pratiques": [
+                    "recA8s2p2PC2FBg9c",
+                    "recQU0imezS2QMbrh"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "rece6xerQsR1WdHKa",
+            "fields": {
+                "Name": "Alterner cultures de printemps et automne",
+                "Enum code": "ALTERNER_PRINTEMPS_AUTOMNE",
+                "Pratiques": [
+                    "recv3EGEPhu0meZkB"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "rec6exxIoi7qBnkLs",
+            "fields": {
+                "Name": "Semis direct",
+                "Enum code": "SEMIS_DIRECT",
+                "Pratiques": [
+                    "recze8GDGOm8i4ul9"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recp56KvSUtxpjmWx",
+            "fields": {
+                "Name": "Plantes de service",
+                "Enum code": "PLANTES_DE_SERVICE"
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recYE8vp8LQEB7LDY",
+            "fields": {
+                "Name": "Application des produits de biocontrôle",
+                "Enum code": "PRODUIT_BIOCONTROLE",
+                "Pratiques": [
+                    "recCTxrBvBKXwdZon"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recbzVtqt2pzGthcx",
+            "fields": {
+                "Name": "Mélange de varietés",
+                "Enum code": "MELANGE_VARIETES",
+                "Pratiques": [
+                    "recyMe1cHBaIrm58o",
+                    "recqd1WJzKgs6PHg6"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recEhPcer5FOG1Jgs",
+            "fields": {
+                "Name":"Introduction d'une variété résistante",
+                "Enum code": "VARIETE_RESISTANTE",
+                "Pratiques": [
+                    "reczVjM7nqyo1w7wO",
+                    "rec5RshLKLcZfQ2t9",
+                    "recD7QrzTgOBT5OHl"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recb3C9nswUJhesI6",
+            "fields": {
+                "Name": "Décalage de la date de semis",
+                "Enum code": "DATE_SEMIS",
+                "Malus": 0.4,
+                "Pratiques": [
+                    "recx8ErM9GlGA6BD2",
+                    "recsdus73DmGsI9ae",
+                    "recfRSkbVDIXjfse5"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "recOhpJ1kQ9SVjX2w",
+            "fields": {
+                "Name": "Prophylaxie",
+                "Enum code": "PROPHYLAXIE",
+                "Pratiques": [
+                    "recx8ErM9GlGA6BD2",
+                    "recswKhe3JNRErR0L"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        },
+        {
+            "id": "reckv83JvXsoyLiTt",
+            "fields": {
+                "Name": "Désherbage mécanique",
+                "Enum code": "DESHERBAGE_MECANIQUE",
+                "Malus": 0.4,
+                "Pratiques": [
+                    "recYOKpHlmhH9wfLd"
+                ]
+            },
+            "createdTime": "2019-08-28T13:08:06.000Z"
+        }
+    ]
+}

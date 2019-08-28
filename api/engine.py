@@ -1,4 +1,5 @@
-from data.models import Problem, PracticeType, Weed, Pest
+from data.models import Problem
+from data.models import Weed, Pest
 from data.models import Practice, Culture
 from api.utils import AlpacaUtils
 from api.models import ResponseItem
@@ -93,7 +94,6 @@ class Engine:
         practice_problems_addressed = [Problem(x) for x in (practice.problems_addressed or [])]
         practice_weeds = [Weed(x) for x in (practice.weeds or [])]
         practice_pests = [Pest(x) for x in (practice.pests or [])]
-        practice_types = [PracticeType(x) for x in (practice.types or [])]
 
         # If the practice is blacklisted we return 0
         # Eventually we should also decrease the score of similar practices
@@ -159,20 +159,21 @@ class Engine:
                 weight *= correct_target_multiplier
 
         # We take a look at what kind of initiatives the user has already
-        # tried. Given that we need more information for some, we will only
-        # take into account the semis-direct and faux-semis.
-        # In order to properly gauge couverts-vegetaux we would need to know
-        # what kind of couvert was used.
-        previosuly_tested_multiplier = 0.3
+        # tried. If the user has tried one of the practice types that have
+        # a penalty, we will multiply the practice by the lowest penalty among
+        # the eligible ones in order to handicap it.
+        practice_types_query_set = practice.types.all()
+        practice_types = list(filter(lambda x: x.penalty and x.penalty < 1.0, list(practice_types_query_set)))
 
-        if form.tested_practice_types and practice_types:
+        applicable_penalties = []
+        if form.tested_practice_types:
+            for tested_practice_type in form.tested_practice_types:
+                applicable_practice_type = next(filter(lambda x: x.category == tested_practice_type.value, practice_types), None)
+                if applicable_practice_type:
+                    applicable_penalties.append(float(applicable_practice_type.penalty))
 
-            if PracticeType.FAUX_SEMIS in form.tested_practice_types and PracticeType.FAUX_SEMIS in practice_types:
-                weight *= previosuly_tested_multiplier
-
-            elif PracticeType.SEMIS_DIRECT in form.tested_practice_types and PracticeType.SEMIS_DIRECT in practice_types:
-                weight *= previosuly_tested_multiplier
-
+        if applicable_penalties:
+            weight *= min(applicable_penalties)
 
         # We take a look at the advancement level to determine whether or not
         # this practice should be bumped up

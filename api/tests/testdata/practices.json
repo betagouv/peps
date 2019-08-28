@@ -4,7 +4,7 @@
             "id": "recA8s2p2PC2FBg9c",
             "fields": {
                 "Nom":"Profiter de l'action des auxiliaires sur le puceron de l'épi",
-                "Description":"Les auxiliaires peuvent maintenir une nuisibilité faible des pucerons sur céréales (au cours de son développement, une seule larve de chrysope peut consommer jusqu’à 1000 pucerons). \\nPour profiter de leurs services il faut retarder au maximum les interventions insecticides - le seuil d'intervention proposé par Arvalis est 1 puceron sur 50% des épi au stade épiaison. \\n\\nLes auxiliaires nécessitent la présence de sites où passer l'hiver (zones fleuries, couverts végétaux) ainsi que du nectar pour certaines espèces comme le syrphe et le chrysope. \\nÀ noter que la bande doit être entretenue pour éliminer les plantes telles que les chardon. Elle n'a a priori pas besoin d'être semée sauf si vous souhaitez apporter de nouvelles espèces fleuries.",
+                "Description":"Les auxiliaires peuvent maintenir une nuisibilité faible des pucerons sur céréales (au cours de son développement, une seule larve de chrysope peut consommer jusqu’à 1000 pucerons). \\nPour profiter de leurs services il faut retarder au maximum les interventions insecticides - le seuil d'intervention proposé par Arvalis est 1 puceron sur 50% des épis au stade épiaison. \\n\\nLes auxiliaires nécessitent la présence de sites où passer l'hiver (zones fleuries, couverts végétaux) ainsi que du nectar pour certaines espèces comme le syrphe et le chrysope. \\nÀ noter que la bande doit être entretenue pour éliminer les plantes telles que les chardon. Elle n'a a priori pas besoin d'être semée sauf si vous souhaitez apporter de nouvelles espèces fleuries.",
                 "CTA lien": [
                     "recjPzjI5nqLpXBIM"
                 ],
@@ -49,12 +49,12 @@
                 ],
                 "Élevage multiplicateur": 1,
                 "Précision": 0.82,
-                "Difficulté": 0.25,
+                "Difficulté": 0.4,
                 "Vente directe multiplicateur": 1,
                 "Marges de manoeuvre": [
                     "rec9rE3SWSoY2fYnp"
                 ],
-                "Types": [
+                "Types-old": [
                     "INSECTES_AUXILIAIRES"
                 ],
                 "Pratiques/Departements": [
@@ -68,9 +68,15 @@
                 ],
                 "Cultures cible": [
                     "recuVebqXEqCg8kK0",
-                    "recfGVtMZSz05Rfl8"
+                    "recfGVtMZSz05Rfl8",
+                    "recmm8lo1bGXCYSA3",
+                    "recSmDBTPyv0R1Rik",
+                    "recEEz6LZ3MRDdV99"
                 ],
-                "Facteur clé de succès":"Présence d'habitat pour les auxiliaires, observation des parcelles, taille des parcelle ou densité des infrastructures agroenvironnementales adaptées"
+                "Facteur clé de succès":"Présence d'habitat pour les auxiliaires, observation des parcelles, taille des parcelle ou densité des infrastructures agroenvironnementales adaptées, protection des sols,",
+                "Types": [
+                    "rec98dN53uRWiC9ot"
+                ]
             },
             "createdTime": "2019-06-26T13:30:28.000Z"
         },
@@ -78,7 +84,7 @@
             "id": "rec0ZC79AGBk0vuTv",
             "fields": {
                 "Nom": "Introduire le chanvre dans la rotation",
-                "Description":"Le chanvre pousse très rapidement (en moyenne 3m en 4 à 5 mois) et est peu sensible aux maladies et ravageurs. Il est aussi peu exigeant en intrants et peut se cultiver sans apport d'engrais de synthèse. Additionnellement, le chanvre améliore la structure du sol par son système radiculaire.",
+                "Description":"Le chanvre pousse très rapidement (en moyenne 3m en 4 à 5 mois) et est peu sensible aux maladies et ravageurs. Il est aussi peu exigeant en intrants et peut se cultiver sans apport d'engrais de synthèse. Additionnellement, le chanvre améliore la structure du sol par son système racinaire.",
                 "CTA lien": [
                     "rec0D6BakHYb8Y8xq"
                 ],
@@ -124,13 +130,16 @@
                 "Ajout dans la rotation cultures": [
                     "recvopi6FLS3gJL7S"
                 ],
+                "Ajout dans la rotation types": [
+                    "recNaZDywDZL0Zkjj"
+                ],
                 "Précision": 0.89,
                 "Difficulté": 0.8,
                 "Vente directe multiplicateur": 1,
                 "Marges de manoeuvre": [
                     "recdC2kSUBU4qodhU"
                 ],
-                "Types": [
+                "Types-old": [
                     "ALLONGEMENT_ROTATION"
                 ],
                 "Problèmes adressés": [
@@ -140,7 +149,10 @@
                 "Familles": [
                     "recYfzQxTcWcoCn4p"
                 ],
-                "Facteur clé de succès":"Réussite de l'implantation"
+                "Facteur clé de succès":"Réussite de l'implantation",
+                "Types": [
+                    "recU3ZGEjrGxvtJkb"
+                ]
             },
             "createdTime": "2019-06-27T13:09:29.000Z"
         },
@@ -197,10 +209,10 @@
                 "Marges de manoeuvre": [
                     "recRcRPuPF8QsGt4Z"
                 ],
-                "Types": [
+                "Types-old": [
                     "FAUX_SEMIS",
                     "DATE_SEMIS",
-                    "prophylaxie"
+                    "PROPHYLAXIE"
                 ],
                 "Pratiques/Departements": [
                     "recTLbA4Hb7IXtBO6"
@@ -208,7 +220,12 @@
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
                 ],
-                "Facteur clé de succès": "Délai minimum de 3 à 4 semaines entre la récolte et le semis suivant"
+                "Facteur clé de succès": "Délai minimum de 3 à 4 semaines entre la récolte et le semis suivant",
+                "Types": [
+                    "recgq4CLS9GJPPRsh",
+                    "recb3C9nswUJhesI6",
+                    "recOhpJ1kQ9SVjX2w"
+                ]
             },
             "createdTime": "2019-06-28T06:43:25.000Z"
         },
@@ -259,7 +276,7 @@
                 "Marges de manoeuvre": [
                     "recdC2kSUBU4qodhU"
                 ],
-                "Types": [
+                "Types-old": [
                     "COUVERTS_VEGETEAUX"
                 ],
                 "Pratiques/Departements": [
@@ -267,6 +284,9 @@
                 ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
+                ],
+                "Types": [
+                    "recRziN10xevuxNY7"
                 ]
             },
             "createdTime": "2019-06-28T07:09:53.000Z"
@@ -325,14 +345,17 @@
                 "Marges de manoeuvre": [
                     "reclHkrRmtx5tHbcm"
                 ],
-                "Types": [
+                "Types-old": [
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV",
                     "DEPENSE"
                 ],
-                "Facteur clé de succès":"Lit de semences plat, au moins un jour de temps sec et ensoleillé après l'action"
+                "Facteur clé de succès":"Lit de semences plat, au moins un jour de temps sec et ensoleillé après l'action",
+                "Types": [
+                    "reciTfZiZI2otTUFN"
+                ]
             },
             "createdTime": "2019-06-28T07:16:21.000Z"
         },
@@ -390,7 +413,7 @@
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "PLANTES_COMPAGNES"
                 ],
                 "Pratiques/Departements": [
@@ -402,7 +425,10 @@
                 "Cultures cible": [
                     "recZj4cTO0dwcYhbe"
                 ],
-                "Facteur clé de succès": "Implantation précoce avec levée avant fin août, gel pour la destruction du couvert"
+                "Facteur clé de succès": "Implantation précoce avec levée avant fin août, gel pour la destruction du couvert",
+                "Types": [
+                    "recimbcMPK39uMbnc"
+                ]
             },
             "createdTime": "2019-06-28T08:41:23.000Z"
         },
@@ -462,7 +488,7 @@
                 "Marges de manoeuvre": [
                     "recgeI9W5HGE8kROG"
                 ],
-                "Types": [
+                "Types-old": [
                     "ALTERNER_PRINTEMPS_AUTOMNE",
                     "ALLONGEMENT_ROTATION"
                 ],
@@ -473,7 +499,11 @@
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
                 ],
-                "Facteur clé de succès": "Selon la culture implantée"
+                "Facteur clé de succès": "Selon la culture implantée",
+                "Types": [
+                    "rece6xerQsR1WdHKa",
+                    "recU3ZGEjrGxvtJkb"
+                ]
             },
             "createdTime": "2019-06-28T10:14:15.000Z"
         },
@@ -528,7 +558,7 @@
                 "Marges de manoeuvre": [
                     "recdC2kSUBU4qodhU"
                 ],
-                "Types": [
+                "Types-old": [
                     "PLANTES_COMPAGNES"
                 ],
                 "Problèmes adressés": [
@@ -536,6 +566,9 @@
                 ],
                 "Cultures cible": [
                     "recsPtaEneeYVoEWx"
+                ],
+                "Types": [
+                    "recimbcMPK39uMbnc"
                 ]
             },
             "createdTime": "2019-06-28T11:43:47.000Z"
@@ -589,7 +622,7 @@
                 "Marges de manoeuvre": [
                     "recTNvJsPzzqEZS3q"
                 ],
-                "Types": [
+                "Types-old": [
                     "MELANGE_VARIETES"
                 ],
                 "Ravageurs cible": [
@@ -601,7 +634,10 @@
                 "Cultures cible": [
                     "recZj4cTO0dwcYhbe"
                 ],
-                "Facteur clé de succès": "Floraison effectivement décalée"
+                "Facteur clé de succès": "Floraison effectivement décalée",
+                "Types": [
+                    "recbzVtqt2pzGthcx"
+                ]
             },
             "createdTime": "2019-06-28T11:51:41.000Z"
         },
@@ -654,12 +690,15 @@
                 "Marges de manoeuvre": [
                     "recdC2kSUBU4qodhU"
                 ],
-                "Types": [
+                "Types-old": [
                     "ALLONGEMENT_ROTATION"
                 ],
                 "Problèmes adressés": [
                     "DEPENSE",
                     "DESHERBAGE/ADV"
+                ],
+                "Types": [
+                    "recU3ZGEjrGxvtJkb"
                 ]
             },
             "createdTime": "2019-06-28T12:05:46.000Z"
@@ -710,7 +749,7 @@
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "PLANTES_COMPAGNES",
                     "SEMIS_DIRECT"
                 ],
@@ -723,6 +762,10 @@
                 "Cultures cible": [
                     "recZj4cTO0dwcYhbe",
                     "recuVebqXEqCg8kK0"
+                ],
+                "Types": [
+                    "recimbcMPK39uMbnc",
+                    "rec6exxIoi7qBnkLs"
                 ]
             },
             "createdTime": "2019-06-28T12:21:16.000Z"
@@ -773,11 +816,14 @@
                 "Marges de manoeuvre": [
                     "recdC2kSUBU4qodhU"
                 ],
-                "Types": [
+                "Types-old": [
                     "COUVERTS_VEGETEAUX"
                 ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
+                ],
+                "Types": [
+                    "recRziN10xevuxNY7"
                 ]
             },
             "createdTime": "2019-06-28T13:27:54.000Z"
@@ -825,12 +871,15 @@
                 "Marges de manoeuvre": [
                     "recq7GhgqRjKUVfA3"
                 ],
-                "Types": [
+                "Types-old": [
                     "REDUCTION_DOSES"
                 ],
                 "Problèmes adressés": [
                     "DEPENSE",
                     "MALADIES_FONGIQUES"
+                ],
+                "Types": [
+                    "rec8HRoPa3LnI95oU"
                 ]
             },
             "createdTime": "2019-07-01T08:08:43.000Z"
@@ -888,7 +937,7 @@
                     "recTNvJsPzzqEZS3q",
                     "recTIwDw4cBSUnbaa"
                 ],
-                "Types": [
+                "Types-old": [
                     "TRAVAIL_DU_SOL"
                 ],
                 "Ravageurs cible": [
@@ -901,7 +950,10 @@
                 "Cultures cible": [
                     "recsPtaEneeYVoEWx"
                 ],
-                "Facteur clé de succès": "Travailler à l’échelle de la petite région agricole, pas seulement à la parcelle"
+                "Facteur clé de succès": "Travailler à l’échelle de la petite région agricole, pas seulement à la parcelle",
+                "Types": [
+                    "reciTfZiZI2otTUFN"
+                ]
             },
             "createdTime": "2019-07-01T08:40:25.000Z"
         },
@@ -957,7 +1009,7 @@
                 "Marges de manoeuvre": [
                     "recdC2kSUBU4qodhU"
                 ],
-                "Types": [
+                "Types-old": [
                     "ALLONGEMENT_ROTATION"
                 ],
                 "Adventices cible": [
@@ -969,6 +1021,9 @@
                 ],
                 "Familles": [
                     "recYfzQxTcWcoCn4p"
+                ],
+                "Types": [
+                    "recU3ZGEjrGxvtJkb"
                 ]
             },
             "createdTime": "2019-07-01T14:34:27.000Z"
@@ -1024,13 +1079,16 @@
                     "reclHkrRmtx5tHbcm",
                     "recx4PnsjYzWc0ri8"
                 ],
-                "Types": [
+                "Types-old": [
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
                 ],
-                "Facteur clé de succès":"Le labour ne doit pas être réalisé chaque année pour ne pas remonter les graines enfouies, le laboir doit être réalisé dans de bonnes conditions pour ne pas qu'une semelle de labour se forme, le réaliser plutôt avant le semis d'une culture de printemps dont il favorise l'implantation, limiter la profondeur pour réduire l'enfouissement de la matière organique"
+                "Facteur clé de succès":"Le labour ne doit pas être réalisé chaque année pour ne pas remonter les graines enfouies, le laboir doit être réalisé dans de bonnes conditions pour ne pas qu'une semelle de labour se forme, le réaliser plutôt avant le semis d'une culture de printemps dont il favorise l'implantation, limiter la profondeur pour réduire l'enfouissement de la matière organique",
+                "Types": [
+                    "reciTfZiZI2otTUFN"
+                ]
             },
             "createdTime": "2019-07-02T08:53:42.000Z"
         },
@@ -1079,8 +1137,8 @@
                 "Marges de manoeuvre": [
                     "recoTvaab95JGaDHj"
                 ],
-                "Types": [
-                    "prophylaxie"
+                "Types-old": [
+                    "PROPHYLAXIE"
                 ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
@@ -1092,7 +1150,10 @@
                     "recSmDBTPyv0R1Rik",
                     "recEEz6LZ3MRDdV99"
                 ],
-                "Facteur clé de succès":"le succès de l'action est l'exportation "
+                "Facteur clé de succès":"le succès de l'action est l'exportation ",
+                "Types": [
+                    "recOhpJ1kQ9SVjX2w"
+                ]
             },
             "createdTime": "2019-07-19T14:06:22.000Z"
         },
@@ -1145,7 +1206,7 @@
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "MELANGE_VARIETES"
                 ],
                 "Problèmes adressés": [
@@ -1154,7 +1215,10 @@
                 "Cultures cible": [
                     "recuVebqXEqCg8kK0"
                 ],
-                "Facteur clé de succès": "Débouchés"
+                "Facteur clé de succès": "Débouchés",
+                "Types": [
+                    "recbzVtqt2pzGthcx"
+                ]
             },
             "createdTime": "2019-07-23T06:43:58.000Z"
         },
@@ -1207,7 +1271,7 @@
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "VARIETE_RESISTANTE"
                 ],
                 "Problèmes adressés": [
@@ -1217,6 +1281,9 @@
                 "Cultures cible": [
                     "recuVebqXEqCg8kK0",
                     "recmm8lo1bGXCYSA3"
+                ],
+                "Types": [
+                    "recEhPcer5FOG1Jgs"
                 ]
             },
             "createdTime": "2019-07-23T08:46:09.000Z"
@@ -1265,7 +1332,7 @@
                 "Marges de manoeuvre": [
                     "recTNvJsPzzqEZS3q"
                 ],
-                "Types": [
+                "Types-old": [
                     "DATE_SEMIS"
                 ],
                 "Ravageurs cible": [
@@ -1277,7 +1344,10 @@
                 "Cultures cible": [
                     "recZj4cTO0dwcYhbe"
                 ],
-                "Facteur clé de succès":"Réussite de l'implantation du Colza"
+                "Facteur clé de succès":"Réussite de l'implantation du Colza",
+                "Types": [
+                    "recb3C9nswUJhesI6"
+                ]
             },
             "createdTime": "2019-07-29T12:56:42.000Z"
         },
@@ -1327,7 +1397,7 @@
                 "Marges de manoeuvre": [
                     "reclHkrRmtx5tHbcm"
                 ],
-                "Types": [
+                "Types-old": [
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
@@ -1335,6 +1405,9 @@
                 ],
                 "Cultures cible": [
                     "recURJ9JQS9u6OHva"
+                ],
+                "Types": [
+                    "reciTfZiZI2otTUFN"
                 ]
             },
             "createdTime": "2019-07-29T13:02:24.000Z"
@@ -1381,6 +1454,9 @@
                 "Vente directe multiplicateur": 1,
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
+                ],
+                "Problèmes adressés": [
+                    "DESHERBAGE/ADV"
                 ],
                 "Cultures cible": [
                     "rec5t8AmLBoCuKHMF"
@@ -1483,6 +1559,9 @@
                 "Adventices cible": [
                     "recZkVZESGvUlCtNi",
                     "rec2wnpJOAJzUFe5v"
+                ],
+                "Problèmes adressés": [
+                    "DESHERBAGE/ADV"
                 ]
             },
             "createdTime": "2019-07-29T16:30:34.000Z"
@@ -1528,8 +1607,14 @@
                 "Précision": 0.15,
                 "Difficulté": 0.8,
                 "Vente directe multiplicateur": 1,
+                "Types-old": [
+                    "ALLONGEMENT_ROTATION"
+                ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV"
+                ],
+                "Types": [
+                    "recU3ZGEjrGxvtJkb"
                 ]
             },
             "createdTime": "2019-07-29T16:35:09.000Z"
@@ -1637,7 +1722,7 @@
                 "Marges de manoeuvre": [
                     "rec9rE3SWSoY2fYnp"
                 ],
-                "Types": [
+                "Types-old": [
                     "INSECTES_AUXILIAIRES"
                 ],
                 "Ravageurs cible": [
@@ -1649,7 +1734,10 @@
                 "Cultures cible": [
                     "recsPtaEneeYVoEWx"
                 ],
-                "Facteur clé de succès": "Positionnement des plaquettes"
+                "Facteur clé de succès": "Positionnement des plaquettes",
+                "Types": [
+                    "rec98dN53uRWiC9ot"
+                ]
             },
             "createdTime": "2019-08-02T07:34:03.000Z"
         },
@@ -1700,7 +1788,7 @@
                 "Marges de manoeuvre": [
                     "recTNvJsPzzqEZS3q"
                 ],
-                "Types": [
+                "Types-old": [
                     "PRODUIT_BIOCONTROLE"
                 ],
                 "Ravageurs cible": [
@@ -1708,6 +1796,9 @@
                 ],
                 "Problèmes adressés": [
                     "RAVAGEURS"
+                ],
+                "Types": [
+                    "recYE8vp8LQEB7LDY"
                 ]
             },
             "createdTime": "2019-08-02T07:58:44.000Z"
@@ -1759,14 +1850,17 @@
                 "Marges de manoeuvre": [
                     "recq7GhgqRjKUVfA3"
                 ],
-                "Types": [
+                "Types-old": [
                     "REDUCTION_DOSES"
                 ],
                 "Problèmes adressés": [
                     "DESHERBAGE/ADV",
                     "DEPENSE"
                 ],
-                "Facteur clé de succès":"Pulvérisation lors d'un passage spécifique"
+                "Facteur clé de succès":"Pulvérisation lors d'un passage spécifique",
+                "Types": [
+                    "rec8HRoPa3LnI95oU"
+                ]
             },
             "createdTime": "2019-08-02T08:15:34.000Z"
         },
@@ -1792,7 +1886,7 @@
                     "recTNvJsPzzqEZS3q",
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "DATE_SEMIS"
                 ],
                 "Adventices cible": [
@@ -1811,7 +1905,10 @@
                     "recuVebqXEqCg8kK0",
                     "recmm8lo1bGXCYSA3"
                 ],
-                "Facteur clé de succès": "Choix de la date de semis"
+                "Facteur clé de succès": "Choix de la date de semis",
+                "Types": [
+                    "recb3C9nswUJhesI6"
+                ]
             },
             "createdTime": "2019-08-06T13:49:28.000Z"
         },
@@ -1836,7 +1933,7 @@
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "VARIETE_RESISTANTE"
                 ],
                 "Problèmes adressés": [
@@ -1844,6 +1941,9 @@
                 ],
                 "Cultures cible": [
                     "recURJ9JQS9u6OHva"
+                ],
+                "Types": [
+                    "recEhPcer5FOG1Jgs"
                 ]
             },
             "createdTime": "2019-08-06T14:10:40.000Z"
@@ -1867,7 +1967,7 @@
                 "Marges de manoeuvre": [
                     "recRcRPuPF8QsGt4Z"
                 ],
-                "Types": [
+                "Types-old": [
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
@@ -1875,6 +1975,9 @@
                 ],
                 "Cultures cible": [
                     "recT3CrK0EqgCGL8z"
+                ],
+                "Types": [
+                    "reciTfZiZI2otTUFN"
                 ]
             },
             "createdTime": "2019-08-06T15:13:50.000Z"
@@ -1900,7 +2003,7 @@
                 "Marges de manoeuvre": [
                     "reczgwrTl91lcXh0V"
                 ],
-                "Types": [
+                "Types-old": [
                     "VARIETE_RESISTANTE"
                 ],
                 "Problèmes adressés": [
@@ -1910,9 +2013,165 @@
                 "Cultures cible": [
                     "recKDNdfSiV33djzf"
                 ],
-                "Facteur clé de succès":"Déterminer les maladies susceptibles d'être présentes, observer les symptomes et intervenir spécifiquement"
+                "Facteur clé de succès":"Déterminer les maladies susceptibles d'être présentes, observer les symptomes et intervenir spécifiquement",
+                "Types": [
+                    "recEhPcer5FOG1Jgs"
+                ]
             },
             "createdTime": "2019-08-12T14:38:19.000Z"
+        },
+        {
+            "id": "recYOKpHlmhH9wfLd",
+            "fields": {
+                "Nom": "Biner les cultures en rang",
+                "Description":"La pratique consiste à utiliser la bineuse comme outil de désherbage entre le moment où les plantes sont suffisamment enracinées pour supporter le passage de l'outil et le léger buttage qu'il induit et le moment où la culture à refermer le rang. cette pratique est compléter par de nombreuses autres soit mécaniques (en aveugles au début de la saison par exemple) ou chimique dans des stratégies de désherbage alterné.",
+                "CTA lien": [
+                    "recJ53rIU8cPjLqJl"
+                ],
+                "Matériel": "bineuse",
+                "Période de travail": "mai à septembre",
+                "Impact": "Déracine les jeunes adventices entre rangs",
+                "Bénéfices supplémentaires": "casse la croute de battance",
+                "CTA title": "Comment introduire le binage dans le maïs ?",
+                "Image principale": [
+                    {
+                        "id": "attZzGivMtG0NNtgF",
+                        "url": "https://dl.airtable.com/.attachments/c77664b7e10ceb8219569d4749f2f230/2646491f/bineuse54205076135009439CreditArvalisnonautoris.jpg",
+                        "filename": "bineuse54205076135009439CreditArvalisnonautorisé.jpg",
+                        "size": 163457,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/17ca80207f0d09382e810caf45707a50/d6fb53a4",
+                                "width": 64,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/661eb7037534150bcfec23fdaabecae2/58de2edc",
+                                "width": 800,
+                                "height": 451
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/f8fb48becc0f6f3d41af202147b6ce3c/2fdd7872",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Liens": [
+                    "rec4fQBeIH6U3Q9Ih"
+                ],
+                "Élevage multiplicateur": 1,
+                "Nécessite travail du sol": true,
+                "Précision": 1,
+                "Difficulté": 0.6,
+                "Vente directe multiplicateur": 1,
+                "Marges de manoeuvre": [
+                    "reclHkrRmtx5tHbcm"
+                ],
+                "Types-old": [
+                    "DESHERBAGE_MECANIQUE"
+                ],
+                "Adventices cible": [
+                    "recjzIBqwGkton9Ed",
+                    "recTFtGv6zIdKbACJ",
+                    "recpsKrpvDjjLVIj0"
+                ],
+                "Problèmes adressés": [
+                    "DESHERBAGE/ADV"
+                ],
+                "Cultures cible": [
+                    "recsPtaEneeYVoEWx",
+                    "rec5MHmc9xIgAg8ha",
+                    "recwHs4aAiZc9okg9",
+                    "recKDNdfSiV33djzf"
+                ],
+                "Facteur clé de succès":"Les cailloux et la pente de la parcelle, les réglages de la machine, la disponibilité d'un guidage et la précision du semis",
+                "Types": [
+                    "reckv83JvXsoyLiTt"
+                ]
+            },
+            "createdTime": "2019-08-27T07:57:47.000Z"
+        },
+        {
+            "id": "reccdlRtfXVIVKrvx",
+            "fields": {
+                "Nom": "Implanter une luzerne",
+                "Description":"La luzerne peut être utilisée sur les parcelles à problèmes de vivaces, elle participe à la stratégie de désherbage en entrant en concurrence avec les adventices. La luzerne s'insère également dans une stratégie d'amélioration de l'autonomie protéique des fourrages.",
+                "CTA lien": [
+                    "recXMK4v88A3jsKd2"
+                ],
+                "Période de travail": "mai à ocotobre",
+                "Impact": "Entre fortement en compétition avec les adventices vivaces",
+                "Bénéfices supplémentaires":"Améliore l'autonomie protéique de l'exploitation",
+                "CTA title": "Comment implanter la luzerne",
+                "Image principale": [
+                    {
+                        "id": "attJ4mR9LXeLJk1qf",
+                        "url": "https://dl.airtable.com/.attachments/9651abafbdc43ce9f56a8c9924604039/f3fae2f9/luzerne_weber_inra.jpg",
+                        "filename": "luzerne_weber_inra.jpg",
+                        "size": 177586,
+                        "type": "image/jpeg",
+                        "thumbnails": {
+                            "small": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/f877675ea74a9f8406b2b66226f4943d/67e5cb14",
+                                "width": 54,
+                                "height": 36
+                            },
+                            "large": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/d3bc30c4031cefe7ea17830e56c89a38/0c6e0c49",
+                                "width": 640,
+                                "height": 426
+                            },
+                            "full": {
+                                "url": "https://dl.airtable.com/.attachmentThumbnails/d6096f1fb7bcba0bb3610f0c4e81a094/660528a0",
+                                "width": 3000,
+                                "height": 3000
+                            }
+                        }
+                    }
+                ],
+                "Pratiques/Sol": [
+                    "recnXvApKyAKIqCci"
+                ],
+                "Liens": [
+                    "recQR1tixzASjaQJB"
+                ],
+                "Élevage multiplicateur": 1.2,
+                "Ajout dans la rotation cultures": [
+                    "recxgdYdorhQL8ISG"
+                ],
+                "Ajout dans la rotation types": [
+                    "recSMDjbXDXnNuBzz",
+                    "recNaZDywDZL0Zkjj"
+                ],
+                "Précision": 1,
+                "Difficulté": 0.7,
+                "Vente directe multiplicateur": 1,
+                "Marges de manoeuvre": [
+                    "recdC2kSUBU4qodhU"
+                ],
+                "Types-old": [
+                    "ALLONGEMENT_ROTATION"
+                ],
+                "Adventices cible": [
+                    "recZkVZESGvUlCtNi",
+                    "rec2wnpJOAJzUFe5v"
+                ],
+                "Problèmes adressés": [
+                    "DESHERBAGE/ADV",
+                    "DEPENSE"
+                ],
+                "Familles": [
+                    "recYfzQxTcWcoCn4p"
+                ],
+                "Facteur clé de succès": "déterminer les techniques de séchage et conservations les meilleures tout au long de la saison",
+                "Types": [
+                    "recU3ZGEjrGxvtJkb"
+                ]
+            },
+            "createdTime": "2019-08-27T09:42:03.000Z"
         }
     ]
 }

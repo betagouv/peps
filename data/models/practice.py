@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField, ArrayField
 from .practicegroup import PracticeGroup
+from .practicetype import PracticeType
 from .mechanism import Mechanism
 from .resource import Resource
 
@@ -94,7 +95,7 @@ class Practice(models.Model):
 
     # If this practice corresponds to types available in the PracticeType enum, this field will
     # store them.
-    types = ArrayField(models.IntegerField(), blank=True, null=True)
+    types = models.ManyToManyField(PracticeType)
 
     # These multipliers will boost or handicap the practice depending on the department
     # where the user is located. As with other multipliers, a value larger than 1 will boost

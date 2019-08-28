@@ -12,7 +12,8 @@ def _get_problems():
 
 def _get_practice_types():
     from data.models import PracticeType
-    return [{'text': x.display_text, 'value': x.name} for x in PracticeType]
+    form_types = PracticeType.get_form_practice_types()
+    return [{'text': x.display_text, 'value': x.get_category_name()} for x in form_types]
 
 def _get_cultures():
     from data.models import Culture
@@ -36,7 +37,7 @@ FORM_SCHEMA = {
                 "required": False
             },
             "practices": {
-                "title": "Quelles pratiques avez-vous déjà essayées pour répondre à ce problème ?",
+                "title": "Avez vous déjà essayé une de ces pratiques pour répondre à ce problème ?",
                 "required": False
             },
             "tillage": {

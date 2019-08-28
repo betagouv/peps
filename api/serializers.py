@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from data.models import Practice, Mechanism, Resource
+from data.models import Practice, Mechanism, Resource, PracticeType
 
 
 class MechanismSerializer(serializers.ModelSerializer):
@@ -28,10 +28,26 @@ class ResourceSerializer(serializers.ModelSerializer):
             'url',
         )
 
+
+class PracticeTypeSerializer(serializers.ModelSerializer):
+
+    category = serializers.ReadOnlyField(source='get_category_name')
+
+    class Meta:
+        model = PracticeType
+        fields = (
+            'id',
+            'display_text',
+            'penalty',
+            'category',
+        )
+
+
 class PracticeSerializer(serializers.ModelSerializer):
     mechanism = MechanismSerializer()
     main_resource = ResourceSerializer()
     secondary_resources = ResourceSerializer(many=True)
+    types = PracticeTypeSerializer(many=True)
 
     class Meta:
         model = Practice
@@ -54,6 +70,7 @@ class PracticeSerializer(serializers.ModelSerializer):
             'main_resource',
             'main_resource_label',
             'secondary_resources',
+            'types',
         )
 
 

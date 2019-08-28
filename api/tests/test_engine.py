@@ -88,6 +88,7 @@ def _get_mock_airtable(*args, **_):
         'Familles?view=Grid%20view': '/testdata/practice_groups.json',
         'Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',
         'Liens?view=Grid%20view': '/testdata/resources.json',
+        'Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
     }
     for url, path in mock_paths.items():
         if url in request_url:

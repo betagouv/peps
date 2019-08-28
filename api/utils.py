@@ -1,5 +1,5 @@
 from django.utils.functional import cached_property
-from data.models import Problem, Weed, Pest, Culture, PracticeType
+from data.models import Problem, Weed, Pest, Culture, PracticeTypeCategory
 
 class AlpacaUtils:
 
@@ -68,7 +68,7 @@ class AlpacaUtils:
 
     @cached_property
     def tested_practice_types(self):
-        return self._extract_enum_from_checkbox('practices', PracticeType)
+        return self._extract_enum_from_checkbox('practices', PracticeTypeCategory)
 
     def _extract_enum_from_checkbox(self, form_key, enum):
         form_value = self.answers.get(form_key)
