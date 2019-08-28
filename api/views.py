@@ -7,7 +7,7 @@ from data.adapters import AirtableAdapter
 from api.engine import Engine
 from api.serializers import ResponseSerializer
 from api.models import Response
-from api.formschema import FORM_SCHEMA
+from api.formschema import get_form_schema
 
 # For the moment, we will authorize access to this endpoint in one of these two situations:
 # - The user logged in and has a session (which identifies a user)
@@ -59,4 +59,4 @@ class FormSchemaView(APIView):
     permission_classes = [permissions.IsAuthenticated | HasAPIKey]
 
     def get(self, request):
-        return JsonResponse(FORM_SCHEMA)
+        return JsonResponse(get_form_schema())
