@@ -30,9 +30,9 @@ class Culture(PepsEnum):
     @property
     def display_text(self):
         display_texts = {
-            'BLE': 'Blé',
-            'BLE_HIVER': 'Blé d\'hiver',
-            'BLE_PRINTEMPS': 'Blé de printemps',
+            'BLE': 'Blé dur',
+            'BLE_HIVER': 'Blé tendre d\'hiver',
+            'BLE_PRINTEMPS': 'Blé tendre de printemps',
             'BETTRAVE': 'Bettrave',
             'ORGE': 'Orge',
             'MAIS': 'Maïs',
