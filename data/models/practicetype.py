@@ -23,6 +23,7 @@ class PracticeTypeCategory(Enum):
     DATE_SEMIS = 16
     PROPHYLAXIE = 17
     DESHERBAGE_MECANIQUE = 18
+    OAD = 19
 
 class PracticeType(models.Model):
 

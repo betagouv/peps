@@ -2,6 +2,8 @@
 
 Peps helps find personalized agricultural practices to reduce pesticide use.
 
+📱 The repository for Peps' mobile application [can be found here](https://github.com/betagouv/peps-app).
+
 ## Setup the development environment
 
 ### Python 3 virtualenv
