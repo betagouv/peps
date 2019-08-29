@@ -144,7 +144,7 @@
                 ],
                 "Problèmes adressés": [
                     "DEPENSE",
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Familles": [
                     "recYfzQxTcWcoCn4p"
@@ -218,7 +218,7 @@
                     "recTLbA4Hb7IXtBO6"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Facteur clé de succès": "Délai minimum de 3 à 4 semaines entre la récolte et le semis suivant",
                 "Types": [
@@ -283,7 +283,7 @@
                     "recxdMHr9YnQDboQs"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Types": [
                     "recRziN10xevuxNY7"
@@ -349,7 +349,7 @@
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV",
+                    "DESHERBAGE",
                     "DEPENSE"
                 ],
                 "Facteur clé de succès":"Lit de semences plat, au moins un jour de temps sec et ensoleillé après l'action",
@@ -420,7 +420,7 @@
                     "recUqbAvT03tU7Ew7"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recZj4cTO0dwcYhbe"
@@ -497,7 +497,7 @@
                     "recTFtGv6zIdKbACJ"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Facteur clé de succès": "Selon la culture implantée",
                 "Types": [
@@ -562,7 +562,7 @@
                     "PLANTES_COMPAGNES"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recsPtaEneeYVoEWx"
@@ -695,7 +695,7 @@
                 ],
                 "Problèmes adressés": [
                     "DEPENSE",
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Types": [
                     "recU3ZGEjrGxvtJkb"
@@ -757,7 +757,7 @@
                     "recRk9zyxDOqzdIAP"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recZj4cTO0dwcYhbe",
@@ -820,7 +820,7 @@
                     "COUVERTS_VEGETEAUX"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Types": [
                     "recRziN10xevuxNY7"
@@ -1017,7 +1017,7 @@
                     "recjzIBqwGkton9Ed"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Familles": [
                     "recYfzQxTcWcoCn4p"
@@ -1083,7 +1083,7 @@
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Facteur clé de succès":"Le labour ne doit pas être réalisé chaque année pour ne pas remonter les graines enfouies, le laboir doit être réalisé dans de bonnes conditions pour ne pas qu'une semelle de labour se forme, le réaliser plutôt avant le semis d'une culture de printemps dont il favorise l'implantation, limiter la profondeur pour réduire l'enfouissement de la matière organique",
                 "Types": [
@@ -1141,7 +1141,7 @@
                     "PROPHYLAXIE"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recuVebqXEqCg8kK0",
@@ -1401,7 +1401,7 @@
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recURJ9JQS9u6OHva"
@@ -1456,7 +1456,7 @@
                     "reczgwrTl91lcXh0V"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "rec5t8AmLBoCuKHMF"
@@ -1561,7 +1561,7 @@
                     "rec2wnpJOAJzUFe5v"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ]
             },
             "createdTime": "2019-07-29T16:30:34.000Z"
@@ -1611,7 +1611,7 @@
                     "ALLONGEMENT_ROTATION"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Types": [
                     "recU3ZGEjrGxvtJkb"
@@ -1667,7 +1667,7 @@
                     "rec2wnpJOAJzUFe5v"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ]
             },
             "createdTime": "2019-07-29T17:18:10.000Z"
@@ -1854,7 +1854,7 @@
                     "REDUCTION_DOSES"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV",
+                    "DESHERBAGE",
                     "DEPENSE"
                 ],
                 "Facteur clé de succès":"Pulvérisation lors d'un passage spécifique",
@@ -1899,7 +1899,7 @@
                 ],
                 "Problèmes adressés": [
                     "RAVAGEURS",
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recuVebqXEqCg8kK0",
@@ -1971,7 +1971,7 @@
                     "TRAVAIL_DU_SOL"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recT3CrK0EqgCGL8z"
@@ -2079,7 +2079,7 @@
                     "recpsKrpvDjjLVIj0"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV"
+                    "DESHERBAGE"
                 ],
                 "Cultures cible": [
                     "recsPtaEneeYVoEWx",
@@ -2160,7 +2160,7 @@
                     "rec2wnpJOAJzUFe5v"
                 ],
                 "Problèmes adressés": [
-                    "DESHERBAGE/ADV",
+                    "DESHERBAGE",
                     "DEPENSE"
                 ],
                 "Familles": [

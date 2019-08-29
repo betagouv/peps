@@ -25,6 +25,7 @@ class Culture(PepsEnum):
     ORGE_PRINTEMPS = 21
     VIGNE = 22
     LUZERNE = 23
+    AVOINE = 24
 
     @property
     def display_text(self):
@@ -52,6 +53,7 @@ class Culture(PepsEnum):
             'ORGE_PRINTEMPS': 'Orge de printemps',
             'VIGNE': 'Vigne',
             'LUZERNE': 'Luzerne',
+            'AVOINE': 'Avoine',
         }
 
         return display_texts.get(self.name) or self.name
