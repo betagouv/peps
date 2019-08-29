@@ -17,7 +17,7 @@ def get_form_schema():
                     "required": False
                 },
                 "practices": {
-                    "title": "Avez vous déjà essayé une de ces pratiques pour répondre à ce problème ?",
+                    "title": "Avez-vous déjà essayé une de ces pratiques pour répondre à ce problème ?",
                     "required": False
                 },
                 "tillage": {

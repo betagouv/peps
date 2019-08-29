@@ -4,6 +4,7 @@ import requests
 from django.test import TestCase
 from data.adapters import AirtableAdapter
 from api.engine import Engine
+from data.models import Problem
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -27,7 +28,7 @@ class TestEngine(TestCase):
         self.assertEqual(len(list(filter(lambda x: x == 1.0, weights))), 2)
 
 
-    def test_cultures(self):
+    def test_cultures_weight(self):
         """
         If the user is already growing a culture, like Chanvre in this example,
         the engine should set practices introducing to that culture to zero.
@@ -40,7 +41,7 @@ class TestEngine(TestCase):
         engine = Engine(answers, [])
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
-        self.assertEqual(chanvre_practice.weight, 1.0)
+        self.assertEqual(chanvre_practice.weight, 1.5)
 
         # However, if the user says they already have chanvre in their rotation,
         # the same practice will now have 0 as weight
@@ -49,6 +50,23 @@ class TestEngine(TestCase):
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
         self.assertEqual(chanvre_practice.weight, 0.0)
+
+
+    def test_pests_problem_type(self):
+        """
+        If the user says their problem are weeds (adventices), the three suggestions
+        must address weeds.
+        """
+        answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
+        engine = Engine(answers, [])
+        practices = engine.calculate_results()
+        response_items = engine.get_suggestions(practices)
+
+        # We ensure there are three suggestions, and all three address weeds
+        self.assertEqual(len(response_items), 3)
+        for response_item in response_items:
+            suggestion = response_item.practice
+            self.assertIn(Problem['DESHERBAGE'].value, suggestion.problems_addressed)
 
 
 def _populate_database():
