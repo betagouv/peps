@@ -324,7 +324,7 @@ def _get_resource_type(json_resource):
     return None
 
 def _get_airtable_data(url):
-    time.sleep(0.2) # lazy way to throttle, sorry
+    time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
     base_url = 'https://api.airtable.com/v0/appqlHvlvvxHDkQNY/'
     headers = {
         'Authorization': 'Bearer ' + settings.AIRTABLE_API_KEY,

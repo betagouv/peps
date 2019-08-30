@@ -30,6 +30,7 @@ DEBUG = os.getenv('PEPS_DEBUG') == 'True'
 ALLOWED_HOSTS = [x.strip() for x in os.getenv('PEPS_ALLOWED_HOSTS').split(',')]
 
 AIRTABLE_API_KEY = os.getenv('PEPS_AIRTABLE_KEY')
+AIRTABLE_REQUEST_INTERVAL_SECONDS = 0.2
 
 # Application definition
 

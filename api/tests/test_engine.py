@@ -1,13 +1,14 @@
 import os
 from unittest.mock import Mock
 import requests
-from django.test import TestCase
-from data.adapters import AirtableAdapter
+from django.test import TestCase, override_settings
 from api.engine import Engine
 from data.models import Problem
+from data.adapters import AirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+@override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
 class TestEngine(TestCase):
     def setUp(self):
         _populate_database()

@@ -3,11 +3,12 @@ from unittest.mock import MagicMock
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
 from data.adapters import AirtableAdapter
 
+@override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
 class TestApi(TestCase):
 
     def setUp(self):
