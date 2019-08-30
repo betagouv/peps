@@ -29,10 +29,6 @@ class AlpacaUtils:
         return cultures
 
     @cached_property
-    def soil_types(self):
-        return None
-
-    @cached_property
     def tillage_feasibility(self):
         return self.answers.get('tillage') == 'Oui'
 

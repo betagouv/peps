@@ -1,5 +1,4 @@
 from .practice import Practice
-from .airtablerecords import AirtableRecords
 from .culture import Culture
 from .pest import Pest
 from .practicetype import PracticeType, PracticeTypeCategory

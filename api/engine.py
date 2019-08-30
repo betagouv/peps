@@ -186,13 +186,6 @@ class Engine:
         # TODO - How do we do it?
         advancement_level = form.advancement_level
 
-        # Pratices have a multiplier related to the type of soil they are compatible
-        # with. If the user specifies the type of soil we implement this multiplier
-        user_soil_types = form.soil_types
-        soil_type_multiplier = practice.get_user_soil_type_multiplier(user_soil_types)
-        weight *= float(soil_type_multiplier)
-
-
         # We check the department. If the user department has a multiplier
         # in this practice we will use it.
         department_multiplier = practice.get_user_department_multiplier(form.department)

@@ -53,8 +53,6 @@ class AirtableAdapter:
 
 def _fetch_practices(mechanisms, resources):
     json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
-    json_soil_types = _get_airtable_data('Types%20de%20sol?view=Grid%20view')
-    json_soil_practices = _get_airtable_data('Pratiques%2FSol?view=Grid%20view')
     json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
     json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
     json_departments = _get_airtable_data('Departements?view=Grid%20view')
@@ -90,7 +88,6 @@ def _fetch_practices(mechanisms, resources):
             pests=_get_pests(json_practice, json_pests),
             image_url=_get_image_url(json_practice),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
-            soil_type_multipliers=_get_soil_type_multipliers(json_practice, json_soil_types, json_soil_practices),
             modification_date=timezone.now(),
         ))
 
@@ -246,39 +243,6 @@ def _get_pests(json_practice, json_pests):
         except KeyError as _:
             continue
     return pests
-
-
-def _get_soil_type_multipliers(json_practice, json_soil_types, json_soil_types_practices):
-    practice = json_practice
-    soil_types = json_soil_types
-    soil_types_practices = json_soil_types_practices
-
-    soil_types_practices_ids = practice.get('fields').get('Pratiques/Sol')
-    if not soil_types_practices_ids:
-        return []
-
-    relevant_soil_types_practices = list(filter(lambda x: x['id'] in soil_types_practices_ids, soil_types_practices))
-    if not relevant_soil_types_practices:
-        return []
-
-    multipliers = []
-    for soil_types_practice in relevant_soil_types_practices:
-        if not soil_types_practice['fields'].get('Sol'):
-            continue
-        soil_type_id = soil_types_practice['fields']['Sol'][0]
-
-        soil_type = next((x for x in soil_types if x['id'] == soil_type_id), None)
-        if not soil_type:
-            continue
-
-        soil_type_name = soil_type['fields'].get('Name')
-        if not soil_type_name:
-            continue
-
-        if 'Pertinence' in soil_types_practice['fields']:
-            multipliers.append(soil_types_practice['fields']['Pertinence'])
-
-    return multipliers
 
 
 def _get_department_multipliers(json_practice, json_departments_practices, json_departments):
