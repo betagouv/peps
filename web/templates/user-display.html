@@ -16,7 +16,8 @@
         <link rel="stylesheet" href="{% static 'css/styles-user-display.css' %}">
 
         {{ answers|json_script:"answers" }}
-        {{ blacklist|json_script:"blacklist" }}
+        {{ practice_blacklist|json_script:"practice_blacklist" }}
+        {{ type_blacklist|json_script:"type_blacklist" }}
         {{ suggestions|json_script:"suggestions" }}
     </head>
 

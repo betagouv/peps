@@ -46,7 +46,7 @@ $(document).ready(function () {
         let blacklistedPractices = $.makeArray($('#blacklist').children().map((x, y) => y.id))
         data = JSON.stringify({
             "answers": formAnswers,
-            "blacklist": blacklistedPractices 
+            "practice_blacklist": blacklistedPractices 
         });
 
         $.ajax({
@@ -85,7 +85,7 @@ window.pepsRenderer = {
 
         data = JSON.stringify({
             "answers": formAnswers,
-            "blacklist": blacklistedPractices 
+            "practice_blacklist": blacklistedPractices 
         });
 
         var promise = $.ajax({headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data});

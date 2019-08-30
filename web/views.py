@@ -30,12 +30,14 @@ class ProductionSystemFormView(LoginRequiredMixin, View):
 
         post_data = json.loads(request.body)
         answers = post_data['answers']
-        blacklist = post_data['blacklist']
-        suggestions = RankingsApiView.get_results(answers, blacklist)[1]
+        practice_blacklist = post_data.get('practice_blacklist', [])
+        type_blacklist = post_data.get('type_blacklist', [])
+        suggestions = RankingsApiView.get_results(answers, practice_blacklist, type_blacklist)[1]
         suggestions_rendered = JSONRenderer().render(ResponseItemSerializer(suggestions, many=True).data)
 
         request.session['answers'] = answers
-        request.session['blacklist'] = blacklist
+        request.session['practice_blacklist'] = practice_blacklist
+        request.session['type_blacklist'] = type_blacklist
         request.session['suggestions'] = json.loads(suggestions_rendered)
 
         return JsonResponse({'url': reverse('user_display')})
@@ -49,7 +51,8 @@ class UserDisplayView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = {
             'answers': self.request.session['answers'],
-            'blacklist': self.request.session['blacklist'],
+            'practice_blacklist': self.request.session['practice_blacklist'],
+            'type_blacklist': self.request.session['type_blacklist'],
             'suggestions': self.request.session['suggestions'],
         }
         return context

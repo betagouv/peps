@@ -22,7 +22,10 @@ class RankingsApiView(APIView):
 
     def post(self, request):
         post_data = request.data
-        practices, suggestions = RankingsApiView.get_results(post_data.get('answers'), post_data.get('blacklist'))
+        practices, suggestions = RankingsApiView.get_results(
+            post_data.get('answers'),
+            post_data.get('practice_blacklist', []),
+            post_data.get('type_blacklist', []))
 
         response = Response(practices, suggestions)
         data = JSONRenderer().render(ResponseSerializer(response).data)
@@ -30,8 +33,8 @@ class RankingsApiView(APIView):
         return HttpResponse(data, content_type="application/json")
 
     @staticmethod
-    def get_results(answers, blacklist):
-        engine = Engine(answers, blacklist)
+    def get_results(answers, practice_blacklist, type_blacklist):
+        engine = Engine(answers, practice_blacklist, type_blacklist)
         practices = engine.calculate_results()
         suggestions = engine.get_suggestions(practices)
         return (practices, suggestions)

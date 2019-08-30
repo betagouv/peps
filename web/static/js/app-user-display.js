@@ -1,7 +1,7 @@
 $(document).ready(function () {
     window.suggestions = JSON.parse(document.getElementById('suggestions').textContent);
     window.answers = JSON.parse(document.getElementById('answers').textContent);
-    window.blacklist = JSON.parse(document.getElementById('blacklist').textContent);
+    window.blacklist = JSON.parse(document.getElementById('practice_blacklist').textContent);
     renderSuggestions();
 })
 

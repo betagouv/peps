@@ -9,10 +9,12 @@ class Engine:
 
     form = None
     blacklisted_practices = []
+    blacklisted_types = []
 
-    def __init__(self, answers, blacklisted_practices):
+    def __init__(self, answers, blacklisted_practices, blacklisted_types):
         self.form = AlpacaUtils(answers)
         self.blacklisted_practices = blacklisted_practices
+        self.blacklisted_types = blacklisted_types
 
 
     def calculate_results(self):
@@ -94,11 +96,16 @@ class Engine:
         practice_problems_addressed = [Problem(x) for x in (practice.problems_addressed or [])]
         practice_weeds = [Weed(x) for x in (practice.weeds or [])]
         practice_pests = [Pest(x) for x in (practice.pests or [])]
+        practice_types = list(practice.types.all())
 
         # If the practice is blacklisted we return 0
-        # Eventually we should also decrease the score of similar practices
         if str(practice.id) in self.blacklisted_practices:
             return 0
+
+        # If the practice type is blacklisted we return 0
+        for practice_type in practice_types:
+            if str(practice_type.id) in self.blacklisted_types:
+                return 0
 
         # If this practice applies to a culture that the user does not have, there
         # is no need to keep it. On the other hand, if the practice applies to a culture
@@ -162,13 +169,12 @@ class Engine:
         # tried. If the user has tried one of the practice types that have
         # a penalty, we will multiply the practice by the lowest penalty among
         # the eligible ones in order to handicap it.
-        practice_types_query_set = practice.types.all()
-        practice_types = list(filter(lambda x: x.penalty and x.penalty < 1.0, list(practice_types_query_set)))
+        applicable_practice_types = list(filter(lambda x: x.penalty and x.penalty < 1.0, practice_types))
 
         applicable_penalties = []
         if form.tested_practice_types:
             for tested_practice_type in form.tested_practice_types:
-                applicable_practice_type = next(filter(lambda x: x.category == tested_practice_type.value, practice_types), None)
+                applicable_practice_type = next(filter(lambda x: x.category == tested_practice_type.value, applicable_practice_types), None)
                 if applicable_practice_type:
                     applicable_penalties.append(float(applicable_practice_type.penalty))
 

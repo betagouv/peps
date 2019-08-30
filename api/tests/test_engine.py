@@ -17,7 +17,7 @@ class TestEngine(TestCase):
         We check that the weight of the proposed suggestions is correct
         """
         answers = {"problem": "MALADIES_FONGIQUES", "rotation": [], "department": "01"}
-        engine = Engine(answers, [])
+        engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         suggestions = engine.get_suggestions(practices)
 
@@ -38,7 +38,7 @@ class TestEngine(TestCase):
         # If we have a problem with weeds we expect to have the chanvre practice
         # with a high ranking
         answers = {"problem":"DESHERBAGE", "department":"01"}
-        engine = Engine(answers, [])
+        engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
         self.assertEqual(chanvre_practice.weight, 1.5)
@@ -46,7 +46,7 @@ class TestEngine(TestCase):
         # However, if the user says they already have chanvre in their rotation,
         # the same practice will now have 0 as weight
         answers = {"problem":"DESHERBAGE", "rotation":["CHANVRE"], "department":"01"}
-        engine = Engine(answers, [])
+        engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
         self.assertEqual(chanvre_practice.weight, 0.0)
@@ -58,7 +58,7 @@ class TestEngine(TestCase):
         must address weeds.
         """
         answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
-        engine = Engine(answers, [])
+        engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         response_items = engine.get_suggestions(practices)
 
@@ -67,6 +67,62 @@ class TestEngine(TestCase):
         for response_item in response_items:
             suggestion = response_item.practice
             self.assertIn(Problem['DESHERBAGE'].value, suggestion.problems_addressed)
+
+
+    def test_blacklist_practices(self):
+        """
+        It is possible to blacklist individual practices, this test
+        ensures that blacklisted practices end up with a score of zero.
+        """
+        # We make a call to get suggestions
+        answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
+        engine = Engine(answers, [], [])
+        practices = engine.calculate_results()
+        response_items = engine.get_suggestions(practices)
+
+        # We get the first suggestion - we will blacklist it later and ensure
+        # it is no longer proposed.
+        blacklisted_suggestion_id = str(response_items[0].practice.id)
+        engine = Engine(answers, [blacklisted_suggestion_id], [])
+        practices = engine.calculate_results()
+        response_items = engine.get_suggestions(practices)
+
+        # Now let' verify that the suggestions no longer include the
+        # blacklisted practice
+        suggested_ids = list(map(lambda x: str(x.practice.id), response_items))
+        self.assertNotIn(blacklisted_suggestion_id, suggested_ids)
+
+        # The blacklisted practice should have a score of zero
+        blacklisted_response_item = next(filter(lambda x: str(x.practice.id) == blacklisted_suggestion_id, practices))
+        self.assertEqual(blacklisted_response_item.weight, 0.0)
+
+
+    def test_blacklist_types(self):
+        """
+        It is possible to blacklist entire practice types. This test
+        ensures that practices belonging to blacklisted practice types
+        have a score of zero.
+        """
+        # We make a call to get suggestions
+        answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
+        engine = Engine(answers, [], [])
+        practices = engine.calculate_results()
+        response_items = engine.get_suggestions(practices)
+
+        # We get the first suggestion's practice type. We will blacklist it
+        # later and ensure no practices of the same type are proposed, and that
+        # they are all set to zero.
+        blacklisted_practice_type = str(list(response_items[0].practice.types.all())[0].id)
+        engine = Engine(answers, [], [blacklisted_practice_type])
+        practices = engine.calculate_results()
+        response_items = engine.get_suggestions(practices)
+
+        # Now let' verify that all the practices belonging to that type
+        # have a score of zero.
+        for practice_item in practices:
+            practice_types_ids = list(map(lambda x: str(x.id), practice_item.practice.types.all()))
+            if blacklisted_practice_type in practice_types_ids:
+                self.assertEqual(practice_item.weight, 0.0)
 
 
 def _populate_database():

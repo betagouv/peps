@@ -38,7 +38,7 @@ class TestApi(TestCase):
         self.client.login(username='testuser', password='12345')
         response = self.client.post(
             reverse('calculate_rankings'),
-            {"answers": {"problem": "DESHERBAGE", "rotation": [], "department": "01"}, "blacklist": []},
+            {"answers": {"problem": "DESHERBAGE", "rotation": [], "department": "01"}, "practice_blacklist": []},
             format='json',
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -55,7 +55,7 @@ class TestApi(TestCase):
         self.client.logout()
         response = self.client.post(
             reverse('calculate_rankings'),
-            {"answers": {"problem": "DESHERBAGE", "rotation": [], "department": "01"}, "blacklist": []},
+            {"answers": {"problem": "DESHERBAGE", "rotation": [], "department": "01"}, "practice_blacklist": []},
             format='json',
             **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
         )
