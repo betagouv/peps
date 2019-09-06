@@ -89,119 +89,198 @@ class Engine:
 
     def _calculate_weight(self, practice):
         weight = 1
-        form = self.form
 
-        practice_added_cultures = [Culture(x) for x in (practice.added_cultures or [])]
-        practice_target_cultures = [Culture(x) for x in (practice.target_cultures or [])]
-        practice_problems_addressed = [Problem(x) for x in (practice.problems_addressed or [])]
-        practice_weeds = [Weed(x) for x in (practice.weeds or [])]
-        practice_pests = [Pest(x) for x in (practice.pests or [])]
-        practice_types = list(practice.types.all())
-
-        # If the practice is blacklisted we return 0
-        if str(practice.id) in self.blacklisted_practices:
+        if self._is_blacklisted(practice):
             return 0
 
-        # If the practice type is blacklisted we return 0
+        if self._adds_existing_culture(practice):
+            return 0
+
+        if self._has_incompatible_tillage_needs(practice):
+            return 0
+
+        if self._has_incompatible_weeds(practice):
+            return 0
+
+        if self._has_incompatible_pests(practice):
+            return 0
+
+        if self._has_incompatible_cultures(practice):
+            return 0
+
+        weight *= self._get_livestock_multiplier(practice)
+        weight *= self._get_direct_sale_multiplier(practice)
+        weight *= self._get_highest_problem_match_multiplier(practice)
+        weight *= self._get_highest_weed_multiplier(practice)
+        weight *= self._get_highest_pest_multiplier(practice)
+        weight *= self._get_highest_culture_multiplier(practice)
+        weight *= self._get_lowest_type_redundancy_multiplier(practice)
+        weight *= self._get_department_multiplier(practice)
+
+        return weight
+
+    def _is_blacklisted(self, practice):
+        """
+        Whether or not the practice or the practice type is blacklisted
+        """
+        practice_types = list(practice.types.all())
+        if str(practice.id) in self.blacklisted_practices:
+            return True
+
         for practice_type in practice_types:
             if str(practice_type.id) in self.blacklisted_types:
-                return 0
+                return True
+        return False
 
-        # If this practice applies to a culture that the user does not have, there
-        # is no need to keep it. On the other hand, if the practice applies to a culture
-        # the user has, we should bump it up a bit because it will be more relevant.
-        target_culture_multiplier = 1.3
-        if practice_target_cultures:
-            if not form.cultures:
-                return 0
-            relevant_user_cultures = [x for x in form.cultures if x in practice_target_cultures]
-            if not relevant_user_cultures:
-                return 0
-            else:
-                weight *= target_culture_multiplier
-
-        # If the practice adds a culture that the user already has,
-        # we can return a score of 0
-        if form.cultures and practice_added_cultures:
-            redundant_cultures = [x for x in form.cultures if x in practice_added_cultures]
+    def _adds_existing_culture(self, practice):
+        """
+        Whether the practice aims to add a culture that is already being
+        used by the user.
+        """
+        practice_added_cultures = [Culture(x) for x in (practice.added_cultures or [])]
+        if self.form.cultures and practice_added_cultures:
+            redundant_cultures = [x for x in self.form.cultures if x in practice_added_cultures]
             if redundant_cultures:
-                return 0
+                return True
+        return False
 
-        # If the practice needs ground work / tillage and the
-        # user can't carry it out, the score should be 0
-        if practice.needs_tillage and form.tillage_feasibility is not None and not form.tillage_feasibility:
-            return 0
+    def _has_incompatible_tillage_needs(self, practice):
+        """
+        Does the practice need ground work / tillage and the
+        user can't carry it out?
+        """
+        if practice.needs_tillage and self.form.tillage_feasibility is not None and not self.form.tillage_feasibility:
+            return True
+        return False
 
-        # If the practice is favorable or unfavorable to livestock
-        # farms, it's score will change
-        if form.livestock and practice.livestock_multiplier:
-            weight *= float(practice.livestock_multiplier)
+    def _get_livestock_multiplier(self, practice):
+        """
+        We get the multiplier applicable for the practice being favorable
+        or unfavorable to livestock farms
+        """
+        if self.form.livestock and practice.livestock_multiplier:
+            return float(practice.livestock_multiplier)
+        return 1
 
-        # If the practice is favorable or unfavorable to direct sale
-        # farms, it's score will change
-        if form.direct_sale and practice.direct_sale_multiplier:
-            weight *= float(practice.direct_sale_multiplier)
+    def _get_direct_sale_multiplier(self, practice):
+        """
+        We get the multiplier applicable for the practice is favorable or
+        unfavorable to direct sale farms
+        """
+        if self.form.direct_sale and practice.direct_sale_multiplier:
+            return float(practice.direct_sale_multiplier)
+        return 1
 
-        # We check what kind of problem the user has to see if the practice
-        # corresponds to it
-        problem = form.problem
+    def _get_highest_problem_match_multiplier(self, practice):
+        """
+        We check what kind of problem the user has to see if the practice
+        corresponds to it
+        """
+        practice_problems_addressed = [Problem(x) for x in (practice.problems_addressed or [])]
+        problem = self.form.problem
         correct_problem_multiplier = 1.5
 
         if problem and practice_problems_addressed and (problem in practice_problems_addressed):
-            weight *= correct_problem_multiplier
+            return correct_problem_multiplier
+        return 1
 
-        # Additionally, if the practice specifically targets one of the
-        # pests or weeds the user is having problems with, we will bump it
-        # even higher
-        correct_target_multiplier = 1.2
+    def _has_incompatible_weeds(self, practice):
+        """
+        If the user does not use weeds that are whitelisted
+        for this practice, we deem they are incompatible.
+        """
+        practice_weeds_whitelist = [Weed(x) for x in (practice.weed_whitelist or [])]
 
-        if problem == Problem.DESHERBAGE and form.weeds and practice_weeds:
-            common_weeds = set(form.weeds).intersection(practice_weeds)
-            if common_weeds:
-                weight *= correct_target_multiplier
+        if practice_weeds_whitelist:
+            if not self.form.weeds:
+                return True
+            matching_user_weeds = [x for x in self.form.weeds if x in practice_weeds_whitelist]
+            if not matching_user_weeds:
+                return True
+        return False
 
-        if problem == Problem.RAVAGEURS and form.pests and practice_pests:
-            common_pests = set(form.pests).intersection(practice_pests)
-            if common_pests:
-                weight *= correct_target_multiplier
+    def _has_incompatible_pests(self, practice):
+        """
+        If the user does not use pests that are whitelisted
+        for this practice, we deem they are incompatible.
+        """
+        practice_pest_whitelist = [Pest(x) for x in (practice.pest_whitelist or [])]
 
+        if practice_pest_whitelist:
+            if not self.form.pests:
+                return True
+            matching_user_pests = [x for x in self.form.pests if x in practice_pest_whitelist]
+            if not matching_user_pests:
+                return True
+        return False
 
-        # We take into consideration the multipliers for weeds, taking the highest one
-        if practice.weed_multipliers and form.weeds:
-            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in form.weeds, practice.weed_multipliers))
+    def _has_incompatible_cultures(self, practice):
+        """
+        If the user does not use cultures that are whitelisted
+        for this practice, we deem they are incompatible.
+        """
+        practice_cultures_whitelist = [Culture(x) for x in (practice.culture_whitelist or [])]
+
+        if practice_cultures_whitelist:
+            if not self.form.cultures:
+                return True
+            matching_user_cultures = [x for x in self.form.cultures if x in practice_cultures_whitelist]
+            if not matching_user_cultures:
+                return True
+        return False
+
+    def _get_highest_weed_multiplier(self, practice):
+        if practice.weed_multipliers and self.form.weeds:
+            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.weeds, practice.weed_multipliers))
             if relevant_multipliers:
                 max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
-                weight *= max_multiplier
+                return max_multiplier
+        return 1
 
-        # We take a look at what kind of initiatives the user has already
-        # tried. If the user has tried one of the practice types that have
-        # a penalty, we will multiply the practice by the lowest penalty among
-        # the eligible ones in order to handicap it.
+    def _get_highest_pest_multiplier(self, practice):
+        if practice.pest_multipliers and self.form.pests:
+            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.pests, practice.pest_multipliers))
+            if relevant_multipliers:
+                max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
+                return max_multiplier
+        return 1
+
+    def _get_highest_culture_multiplier(self, practice):
+        if practice.culture_multipliers and self.form.cultures:
+            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.cultures, practice.culture_multipliers))
+            if relevant_multipliers:
+                max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
+                return max_multiplier
+        return 1
+
+    def _get_lowest_type_redundancy_multiplier(self, practice):
+        """
+        We take a look at what kind of initiatives the user has already
+        tried. If the user has tried one of the practice types that have
+        a penalty, we will return the lowest penalty among the eligible
+        ones in order to handicap it.
+        """
+        practice_types = list(practice.types.all())
         applicable_practice_types = list(filter(lambda x: x.penalty and x.penalty < 1.0, practice_types))
 
         applicable_penalties = []
-        if form.tested_practice_types:
-            for tested_practice_type in form.tested_practice_types:
+        if self.form.tested_practice_types:
+            for tested_practice_type in self.form.tested_practice_types:
                 applicable_practice_type = next(filter(lambda x: x.category == tested_practice_type.value, applicable_practice_types), None)
                 if applicable_practice_type:
                     applicable_penalties.append(float(applicable_practice_type.penalty))
 
         if applicable_penalties:
-            weight *= min(applicable_penalties)
+            return min(applicable_penalties)
 
-        # We take a look at the advancement level to determine whether or not
-        # this practice should be bumped up
-        # TODO - How do we do it?
-        advancement_level = form.advancement_level
+        return 1
 
-        # We check the department. If the user department has a multiplier
-        # in this practice we will use it.
-        department_multiplier = practice.get_user_department_multiplier(form.department)
-        weight *= float(department_multiplier)
-
-        # We will multiply by the precision level to favor more
-        # specific practices
-        # TODO: What do I do with the precision ? I could combine it with weight and practice groups?
-        # weight *= float(practice.precision)
-
-        return weight
+    def _get_department_multiplier(self, practice):
+        """
+        We check the department in the answers. If the user department has a multiplier
+        in this practice we will return it.
+        """
+        if not self.form.department or not practice.department_multipliers:
+            return 1
+        relevant_multipliers = [list(x.values())[0] for x in practice.department_multipliers if self.form.department == list(x.keys())[0]]
+        return float(max(relevant_multipliers)) if relevant_multipliers else 1

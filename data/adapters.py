@@ -54,13 +54,13 @@ class AirtableAdapter:
 def _fetch_practices(mechanisms, resources):
     json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
     json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
-    json_cultures_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
+    json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
     json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
     json_departments = _get_airtable_data('Departements?view=Grid%20view')
     json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
     json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
     json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
-    json_pests_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
+    json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
 
 
     practices = []
@@ -85,13 +85,15 @@ def _fetch_practices(mechanisms, resources):
             precision=json_practice['fields'].get('Précision'),
             difficulty=json_practice['fields'].get('Difficulté'),
             added_cultures=_get_added_cultures(json_practice, json_cultures),
-            target_cultures=_get_target_cultures(json_practice, json_cultures),
+            culture_whitelist=_get_culture_whitelist(json_practice, json_cultures),
+            weed_whitelist=_get_weeds(json_practice, json_weeds),
+            pest_whitelist=_get_pests(json_practice, json_pests),
             problems_addressed=_get_problems_addressed(json_practice),
-            weeds=_get_weeds(json_practice, json_weeds),
-            pests=_get_pests(json_practice, json_pests),
             image_url=_get_image_url(json_practice),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
             weed_multipliers=_get_weed_multipliers(json_practice, json_weeds, json_weed_practices),
+            pest_multipliers=_get_pest_multipliers(json_practice, json_pests, json_pest_practices),
+            culture_multipliers=_get_culture_multipliers(json_practice, json_cultures, json_culture_practices),
             modification_date=timezone.now(),
         ))
 
@@ -171,14 +173,14 @@ def _get_added_cultures(json_practice, json_cultures):
     return enum_cultures
 
 
-def _get_target_cultures(json_practice, json_cultures):
-    target_cultures = json_practice['fields'].get('Cultures cible')
-    if target_cultures:
-        target_cultures = [x for x in json_cultures if x['id'] in target_cultures]
-    if not target_cultures:
-        return target_cultures
+def _get_culture_whitelist(json_practice, json_cultures):
+    culture_whitelist = json_practice['fields'].get('Cultures whitelist')
+    if culture_whitelist:
+        culture_whitelist = [x for x in json_cultures if x['id'] in culture_whitelist]
+    if not culture_whitelist:
+        return culture_whitelist
 
-    enum_codes = list(map(lambda x: x['fields']['Enum code'], target_cultures))
+    enum_codes = list(map(lambda x: x['fields']['Enum code'], culture_whitelist))
     enum_cultures = []
     for code in enum_codes:
         try:
@@ -217,7 +219,7 @@ def _get_problems_addressed(json_practice):
 
 
 def _get_weeds(json_practice, json_weeds):
-    weeds_ids = json_practice['fields'].get('Adventices cible')
+    weeds_ids = json_practice['fields'].get('Adventices whitelist')
     if not weeds_ids:
         return None
 
@@ -234,7 +236,7 @@ def _get_weeds(json_practice, json_weeds):
 
 def _get_pests(json_practice, json_pests):
 
-    pests_ids = json_practice['fields'].get('Ravageurs cible')
+    pests_ids = json_practice['fields'].get('Ravageurs whitelist')
     if not pests_ids:
         return None
 
@@ -304,6 +306,60 @@ def _get_weed_multipliers(json_practice, json_weeds, json_weed_practices):
             continue
 
     return weed_multipliers
+
+def _get_pest_multipliers(json_practice, json_pests, json_pest_practices):
+    concerned_pest_practices = list(filter(lambda x: json_practice['id'] in (x['fields'].get('Pratique') or []), json_pest_practices))
+    if not concerned_pest_practices:
+        return []
+
+    pest_multipliers = []
+    for item in concerned_pest_practices:
+        if not item['fields'].get('Ravageur'):
+            continue
+
+        pest_airtable_id = item['fields'].get('Ravageur')[0]
+        airtable_pest_entry = next(filter(lambda x: x['id'] == pest_airtable_id, json_pests), None)
+        if not airtable_pest_entry or not airtable_pest_entry['fields'].get('Enum code'):
+            continue
+
+        try:
+            pest_enum_number = Pest[airtable_pest_entry['fields'].get('Enum code')].value
+            multiplier = item['fields'].get('Multiplicateur') or 1
+
+            pest_multipliers.append({
+                pest_enum_number: multiplier
+            })
+        except KeyError as _:
+            continue
+
+    return pest_multipliers
+
+def _get_culture_multipliers(json_practice, json_cultures, json_culture_practices):
+    concerned_culture_practices = list(filter(lambda x: json_practice['id'] in (x['fields'].get('Pratique') or []), json_culture_practices))
+    if not concerned_culture_practices:
+        return []
+
+    culture_multipliers = []
+    for item in concerned_culture_practices:
+        if not item['fields'].get('Culture'):
+            continue
+
+        culture_airtable_id = item['fields'].get('Culture')[0]
+        airtable_culture_entry = next(filter(lambda x: x['id'] == culture_airtable_id, json_cultures), None)
+        if not airtable_culture_entry or not airtable_culture_entry['fields'].get('Enum code'):
+            continue
+
+        try:
+            culture_enum_number = Culture[airtable_culture_entry['fields'].get('Enum code')].value
+            multiplier = item['fields'].get('Multiplicateur') or 1
+
+            culture_multipliers.append({
+                culture_enum_number: multiplier
+            })
+        except KeyError as _:
+            continue
+
+    return culture_multipliers
 
 
 def _get_image_url(json_practice):

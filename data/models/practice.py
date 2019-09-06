@@ -77,21 +77,21 @@ class Practice(models.Model):
     # If this practice is relevant only for certain types of cultures, they should be specified
     # here. If the practice could be applied to any kind of culture this field should remain
     # empty. The value must be taken from the Cultures Enum.
-    target_cultures = ArrayField(models.IntegerField(), blank=True, null=True)
-
-    # If this practice adresses particular types of agriculture problem specified in the
-    # Problem Enum, this field will store these adressed problems.
-    problems_addressed = ArrayField(models.IntegerField(), blank=True, null=True)
+    culture_whitelist = ArrayField(models.IntegerField(), blank=True, null=True)
 
     # If this practice addresses weeding problems for a particular type of weed,
     # this field will store which weeds the practice targets. If it is a general weeding
     # practice that does not address any particular weed, leave this field blank.
-    weeds = ArrayField(models.IntegerField(), blank=True, null=True)
+    weed_whitelist = ArrayField(models.IntegerField(), blank=True, null=True)
 
     # If this practice addresses pest control problems for a particular type of pest,
     # this field will store which pests the practice targets. If it is a general pest control
     # practice that does not address any particular pest, leave this field blank.
-    pests = ArrayField(models.IntegerField(), blank=True, null=True)
+    pest_whitelist = ArrayField(models.IntegerField(), blank=True, null=True)
+
+    # If this practice adresses particular types of agriculture problem specified in the
+    # Problem Enum, this field will store these adressed problems.
+    problems_addressed = ArrayField(models.IntegerField(), blank=True, null=True)
 
     # If this practice corresponds to types available in the PracticeType enum, this field will
     # store them.
@@ -112,6 +112,22 @@ class Practice(models.Model):
     # E.g., [{1: 1.003}, {5: 0.7329}]
     weed_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
+    # These multipliers will boost or handicap the practice depending on the culture the
+    # user has. As with other multipliers, a value larger than 1 will boost
+    # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
+    # not make a difference.
+    # Values come from the culture enum.
+    # E.g., [{1: 1.003}, {5: 0.7329}]
+    culture_multipliers = ArrayField(JSONField(), blank=True, null=True)
+
+    # These multipliers will boost or handicap the practice depending on the pests the
+    # user is having problems with. As with other multipliers, a value larger than 1 will boost
+    # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
+    # not make a difference.
+    # Values come from the pest enum.
+    # E.g., [{1: 1.003}, {5: 0.7329}]
+    pest_multipliers = ArrayField(JSONField(), blank=True, null=True)
+
     # These multipliers will boost or handicap the practice depending on the soil type
     # in the user's exploitation. As with other multipliers, a value larger than 1 will boost
     # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
@@ -119,9 +135,3 @@ class Practice(models.Model):
     # The soil type must be part of the SoilType enum.
     # E.g., [{'ARGILEUX': 1.0024}, {'LIMONEUX': 0.6362}]
     soil_type_multipliers = ArrayField(JSONField(), blank=True, null=True)
-
-    def get_user_department_multiplier(self, user_department):
-        if not user_department or not self.department_multipliers:
-            return 1
-        relevant_multipliers = [list(x.values())[0] for x in self.department_multipliers if user_department == list(x.keys())[0]]
-        return max(relevant_multipliers) if relevant_multipliers else 1
