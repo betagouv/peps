@@ -104,6 +104,14 @@ class Practice(models.Model):
     # E.g., [{'75': 1.003}, {'69': 0.7329}]
     department_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
+    # These multipliers will boost or handicap the practice depending on the weeds the
+    # user is having problems with. As with other multipliers, a value larger than 1 will boost
+    # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
+    # not make a difference.
+    # Values come from the weeds enum.
+    # E.g., [{1: 1.003}, {5: 0.7329}]
+    weed_multipliers = ArrayField(JSONField(), blank=True, null=True)
+
     # These multipliers will boost or handicap the practice depending on the soil type
     # in the user's exploitation. As with other multipliers, a value larger than 1 will boost
     # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
@@ -111,15 +119,6 @@ class Practice(models.Model):
     # The soil type must be part of the SoilType enum.
     # E.g., [{'ARGILEUX': 1.0024}, {'LIMONEUX': 0.6362}]
     soil_type_multipliers = ArrayField(JSONField(), blank=True, null=True)
-
-
-    def get_user_soil_type_multiplier(self, user_soil_types):
-        if not user_soil_types or not self.soil_type_multipliers:
-            return 1
-        user_soil_names = [x.name for x in user_soil_types]
-        relevant_multipliers = [list(x.values())[0] for x in self.soil_type_multipliers if list(x.keys())[0] in user_soil_names]
-        return max(relevant_multipliers) if relevant_multipliers else 1
-
 
     def get_user_department_multiplier(self, user_department):
         if not user_department or not self.department_multipliers:

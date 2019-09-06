@@ -126,11 +126,37 @@ class TestEngine(TestCase):
                 self.assertEqual(practice_item.weight, 0.0)
 
 
+    def test_weed_multipliers(self):
+        """
+        A practice can be more (or less) useful to address certain weeds, this
+        is specified in the weed_multipliers field of the practice model.
+        The practice "Profiter de l'action des auxiliaires sur le puceron de l'épi"
+        has a multiplier for the weed Chardon, here we check that said multiplier
+        is taken into account by the engine.
+        """
+        practice_title = "Profiter de l'action des auxiliaires sur le puceron de l'épi"
+        chardon_multiplier = 0.6
+
+        # First we check the weignt without using CHARDON in the response
+        answers = {"problem":"DESHERBAGE", "rotation": ["BLE"]}
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        initial_weight = result.weight
+
+        # Now we add CHARDON in the response and get the results
+        answers = {"problem":"DESHERBAGE", "weeds": "CHARDON" ,"rotation": ["BLE"]}
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        new_weight = result.weight
+
+        # We need to make sure the new weight has taken into account the
+        # multiplier for CHARDON
+        self.assertEqual(new_weight, initial_weight * chardon_multiplier)
+
+
 def _populate_database():
-    """
-    The data used for these tests was taken from Airtable on
-    August 23rd.
-    """
     # We need to mock the 'requests.get' function to get our test
     # data instead of the real deal.
     original_get = requests.get
@@ -158,6 +184,7 @@ def _get_mock_airtable(*args, **_):
         'Cultures?view=Grid%20view': '/testdata/cultures.json',
         'Pratiques%2FDepartements?view=Grid%20view': '/testdata/practices_departments.json',
         'Departements?view=Grid%20view': '/testdata/departments.json',
+        'Pratiques%2FAdventices?view=Grid%20view': '/testdata/practices_weeds.json',
         'Adventices?view=Grid%20view': '/testdata/weeds.json',
         'Ravageurs?view=Grid%20view': '/testdata/pests.json',
         'Familles?view=Grid%20view': '/testdata/practice_groups.json',

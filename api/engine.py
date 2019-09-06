@@ -165,6 +165,14 @@ class Engine:
             if common_pests:
                 weight *= correct_target_multiplier
 
+
+        # We take into consideration the multipliers for weeds, taking the highest one
+        if practice.weed_multipliers and form.weeds:
+            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in form.weeds, practice.weed_multipliers))
+            if relevant_multipliers:
+                max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
+                weight *= max_multiplier
+
         # We take a look at what kind of initiatives the user has already
         # tried. If the user has tried one of the practice types that have
         # a penalty, we will multiply the practice by the lowest penalty among

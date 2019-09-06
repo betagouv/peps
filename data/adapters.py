@@ -57,6 +57,7 @@ def _fetch_practices(mechanisms, resources):
     json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
     json_departments = _get_airtable_data('Departements?view=Grid%20view')
     json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
+    json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
     json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
 
 
@@ -88,6 +89,7 @@ def _fetch_practices(mechanisms, resources):
             pests=_get_pests(json_practice, json_pests),
             image_url=_get_image_url(json_practice),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
+            weed_multipliers=_get_weed_multipliers(json_practice, json_weeds, json_weed_practices),
             modification_date=timezone.now(),
         ))
 
@@ -272,6 +274,34 @@ def _get_department_multipliers(json_practice, json_departments_practices, json_
         })
 
     return department_multipliers
+
+
+def _get_weed_multipliers(json_practice, json_weeds, json_weed_practices):
+    concerned_weed_practices = list(filter(lambda x: json_practice['id'] in (x['fields'].get('Pratique') or []), json_weed_practices))
+    if not concerned_weed_practices:
+        return []
+
+    weed_multipliers = []
+    for item in concerned_weed_practices:
+        if not item['fields'].get('Adventice'):
+            continue
+
+        weed_airtable_id = item['fields'].get('Adventice')[0]
+        airtable_weed_entry = next(filter(lambda x: x['id'] == weed_airtable_id, json_weeds), None)
+        if not airtable_weed_entry or not airtable_weed_entry['fields'].get('Enum code'):
+            continue
+
+        try:
+            weed_enum_number = Weed[airtable_weed_entry['fields'].get('Enum code')].value
+            multiplier = item['fields'].get('Multiplicateur') or 1
+
+            weed_multipliers.append({
+                weed_enum_number: multiplier
+            })
+        except KeyError as _:
+            continue
+
+    return weed_multipliers
 
 
 def _get_image_url(json_practice):
