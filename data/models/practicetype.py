@@ -24,6 +24,7 @@ class PracticeTypeCategory(Enum):
     PROPHYLAXIE = 17
     DESHERBAGE_MECANIQUE = 18
     OAD = 19
+    INFRASTRUCTURE = 20
 
 class PracticeType(models.Model):
 
