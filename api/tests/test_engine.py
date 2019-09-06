@@ -25,8 +25,8 @@ class TestEngine(TestCase):
         # There should be one practice with weight 1.5 and two with 1.0
         self.assertEqual(len(suggestions), 3)
         weights = list(map(lambda x: x.weight, suggestions))
-        self.assertIn(1.5, weights)
-        self.assertEqual(len(list(filter(lambda x: x == 1.0, weights))), 2)
+        self.assertEqual(len(list(filter(lambda x: x == 1.0, weights))), 1)
+        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 2)
 
 
     def test_cultures_weight(self):
@@ -181,11 +181,13 @@ def _get_mock_airtable(*args, **_):
         'Pratiques?view=Grid%20view': '/testdata/practices.json',
         'Types%20de%20sol?view=Grid%20view': '/testdata/soil_types.json',
         'Pratiques%2FSol?view=Grid%20view': '/testdata/practices_soil.json',
+        'Pratiques%2FCultures?view=Grid%20view': '/testdata/practices_cultures.json',
         'Cultures?view=Grid%20view': '/testdata/cultures.json',
         'Pratiques%2FDepartements?view=Grid%20view': '/testdata/practices_departments.json',
         'Departements?view=Grid%20view': '/testdata/departments.json',
         'Pratiques%2FAdventices?view=Grid%20view': '/testdata/practices_weeds.json',
         'Adventices?view=Grid%20view': '/testdata/weeds.json',
+        'Pratiques%2FRavageurs?view=Grid%20view': '/testdata/practices_pests.json',
         'Ravageurs?view=Grid%20view': '/testdata/pests.json',
         'Familles?view=Grid%20view': '/testdata/practice_groups.json',
         'Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',

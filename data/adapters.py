@@ -54,11 +54,13 @@ class AirtableAdapter:
 def _fetch_practices(mechanisms, resources):
     json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
     json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
+    json_cultures_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
     json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
     json_departments = _get_airtable_data('Departements?view=Grid%20view')
     json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
     json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
     json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
+    json_pests_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
 
 
     practices = []

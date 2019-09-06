@@ -69,3 +69,11 @@ You should be ready to go. Run the following command to ensure everything is OK:
 ```
 python manage.py test
 ```
+
+### Updating test mock data
+
+API tests rely on mock data available under ```api/tests/testdata```. To update these files with the latest Airtable data, you can run the following command:
+
+```
+python manage.py generatetestdata
+```

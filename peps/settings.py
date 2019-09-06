@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'rest_framework_api_key',
+    'peps',
     'web',
     'api',
     'data',
