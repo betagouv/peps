@@ -26,6 +26,8 @@ class Culture(PepsEnum):
     VIGNE = 22
     LUZERNE = 23
     AVOINE = 24
+    LIN_HIVER = 25
+    LIN_PRINTEMPS = 26
 
     @property
     def display_text(self):
@@ -46,6 +48,8 @@ class Culture(PepsEnum):
             'FEVEROLES': 'Féveroles',
             'POMME_DE_TERRE': 'Pomme de terre',
             'LIN': 'Lin',
+            'LIN_HIVER': 'Lin hiver',
+            'LIN_PRINTEMPS': 'Lin printemps',
             'SOJA': 'Soja',
             'PRAIRIES_CULTURES_FOURRAGERES': 'Prairies et cultures fourragères',
             'LENTILLES': 'Lentilles',

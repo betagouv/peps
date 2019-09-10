@@ -128,6 +128,14 @@ class Practice(models.Model):
     # E.g., [{1: 1.003}, {5: 0.7329}]
     pest_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
+    # These multipliers will boost or handicap the practice depending on the glyphosate usage the
+    # user has. As with other multipliers, a value larger than 1 will boost
+    # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
+    # not make a difference.
+    # Values come from the glyphosate uses enum.
+    # E.g., [{1: 1.003}, {5: 0.7329}]
+    glyphosate_multipliers = ArrayField(JSONField(), blank=True, null=True)
+
     # These multipliers will boost or handicap the practice depending on the soil type
     # in the user's exploitation. As with other multipliers, a value larger than 1 will boost
     # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will

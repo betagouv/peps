@@ -1,5 +1,5 @@
 from django.utils.functional import cached_property
-from data.models import Problem, Weed, Pest, Culture, PracticeTypeCategory
+from data.models import Problem, Weed, Pest, Culture, PracticeTypeCategory, GlyphosateUses
 
 class AlpacaUtils:
 
@@ -61,6 +61,10 @@ class AlpacaUtils:
     @cached_property
     def weeds(self):
         return self._extract_enum_from_checkbox('weeds', Weed)
+
+    @cached_property
+    def glyphosate_uses(self):
+        return self._extract_enum_from_checkbox('glyphosate', GlyphosateUses)
 
     @cached_property
     def tested_practice_types(self):

@@ -1,8 +1,8 @@
 import os
 import time
 import json
-import requests
 import traceback
+import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
@@ -24,6 +24,8 @@ MOCK_PATHS = {
     'Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',
     'Liens?view=Grid%20view': '/testdata/resources.json',
     'Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
+    'Pratiques%2FGlyphosate?view=Grid%20view': '/testdata/practices_glyphosate.json',
+    'Glyphosate?view=Grid%20view': '/testdata/glyphosate.json',
 }
 
 class Command(BaseCommand):
@@ -33,9 +35,9 @@ class Command(BaseCommand):
         for url, path in MOCK_PATHS.items():
             try:
                 json_data = _get_airtable_data(url)
-                with open(BASE_DIR + '/api/tests' + path, 'w') as file:
+                with open(BASE_DIR + '/api/tests' + path, 'w+') as file:
                     file.write(json.dumps(json_data))
-            except Exception as exception:
+            except Exception as _:
                 print(traceback.format_exc())
                 raise CommandError('Failed fetching "%s"' % url)
 

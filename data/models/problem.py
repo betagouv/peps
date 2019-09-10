@@ -5,6 +5,7 @@ class Problem(PepsEnum):
     RAVAGEURS = 2
     DEPENSE = 3
     MALADIES_FONGIQUES = 4
+    GLYPHOSATE = 6
     AUTRES = 5
 
     @property
@@ -14,6 +15,7 @@ class Problem(PepsEnum):
             'RAVAGEURS': 'Lutter contre les ravageurs',
             'DEPENSE': 'Réduire ma consommation des produits phytosanitaires',
             'MALADIES_FONGIQUES': 'Éviter des maladies fongiques',
+            'GLYPHOSATE': 'Sortir du glyphosate',
             'AUTRES': 'Autres',
         }
 

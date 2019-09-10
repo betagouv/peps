@@ -9,3 +9,4 @@ from .practicegroup import PracticeGroup
 from .mechanism import Mechanism
 from .resource import Resource, ResourceType
 from .pepsenum import PepsEnum
+from .glyphosateuses import GlyphosateUses

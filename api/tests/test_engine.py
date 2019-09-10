@@ -22,11 +22,11 @@ class TestEngine(TestCase):
         practices = engine.calculate_results()
         suggestions = engine.get_suggestions(practices)
 
-        # There should be one practice with weight 1.5 and two with 1.0
+        # There should be two practices with weight 1.5 and one with 1.0
         self.assertEqual(len(suggestions), 3)
         weights = list(map(lambda x: x.weight, suggestions))
-        self.assertEqual(len(list(filter(lambda x: x == 1.0, weights))), 2)
-        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 1)
+        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 2)
+        self.assertEqual(len(list(filter(lambda x: x == 1, weights))), 1)
 
 
     def test_cultures_weight(self):
@@ -128,10 +128,10 @@ class TestEngine(TestCase):
     def test_weed_whitelist(self):
         """
         A practice can have a limited number of whitelisted weeds it can be applied
-        to. As an example, practice "Méthodes de lutte contre le rumex" can only be relevant
+        to. As an example, practice "Faucher une culture fourragère " can only be relevant
         for Rumex.
         """
-        practice_title = "[DIVISER] Méthodes de lutte contre le rumex"
+        practice_title = "Faucher une culture fourragère "
 
         # First we check the weignt without using RUMEX. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -233,17 +233,13 @@ class TestEngine(TestCase):
         self.assertEqual(new_weight, initial_weight * charancon_multiplier)
 
 
-
-
-
-
     def test_culture_whitelist(self):
         """
         A practice can have a limited number of whitelisted cultures it can be applied
-        to. As an example, practice "Retirer les résidus de cannes de maïs" can only be
+        to. As an example, practice "Détruire les résidus de cannes de maïs" can only be
         relevant for MAIS.
         """
-        practice_title = "Retirer les résidus de cannes de maïs"
+        practice_title = "Détruire les résidus de cannes de maïs"
 
         # First we check the weight without using MAIS. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -259,6 +255,7 @@ class TestEngine(TestCase):
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertTrue(result.weight > 0)
+
 
     def test_culture_multipliers(self):
         """
@@ -288,6 +285,68 @@ class TestEngine(TestCase):
         # We need to make sure the new weight has taken into account the
         # multiplier for COLZA
         self.assertEqual(new_weight, initial_weight * colza_multiplier)
+
+
+    def test_problem_glyphosate(self):
+        """
+        If a user chooses glyphosate as their problem, the practices
+        that target glyphosate should have a higher score. An exemple of
+        these practices is:
+        "Défanner les pomme des terre avec un produit de biocontrôle"
+        """
+        practice_title = 'Défanner les pomme des terre avec un produit de biocontrôle'
+
+        # First we make a request without specifying glyphosate as the main problem
+        answers = {"problem":"DESHERBAGE", "rotation": ["POMME_DE_TERRE"]}
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        initial_weight = result.weight
+
+        # First we make a request without specifying glyphosate as the main problem
+        answers = {"problem":"GLYPHOSATE", "rotation": ["POMME_DE_TERRE"]}
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        self.assertGreater(result.weight, 0)
+        self.assertGreater(result.weight, initial_weight)
+
+
+    def test_glyphosate_multiplier(self):
+        """
+        Certain practices have a specific multiplier depending on the use
+        of glyphosate that the user has. For example, the practice "Déchaumages
+        répétés" has a multiplier.
+        """
+        glyphosate_bonus = 1.15
+        practice_title = 'Déchaumages répétés'
+
+        # First we make a request without specifying the use of glyphosate
+        answers = {
+            "problem":"GLYPHOSATE",
+            "weeds": "RUMEX",
+            "tillage": "Oui",
+            "rotation": ["LIN_HIVER"],
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        initial_weight = result.weight
+
+        # First we make a request without specifying glyphosate as the main problem
+        answers = {
+            "problem":"GLYPHOSATE",
+            "glyphosate": "VIVACES",
+            "weeds": "RUMEX",
+            "tillage": "Oui",
+            "rotation": ["LIN_HIVER"],
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        self.assertGreater(result.weight, 0)
+        self.assertEqual(result.weight, initial_weight * glyphosate_bonus)
+
 
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
@@ -322,6 +381,8 @@ def _get_mock_airtable(*args, **_):
         'Adventices?view=Grid%20view': '/testdata/weeds.json',
         'Pratiques%2FRavageurs?view=Grid%20view': '/testdata/practices_pests.json',
         'Ravageurs?view=Grid%20view': '/testdata/pests.json',
+        'Pratiques%2FGlyphosate?view=Grid%20view': '/testdata/practices_glyphosate.json',
+        'Glyphosate?view=Grid%20view': '/testdata/glyphosate.json',
         'Familles?view=Grid%20view': '/testdata/practice_groups.json',
         'Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',
         'Liens?view=Grid%20view': '/testdata/resources.json',

@@ -12,6 +12,10 @@ def get_form_schema():
                     "title": "Quels ravageurs vous posent problème aujourd'hui dans votre exploitation ?",
                     "required": False
                 },
+                "glyphosate": {
+                    "title": "Quels sont vos principaux usages du glyphosate ?",
+                    "required": False
+                },
                 "weeds": {
                     "title": "Quelles adventices vous posent problème aujourd'hui dans votre exploitation ?",
                     "required": False
@@ -25,7 +29,7 @@ def get_form_schema():
                     "required": False,
                     "enum": [
                         "Oui",
-                        "Non"
+                        "Non",
                     ]
                 },
                 "cattle": {
@@ -33,7 +37,7 @@ def get_form_schema():
                     "required": False,
                     "enum": [
                         "Oui",
-                        "Non"
+                        "Non",
                     ]
                 },
                 "rotation": {
@@ -56,6 +60,7 @@ def get_form_schema():
             "dependencies": {
                 "pests": ["problem"],
                 "weeds": ["problem"],
+                "glyphosate": ["problem"],
                 "wheat": ["rotation"],
             }
         },
@@ -92,9 +97,19 @@ def get_form_schema():
                     "type": "checkbox",
                     "multiple": True,
                     "dependencies": {
-                        "problem": "DESHERBAGE"
+                        "problem": ["DESHERBAGE", "GLYPHOSATE"]
                     },
                     "dataSource": _get_weeds(),
+                },
+                "glyphosate": {
+                    "hideNone": True,
+                    "sort": False,
+                    "type": "checkbox",
+                    "multiple": True,
+                    "dependencies": {
+                        "problem": "GLYPHOSATE"
+                    },
+                    "dataSource": _get_glyphosate_uses(),
                 },
                 "practices": {
                     "hideNone": True,
@@ -268,3 +283,7 @@ def _get_practice_types():
 def _get_cultures():
     from data.models import Culture
     return [{'text': x.display_text, 'value': x.name} for x in Culture]
+
+def _get_glyphosate_uses():
+    from data.models import GlyphosateUses
+    return [{'text': x.display_text, 'value': x.name} for x in GlyphosateUses]

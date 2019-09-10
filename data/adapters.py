@@ -3,7 +3,7 @@ import json
 import requests
 from django.conf import settings
 from django.utils import timezone
-from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType
+from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType, GlyphosateUses
 from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
 
 class AirtableAdapter:
@@ -61,6 +61,8 @@ def _fetch_practices(mechanisms, resources):
     json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
     json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
     json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
+    json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
+    json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
 
 
     practices = []
@@ -93,6 +95,7 @@ def _fetch_practices(mechanisms, resources):
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
             weed_multipliers=_get_weed_multipliers(json_practice, json_weeds, json_weed_practices),
             pest_multipliers=_get_pest_multipliers(json_practice, json_pests, json_pest_practices),
+            glyphosate_multipliers=_get_glyphosate_multipliers(json_practice, json_glyphosate, json_glyphosate_practices),
             culture_multipliers=_get_culture_multipliers(json_practice, json_cultures, json_culture_practices),
             modification_date=timezone.now(),
         ))
@@ -333,6 +336,34 @@ def _get_pest_multipliers(json_practice, json_pests, json_pest_practices):
             continue
 
     return pest_multipliers
+
+
+def _get_glyphosate_multipliers(json_practice, json_glyphosate, json_glyphosate_practices):
+    concerned_glyphosate_practices = list(filter(lambda x: json_practice['id'] in (x['fields'].get('Pratique') or []), json_glyphosate_practices))
+    if not concerned_glyphosate_practices:
+        return []
+
+    glyphosate_multipliers = []
+    for item in concerned_glyphosate_practices:
+        if not item['fields'].get('Glyphosate'):
+            continue
+
+        glyphosate_airtable_id = item['fields'].get('Glyphosate')[0]
+        airtable_glyphosate_entry = next(filter(lambda x: x['id'] == glyphosate_airtable_id, json_glyphosate), None)
+        if not airtable_glyphosate_entry or not airtable_glyphosate_entry['fields'].get('Enum code'):
+            continue
+
+        try:
+            glyphosate_enum_number = GlyphosateUses[airtable_glyphosate_entry['fields'].get('Enum code')].value
+            multiplier = item['fields'].get('Multiplicateur') or 1
+
+            glyphosate_multipliers.append({
+                glyphosate_enum_number: multiplier
+            })
+        except KeyError as _:
+            continue
+
+    return glyphosate_multipliers
 
 def _get_culture_multipliers(json_practice, json_cultures, json_culture_practices):
     concerned_culture_practices = list(filter(lambda x: json_practice['id'] in (x['fields'].get('Pratique') or []), json_culture_practices))

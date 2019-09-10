@@ -113,6 +113,7 @@ class Engine:
         weight *= self._get_highest_problem_match_multiplier(practice)
         weight *= self._get_highest_weed_multiplier(practice)
         weight *= self._get_highest_pest_multiplier(practice)
+        weight *= self._get_highest_glyphosate_use_multiplier(practice)
         weight *= self._get_highest_culture_multiplier(practice)
         weight *= self._get_lowest_type_redundancy_multiplier(practice)
         weight *= self._get_department_multiplier(practice)
@@ -240,6 +241,14 @@ class Engine:
     def _get_highest_pest_multiplier(self, practice):
         if practice.pest_multipliers and self.form.pests:
             relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.pests, practice.pest_multipliers))
+            if relevant_multipliers:
+                max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
+                return max_multiplier
+        return 1
+
+    def _get_highest_glyphosate_use_multiplier(self, practice):
+        if practice.glyphosate_multipliers and self.form.glyphosate_uses:
+            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.glyphosate_uses, practice.glyphosate_multipliers))
             if relevant_multipliers:
                 max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
                 return max_multiplier
