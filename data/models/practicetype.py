@@ -25,6 +25,7 @@ class PracticeTypeCategory(Enum):
     DESHERBAGE_MECANIQUE = 18
     OAD = 19
     INFRASTRUCTURE = 20
+    DESTRUCTION_COUVERT = 21
 
 class PracticeType(models.Model):
 
