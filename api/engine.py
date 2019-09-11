@@ -76,12 +76,13 @@ class Engine:
             # already have a suggestion from there
             chunks[index] = []
 
-            # Remove all practices with its family because we
-            # already have a suggestion from that family
-            family = candidate.practice.airtable_json['fields'].get('Famille')
-            if family:
-                for i in range(len(chunks)):
-                    chunks[i] = list(filter(lambda x: x.practice.airtable_json['fields'].get('Famille') != family, chunks[i]))
+            # Remove all practices with its families because we
+            # already have a suggestion from them
+            families = candidate.practice.airtable_json['fields'].get('Familles')
+            if families:
+                for family in families:
+                    for i in range(len(chunks)):
+                        chunks[i] = list(filter(lambda x: family not in (x.practice.airtable_json['fields'].get('Familles') or []), chunks[i]))
 
             suggestions[index] = candidate
 

@@ -348,6 +348,30 @@ class TestEngine(TestCase):
         self.assertEqual(result.weight, initial_weight * glyphosate_bonus)
 
 
+    def test_mutliple_groups(self):
+        """
+        https://github.com/betagouv/peps/issues/16
+        We need to ensure no practices belonging to the same practice group
+        are selected.
+        """
+        answers = {
+            "problem":"GLYPHOSATE",
+            "glyphosate": "VIVACES,COUVERTS",
+            "weeds": "CHARDON,RUMEX",
+            "tillage": "Oui",
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        suggestions = engine.get_suggestions(results)
+        suggested_groups = []
+        for practice in map(lambda x: x.practice, suggestions):
+            practice_groups = list(practice.practice_groups.all())
+            for group in practice_groups:
+                self.assertNotIn(group, suggested_groups)
+                suggested_groups.append(group)
+
+
+
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
     # data instead of the real deal.
