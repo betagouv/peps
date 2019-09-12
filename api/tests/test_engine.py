@@ -207,22 +207,22 @@ class TestEngine(TestCase):
         """
         A practice can be more (or less) useful to address certain pests, this
         is specified in the pest_multipliers field of the practice model.
-        The practice "Placer une légumineuse gélive en inter-rang de colza"
+        The practice "Associer un colza avec un couvert de légumineuses"
         has a multiplier for the pest Charançon, here we check that said multiplier
         is taken into account by the engine.
         """
-        practice_title = "Placer une légumineuse gélive en inter-rang de colza"
+        practice_title = "Associer un colza avec un couvert de légumineuses"
         charancon_multiplier = 1.3
 
         # First we check the weignt without using CHARANCONS in the response
-        answers = {"problem":"aA", "rotation": ["COLZA"]}
+        answers = {"problem":"RAVAGEURS", "rotation": ["COLZA"]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         initial_weight = result.weight
 
         # Now we add CHARANCONS in the response and get the results
-        answers = {"problem":"aA", "pests": "CHARANCONS", "rotation": ["COLZA"]}
+        answers = {"problem":"RAVAGEURS", "pests": "CHARANCONS", "rotation": ["COLZA"]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -318,7 +318,7 @@ class TestEngine(TestCase):
         of glyphosate that the user has. For example, the practice "Déchaumages
         répétés" has a multiplier.
         """
-        glyphosate_bonus = 1.15
+        glyphosate_bonus = 1.4
         practice_title = 'Déchaumages répétés'
 
         # First we make a request without specifying the use of glyphosate

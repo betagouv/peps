@@ -34,6 +34,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for url, path in MOCK_PATHS.items():
             try:
+                self.stdout.write(self.style.HTTP_SUCCESS('Fetching %s' % url))
                 json_data = _get_airtable_data(url)
                 with open(BASE_DIR + '/api/tests' + path, 'w+') as file:
                     file.write(json.dumps(json_data))
