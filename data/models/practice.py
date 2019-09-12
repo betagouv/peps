@@ -47,6 +47,9 @@ class Practice(models.Model):
     # Whether or not the practice needs tillage (travail du sol)
     needs_tillage = models.BooleanField(null=True)
 
+    # Whether or not the practice needs livestock
+    needs_livestock = models.BooleanField(null=True)
+
     # If greater than 1, the practice will be boosted if the user has livestock
     # or the possibility to monetize selling animal food. If lower than 1, the
     # practice will be penalized if the user has livestock. A value of 1 does not

@@ -83,6 +83,7 @@ def _fetch_practices(mechanisms, resources):
             success_factors=json_practice['fields'].get('Facteur clé de succès'),
             needs_tillage=json_practice['fields'].get('Nécessite travail du sol', False),
             livestock_multiplier=json_practice['fields'].get('Élevage multiplicateur'),
+            needs_livestock=json_practice['fields'].get('Élevage nécessaire', False),
             direct_sale_multiplier=json_practice['fields'].get('Vente directe multiplicateur'),
             precision=json_practice['fields'].get('Précision'),
             difficulty=json_practice['fields'].get('Difficulté'),

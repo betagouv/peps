@@ -135,14 +135,14 @@ class TestEngine(TestCase):
 
         # First we check the weignt without using RUMEX. We expect the weight to be
         # zero since the whitelist is not upheld
-        answers = {"problem":"DESHERBAGE", "rotation": ["BLE"]}
+        answers = {"problem":"DESHERBAGE", "rotation": ["BLE"], "cattle": "Oui"}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertEqual(result.weight, 0)
 
         # Now we add RUMEX. The same practice should have a non-zero weight
-        answers = {"problem":"DESHERBAGE", "weeds": "RUMEX, CHARDON", "rotation": ["BLE"]}
+        answers = {"problem":"DESHERBAGE", "weeds": "RUMEX, CHARDON", "rotation": ["BLE"], "cattle": "Oui"}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -369,6 +369,36 @@ class TestEngine(TestCase):
             for group in practice_groups:
                 self.assertNotIn(group, suggested_groups)
                 suggested_groups.append(group)
+
+
+    def test_livestock_need(self):
+        """
+        Certain practices can only be suggested when the user has livestock.
+        If they don't, they should be set to zero.
+        One example of this is "Faire pâturer les couverts et les repousses"
+        """
+        practice_title = 'Faire pâturer les couverts et les repousses'
+
+        # First we try with livestock, the score should be greater than zero
+        answers = {
+            "problem":"GLYPHOSATE",
+            "weeds": "CHARDON,RUMEX",
+            "cattle": "Oui",
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        self.assertGreater(result.weight, 0)
+
+        # Now we try without cattle, the score should be zero
+        answers = {
+            "problem":"GLYPHOSATE",
+            "weeds": "CHARDON,RUMEX",
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result = next(filter(lambda x: x.practice.title == practice_title, results))
+        self.assertEqual(result.weight, 0)
 
 
 

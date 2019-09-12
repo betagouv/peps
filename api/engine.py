@@ -100,6 +100,9 @@ class Engine:
         if self._has_incompatible_tillage_needs(practice):
             return 0
 
+        if self._has_incompatible_livestock_needs(practice):
+            return 0
+
         if self._has_incompatible_weeds(practice):
             return 0
 
@@ -152,6 +155,15 @@ class Engine:
         user can't carry it out?
         """
         if practice.needs_tillage and self.form.tillage_feasibility is not None and not self.form.tillage_feasibility:
+            return True
+        return False
+        
+    def _has_incompatible_livestock_needs(self, practice):
+        """
+        Does the practice need livestock and the
+        user doesn't have any?
+        """
+        if practice.needs_livestock and not self.form.livestock:
             return True
         return False
 
