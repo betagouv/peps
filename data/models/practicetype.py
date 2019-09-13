@@ -26,6 +26,7 @@ class PracticeTypeCategory(Enum):
     OAD = 19
     INFRASTRUCTURE = 20
     DESTRUCTION_COUVERT = 21
+    TRAVAIL_PROFOND = 22
 
 class PracticeType(models.Model):
 
