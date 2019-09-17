@@ -33,6 +33,13 @@ class AlpacaUtils:
         return self.answers.get('tillage') == 'Oui'
 
     @cached_property
+    def tillage(self):
+        try:
+            return PracticeTypeCategory[self.answers.get('tillage')]
+        except KeyError as _:
+            return None
+
+    @cached_property
     def livestock(self):
         return self.answers.get('cattle') == 'Oui'
 

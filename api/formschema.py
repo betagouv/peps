@@ -25,12 +25,8 @@ def get_form_schema():
                     "required": False
                 },
                 "tillage": {
-                    "title": "Des pratiques incluant un travail du sol sont-elles envisageables dans votre exploitation ?",
+                    "title": "Quels types de travail du sol pouvez-vous intégrer dans votre système ?",
                     "required": False,
-                    "enum": [
-                        "Oui",
-                        "Non",
-                    ]
                 },
                 "cattle": {
                     "title": "Avez-vous un atelier d’élevage ou disposez vous d’un débouché possible en alimentation animale ?",
@@ -119,9 +115,15 @@ def get_form_schema():
                     "dataSource": _get_practice_types(),
                 },
                 "tillage": {
-                    "sort": False,
                     "hideNone": True,
+                    "sort": False,
                     "type": "radio",
+                    "multiple": True,
+                    "dataSource": [
+                        {'text': 'Tous types de travail du sol', 'value': 'TRAVAIL_PROFOND'},
+                        {'text': 'Travail superficiel uniquement', 'value': 'TRAVAIL_DU_SOL'},
+                        {'text': 'Aucun travail du sol', 'value': None},
+                    ],
                 },
                 "cattle": {
                     "sort": False,

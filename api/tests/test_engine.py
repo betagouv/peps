@@ -22,11 +22,10 @@ class TestEngine(TestCase):
         practices = engine.calculate_results()
         suggestions = engine.get_suggestions(practices)
 
-        # There should be two practices with weight 1.5 and one with 1.0
+        # There should be three practices with weight 1.5
         self.assertEqual(len(suggestions), 3)
         weights = list(map(lambda x: x.weight, suggestions))
-        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 2)
-        self.assertEqual(len(list(filter(lambda x: x == 1, weights))), 1)
+        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 3)
 
 
     def test_cultures_weight(self):
@@ -243,14 +242,14 @@ class TestEngine(TestCase):
 
         # First we check the weight without using MAIS. We expect the weight to be
         # zero since the whitelist is not upheld
-        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "rotation": ["BLE"]}
+        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "tillage": "TRAVAIL_DU_SOL", "rotation": ["BLE"]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertEqual(result.weight, 0)
 
         # Now we add PYRALES. The same practice should have a non-zero weight
-        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "rotation": ["BLE", "MAIS"]}
+        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "tillage": "TRAVAIL_DU_SOL", "rotation": ["BLE", "MAIS"]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -325,7 +324,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"GLYPHOSATE",
             "weeds": "RUMEX",
-            "tillage": "Oui",
+            "tillage": "TRAVAIL_PROFOND",
             "rotation": ["LIN_HIVER"],
         }
         engine = Engine(answers, [], [])
@@ -338,7 +337,7 @@ class TestEngine(TestCase):
             "problem":"GLYPHOSATE",
             "glyphosate": "VIVACES",
             "weeds": "RUMEX",
-            "tillage": "Oui",
+            "tillage": "TRAVAIL_PROFOND",
             "rotation": ["LIN_HIVER"],
         }
         engine = Engine(answers, [], [])
@@ -358,7 +357,7 @@ class TestEngine(TestCase):
             "problem":"GLYPHOSATE",
             "glyphosate": "VIVACES,COUVERTS",
             "weeds": "CHARDON,RUMEX",
-            "tillage": "Oui",
+            "tillage": "TRAVAIL_PROFOND",
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -400,6 +399,61 @@ class TestEngine(TestCase):
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertEqual(result.weight, 0)
 
+
+    def test_tillage_types(self):
+        """
+        Tillage (travail de sol) can be deep or shallow. The practices that need
+        deep tillage should only be proposed if the user can do deep tillage. Same
+        goes for shallow tillage.
+        """
+        deep_tillage_practice_title = 'Positionner un labour stratégiquement'
+        shallow_tillage_practice_title = 'Désherbage mécanique en début de saison pour cultures de printemps'
+
+        # If the user can't do any tillage, both practices should be at zero score
+        answers = {
+            "problem":"GLYPHOSATE",
+            "weeds": "RUMEX",
+            "tillage": None,
+            "rotation": ["BLE", "LIN_HIVER"],
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        deep_tillage_result = next(filter(lambda x: x.practice.title == deep_tillage_practice_title, results))
+        shallow_tillage_result = next(filter(lambda x: x.practice.title == shallow_tillage_practice_title, results))
+
+        self.assertEqual(deep_tillage_result.weight, 0)
+        self.assertEqual(shallow_tillage_result.weight, 0)
+
+        # If the user can do shallow tillage, the shallow tillage practice
+        # should be above zero, whereas the deep tillage practice should be at zero
+        answers = {
+            "problem":"GLYPHOSATE",
+            "weeds": "RUMEX",
+            "tillage": 'TRAVAIL_DU_SOL',
+            "rotation": ["BLE", "LIN_HIVER"],
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        deep_tillage_result = next(filter(lambda x: x.practice.title == deep_tillage_practice_title, results))
+        shallow_tillage_result = next(filter(lambda x: x.practice.title == shallow_tillage_practice_title, results))
+
+        self.assertEqual(deep_tillage_result.weight, 0)
+        self.assertGreater(shallow_tillage_result.weight, 0)
+
+        # If the user can do deep tillage, both practices should be above zero
+        answers = {
+            "problem":"GLYPHOSATE",
+            "weeds": "RUMEX",
+            "tillage": 'TRAVAIL_PROFOND',
+            "rotation": ["BLE", "LIN_HIVER"],
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        deep_tillage_result = next(filter(lambda x: x.practice.title == deep_tillage_practice_title, results))
+        shallow_tillage_result = next(filter(lambda x: x.practice.title == shallow_tillage_practice_title, results))
+
+        self.assertGreater(deep_tillage_result.weight, 0)
+        self.assertGreater(shallow_tillage_result.weight, 0)
 
 
 def _populate_database():

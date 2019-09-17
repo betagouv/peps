@@ -1,6 +1,6 @@
 from data.models import Problem
 from data.models import Weed, Pest
-from data.models import Practice, Culture
+from data.models import Practice, Culture, PracticeTypeCategory
 from api.utils import AlpacaUtils
 from api.models import ResponseItem
 
@@ -151,13 +151,25 @@ class Engine:
 
     def _has_incompatible_tillage_needs(self, practice):
         """
-        Does the practice need ground work / tillage and the
-        user can't carry it out?
+        A practice may need shallow tillage or deep tillage. We need to ensure
+        the tillage that the user can do corresponds to the one required to
+        carry the practice out
         """
-        if practice.needs_tillage and self.form.tillage_feasibility is not None and not self.form.tillage_feasibility:
+        practice_types = list(practice.types.all())
+
+        practice_needs_deep_tillage = any(x.category == PracticeTypeCategory.TRAVAIL_PROFOND.value for x in practice_types)
+        practice_needs_shallow_tillage = any(x.category == PracticeTypeCategory.TRAVAIL_DU_SOL.value for x in practice_types)
+
+        practice_needs_tillage = practice_needs_deep_tillage or practice_needs_shallow_tillage
+
+        if not self.form.tillage and practice_needs_tillage:
             return True
+
+        if self.form.tillage == PracticeTypeCategory.TRAVAIL_DU_SOL and practice_needs_deep_tillage:
+            return True
+
         return False
-        
+
     def _has_incompatible_livestock_needs(self, practice):
         """
         Does the practice need livestock and the
