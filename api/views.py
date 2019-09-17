@@ -49,8 +49,11 @@ class RefreshDataApiView(APIView):
     permission_classes = [permissions.IsAuthenticated | HasAPIKey]
 
     def post(self, request):
-        AirtableAdapter.update_practices()
-        return JsonResponse({"success": True})
+        errors = AirtableAdapter.update_practices()
+        has_fatal_errors = any(x.fatal for x in errors)
+
+        json_errors = [{'message': x.message, 'fatal': x.fatal, 'url': x.url} for x in errors]
+        return JsonResponse({'success': not has_fatal_errors, 'errors': json_errors})
 
 
 class FormSchemaView(APIView):

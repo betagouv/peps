@@ -177,3 +177,39 @@ h4.practice_name {
     border: 1px solid #5cb85c;
     padding: 0.3em 0.6em;
 }
+
+.error {
+    border: solid 1px #CCC;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+.dot {
+    float: left;
+    width: 30px;
+}
+
+.warning .dot {
+    color: #ecb322;
+}
+
+.fatal .dot {
+    color: #ec2222;
+}
+
+.url-error {
+    font-weight: bold;
+}
+
+.title.fail {
+    font-weight: bold;
+    color: #ec2222;
+    font-size: 1.5em;
+}
+
+.title.success {
+    font-weight: bold;
+    color: #33b30b;
+    font-size: 1.5em;
+}

@@ -5,6 +5,8 @@ from django.conf import settings
 from django.utils import timezone
 from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType, GlyphosateUses
 from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
+from data.airtablevalidators import validate_practices
+
 
 class AirtableAdapter:
     """
@@ -17,22 +19,50 @@ class AirtableAdapter:
         We completely replace whatever we have in the DB for
         the new information. Eventually we may want to only replace
         the changed ones.
-        """
 
-        mechanisms = _fetch_mechanisms()
+        If there are errors, an array of them will be returned.
+        """
+        errors = []
+
+        # Fetch all data and validate it
+        json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
+        errors += validate_practices(json_practices)
+
+        json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
+        json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
+        json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
+        json_departments = _get_airtable_data('Departements?view=Grid%20view')
+        json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
+        json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
+        json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
+        json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
+        json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
+        json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
+        json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
+        json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view')
+        json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')
+        json_resources = _get_airtable_data('Liens?view=Grid%20view')
+
+        has_fatal_errors = any(x.fatal for x in errors)
+        if has_fatal_errors:
+            return errors
+
+        mechanisms = _fetch_mechanisms(json_mechanisms)
 
         Mechanism.objects.all().delete()
         for mechanism in mechanisms:
             mechanism.save()
 
-        resources = _fetch_resources()
+        resources = _fetch_resources(json_resources)
         Resource.objects.all().delete()
         for resource in resources:
             resource.save()
 
-        practices = _fetch_practices(mechanisms, resources)
-        practice_groups = _fetch_pratice_groups()
-        practice_types = _fetch_practice_types()
+        practices = _fetch_practices(json_practices, json_cultures, json_culture_practices, json_departments_practices,
+                                     json_departments, json_weeds, json_weed_practices, json_pests, json_pest_practices, json_glyphosate,
+                                     json_glyphosate_practices, mechanisms, resources)
+        practice_groups = _fetch_pratice_groups(json_practice_groups)
+        practice_types = _fetch_practice_types(json_practice_types)
 
         PracticeGroup.objects.all().delete()
         for practice_group in practice_groups:
@@ -50,21 +80,12 @@ class AirtableAdapter:
         _link_practices_with_resources(practices, resources)
         _link_practices_with_types(practices, practice_types)
 
-
-def _fetch_practices(mechanisms, resources):
-    json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
-    json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
-    json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
-    json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
-    json_departments = _get_airtable_data('Departements?view=Grid%20view')
-    json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
-    json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
-    json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
-    json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
-    json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
-    json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
+        return errors
 
 
+def _fetch_practices(json_practices, json_cultures, json_culture_practices, json_departments_practices,
+                     json_departments, json_weeds, json_weed_practices, json_pests, json_pest_practices, json_glyphosate,
+                     json_glyphosate_practices, mechanisms, resources):
     practices = []
     for json_practice in json_practices:
         practices.append(Practice(
@@ -104,8 +125,7 @@ def _fetch_practices(mechanisms, resources):
     return practices
 
 
-def _fetch_pratice_groups():
-    json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
+def _fetch_pratice_groups(json_practice_groups):
 
     practice_groups = []
     for json_practice_group in json_practice_groups:
@@ -119,8 +139,7 @@ def _fetch_pratice_groups():
     return practice_groups
 
 
-def _fetch_practice_types():
-    json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view')
+def _fetch_practice_types(json_practice_types):
 
     practice_types = []
     for json_practice_type in json_practice_types:
@@ -400,9 +419,7 @@ def _get_image_url(json_practice):
     return json_practice['fields'].get('Image principale')[0].get('url')
 
 
-def _fetch_mechanisms():
-    json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')
-
+def _fetch_mechanisms(json_mechanisms):
     mechanisms = []
     for json_mechanism in json_mechanisms:
         mechanisms.append(Mechanism(
@@ -416,8 +433,7 @@ def _fetch_mechanisms():
     return mechanisms
 
 
-def _fetch_resources():
-    json_resources = _get_airtable_data('Liens?view=Grid%20view')
+def _fetch_resources(json_resources):
     resources = []
 
     for json_resource in json_resources:

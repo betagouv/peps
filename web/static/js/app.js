@@ -29,14 +29,55 @@ $(document).ready(function () {
         if (modalIsVisible) {
             return;
         }
+        modal.html(`<div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fetching Airtable data</h5>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            </div>
+        </div>`)
         modal.modal('show');
         $.ajax({
             type: "POST",
             url: '/api/v1/refreshData',
             data: {},
-            success: () => {
-                window.pepsRenderer.onFormChange();
-                modal.modal('hide');
+            success: (response) => {
+
+                if (response.success && response.errors.length == 0) {
+                    window.pepsRenderer.onFormChange();
+                    modal.modal('hide');
+                }
+
+                let message = response.success ? '✔ Données mises à jour' : '✖ La mise à jour des données a échoué';
+                let messageClasslist = response.success ? 'title success' : 'title fail'
+                $('.modal-title').text('');
+                $('.modal-title').append(`<div class="${messageClasslist}">${message}</div>`);
+                $('.modal-title').append(`<button onclick="$('#airtableModal').modal('hide')">Fermer</button>`);
+
+                response.errors.sort((a, b) => {
+                    if (a.fatal && !b.fatal)
+                        return -1;
+                    if (b.fatal && !a.fatal)
+                        return 1;
+                    return 0
+                })
+
+                for (let i = 0; i < response.errors.length; i++) {
+                    let error = response.errors[i];
+                    let classlist = error.fatal ? 'error fatal' : 'error warning'
+                    $('.modal-body').append(`
+                     <div class="${classlist}">
+                        <div class="dot">⬤</div>
+                        <div class="message">${error.message}</div>
+                        <a class="url-error" href="${error.url}">Link Airtable</div>
+                     <div>
+                    `)
+                }
             }
           });
     })
