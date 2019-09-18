@@ -5,7 +5,8 @@ from django.conf import settings
 from django.utils import timezone
 from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType, GlyphosateUses
 from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
-from data.airtablevalidators import validate_practices
+from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
+from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
 
 
 class AirtableAdapter:
@@ -24,22 +25,32 @@ class AirtableAdapter:
         """
         errors = []
 
-        # Fetch all data and validate it
+        # Fetch Airtable data and validate it if needed
         json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
         errors += validate_practices(json_practices)
 
+        json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view')
+        errors += validate_practice_types(json_practice_types)
+
+        json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
+        errors += validate_weeds(json_weeds)
+
+        json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
+        errors += validate_pests(json_pests)
+
         json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
+        errors += validate_cultures(json_cultures)
+
+        json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
+        errors += validate_glyphosate_uses(json_glyphosate)
+
         json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
         json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
         json_departments = _get_airtable_data('Departements?view=Grid%20view')
-        json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
         json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
-        json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
         json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
-        json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
         json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
         json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
-        json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view')
         json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')
         json_resources = _get_airtable_data('Liens?view=Grid%20view')
 

@@ -48,8 +48,11 @@ $(document).ready(function () {
             data: {},
             success: (response) => {
 
-                if (response.success && response.errors.length == 0) {
+                if (response.success) {
                     window.pepsRenderer.onFormChange();
+                }
+
+                if (response.errors.length == 0) {
                     modal.modal('hide');
                 }
 
