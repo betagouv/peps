@@ -310,4 +310,4 @@ class TestValidators(TestCase):
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de lien CTA (colonne CTA lien)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de titre CTA (colonne CTA title)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de type (colonne Types)' for x in errors))
-        self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de difficulté (colonne Difficutlé)' for x in errors))
+        self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de difficulté (colonne Difficulté)' for x in errors))

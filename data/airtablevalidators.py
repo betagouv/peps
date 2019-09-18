@@ -43,7 +43,7 @@ def validate_practices(airtable_practices):
             errors.append(AirtableError(message, url=url))
 
         if not fields.get('Difficulté'):
-            message = 'Pratique "%s" (ID %s) n\'a pas de difficulté (colonne Difficutlé)' % (practice_title, practice_id)
+            message = 'Pratique "%s" (ID %s) n\'a pas de difficulté (colonne Difficulté)' % (practice_title, practice_id)
             errors.append(AirtableError(message, url=url))
 
         if fields.get('Difficulté') and (fields.get('Difficulté') > 1 or fields.get('Difficulté') < 0):
