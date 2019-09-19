@@ -35,7 +35,7 @@ class Command(BaseCommand):
         for url, path in MOCK_PATHS.items():
             try:
                 self.stdout.write(self.style.HTTP_SUCCESS('Fetching %s' % url))
-                json_data = _get_airtable_data(url)
+                json_data = {'records': _get_airtable_data(url)}
                 with open(BASE_DIR + '/api/tests' + path, 'w+') as file:
                     file.write(json.dumps(json_data))
             except Exception as _:
@@ -45,7 +45,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully generated test data'))
 
 
-def _get_airtable_data(url):
+def _get_airtable_data(url, offset=None):
     time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
     base_url = 'https://api.airtable.com/v0/appqlHvlvvxHDkQNY/'
     headers = {
@@ -53,8 +53,19 @@ def _get_airtable_data(url):
         'Accept': 'application/json',
     }
 
-    response = requests.get(base_url + url, headers=headers)
+    url_params = ''
+    if offset:
+        divider = '&' if '?' in url else '?'
+        url_params = '%soffset=%s' % (divider, offset)
+
+    response = requests.get(base_url + url + url_params, headers=headers)
     if not response.status_code == 200:
         print('Error. URL: "%s", response code: "%s"' % base_url, str(response.status_code))
         raise Exception
-    return json.loads(response.text)
+    json_response = json.loads(response.text)
+    records = json_response['records']
+    offset = json_response.get('offset')
+    if offset:
+        return records + _get_airtable_data(url, offset)
+    return records
+
