@@ -8,6 +8,10 @@ class Weed(PepsEnum):
     RUMEX = 5
     LAITERON = 6
     AUTRES = 7
+    GAILLET = 8
+    GERANIUM = 9
+    AMBROISE_ARMOISE = 10
+    OROBRANCHE = 11
 
     @property
     def display_text(self):
@@ -19,6 +23,10 @@ class Weed(PepsEnum):
             'RUMEX': 'Rumex',
             'LAITERON': 'Laiteron de champs',
             'AUTRES': 'Autre',
+            'GAILLET': 'Gaillet gratteron',
+            'GERANIUM': 'Géranium',
+            'AMBROISE_ARMOISE': 'Ambroisie à feuille d\'armoise',
+            'OROBRANCHE': 'Orobanche',
         }
 
         return display_texts.get(self.name) or self.name

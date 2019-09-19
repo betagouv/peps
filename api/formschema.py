@@ -5,7 +5,7 @@ def get_form_schema():
             "type": "object",
             "properties": {
                 "problem": {
-                    "title": "Sur quel sujet pouvons-nous vous aider ?",
+                    "title": "Quel problème souhaitez-vous résoudre actuellement ?",
                     "required": False
                 },
                 "pests": {
@@ -21,7 +21,7 @@ def get_form_schema():
                     "required": False
                 },
                 "practices": {
-                    "title": "Avez-vous déjà essayé une de ces pratiques pour répondre à ce problème ?",
+                    "title": "Quelles pratiques avez-vous déjà essayées pour répondre à ce problème ?",
                     "required": False
                 },
                 "tillage": {
@@ -37,7 +37,7 @@ def get_form_schema():
                     ]
                 },
                 "rotation": {
-                    "title": "Dans l'ordre, quelles cultures composent votre rotation principale ?",
+                    "title": "Dans l'ordre, quelles cultures composent la rotation des parcelles sur lesquelles vous rencontrez ce problème ?",
                     "required": False,
                     "uniqueItems": False,
                     "items": {
