@@ -287,3 +287,40 @@ def validate_glyphosate_uses(airtable_glyphosate):
         errors += get_glyphosate_errors(pest)
 
     return errors
+
+
+def validate_resources(airtable_resources):
+    """
+    Returns an array of errors from airtable resources
+    """
+    errors = []
+
+    def get_resource_errors(resource):
+        errors = []
+        fields = resource['fields']
+        resource_id = resource['id']
+        resource_title = fields.get('Nom')
+        url = 'https://airtable.com/tblVb2GDuCPGUrt35/viwRtOVqMHzJtgvNn/%s' % resource_id
+
+        if not resource_title:
+            message = 'Lien ID %s n\'a pas de nom (colonne Nom)' % resource_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Url'):
+            message = 'Lien "%s" (ID %s) manque l\'URL (colonne Url)' % (resource_title, resource_id)
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Type'):
+            message = 'Lien "%s" (ID %s) manque le type (colonne Type)' % (resource_title, resource_id)
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Description'):
+            message = 'Lien "%s" (ID %s) manque la description (colonne Description)' % (resource_title, resource_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
+        return errors
+
+    for pest in airtable_resources:
+        errors += get_resource_errors(pest)
+
+    return errors

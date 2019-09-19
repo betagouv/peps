@@ -7,6 +7,7 @@ from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceTyp
 from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
 from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
+from data.airtablevalidators import validate_resources
 
 
 class AirtableAdapter:
@@ -44,6 +45,9 @@ class AirtableAdapter:
         json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
         errors += validate_glyphosate_uses(json_glyphosate)
 
+        json_resources = _get_airtable_data('Liens?view=Grid%20view')
+        errors += validate_resources(json_resources)
+
         json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
         json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
         json_departments = _get_airtable_data('Departements?view=Grid%20view')
@@ -52,7 +56,6 @@ class AirtableAdapter:
         json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
         json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
         json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')
-        json_resources = _get_airtable_data('Liens?view=Grid%20view')
 
         has_fatal_errors = any(x.fatal for x in errors)
         if has_fatal_errors:
@@ -470,7 +473,7 @@ def _get_resource_type(json_resource):
         return ResourceType.VIDEO.value
     return None
 
-def _get_airtable_data(url):
+def _get_airtable_data(url, offset=None):
     time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
     base_url = 'https://api.airtable.com/v0/appqlHvlvvxHDkQNY/'
     headers = {
@@ -478,8 +481,18 @@ def _get_airtable_data(url):
         'Accept': 'application/json',
     }
 
-    response = requests.get(base_url + url, headers=headers)
+    url_params = ''
+    if offset:
+        divider = '&' if '?' in url else '?'
+        url_params = '%soffset=%s' % (divider, offset)
+
+    response = requests.get(base_url + url + url_params, headers=headers)
     if not response.status_code == 200:
         print('Terrible error while fetching: ' + url)
         return {}
-    return json.loads(response.text)['records']
+    json_response = json.loads(response.text)
+    records = json_response['records']
+    offset = json_response.get('offset')
+    if offset:
+        return records + _get_airtable_data(url, offset)
+    return records
