@@ -12,6 +12,7 @@ class Pest(PepsEnum):
     DORYPHORES = 9
     AUTRES = 10
     SESAMIE = 11
+    NOCTUELLE = 12
 
     @property
     def display_text(self):
@@ -27,6 +28,7 @@ class Pest(PepsEnum):
             'DORYPHORES': 'Doryphores',
             'AUTRES' :'Autres',
             'SESAMIE': 'Sésamie',
+            'NOCTUELLE': 'Noctuelle',
         }
 
         return display_texts.get(self.name) or self.name

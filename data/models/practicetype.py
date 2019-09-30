@@ -27,6 +27,8 @@ class PracticeTypeCategory(Enum):
     INFRASTRUCTURE = 20
     DESTRUCTION_COUVERT = 21
     TRAVAIL_PROFOND = 22
+    ELEVAGE = 23
+    BIOCONTROLE = 24
 
 class PracticeType(models.Model):
 

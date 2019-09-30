@@ -10,8 +10,10 @@ class Weed(PepsEnum):
     AUTRES = 7
     GAILLET = 8
     GERANIUM = 9
-    AMBROISE_ARMOISE = 10
-    OROBRANCHE = 11
+    AMBROISIE_ARMOISE = 10
+    OROBANCHE = 11
+    VERO_PERSE = 12
+    CHENOPODE_BLANC = 13
 
     @property
     def display_text(self):
@@ -25,8 +27,10 @@ class Weed(PepsEnum):
             'AUTRES': 'Autre',
             'GAILLET': 'Gaillet gratteron',
             'GERANIUM': 'Géranium',
-            'AMBROISE_ARMOISE': 'Ambroisie à feuille d\'armoise',
-            'OROBRANCHE': 'Orobanche',
+            'AMBROISIE_ARMOISE': 'Ambroisie à feuille d\'armoise',
+            'OROBANCHE': 'Orobanche',
+            'VERO_PERSE': 'Véronique de Perse',
+            'CHENOPODE_BLANC': 'Chenopode blanc',
         }
 
         return display_texts.get(self.name) or self.name
