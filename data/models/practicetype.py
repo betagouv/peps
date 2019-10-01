@@ -29,6 +29,7 @@ class PracticeTypeCategory(Enum):
     TRAVAIL_PROFOND = 22
     ELEVAGE = 23
     BIOCONTROLE = 24
+    VARIETES = 25
 
 class PracticeType(models.Model):
 
