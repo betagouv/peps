@@ -23,6 +23,7 @@ $(document).ready(function () {
         alert('Error getting form information');
     });
 
+
     $("#airtable-refresh").click(() => {
         let modal = $('#airtableModal');
         let modalIsVisible = modal.hasClass('in');
@@ -38,16 +39,27 @@ $(document).ready(function () {
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-animated bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="transition-duration:300ms;"></div>
+                </div>
             </div>
             </div>
         </div>`)
         modal.modal('show');
+        let progress = 0;
+        let width = 0
+        let progressBarInterval = setInterval(() => {
+            progress++;
+            width += 15 / progress;
+            $('.progress-bar').css('width', width + '%');
+        }, 100);
         $.ajax({
             type: "POST",
             url: '/api/v1/refreshData',
             data: {},
             success: (response) => {
-
+                clearInterval(progressBarInterval);
+                $('.progress-bar').remove();
                 if (response.success) {
                     window.pepsRenderer.onFormChange();
                 }
@@ -81,30 +93,14 @@ $(document).ready(function () {
                      <div>
                     `)
                 }
-            }
-          });
-    })
-
-    $("#user-display").click(() => {
-        let formAnswers = window.alpacaForm.getValue()
-        let blacklistedPractices = $.makeArray($('#blacklist').children().map((x, y) => y.id))
-        data = JSON.stringify({
-            "answers": formAnswers,
-            "practice_blacklist": blacklistedPractices 
-        });
-
-        $.ajax({
-            type: "POST",
-            url: '/productionSystemForm',
-            data: data,
-            success: (response) => {
-                window.location = response.url;
             },
             error: () => {
-                alert('Error from redirect')
+                clearInterval(progressBarInterval);
+                $('.progress-bar').remove();
+                $('.modal-title').text('An error has occurred');
             }
-          });
-    })
+        });
+    });
 
     $(document).on("click", ".list-toggle-button" , function(event) {
         practiceId = event.target.parentElement.parentElement.id;
@@ -177,6 +173,9 @@ window.pepsRenderer = {
             `
             results_container.append(body)
         }
+
+        suggestionsExternalIds = suggestions.map(x => x.practice.external_id);
+        $('#user-display').attr('href', '/userDisplay?practices=' + suggestionsExternalIds.join(','));
 
         for (let i = suggestions.length - 1; i >= 0; i--) {
             let practice = suggestions[i].practice;

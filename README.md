@@ -46,6 +46,8 @@ PEPS_DB_PORT='5432'
 PEPS_DB_NAME='your-db-name'
 PEPS_AIRTABLE_KEY='your-airtable-api-key'
 PEPS_ALLOWED_HOSTS=127.0.0.1,0.0.0.0
+PEPS_MJ_APIKEY_PUBLIC=xxxxxxxx
+PEPS_MJ_APIKEY_PRIVATE=xxxxxxxx
 ```
 
 ### Make initial migration and create super user

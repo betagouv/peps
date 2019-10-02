@@ -9,7 +9,7 @@ body {
     background-color: white;
     color: #241c15;
     font-family: "Graphik Web","Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;
-    margin-top: 30px;
+    margin-top: 75px;
     padding: 20px;
 }
 
@@ -39,17 +39,13 @@ h1 {
     display: table;
 }
 
-.column {
-    width: 50%;
-    float: left;
-}
-
 .column-item {
     font-size: 12px;
     font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
     line-height: 150%;
     color: #202020;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .column-item-title {
@@ -61,12 +57,19 @@ h1 {
     background-color: #008763;
     padding: 15px;
     color: white;
+    position: relative;
 }
 
 .practice-header .title {
     font-family: source sans pro,helvetica neue,helvetica,arial,sans-serif;
     font-size: 16px;
     font-weight: normal;
+}
+
+.airtable-link {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .mechanism {
@@ -291,4 +294,53 @@ h4.practice_name {
     color: #5cb85c;
     border: 1px solid #5cb85c;
     padding: 0.3em 0.6em;
+}
+
+#send {
+    background: #ffd54c;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+#controls {
+    background: #333333;
+    padding: 10px;
+    color: #242424;
+    font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0px;
+}
+
+.controls-text {
+    width: 140px;
+    display: block;
+    float: left;
+    padding-top: 5px;
+    text-align: end;
+    margin-right: 10px;
+}
+
+.controls-text {
+    font-weight: bold;
+}
+
+.header-left {
+    float: left;
+}
+
+.header-right {
+    float: right;
+}
+
+.divider {
+    height: 2px;
+    background: gray;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#practices > input[type="text"] {
+    width: 170px;
 }

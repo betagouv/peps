@@ -8,6 +8,7 @@ djangorestframework-camel-case==1.0.3
 idna==2.8
 isort==4.3.21
 lazy-object-proxy==1.4.1
+mailjet-rest==1.3.3
 mccabe==0.6.1
 psycopg2==2.8.3
 pylint==2.3.1

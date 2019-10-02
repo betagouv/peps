@@ -53,6 +53,7 @@ class PracticeSerializer(serializers.ModelSerializer):
         model = Practice
         fields = (
             'id',
+            'external_id',
             'mechanism',
             'modification_date',
             'title',

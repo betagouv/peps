@@ -6,7 +6,13 @@ from rest_framework_api_key.models import APIKey
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 from data.adapters import AirtableAdapter
+from data.models import Practice
+from api.views import SendEmailView
+
+# In these tests we will mock some protected functions so we'll need to access them
+# pylint: disable = protected-access
 
 @override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
 class TestApi(TestCase):
@@ -159,5 +165,112 @@ class TestApi(TestCase):
         self.assertIn('options', body)
 
 
+    def test_email_unauthenticated(self):
+        """
+        Tests the email API endpoint without authentication,
+        which should not work.
+        """
+
+        self.client.logout()
+        original_function = SendEmailView._send_email
+        SendEmailView._send_email = MagicMock(return_value={'test': True})
+        try:
+            response = self.client.post(
+                reverse('send_email'),
+                {
+                    'email': 'fake@email.com',
+                    'first_name': 'Jean',
+                    'problem': 'désherbage',
+                    'practices': ['recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'],
+                },
+                format='json',
+            )
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+            SendEmailView._send_email.assert_not_called()
+        finally:
+            SendEmailView._send_email = original_function
+
+
+    def test_email_api_key_auth(self):
+        """
+        Tests the email API using the Api key, meant to identify
+        projects and apps, not users.
+        """
+        self.client.logout()
+        original_function = SendEmailView._send_email
+        SendEmailView._send_email = MagicMock(return_value=MockResponse({'test': True}))
+        try:
+            response = self.client.post(
+                reverse('send_email'),
+                {
+                    'email': 'fake@email.com',
+                    'first_name': 'Jean',
+                    'problem': 'désherbage',
+                    'practices': ['recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'],
+                },
+                format='json',
+                **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            SendEmailView._send_email.assert_called_once()
+            body = json.loads(response.content.decode())
+            self.assertIn('test', body)
+
+        finally:
+            SendEmailView._send_email = original_function
+
+
+    def test_email_invalid_practices(self):
+        """
+        Tests the email API endpoint when invalid practices are sent. Only
+        three valid ones can be user at this moment.
+        """
+        self.client.logout()
+        original_function = SendEmailView._send_email
+        SendEmailView._send_email = MagicMock(return_value=MockResponse({'test': True}))
+        practice_sets = [
+            ['recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3'],
+            [],
+            ['recZxlcM61qaDoOkc', 'recZxlcM61qaDoOkc', 'invalid_id'],
+            ['recZxlcM61qaDoOkc', 'recZxlcM61qaDoOkc', 'invalid_id', 'invalid_id_2'],
+        ]
+        try:
+            for practices in practice_sets:
+                response = self.client.post(
+                    reverse('send_email'),
+                    {
+                        'email': 'fake@email.com',
+                        'first_name': 'Jean',
+                        'problem': 'désherbage',
+                        'practices': practices,
+                    },
+                    format='json',
+                    **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
+                )
+                self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+                SendEmailView._send_email.assert_not_called()
+
+        finally:
+            SendEmailView._send_email = original_function
+
+
+
 def _populate_database():
     User.objects.create_user(username='testuser', password='12345')
+    for external_id in ('recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'):
+        Practice(
+            external_id=external_id,
+            modification_date=timezone.now(),
+        ).save()
+
+
+class MockResponse:
+    """
+    Utility class to mock external library responses.
+    """
+    def __init__(self, json_content, status_code=200):
+        self.json_content = json_content
+        self.status_code = status_code
+
+    def json(self):
+        return self.json_content

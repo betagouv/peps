@@ -1,46 +1,15 @@
 import json
-from django.http import JsonResponse
-from django.urls import reverse
-from django.views.generic import TemplateView, View
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
+from rest_framework.renderers import JSONRenderer
+from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from api.serializers import PracticeSerializer
+from data.models import Practice
 
 class FormView(LoginRequiredMixin, TemplateView):
     """
     This view is the in-house basic form.
     """
     template_name = 'basic-form.html'
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class ProductionSystemFormView(LoginRequiredMixin, View):
-    """
-    UGLY temporary workaround while we have a proper form and/or
-    use local storage in the client side. I'm sorry.
-
-    Only sets the session variables and then tells
-    where to redirect in JSON mode.
-    """
-
-    def post(self, request):
-        from api.views import RankingsApiView
-        from api.serializers import ResponseItemSerializer
-        from rest_framework.renderers import JSONRenderer
-
-        post_data = json.loads(request.body)
-        answers = post_data['answers']
-        practice_blacklist = post_data.get('practice_blacklist', [])
-        type_blacklist = post_data.get('type_blacklist', [])
-        suggestions = RankingsApiView.get_results(answers, practice_blacklist, type_blacklist)[1]
-        suggestions_rendered = JSONRenderer().render(ResponseItemSerializer(suggestions, many=True).data)
-
-        request.session['answers'] = answers
-        request.session['practice_blacklist'] = practice_blacklist
-        request.session['type_blacklist'] = type_blacklist
-        request.session['suggestions'] = json.loads(suggestions_rendered)
-
-        return JsonResponse({'url': reverse('user_display')})
 
 class UserDisplayView(LoginRequiredMixin, TemplateView):
     """
@@ -49,10 +18,11 @@ class UserDisplayView(LoginRequiredMixin, TemplateView):
     template_name = 'user-display.html'
 
     def get_context_data(self, **kwargs):
+        query_param = self.request.GET.get('practices')
+        practice_external_ids = query_param.split(',') if query_param else []
+        suggestions = [Practice.objects.filter(external_id=x).first() for x in practice_external_ids]
+        suggestions_rendered = JSONRenderer().render(PracticeSerializer([x for x in suggestions if x], many=True).data)
         context = {
-            'answers': self.request.session['answers'],
-            'practice_blacklist': self.request.session['practice_blacklist'],
-            'type_blacklist': self.request.session['type_blacklist'],
-            'suggestions': self.request.session['suggestions'],
+            'suggestions': json.loads(suggestions_rendered),
         }
         return context

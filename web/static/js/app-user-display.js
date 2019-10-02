@@ -1,14 +1,144 @@
 $(document).ready(function () {
     window.suggestions = JSON.parse(document.getElementById('suggestions').textContent);
-    window.answers = JSON.parse(document.getElementById('answers').textContent);
-    window.blacklist = JSON.parse(document.getElementById('practice_blacklist').textContent);
     renderSuggestions();
-})
+
+    $('#send-email').click(() => {
+        $.ajax({
+            type: "POST",
+            url: '/api/v1/sendEmail',
+            data: JSON.stringify({
+                email: $('#email').val(),
+                first_name: $('#first-name').val(),
+                problem: $('#problem').val(),
+                practices: suggestions.map(x => x.external_id),
+            }),
+            success: (response, textStatus, jqXHR) => {
+                let messages = response.Messages || [];
+                let emailAddress;
+                if (messages.length > 0) {
+                    emailAddress = messages[0].To[0].Email;
+                }
+                if (jqXHR.status == 200) {
+                    $('#email').val('');
+                    $('#first_name').val('');
+                    $('#problem').val('');
+                    alert('✔ SUCCESS. Email pour ' + emailAddress + ' sera traité par Mailjet');
+                } else {
+                    alert('✖ FAIL. Status code: ' + jqXHR.status + '. ' + JSON.stringify(response));
+                }
+            }
+        });
+    });
+
+    $('#refresh-practices').click(() => {
+        var practices = '';
+        var inputValues = $('.practice-at-id').toArray().reverse()
+        for (var i = 0; i < inputValues.length; i++) {
+            var elem = $(inputValues[i]);
+            if (!!elem.val())
+                practices += (elem.val() + ',');
+        }
+
+        window.location = location.protocol + '//' + location.host + '/userDisplay?practices=' + practices;
+    })
+
+    $("#airtable-refresh").click(() => {
+        let modal = $('#airtableModal');
+        let modalIsVisible = modal.hasClass('in');
+        if (modalIsVisible) {
+            return;
+        }
+        modal.html(`<div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fetching Airtable data</h5>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-animated bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="transition-duration:300ms;"></div>
+                </div>
+            </div>
+            </div>
+        </div>`)
+        modal.modal('show');
+        let progress = 0;
+        let width = 0
+        let progressBarInterval = setInterval(() => {
+            progress++;
+            width += 15 / progress;
+            $('.progress-bar').css('width', width + '%');
+        }, 100);
+        $.ajax({
+            type: "POST",
+            url: '/api/v1/refreshData',
+            data: {},
+            success: (response) => {
+                clearInterval(progressBarInterval);
+                $('.progress-bar').remove();
+                if (response.success) {
+                    location.reload();
+                }
+
+                if (response.errors.length == 0) {
+                    modal.modal('hide');
+                }
+
+                let message = response.success ? '✔ Données mises à jour' : '✖ La mise à jour des données a échoué';
+                let messageClasslist = response.success ? 'title success' : 'title fail'
+                $('.modal-title').text('');
+                $('.modal-title').append(`<div class="${messageClasslist}">${message}</div>`);
+                $('.modal-title').append(`<button onclick="$('#airtableModal').modal('hide')">Fermer</button>`);
+
+                response.errors.sort((a, b) => {
+                    if (a.fatal && !b.fatal)
+                        return -1;
+                    if (b.fatal && !a.fatal)
+                        return 1;
+                    return 0
+                })
+
+                for (let i = 0; i < response.errors.length; i++) {
+                    let error = response.errors[i];
+                    let classlist = error.fatal ? 'error fatal' : 'error warning'
+                    $('.modal-body').append(`
+                     <div class="${classlist}">
+                        <div class="dot">⬤</div>
+                        <div class="message">${error.message}</div>
+                        <a class="url-error" href="${error.url}">Link Airtable</div>
+                     <div>
+                    `)
+                }
+            },
+            error: () => {
+                clearInterval(progressBarInterval);
+                $('.progress-bar').remove();
+                $('.modal-title').text('An error has occurred');
+            }
+        });
+    })
+
+});
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", window.CSRF_TOKEN);
+            xhr.setRequestHeader("Content-Type", "application/json");
+        }
+    }
+});
+
 
 function renderSuggestions() {
 
     for (let i = window.suggestions.length - 1; i >= 0; i--) {
-        let practice = window.suggestions[i].practice;
+        let practice = window.suggestions[i];
         let columns = getColumnsHtml(practice);
         let resources = getResourcesHtml(practice);
         let practiceHtml = `
@@ -16,6 +146,7 @@ function renderSuggestions() {
                 <div class="practice-header">
                     <div class="mechanism"><strong>${practice.mechanism ? practice.mechanism.name : ""}</strong></div>
                     <div class="title">${practice.title}</div>
+                    <a href="${practice.airtable_url}" target="_blank" class="airtable-link"><button>Airtable ➚</button></a>
                 </div>
                 <div class="columns">${columns}</div>
                 <div class="mechanism mechanism-description"><strong>
@@ -31,6 +162,7 @@ function renderSuggestions() {
             </div>
         `
         $('#content').append(practiceHtml);
+        $('#practice' + (window.suggestions.length - i)).val(practice.external_id)
     }
 }
 
