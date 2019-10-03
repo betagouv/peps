@@ -36,9 +36,18 @@
         </div>
 
         <div id="send">
-            <span class="controls-text">Prénom</span> <input id="first-name" type="text" placeholder="Baptiste" /><br />
-            <span class="controls-text">Problème adressé</span> <input id="problem" type="text" placeholder="désherbage" /><br />
-            <span class="controls-text">Envoyer email à</span> <input id="email" type="text" placeholder="baptiste@help-me.com" /> <input type="button" id="send-email" value="Envoyer">
+            <div><span class="controls-text">Prénom</span> <input id="first-name" type="text" placeholder="Baptiste" /></div>
+                <div><span class="controls-text">Problème adressé</span> 
+                <select id="problem">
+                    <option value="désherbage">Désherbage</option>
+                    <option value="ravageurs">Ravageurs</option>
+                    <option value="maladies fongiques">Maladies fongiques</option>
+                    <option value="sortie du glyphosate">Sortir du glyphosate</option>
+                </select>
+                </div>
+            <div>
+                <span class="controls-text">Envoyer email à</span> <input id="email" type="text" placeholder="baptiste@help-me.com" /> <input type="button" id="send-email" value="Envoyer">
+            </div>
         </div>
 
         <h1>Récapitulatif des suggestions de pratiques alternatives</h1>

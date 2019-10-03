@@ -20,7 +20,7 @@ $(document).ready(function () {
                 }
                 if (jqXHR.status == 200) {
                     $('#email').val('');
-                    $('#first_name').val('');
+                    $('#first-name').val('');
                     $('#problem').val('');
                     alert('✔ SUCCESS. Email pour ' + emailAddress + ' sera traité par Mailjet');
                 } else {

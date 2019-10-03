@@ -302,6 +302,10 @@ h4.practice_name {
     padding: 10px;
 }
 
+#send > div {
+    margin-top: 5px;
+}
+
 #controls {
     background: #333333;
     padding: 10px;
