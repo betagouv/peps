@@ -348,3 +348,8 @@ h4.practice_name {
 #practices > input[type="text"] {
     width: 170px;
 }
+
+#introduction {
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-bottom: 15px;
+}

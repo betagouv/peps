@@ -30,6 +30,9 @@ $(document).ready(function () {
         });
     });
 
+    $('#first-name').change(renderSuggestions);
+    $('#problem').change(renderSuggestions);
+
     $('#refresh-practices').click(() => {
         var practices = '';
         var inputValues = $('.practice-at-id').toArray().reverse()
@@ -137,10 +140,24 @@ $.ajaxSetup({
 
 function renderSuggestions() {
 
+    let firstName = $('#first-name').val() || ''
+    let problem = $('#problem').val() || ''
+
+    $('#content').empty();
+
+    $('#content').append(`
+        <div id="introduction">
+        Bonjour ${firstName},<br /><br />
+
+        Suite à notre échange téléphonique, voici les 3 pratiques que nous vous suggérons pour votre problème de ${problem}.
+        </div>
+    `);
+
     for (let i = window.suggestions.length - 1; i >= 0; i--) {
         let practice = window.suggestions[i];
         let columns = getColumnsHtml(practice);
         let resources = getResourcesHtml(practice);
+
         let practiceHtml = `
             <div class="practice" id="${practice.id}">
                 <div class="practice-header">
@@ -149,9 +166,6 @@ function renderSuggestions() {
                     <a href="${practice.airtable_url}" target="_blank" class="airtable-link"><button>Airtable ➚</button></a>
                 </div>
                 <div class="columns">${columns}</div>
-                <div class="mechanism mechanism-description"><strong>
-                    ${practice.mechanism && practice.mechanism.description ? practice.mechanism.description : ""}
-                </strong></div>
                 <div class="description">${practice.description}</div>
                 <div class="resources">${resources}</div>
                 <div class="cta">
