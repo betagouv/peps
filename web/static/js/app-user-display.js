@@ -10,7 +10,7 @@ $(document).ready(function () {
                 email: $('#email').val(),
                 first_name: $('#first-name').val(),
                 problem: $('#problem').val(),
-                practices: suggestions.map(x => x.external_id),
+                practices: suggestions.map(x => x.external_id).reverse(),
             }),
             success: (response, textStatus, jqXHR) => {
                 let messages = response.Messages || [];
