@@ -13,11 +13,19 @@ def get_form_schema():
                     "required": False
                 },
                 "glyphosate": {
-                    "title": "Quels sont vos principaux usages du glyphosate ?",
+                    "title": "Quel est votre principal usage du glyphosate ?",
                     "required": False
                 },
                 "weeds": {
                     "title": "Quelles adventices vous posent problème aujourd'hui dans votre exploitation ?",
+                    "required": False
+                },
+                "weedsGlyphosate": {
+                    "title": "Quelles adventices vous posent problème aujourd'hui dans votre exploitation ?",
+                    "required": False
+                },
+                "perennials": {
+                    "title": "Quelles vivaces vous posent problème aujourd'hui dans votre exploitation ?",
                     "required": False
                 },
                 "practices": {
@@ -56,6 +64,8 @@ def get_form_schema():
             "dependencies": {
                 "pests": ["problem"],
                 "weeds": ["problem"],
+                "weedsGlyphosate": ["glyphosate"],
+                "perennials": ["glyphosate"],
                 "glyphosate": ["problem"],
                 "wheat": ["rotation"],
             }
@@ -93,15 +103,35 @@ def get_form_schema():
                     "type": "checkbox",
                     "multiple": True,
                     "dependencies": {
-                        "problem": ["DESHERBAGE", "GLYPHOSATE"]
+                        "problem": ["DESHERBAGE"],
                     },
                     "dataSource": _get_weeds(),
                 },
-                "glyphosate": {
+                "weedsGlyphosate": {
                     "hideNone": True,
                     "sort": False,
                     "type": "checkbox",
                     "multiple": True,
+                    "dependencies": {
+                        "glyphosate": ["COUVERTS", "PARCELLES", "PRAIRIES", "AUTRES"],
+                    },
+                    "dataSource": _get_weeds(),
+                },
+                "perennials": {
+                    "hideNone": True,
+                    "sort": False,
+                    "type": "checkbox",
+                    "multiple": True,
+                    "dependencies": {
+                        "glyphosate": ["VIVACES"]
+                    },
+                    "dataSource": _get_perennials(),
+                },
+                "glyphosate": {
+                    "hideNone": True,
+                    "sort": False,
+                    "type": "radio",
+                    "multiple": False,
                     "dependencies": {
                         "problem": "GLYPHOSATE"
                     },
@@ -272,6 +302,10 @@ def _get_pests():
 def _get_weeds():
     from data.models import Weed
     return [{'text': x.display_text, 'value': x.id} for x in Weed.objects.all()]
+
+def _get_perennials():
+    from data.models import Weed
+    return [{'text': x.display_text, 'value': x.id} for x in Weed.objects.all() if x.nature == 1]
 
 def _get_problems():
     from data.models import Problem

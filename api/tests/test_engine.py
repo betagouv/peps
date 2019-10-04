@@ -155,6 +155,50 @@ class TestEngine(TestCase):
         self.assertTrue(result.weight > 0)
 
 
+    def test_weed_fields(self):
+        """
+        Three form fields can contain weed information: weeds, perennials
+        and weedsGlyphosate. All must be treated the same way by the engine.
+        """
+        practice_title = "Faucher une culture fourragère "
+        rumex = Weed.objects.filter(display_text='Rumex').first()
+        chardon = Weed.objects.filter(display_text='Chardon des champs').first()
+
+        answers = {
+            "problem":"DESHERBAGE",
+            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "rotation": ["BLE"],
+            "cattle": "Oui"
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result_weeds = next(filter(lambda x: x.practice.title == practice_title, results))
+
+        answers = {
+            "problem":"DESHERBAGE",
+            "perennials": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "rotation": ["BLE"],
+            "cattle": "Oui"
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result_perennials = next(filter(lambda x: x.practice.title == practice_title, results))
+
+        self.assertEqual(result_weeds.weight, result_perennials.weight)
+
+        answers = {
+            "problem":"DESHERBAGE",
+            "weedsGlyphosate": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "rotation": ["BLE"],
+            "cattle": "Oui"
+        }
+        engine = Engine(answers, [], [])
+        results = engine.calculate_results()
+        result_weeds_glypho = next(filter(lambda x: x.practice.title == practice_title, results))
+
+        self.assertEqual(result_weeds.weight, result_weeds_glypho.weight)
+
+
     def test_weed_multipliers(self):
         """
         A practice can be more (or less) useful to address certain weeds, this

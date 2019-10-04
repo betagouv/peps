@@ -119,7 +119,11 @@ $(document).ready(function () {
 
 window.pepsRenderer = {
     'onFormChange': function(e) {
-        e && e.stopImmediatePropagation();
+        if (!e) {
+            // Due to a regression on Alpaca library: https://github.com/gitana/alpaca/issues/723
+            return
+        }
+        e.stopImmediatePropagation();
         let formAnswers = window.alpacaForm.getValue()
         let blacklistedPractices = $.makeArray($('#blacklist').children().map((x, y) => y.id))
 

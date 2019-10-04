@@ -72,9 +72,15 @@ class AlpacaUtils:
 
     @cached_property
     def weeds(self):
+        """
+        This property will return either fields weeds, weedsGlyphosate, or perennials (all are treated
+        the same by the engine and refer to weeds).
+        """
         try:
-            if self.answers.get('weeds'):
-                return list(Weed.objects.filter(id__in=self.answers.get('weeds').split(',')))
+            fields_with_weeds = ['weeds', 'perennials', 'weedsGlyphosate']
+            for field in fields_with_weeds:
+                if self.answers.get(field):
+                    return list(Weed.objects.filter(id__in=self.answers.get(field).split(',')))
         except ValidationError as _:
             return None
 
