@@ -267,11 +267,11 @@ def get_form_schema():
 
 def _get_pests():
     from data.models import Pest
-    return [{'text': x.display_text, 'value': x.name} for x in Pest]
+    return [{'text': x.display_text, 'value': x.id} for x in Pest.objects.all()]
 
 def _get_weeds():
     from data.models import Weed
-    return [{'text': x.display_text, 'value': x.name} for x in Weed]
+    return [{'text': x.display_text, 'value': x.id} for x in Weed.objects.all()]
 
 def _get_problems():
     from data.models import Problem

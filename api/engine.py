@@ -1,5 +1,5 @@
 from data.models import Problem
-from data.models import Weed, Pest
+from data.models import Weed, Pest, WeedMultiplier, PestMultiplier
 from data.models import Practice, Culture, PracticeTypeCategory
 from api.utils import AlpacaUtils
 from api.models import ResponseItem
@@ -215,7 +215,7 @@ class Engine:
         If the user does not use weeds that are whitelisted
         for this practice, we deem they are incompatible.
         """
-        practice_weeds_whitelist = [Weed(x) for x in (practice.weed_whitelist or [])]
+        practice_weeds_whitelist = list(practice.weed_whitelist.all())
 
         if practice_weeds_whitelist:
             if not self.form.weeds:
@@ -230,7 +230,7 @@ class Engine:
         If the user does not use pests that are whitelisted
         for this practice, we deem they are incompatible.
         """
-        practice_pest_whitelist = [Pest(x) for x in (practice.pest_whitelist or [])]
+        practice_pest_whitelist = list(practice.pest_whitelist.all())
 
         if practice_pest_whitelist:
             if not self.form.pests:
@@ -256,19 +256,17 @@ class Engine:
         return False
 
     def _get_highest_weed_multiplier(self, practice):
-        if practice.weed_multipliers and self.form.weeds:
-            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.weeds, practice.weed_multipliers))
-            if relevant_multipliers:
-                max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
-                return max_multiplier
+        if self.form.weeds:
+            weed_multipliers = list(WeedMultiplier.objects.filter(practice=practice, weed__in=self.form.weeds).values('multiplier'))
+            if weed_multipliers:
+                return max(map(lambda x: float(x.get('multiplier', 1)), weed_multipliers))
         return 1
 
     def _get_highest_pest_multiplier(self, practice):
-        if practice.pest_multipliers and self.form.pests:
-            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.pests, practice.pest_multipliers))
-            if relevant_multipliers:
-                max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
-                return max_multiplier
+        if self.form.pests:
+            pest_multipliers = list(PestMultiplier.objects.filter(practice=practice, pest__in=self.form.pests).values('multiplier'))
+            if pest_multipliers:
+                return max(map(lambda x: float(x.get('multiplier', 1)), pest_multipliers))
         return 1
 
     def _get_highest_glyphosate_use_multiplier(self, practice):

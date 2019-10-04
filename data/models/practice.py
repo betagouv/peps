@@ -6,6 +6,10 @@ from .practicegroup import PracticeGroup
 from .practicetype import PracticeType
 from .mechanism import Mechanism
 from .resource import Resource
+from .weed import Weed
+from .weedmultiplier import WeedMultiplier
+from .pest import Pest
+from .pestmultiplier import PestMultiplier
 
 class Practice(models.Model):
     """
@@ -85,12 +89,16 @@ class Practice(models.Model):
     # If this practice addresses weeding problems for a particular type of weed,
     # this field will store which weeds the practice targets. If it is a general weeding
     # practice that does not address any particular weed, leave this field blank.
-    weed_whitelist = ArrayField(models.IntegerField(), blank=True, null=True)
+    weed_whitelist = models.ManyToManyField(Weed)
+
+    weed_multipliers = models.ManyToManyField(Weed, through=WeedMultiplier, related_name="weed_multipliers", related_query_name="weed_multipliers",)
 
     # If this practice addresses pest control problems for a particular type of pest,
     # this field will store which pests the practice targets. If it is a general pest control
     # practice that does not address any particular pest, leave this field blank.
-    pest_whitelist = ArrayField(models.IntegerField(), blank=True, null=True)
+    pest_whitelist = models.ManyToManyField(Pest)
+
+    pest_multipliers = models.ManyToManyField(Pest, through=PestMultiplier, related_name="pest_multipliers", related_query_name="pest_multipliers",)
 
     # If this practice adresses particular types of agriculture problem specified in the
     # Problem Enum, this field will store these adressed problems.
@@ -107,14 +115,6 @@ class Practice(models.Model):
     # E.g., [{'75': 1.003}, {'69': 0.7329}]
     department_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
-    # These multipliers will boost or handicap the practice depending on the weeds the
-    # user is having problems with. As with other multipliers, a value larger than 1 will boost
-    # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
-    # not make a difference.
-    # Values come from the weeds enum.
-    # E.g., [{1: 1.003}, {5: 0.7329}]
-    weed_multipliers = ArrayField(JSONField(), blank=True, null=True)
-
     # These multipliers will boost or handicap the practice depending on the culture the
     # user has. As with other multipliers, a value larger than 1 will boost
     # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
@@ -122,14 +122,6 @@ class Practice(models.Model):
     # Values come from the culture enum.
     # E.g., [{1: 1.003}, {5: 0.7329}]
     culture_multipliers = ArrayField(JSONField(), blank=True, null=True)
-
-    # These multipliers will boost or handicap the practice depending on the pests the
-    # user is having problems with. As with other multipliers, a value larger than 1 will boost
-    # the practice, whereas a value lower than 1 will handicap it. A value equal to 1 will
-    # not make a difference.
-    # Values come from the pest enum.
-    # E.g., [{1: 1.003}, {5: 0.7329}]
-    pest_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
     # These multipliers will boost or handicap the practice depending on the glyphosate usage the
     # user has. As with other multipliers, a value larger than 1 will boost

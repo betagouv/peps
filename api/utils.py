@@ -1,4 +1,5 @@
 from django.utils.functional import cached_property
+from django.core.exceptions import ValidationError
 from data.models import Problem, Weed, Pest, Culture, PracticeTypeCategory, GlyphosateUses
 
 class AlpacaUtils:
@@ -63,11 +64,19 @@ class AlpacaUtils:
 
     @cached_property
     def pests(self):
-        return self._extract_enum_from_checkbox('pests', Pest)
+        try:
+            if self.answers.get('pests'):
+                return list(Pest.objects.filter(id__in=self.answers.get('pests').split(',')))
+        except ValidationError as _:
+            return None
 
     @cached_property
     def weeds(self):
-        return self._extract_enum_from_checkbox('weeds', Weed)
+        try:
+            if self.answers.get('weeds'):
+                return list(Weed.objects.filter(id__in=self.answers.get('weeds').split(',')))
+        except ValidationError as _:
+            return None
 
     @cached_property
     def glyphosate_uses(self):

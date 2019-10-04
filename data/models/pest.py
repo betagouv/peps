@@ -1,34 +1,17 @@
-from .pepsenum import PepsEnum
+# from .pepsenum import PepsEnum
+import uuid
+from django.utils import timezone
+from django.db import models
+from django.contrib.postgres.fields import JSONField
 
-class Pest(PepsEnum):
-    MELIGETHES = 1
-    CHARANCONS = 2
-    PUCERONS = 3
-    ALTISES = 4
-    CECIDOMYIES = 5
-    LIMACES = 6
-    PYRALES = 7
-    CICADELLES = 8
-    DORYPHORES = 9
-    AUTRES = 10
-    SESAMIE = 11
-    NOCTUELLE = 12
+class Pest(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    external_id = models.CharField(max_length=100)
+    modification_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now)
 
-    @property
-    def display_text(self):
-        display_texts = {
-            'MELIGETHES': 'Méligèthes',
-            'CHARANCONS': 'Charançons',
-            'PUCERONS': 'Pucerons',
-            'ALTISES': 'Altises',
-            'CECIDOMYIES': 'Cécidomyies',
-            'LIMACES': 'Limaces',
-            'PYRALES': 'Pyrales',
-            'CICADELLES': 'Cicadelles',
-            'DORYPHORES': 'Doryphores',
-            'AUTRES' :'Autres',
-            'SESAMIE': 'Sésamie',
-            'NOCTUELLE': 'Noctuelle',
-        }
+    airtable_json = JSONField(null=True, blank=True)
+    airtable_url = models.TextField(null=True, blank=True)
 
-        return display_texts.get(self.name) or self.name
+    display_text = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)

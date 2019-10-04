@@ -1,36 +1,26 @@
-from .pepsenum import PepsEnum
+import uuid
+from enum import Enum
+from django.utils import timezone
+from django.db import models
+from django.contrib.postgres.fields import JSONField
 
-class Weed(PepsEnum):
-    RAY_GRASS = 1
-    CHARDON = 2
-    LISERON = 3
-    VULPIN = 4
-    RUMEX = 5
-    LAITERON = 6
-    AUTRES = 7
-    GAILLET = 8
-    GERANIUM = 9
-    AMBROISIE_ARMOISE = 10
-    OROBANCHE = 11
-    VERO_PERSE = 12
-    CHENOPODE_BLANC = 13
 
-    @property
-    def display_text(self):
-        display_texts = {
-            'RAY_GRASS': 'Ray-grass',
-            'CHARDON': 'Chardon de champs',
-            'LISERON': 'Liserons',
-            'VULPIN': 'Vulpin de champs',
-            'RUMEX': 'Rumex',
-            'LAITERON': 'Laiteron de champs',
-            'AUTRES': 'Autre',
-            'GAILLET': 'Gaillet gratteron',
-            'GERANIUM': 'Géranium',
-            'AMBROISIE_ARMOISE': 'Ambroisie à feuille d\'armoise',
-            'OROBANCHE': 'Orobanche',
-            'VERO_PERSE': 'Véronique de Perse',
-            'CHENOPODE_BLANC': 'Chenopode blanc',
-        }
+class Weed(models.Model):
 
-        return display_texts.get(self.name) or self.name
+    class WeedNature(Enum):
+        VIVACE = 1
+        ANNUELLE = 2
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    external_id = models.CharField(max_length=100)
+    modification_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now)
+
+    airtable_json = JSONField(null=True, blank=True)
+    airtable_url = models.TextField(null=True, blank=True)
+
+    display_text = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    # Must be part of the WeedNature enum
+    nature = models.IntegerField(null=True, blank=True)

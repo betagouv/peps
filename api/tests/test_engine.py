@@ -3,7 +3,7 @@ from unittest.mock import Mock
 import requests
 from django.test import TestCase, override_settings
 from api.engine import Engine
-from data.models import Problem
+from data.models import Problem, Weed, Pest
 from data.adapters import AirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -131,6 +131,8 @@ class TestEngine(TestCase):
         for Rumex.
         """
         practice_title = "Faucher une culture fourragère "
+        rumex = Weed.objects.filter(display_text='Rumex').first()
+        chardon = Weed.objects.filter(display_text='Chardon des champs').first()
 
         # First we check the weignt without using RUMEX. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -141,7 +143,12 @@ class TestEngine(TestCase):
         self.assertEqual(result.weight, 0)
 
         # Now we add RUMEX. The same practice should have a non-zero weight
-        answers = {"problem":"DESHERBAGE", "weeds": "RUMEX, CHARDON", "rotation": ["BLE"], "cattle": "Oui"}
+        answers = {
+            "problem":"DESHERBAGE",
+            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "rotation": ["BLE"],
+            "cattle": "Oui"
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -158,6 +165,7 @@ class TestEngine(TestCase):
         """
         practice_title = "Profiter de l'action des auxiliaires sur le puceron de l'épi"
         chardon_multiplier = 0.6
+        chardon = Weed.objects.filter(display_text='Chardon des champs').first()
 
         # First we check the weignt without using CHARDON in the response
         answers = {"problem":"DESHERBAGE", "rotation": ["BLE"]}
@@ -167,7 +175,11 @@ class TestEngine(TestCase):
         initial_weight = result.weight
 
         # Now we add CHARDON in the response and get the results
-        answers = {"problem":"DESHERBAGE", "weeds": "CHARDON", "rotation": ["BLE"]}
+        answers = {
+            "problem":"DESHERBAGE",
+            "weeds": "{0}".format(str(chardon.id)),
+            "rotation": ["BLE"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -185,17 +197,25 @@ class TestEngine(TestCase):
         lâchers de trichogrammes" can only be relevant for pyrale.
         """
         practice_title = "Lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes"
+        pyrales = Pest.objects.filter(display_text='Pyrales').first()
 
         # First we check the weignt without using PYRALES. We expect the weight to be
         # zero since the whitelist is not upheld
-        answers = {"problem":"RAVAGEURS", "rotation": ["MAIS"]}
+        answers = {
+            "problem":"RAVAGEURS",
+            "rotation": ["MAIS"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertEqual(result.weight, 0)
 
         # Now we add PYRALES. The same practice should have a non-zero weight
-        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "rotation": ["MAIS"]}
+        answers = {
+            "problem":"RAVAGEURS",
+            "pests": "{0}".format(pyrales.id),
+            "rotation": ["MAIS"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -211,17 +231,25 @@ class TestEngine(TestCase):
         is taken into account by the engine.
         """
         practice_title = "Associer un colza avec un couvert de légumineuses"
+        charancon = Pest.objects.filter(display_text='Charançons').first()
         charancon_multiplier = 1.3
 
         # First we check the weignt without using CHARANCONS in the response
-        answers = {"problem":"RAVAGEURS", "rotation": ["COLZA"]}
+        answers = {
+            "problem":"RAVAGEURS",
+            "rotation": ["COLZA"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         initial_weight = result.weight
 
         # Now we add CHARANCONS in the response and get the results
-        answers = {"problem":"RAVAGEURS", "pests": "CHARANCONS", "rotation": ["COLZA"]}
+        answers = {
+            "problem":"RAVAGEURS",
+            "pests": "{0}".format(str(charancon.id)),
+            "rotation": ["COLZA"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -239,17 +267,28 @@ class TestEngine(TestCase):
         relevant for MAIS.
         """
         practice_title = "Détruire les résidus de cannes de maïs"
+        pyrales = Pest.objects.filter(display_text='Pyrales').first()
 
         # First we check the weight without using MAIS. We expect the weight to be
         # zero since the whitelist is not upheld
-        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "tillage": "TRAVAIL_DU_SOL", "rotation": ["BLE"]}
+        answers = {
+            "problem":"RAVAGEURS",
+            "pests": "{0}".format(str(pyrales.id)),
+            "tillage": "TRAVAIL_DU_SOL",
+            "rotation": ["BLE"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertEqual(result.weight, 0)
 
         # Now we add PYRALES. The same practice should have a non-zero weight
-        answers = {"problem":"RAVAGEURS", "pests": "PYRALES", "tillage": "TRAVAIL_DU_SOL", "rotation": ["BLE", "MAIS"]}
+        answers = {
+            "problem":"RAVAGEURS",
+            "pests": "{0}".format(str(pyrales.id)),
+            "tillage": "TRAVAIL_DU_SOL",
+            "rotation": ["BLE", "MAIS"]
+        }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -319,11 +358,12 @@ class TestEngine(TestCase):
         """
         glyphosate_bonus = 1.4
         practice_title = 'Déchaumages répétés'
+        rumex = Weed.objects.filter(display_text='Rumex').first()
 
         # First we make a request without specifying the use of glyphosate
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "RUMEX",
+            "weeds": "{0}".format(str(rumex.id)),
             "tillage": "TRAVAIL_PROFOND",
             "rotation": ["LIN_HIVER"],
         }
@@ -336,7 +376,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"GLYPHOSATE",
             "glyphosate": "VIVACES",
-            "weeds": "RUMEX",
+            "weeds": "{0}".format(str(rumex.id)),
             "tillage": "TRAVAIL_PROFOND",
             "rotation": ["LIN_HIVER"],
         }
@@ -353,10 +393,13 @@ class TestEngine(TestCase):
         We need to ensure no practices belonging to the same practice group
         are selected.
         """
+        rumex = Weed.objects.filter(display_text='Rumex').first()
+        chardon = Weed.objects.filter(display_text='Chardon des champs').first()
+
         answers = {
             "problem":"GLYPHOSATE",
             "glyphosate": "VIVACES,COUVERTS",
-            "weeds": "CHARDON,RUMEX",
+            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
             "tillage": "TRAVAIL_PROFOND",
         }
         engine = Engine(answers, [], [])
@@ -377,11 +420,13 @@ class TestEngine(TestCase):
         One example of this is "Faire pâturer les couverts et les repousses"
         """
         practice_title = 'Faire pâturer les couverts et les repousses'
+        rumex = Weed.objects.filter(display_text='Rumex').first()
+        chardon = Weed.objects.filter(display_text='Chardon des champs').first()
 
         # First we try with livestock, the score should be greater than zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "CHARDON,RUMEX",
+            "weeds": "{0},{1}".format(str(rumex.id), str(chardon.id)),
             "cattle": "Oui",
         }
         engine = Engine(answers, [], [])
@@ -392,7 +437,7 @@ class TestEngine(TestCase):
         # Now we try without cattle, the score should be zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "CHARDON,RUMEX",
+            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -407,14 +452,15 @@ class TestEngine(TestCase):
         goes for shallow tillage.
         """
         deep_tillage_practice_title = 'Positionner un labour stratégiquement'
-        shallow_tillage_practice_title = 'Désherbage mécanique en début de saison pour cultures de printemps'
+        shallow_tillage_practice_title = 'Désherbage mécanique en plein en début de saison pour cultures de printemps'
+        rumex = Weed.objects.filter(display_text='Rumex').first()
 
         # If the user can't do any tillage, both practices should be at zero score
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "RUMEX",
+            "weeds": "{0}".format(str(rumex.id)),
             "tillage": None,
-            "rotation": ["BLE", "LIN_HIVER"],
+            "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -428,9 +474,9 @@ class TestEngine(TestCase):
         # should be above zero, whereas the deep tillage practice should be at zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "RUMEX",
+            "weeds": "{0}".format(str(rumex.id)),
             "tillage": 'TRAVAIL_DU_SOL',
-            "rotation": ["BLE", "LIN_HIVER"],
+            "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -443,9 +489,9 @@ class TestEngine(TestCase):
         # If the user can do deep tillage, both practices should be above zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "RUMEX",
+            "weeds": "{0}".format(str(rumex.id)),
             "tillage": 'TRAVAIL_PROFOND',
-            "rotation": ["BLE", "LIN_HIVER"],
+            "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()

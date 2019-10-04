@@ -162,17 +162,6 @@ def validate_weeds(airtable_weeds):
             message = 'Adventice ID %s n\'a pas de nom (colonne Name)' % weed_id
             errors.append(AirtableError(message, url=url))
 
-        if not fields.get('Enum code'):
-            message = 'Adventice "%s" (ID %s) manque l\'enum code (colonne Enum code)' % (weed_title, weed_id)
-            errors.append(AirtableError(message, url=url))
-
-        if fields.get('Enum code'):
-            try:
-                Weed[fields.get('Enum code')]
-            except KeyError as _:
-                message = 'Adventice "%s" (ID %s) a un code enum qui n\'est pas connu du backend' % (weed_title, weed_id)
-                errors.append(AirtableError(message, fatal=False, url=url))
-
         return errors
 
     for weed in airtable_weeds:
@@ -197,17 +186,6 @@ def validate_pests(airtable_pests):
         if not pest_title:
             message = 'Ravageur ID %s n\'a pas de nom (colonne Name)' % pest_id
             errors.append(AirtableError(message, url=url))
-
-        if not fields.get('Enum code'):
-            message = 'Ravageur "%s" (ID %s) manque l\'enum code (colonne Enum code)' % (pest_title, pest_id)
-            errors.append(AirtableError(message, url=url))
-
-        if fields.get('Enum code'):
-            try:
-                Pest[fields.get('Enum code')]
-            except KeyError as _:
-                message = 'Ravageur "%s" (ID %s) a un code enum qui n\'est pas connu du backend' % (pest_title, pest_id)
-                errors.append(AirtableError(message, fatal=False, url=url))
 
         return errors
 

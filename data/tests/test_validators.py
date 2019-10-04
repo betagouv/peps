@@ -108,7 +108,6 @@ class TestValidators(TestCase):
             "id": "recqwipvZ8hYkqoW2",
             "fields": {
                 "Name": "Mélighétes",
-                "Enum code": "MELIGETHES",
             },
         }]
         errors = validate_pests(json)
@@ -119,35 +118,11 @@ class TestValidators(TestCase):
             "id": "recqwipvZ8hYkqoW2",
             "fields": {
                 "Name": "",
-                "Enum code": "MELIGETHES",
             },
         }]
         errors = validate_pests(json)
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].message, 'Ravageur ID recqwipvZ8hYkqoW2 n\'a pas de nom (colonne Name)')
-
-        # If the enum is missing, we expect an error
-        json = [{
-            "id": "recqwipvZ8hYkqoW2",
-            "fields": {
-                "Name": "Mélighétes",
-            },
-        }]
-        errors = validate_pests(json)
-        self.assertEqual(len(errors), 1)
-        self.assertEqual(errors[0].message, 'Ravageur "Mélighétes" (ID recqwipvZ8hYkqoW2) manque l\'enum code (colonne Enum code)')
-
-        # If the enum is not part of the known cultures, we expect an error
-        json = [{
-            "id": "recqwipvZ8hYkqoW2",
-            "fields": {
-                "Name": "Mélighétes",
-                "Enum code": "UNKNOWN_CODE",
-            },
-        }]
-        errors = validate_pests(json)
-        self.assertEqual(len(errors), 1)
-        self.assertEqual(errors[0].message, 'Ravageur "Mélighétes" (ID recqwipvZ8hYkqoW2) a un code enum qui n\'est pas connu du backend')
 
 
     def test_weeds_validation(self):
@@ -156,7 +131,6 @@ class TestValidators(TestCase):
             "id": "recjzIBqwGkton9Ed",
             "fields": {
                 "Name": "Ray-grass",
-                "Enum code": "RAY_GRASS",
             },
         }]
         errors = validate_weeds(json)
@@ -166,35 +140,11 @@ class TestValidators(TestCase):
         json = [{
             "id": "recjzIBqwGkton9Ed",
             "fields": {
-                "Enum code": "RAY_GRASS",
             },
         }]
         errors = validate_weeds(json)
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].message, 'Adventice ID recjzIBqwGkton9Ed n\'a pas de nom (colonne Name)')
-
-        # If the enum is missing, we expect an error
-        json = [{
-            "id": "recjzIBqwGkton9Ed",
-            "fields": {
-                "Name": "Ray-grass",
-            },
-        }]
-        errors = validate_weeds(json)
-        self.assertEqual(len(errors), 1)
-        self.assertEqual(errors[0].message, 'Adventice "Ray-grass" (ID recjzIBqwGkton9Ed) manque l\'enum code (colonne Enum code)')
-
-        # If the enum is not part of the known cultures, we expect an error
-        json = [{
-            "id": "recjzIBqwGkton9Ed",
-            "fields": {
-                "Name": "Ray-grass",
-                "Enum code": "UNKNOWN_CODE",
-            },
-        }]
-        errors = validate_weeds(json)
-        self.assertEqual(len(errors), 1)
-        self.assertEqual(errors[0].message, 'Adventice "Ray-grass" (ID recjzIBqwGkton9Ed) a un code enum qui n\'est pas connu du backend')
 
 
     def test_practice_types(self):
