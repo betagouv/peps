@@ -105,7 +105,7 @@ class SendEmailView(APIView):
                 },
                 "To": [{
                     "Email": email,
-                    "Name": "Alejandro"
+                    "Name": first_name,
                 }],
                 "TemplateID": 1021512,
                 "TemplateLanguage": True,
