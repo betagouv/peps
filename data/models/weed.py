@@ -12,7 +12,7 @@ class Weed(models.Model):
         ANNUELLE = 2
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    external_id = models.CharField(max_length=100)
+    external_id = models.CharField(max_length=100, db_index=True)
     modification_date = models.DateTimeField()
     creation_date = models.DateTimeField(default=timezone.now)
 

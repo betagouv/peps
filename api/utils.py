@@ -66,7 +66,7 @@ class AlpacaUtils:
     def pests(self):
         try:
             if self.answers.get('pests'):
-                return list(Pest.objects.filter(id__in=self.answers.get('pests').split(',')))
+                return self.answers.get('pests').split(',')
         except ValidationError as _:
             return None
 
@@ -80,7 +80,7 @@ class AlpacaUtils:
             fields_with_weeds = ['weeds', 'perennials', 'weedsGlyphosate']
             for field in fields_with_weeds:
                 if self.answers.get(field):
-                    return list(Weed.objects.filter(id__in=self.answers.get(field).split(',')))
+                    return self.answers.get(field).split(',')
         except ValidationError as _:
             return None
 

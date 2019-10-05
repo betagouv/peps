@@ -297,15 +297,15 @@ def get_form_schema():
 
 def _get_pests():
     from data.models import Pest
-    return [{'text': x.display_text, 'value': x.id} for x in Pest.objects.all()]
+    return [{'text': x.display_text, 'value': x.external_id} for x in Pest.objects.all()]
 
 def _get_weeds():
     from data.models import Weed
-    return [{'text': x.display_text, 'value': x.id} for x in Weed.objects.all()]
+    return [{'text': x.display_text, 'value': x.external_id} for x in Weed.objects.all()]
 
 def _get_perennials():
     from data.models import Weed
-    return [{'text': x.display_text, 'value': x.id} for x in Weed.objects.all() if x.nature == 1]
+    return [{'text': x.display_text, 'value': x.external_id} for x in Weed.objects.all() if x.nature == 1]
 
 def _get_problems():
     from data.models import Problem

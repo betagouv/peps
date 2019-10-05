@@ -145,7 +145,7 @@ class TestEngine(TestCase):
         # Now we add RUMEX. The same practice should have a non-zero weight
         answers = {
             "problem":"DESHERBAGE",
-            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "weeds": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
             "rotation": ["BLE"],
             "cattle": "Oui"
         }
@@ -166,7 +166,7 @@ class TestEngine(TestCase):
 
         answers = {
             "problem":"DESHERBAGE",
-            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "weeds": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
             "rotation": ["BLE"],
             "cattle": "Oui"
         }
@@ -176,7 +176,7 @@ class TestEngine(TestCase):
 
         answers = {
             "problem":"DESHERBAGE",
-            "perennials": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "perennials": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
             "rotation": ["BLE"],
             "cattle": "Oui"
         }
@@ -188,7 +188,7 @@ class TestEngine(TestCase):
 
         answers = {
             "problem":"DESHERBAGE",
-            "weedsGlyphosate": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "weedsGlyphosate": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
             "rotation": ["BLE"],
             "cattle": "Oui"
         }
@@ -221,7 +221,7 @@ class TestEngine(TestCase):
         # Now we add CHARDON in the response and get the results
         answers = {
             "problem":"DESHERBAGE",
-            "weeds": "{0}".format(str(chardon.id)),
+            "weeds": "{0}".format(str(chardon.external_id)),
             "rotation": ["BLE"]
         }
         engine = Engine(answers, [], [])
@@ -232,7 +232,6 @@ class TestEngine(TestCase):
         # We need to make sure the new weight has taken into account the
         # multiplier for CHARDON
         self.assertEqual(new_weight, initial_weight * chardon_multiplier)
-
 
     def test_pest_whitelist(self):
         """
@@ -257,14 +256,13 @@ class TestEngine(TestCase):
         # Now we add PYRALES. The same practice should have a non-zero weight
         answers = {
             "problem":"RAVAGEURS",
-            "pests": "{0}".format(pyrales.id),
+            "pests": "{0}".format(pyrales.external_id),
             "rotation": ["MAIS"]
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         self.assertTrue(result.weight > 0)
-
 
     def test_pest_multipliers(self):
         """
@@ -291,7 +289,7 @@ class TestEngine(TestCase):
         # Now we add CHARANCONS in the response and get the results
         answers = {
             "problem":"RAVAGEURS",
-            "pests": "{0}".format(str(charancon.id)),
+            "pests": "{0}".format(str(charancon.external_id)),
             "rotation": ["COLZA"]
         }
         engine = Engine(answers, [], [])
@@ -317,7 +315,7 @@ class TestEngine(TestCase):
         # zero since the whitelist is not upheld
         answers = {
             "problem":"RAVAGEURS",
-            "pests": "{0}".format(str(pyrales.id)),
+            "pests": "{0}".format(str(pyrales.external_id)),
             "tillage": "TRAVAIL_DU_SOL",
             "rotation": ["BLE"]
         }
@@ -329,7 +327,7 @@ class TestEngine(TestCase):
         # Now we add PYRALES. The same practice should have a non-zero weight
         answers = {
             "problem":"RAVAGEURS",
-            "pests": "{0}".format(str(pyrales.id)),
+            "pests": "{0}".format(str(pyrales.external_id)),
             "tillage": "TRAVAIL_DU_SOL",
             "rotation": ["BLE", "MAIS"]
         }
@@ -407,7 +405,7 @@ class TestEngine(TestCase):
         # First we make a request without specifying the use of glyphosate
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "{0}".format(str(rumex.id)),
+            "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": "TRAVAIL_PROFOND",
             "rotation": ["LIN_HIVER"],
         }
@@ -420,7 +418,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"GLYPHOSATE",
             "glyphosate": "VIVACES",
-            "weeds": "{0}".format(str(rumex.id)),
+            "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": "TRAVAIL_PROFOND",
             "rotation": ["LIN_HIVER"],
         }
@@ -443,7 +441,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"GLYPHOSATE",
             "glyphosate": "VIVACES,COUVERTS",
-            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "weeds": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
             "tillage": "TRAVAIL_PROFOND",
         }
         engine = Engine(answers, [], [])
@@ -470,7 +468,7 @@ class TestEngine(TestCase):
         # First we try with livestock, the score should be greater than zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "{0},{1}".format(str(rumex.id), str(chardon.id)),
+            "weeds": "{0},{1}".format(str(rumex.external_id), str(chardon.external_id)),
             "cattle": "Oui",
         }
         engine = Engine(answers, [], [])
@@ -481,7 +479,7 @@ class TestEngine(TestCase):
         # Now we try without cattle, the score should be zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "{0},{1}".format(str(chardon.id), str(rumex.id)),
+            "weeds": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -502,7 +500,7 @@ class TestEngine(TestCase):
         # If the user can't do any tillage, both practices should be at zero score
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "{0}".format(str(rumex.id)),
+            "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": None,
             "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
         }
@@ -518,7 +516,7 @@ class TestEngine(TestCase):
         # should be above zero, whereas the deep tillage practice should be at zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "{0}".format(str(rumex.id)),
+            "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": 'TRAVAIL_DU_SOL',
             "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
         }
@@ -533,7 +531,7 @@ class TestEngine(TestCase):
         # If the user can do deep tillage, both practices should be above zero
         answers = {
             "problem":"GLYPHOSATE",
-            "weeds": "{0}".format(str(rumex.id)),
+            "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": 'TRAVAIL_PROFOND',
             "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
         }

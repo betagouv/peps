@@ -1,5 +1,4 @@
 from data.models import Problem
-from data.models import Weed, Pest, WeedMultiplier, PestMultiplier
 from data.models import Practice, Culture, PracticeTypeCategory
 from api.utils import AlpacaUtils
 from api.models import ResponseItem
@@ -21,7 +20,7 @@ class Engine:
         """
         Returns an array of Response objects ordered by weight.
         """
-        practices = Practice.objects.all()
+        practices = Practice.objects.all().prefetch_related('types')
         results = []
 
         for practice in practices:
@@ -128,13 +127,14 @@ class Engine:
         """
         Whether or not the practice or the practice type is blacklisted
         """
-        practice_types = list(practice.types.all())
-        if str(practice.id) in self.blacklisted_practices:
+
+        if self.blacklisted_practices and (str(practice.id) in self.blacklisted_practices):
             return True
 
-        for practice_type in practice_types:
-            if str(practice_type.id) in self.blacklisted_types:
+        if self.blacklisted_types:
+            if practice.types.filter(id__in=self.blacklisted_types).first():
                 return True
+
         return False
 
     def _adds_existing_culture(self, practice):
@@ -155,17 +155,13 @@ class Engine:
         the tillage that the user can do corresponds to the one required to
         carry the practice out
         """
-        practice_types = list(practice.types.all())
+        if self.form.tillage == PracticeTypeCategory.TRAVAIL_PROFOND:
+            return False
 
-        practice_needs_deep_tillage = any(x.category == PracticeTypeCategory.TRAVAIL_PROFOND.value for x in practice_types)
-        practice_needs_shallow_tillage = any(x.category == PracticeTypeCategory.TRAVAIL_DU_SOL.value for x in practice_types)
-
-        practice_needs_tillage = practice_needs_deep_tillage or practice_needs_shallow_tillage
-
-        if not self.form.tillage and practice_needs_tillage:
+        if not self.form.tillage and (practice.needs_shallow_tillage or practice.needs_deep_tillage):
             return True
 
-        if self.form.tillage == PracticeTypeCategory.TRAVAIL_DU_SOL and practice_needs_deep_tillage:
+        if self.form.tillage == PracticeTypeCategory.TRAVAIL_DU_SOL and practice.needs_deep_tillage:
             return True
 
         return False
@@ -215,29 +211,32 @@ class Engine:
         If the user does not use weeds that are whitelisted
         for this practice, we deem they are incompatible.
         """
-        practice_weeds_whitelist = list(practice.weed_whitelist.all())
+        if not practice.weed_whitelist_external_ids:
+            return False
 
-        if practice_weeds_whitelist:
-            if not self.form.weeds:
-                return True
-            matching_user_weeds = [x for x in self.form.weeds if x in practice_weeds_whitelist]
-            if not matching_user_weeds:
-                return True
+        if not self.form.weeds:
+            return True
+
+        if not list(set(practice.weed_whitelist_external_ids) & set(self.form.weeds)):
+            return True
+
         return False
+
 
     def _has_incompatible_pests(self, practice):
         """
         If the user does not use pests that are whitelisted
         for this practice, we deem they are incompatible.
         """
-        practice_pest_whitelist = list(practice.pest_whitelist.all())
+        if not practice.pest_whitelist_external_ids:
+            return False
 
-        if practice_pest_whitelist:
-            if not self.form.pests:
-                return True
-            matching_user_pests = [x for x in self.form.pests if x in practice_pest_whitelist]
-            if not matching_user_pests:
-                return True
+        if not self.form.pests:
+            return True
+
+        if not list(set(practice.pest_whitelist_external_ids) & set(self.form.pests)):
+            return True
+
         return False
 
     def _has_incompatible_cultures(self, practice):
@@ -256,17 +255,23 @@ class Engine:
         return False
 
     def _get_highest_weed_multiplier(self, practice):
-        if self.form.weeds:
-            weed_multipliers = list(WeedMultiplier.objects.filter(practice=practice, weed__in=self.form.weeds).values('multiplier'))
+        if self.form.weeds and practice.weed_multipliers:
+            weed_multipliers = []
+            for item in practice.weed_multipliers:
+                if list(item.keys())[0] in self.form.weeds:
+                    weed_multipliers.append(list(item.values())[0])
             if weed_multipliers:
-                return max(map(lambda x: float(x.get('multiplier', 1)), weed_multipliers))
+                return max(weed_multipliers)
         return 1
 
     def _get_highest_pest_multiplier(self, practice):
-        if self.form.pests:
-            pest_multipliers = list(PestMultiplier.objects.filter(practice=practice, pest__in=self.form.pests).values('multiplier'))
+        if self.form.pests and practice.pest_multipliers:
+            pest_multipliers = []
+            for item in practice.pest_multipliers:
+                if list(item.keys())[0] in self.form.pests:
+                    pest_multipliers.append(list(item.values())[0])
             if pest_multipliers:
-                return max(map(lambda x: float(x.get('multiplier', 1)), pest_multipliers))
+                return max(pest_multipliers)
         return 1
 
     def _get_highest_glyphosate_use_multiplier(self, practice):
