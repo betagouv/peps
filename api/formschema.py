@@ -152,7 +152,7 @@ def get_form_schema():
                     "dataSource": [
                         {'text': 'Tous types de travail du sol', 'value': 'TRAVAIL_PROFOND'},
                         {'text': 'Travail superficiel uniquement', 'value': 'TRAVAIL_DU_SOL'},
-                        {'text': 'Aucun travail du sol', 'value': None},
+                        {'text': 'Aucun travail du sol', 'value': 'NONE'},
                     ],
                 },
                 "cattle": {
