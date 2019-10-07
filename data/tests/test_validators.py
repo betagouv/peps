@@ -14,7 +14,6 @@ class TestValidators(TestCase):
             "id": "recuVebqXEqCg8kK0",
             "fields": {
                 "Name": "Blé dur",
-                "Enum code": "BLE",
             },
         }]
         errors = validate_cultures(json)
@@ -24,35 +23,11 @@ class TestValidators(TestCase):
         json = [{
             "id": "recuVebqXEqCg8kK0",
             "fields": {
-                "Enum code": "BLE",
             },
         }]
         errors = validate_cultures(json)
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].message, 'Culture ID recuVebqXEqCg8kK0 n\'a pas de nom (colonne Name)')
-
-        # If the enum is missing, we expect an error
-        json = [{
-            "id": "recuVebqXEqCg8kK0",
-            "fields": {
-                "Name": "Blé dur",
-            },
-        }]
-        errors = validate_cultures(json)
-        self.assertEqual(len(errors), 1)
-        self.assertEqual(errors[0].message, 'Culture "Blé dur" (ID recuVebqXEqCg8kK0) manque l\'enum code (colonne Enum code)')
-
-        # If the enum is not part of the known cultures, we expect an error
-        json = [{
-            "id": "recuVebqXEqCg8kK0",
-            "fields": {
-                "Name": "Blé dur",
-                "Enum code": "UNKNOWN_CODE",
-            },
-        }]
-        errors = validate_cultures(json)
-        self.assertEqual(len(errors), 1)
-        self.assertEqual(errors[0].message, 'Culture "Blé dur" (ID recuVebqXEqCg8kK0) a un code enum qui n\'est pas connu du backend')
 
 
     def test_glyphosate_uses_validation(self):

@@ -15,19 +15,7 @@ class AlpacaUtils:
 
     @cached_property
     def cultures(self):
-        if not self.answers.get('rotation'):
-            return None
-
-        cultures_answers = self.answers['rotation']
-        cultures = []
-
-        for culture in cultures_answers:
-            try:
-                cultures.append(Culture[culture])
-            except KeyError as _:
-                continue
-
-        return cultures
+        return self.answers.get('rotation')
 
     @cached_property
     def tillage_feasibility(self):

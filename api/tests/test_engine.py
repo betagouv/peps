@@ -3,7 +3,7 @@ from unittest.mock import Mock
 import requests
 from django.test import TestCase, override_settings
 from api.engine import Engine
-from data.models import Problem, Weed, Pest
+from data.models import Problem, Weed, Pest, Culture
 from data.adapters import AirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -34,6 +34,7 @@ class TestEngine(TestCase):
         the engine should set practices introducing to that culture to zero.
         """
         practice_title = 'Introduire le chanvre dans la rotation'
+        chanvre = Culture.objects.filter(display_text='Chanvre').first()
 
         # If we have a problem with weeds we expect to have the chanvre practice
         # with a high ranking
@@ -41,11 +42,12 @@ class TestEngine(TestCase):
         engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
+
         self.assertEqual(chanvre_practice.weight, 1.5)
 
         # However, if the user says they already have chanvre in their rotation,
         # the same practice will now have 0 as weight
-        answers = {"problem":"DESHERBAGE", "rotation":["CHANVRE"], "department":"01"}
+        answers = {"problem":"DESHERBAGE", "rotation":[chanvre.external_id], "department":"01"}
         engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
@@ -57,7 +59,11 @@ class TestEngine(TestCase):
         If the user says their problem are weeds (adventices), the three suggestions
         must address weeds.
         """
-        answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
+        ble = Culture.objects.filter(display_text='Blé dur').first()
+        mais = Culture.objects.filter(display_text='Maïs').first()
+        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+
+        answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id, chanvre.external_id, mais.external_id]}
         engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         response_items = engine.get_suggestions(practices)
@@ -74,8 +80,12 @@ class TestEngine(TestCase):
         It is possible to blacklist individual practices, this test
         ensures that blacklisted practices end up with a score of zero.
         """
+        ble = Culture.objects.filter(display_text='Blé dur').first()
+        mais = Culture.objects.filter(display_text='Maïs').first()
+        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+
         # We make a call to get suggestions
-        answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
+        answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id, chanvre.external_id, mais.external_id]}
         engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         response_items = engine.get_suggestions(practices)
@@ -103,8 +113,12 @@ class TestEngine(TestCase):
         ensures that practices belonging to blacklisted practice types
         have a score of zero.
         """
+        ble = Culture.objects.filter(display_text='Blé dur').first()
+        mais = Culture.objects.filter(display_text='Maïs').first()
+        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+
         # We make a call to get suggestions
-        answers = {"problem":"DESHERBAGE", "rotation": ["BLE", "CHANVRE", "MAIS"]}
+        answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id, chanvre.external_id, mais.external_id]}
         engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         response_items = engine.get_suggestions(practices)
@@ -133,10 +147,11 @@ class TestEngine(TestCase):
         practice_title = "Faucher une culture fourragère "
         rumex = Weed.objects.filter(display_text='Rumex').first()
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
+        ble = Culture.objects.filter(display_text='Blé dur').first()
 
         # First we check the weignt without using RUMEX. We expect the weight to be
         # zero since the whitelist is not upheld
-        answers = {"problem":"DESHERBAGE", "rotation": ["BLE"], "cattle": "Oui"}
+        answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id], "cattle": "Oui"}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -146,7 +161,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"DESHERBAGE",
             "weeds": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
-            "rotation": ["BLE"],
+            "rotation": [ble.external_id],
             "cattle": "Oui"
         }
         engine = Engine(answers, [], [])
@@ -163,11 +178,12 @@ class TestEngine(TestCase):
         practice_title = "Faucher une culture fourragère "
         rumex = Weed.objects.filter(display_text='Rumex').first()
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
+        ble = Culture.objects.filter(display_text='Blé dur').first()
 
         answers = {
             "problem":"DESHERBAGE",
             "weeds": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
-            "rotation": ["BLE"],
+            "rotation": [ble.external_id],
             "cattle": "Oui"
         }
         engine = Engine(answers, [], [])
@@ -177,7 +193,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"DESHERBAGE",
             "perennials": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
-            "rotation": ["BLE"],
+            "rotation": [ble.external_id],
             "cattle": "Oui"
         }
         engine = Engine(answers, [], [])
@@ -189,7 +205,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"DESHERBAGE",
             "weedsGlyphosate": "{0},{1}".format(str(chardon.external_id), str(rumex.external_id)),
-            "rotation": ["BLE"],
+            "rotation": [ble.external_id],
             "cattle": "Oui"
         }
         engine = Engine(answers, [], [])
@@ -210,9 +226,10 @@ class TestEngine(TestCase):
         practice_title = "Profiter de l'action des auxiliaires sur le puceron de l'épi"
         chardon_multiplier = 0.6
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
+        ble = Culture.objects.filter(display_text='Blé dur').first()
 
         # First we check the weignt without using CHARDON in the response
-        answers = {"problem":"DESHERBAGE", "rotation": ["BLE"]}
+        answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -222,7 +239,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"DESHERBAGE",
             "weeds": "{0}".format(str(chardon.external_id)),
-            "rotation": ["BLE"]
+            "rotation": [ble.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -241,12 +258,13 @@ class TestEngine(TestCase):
         """
         practice_title = "Lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes"
         pyrales = Pest.objects.filter(display_text='Pyrales').first()
+        mais = Culture.objects.filter(display_text='Maïs').first()
 
         # First we check the weignt without using PYRALES. We expect the weight to be
         # zero since the whitelist is not upheld
         answers = {
             "problem":"RAVAGEURS",
-            "rotation": ["MAIS"]
+            "rotation": [mais.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -257,7 +275,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"RAVAGEURS",
             "pests": "{0}".format(pyrales.external_id),
-            "rotation": ["MAIS"]
+            "rotation": [mais.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -274,12 +292,13 @@ class TestEngine(TestCase):
         """
         practice_title = "Associer un colza avec un couvert de légumineuses"
         charancon = Pest.objects.filter(display_text='Charançons').first()
+        colza = Culture.objects.filter(display_text='Colza').first()
         charancon_multiplier = 1.3
 
         # First we check the weignt without using CHARANCONS in the response
         answers = {
             "problem":"RAVAGEURS",
-            "rotation": ["COLZA"]
+            "rotation": [colza.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -290,7 +309,7 @@ class TestEngine(TestCase):
         answers = {
             "problem":"RAVAGEURS",
             "pests": "{0}".format(str(charancon.external_id)),
-            "rotation": ["COLZA"]
+            "rotation": [colza.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -310,6 +329,8 @@ class TestEngine(TestCase):
         """
         practice_title = "Détruire les résidus de cannes de maïs"
         pyrales = Pest.objects.filter(display_text='Pyrales').first()
+        ble = Culture.objects.filter(display_text='Blé dur').first()
+        mais = Culture.objects.filter(display_text='Maïs').first()
 
         # First we check the weight without using MAIS. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -317,7 +338,7 @@ class TestEngine(TestCase):
             "problem":"RAVAGEURS",
             "pests": "{0}".format(str(pyrales.external_id)),
             "tillage": "TRAVAIL_DU_SOL",
-            "rotation": ["BLE"]
+            "rotation": [ble.external_id]
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -329,7 +350,7 @@ class TestEngine(TestCase):
             "problem":"RAVAGEURS",
             "pests": "{0}".format(str(pyrales.external_id)),
             "tillage": "TRAVAIL_DU_SOL",
-            "rotation": ["BLE", "MAIS"]
+            "rotation": [ble.external_id, mais.external_id]
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -346,6 +367,7 @@ class TestEngine(TestCase):
         multiplier is taken into account by the engine.
         """
         practice_title = "Exploiter l'inter-rang pour réduire la place disponible aux adventices"
+        colza = Culture.objects.filter(display_text='Colza').first()
         colza_multiplier = 1.2
 
         # First we check the weignt without using COLZA in the response
@@ -356,7 +378,7 @@ class TestEngine(TestCase):
         initial_weight = result.weight
 
         # Now we add COLZA in the response and get the results
-        answers = {"problem":"DESHERBAGE", "rotation": ["COLZA"]}
+        answers = {"problem":"DESHERBAGE", "rotation": [colza.external_id]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -375,16 +397,17 @@ class TestEngine(TestCase):
         "Défanner les pomme des terre avec un produit de biocontrôle"
         """
         practice_title = 'Défanner les pomme des terre avec un produit de biocontrôle'
+        pomme_de_terre = Culture.objects.filter(display_text='Pomme de terre').first()
 
         # First we make a request without specifying glyphosate as the main problem
-        answers = {"problem":"DESHERBAGE", "rotation": ["POMME_DE_TERRE"]}
+        answers = {"problem":"DESHERBAGE", "rotation": [pomme_de_terre.external_id]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
         initial_weight = result.weight
 
         # First we make a request without specifying glyphosate as the main problem
-        answers = {"problem":"GLYPHOSATE", "rotation": ["POMME_DE_TERRE"]}
+        answers = {"problem":"GLYPHOSATE", "rotation": [pomme_de_terre.external_id]}
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
         result = next(filter(lambda x: x.practice.title == practice_title, results))
@@ -401,13 +424,14 @@ class TestEngine(TestCase):
         glyphosate_bonus = 1.4
         practice_title = 'Déchaumages répétés'
         rumex = Weed.objects.filter(display_text='Rumex').first()
+        lin_hiver = Culture.objects.filter(display_text='Lin hiver').first()
 
         # First we make a request without specifying the use of glyphosate
         answers = {
             "problem":"GLYPHOSATE",
             "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": ["LIN_HIVER"],
+            "rotation": [lin_hiver.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -420,7 +444,7 @@ class TestEngine(TestCase):
             "glyphosate": "VIVACES",
             "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": ["LIN_HIVER"],
+            "rotation": [lin_hiver.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -495,14 +519,18 @@ class TestEngine(TestCase):
         """
         deep_tillage_practice_title = 'Positionner un labour stratégiquement'
         shallow_tillage_practice_title = 'Désherbage mécanique en plein en début de saison pour cultures de printemps'
+
         rumex = Weed.objects.filter(display_text='Rumex').first()
+        ble = Culture.objects.filter(display_text='Blé dur').first()
+        lin_hiver = Culture.objects.filter(display_text='Lin hiver').first()
+        ble_printemps = Culture.objects.filter(display_text='Blé tendre de printemps').first()
 
         # If the user can't do any tillage, both practices should be at zero score
         answers = {
             "problem":"GLYPHOSATE",
             "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": None,
-            "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
+            "rotation": [ble.external_id, lin_hiver.external_id, ble_printemps.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -518,7 +546,7 @@ class TestEngine(TestCase):
             "problem":"GLYPHOSATE",
             "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": 'TRAVAIL_DU_SOL',
-            "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
+            "rotation": [ble.external_id, lin_hiver.external_id, ble_printemps.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()
@@ -533,7 +561,7 @@ class TestEngine(TestCase):
             "problem":"GLYPHOSATE",
             "weeds": "{0}".format(str(rumex.external_id)),
             "tillage": 'TRAVAIL_PROFOND',
-            "rotation": ["BLE", "LIN_HIVER", "BLE_PRINTEMPS"],
+            "rotation": [ble.external_id, lin_hiver.external_id, ble_printemps.external_id],
         }
         engine = Engine(answers, [], [])
         results = engine.calculate_results()

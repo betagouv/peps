@@ -142,9 +142,8 @@ class Engine:
         Whether the practice aims to add a culture that is already being
         used by the user.
         """
-        practice_added_cultures = [Culture(x) for x in (practice.added_cultures or [])]
-        if self.form.cultures and practice_added_cultures:
-            redundant_cultures = [x for x in self.form.cultures if x in practice_added_cultures]
+        if self.form.cultures and practice.added_cultures:
+            redundant_cultures = [x for x in self.form.cultures if x in practice.added_cultures]
             if redundant_cultures:
                 return True
         return False
@@ -244,12 +243,10 @@ class Engine:
         If the user does not use cultures that are whitelisted
         for this practice, we deem they are incompatible.
         """
-        practice_cultures_whitelist = [Culture(x) for x in (practice.culture_whitelist or [])]
-
-        if practice_cultures_whitelist:
+        if practice.culture_whitelist:
             if not self.form.cultures:
                 return True
-            matching_user_cultures = [x for x in self.form.cultures if x in practice_cultures_whitelist]
+            matching_user_cultures = [x for x in self.form.cultures if x in practice.culture_whitelist]
             if not matching_user_cultures:
                 return True
         return False
@@ -284,7 +281,7 @@ class Engine:
 
     def _get_highest_culture_multiplier(self, practice):
         if practice.culture_multipliers and self.form.cultures:
-            relevant_multipliers = list(filter(lambda x: int(list(x.keys())[0]) in self.form.cultures, practice.culture_multipliers))
+            relevant_multipliers = list(filter(lambda x: list(x.keys())[0] in self.form.cultures, practice.culture_multipliers))
             if relevant_multipliers:
                 max_multiplier = max(map(lambda x: list(x.values())[0], relevant_multipliers))
                 return max_multiplier

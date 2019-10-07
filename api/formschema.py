@@ -318,7 +318,7 @@ def _get_practice_types():
 
 def _get_cultures():
     from data.models import Culture
-    return [{'text': x.display_text, 'value': x.name} for x in Culture]
+    return [{'text': x.display_text, 'value': x.external_id} for x in Culture.objects.all()]
 
 def _get_glyphosate_uses():
     from data.models import GlyphosateUses

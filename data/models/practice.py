@@ -6,8 +6,6 @@ from .practicegroup import PracticeGroup
 from .practicetype import PracticeType
 from .mechanism import Mechanism
 from .resource import Resource
-from .weed import Weed
-from .pest import Pest
 
 class Practice(models.Model):
     """
@@ -35,6 +33,11 @@ class Practice(models.Model):
     success_factors = models.TextField(null=True, blank=True)
 
     image_url = models.TextField(null=True, blank=True)
+
+    needs_shallow_tillage = models.BooleanField(blank=True, null=True)
+    needs_deep_tillage = models.BooleanField(blank=True, null=True)
+    weed_whitelist_external_ids = ArrayField(models.TextField(), default=list)
+    pest_whitelist_external_ids = ArrayField(models.TextField(), default=list)
 
     # Practices can have one main resource and several secondary ones
     main_resource_label = models.TextField(null=True, blank=True)
@@ -75,15 +78,6 @@ class Practice(models.Model):
     # on the user's side in order to implement this practice.
     difficulty = models.DecimalField(null=True, max_digits=7, decimal_places=6)
 
-    # If this practice involves adding new cultures to the rotation, this field specifies which
-    # cultures are being added. The value must be taken from the Cultures Enum.
-    added_cultures = ArrayField(models.IntegerField(), blank=True, null=True)
-
-    # If this practice is relevant only for certain types of cultures, they should be specified
-    # here. If the practice could be applied to any kind of culture this field should remain
-    # empty. The value must be taken from the Cultures Enum.
-    culture_whitelist = ArrayField(models.IntegerField(), blank=True, null=True)
-
     # If this practice adresses particular types of agriculture problem specified in the
     # Problem Enum, this field will store these adressed problems.
     problems_addressed = ArrayField(models.IntegerField(), blank=True, null=True)
@@ -98,9 +92,6 @@ class Practice(models.Model):
 
     # E.g., [{'75': 1.003}, {'69': 0.7329}]
     department_multipliers = ArrayField(JSONField(), blank=True, null=True)
-
-    # E.g., [{1: 1.003}, {5: 0.7329}]
-    culture_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
     # E.g., [{1: 1.003}, {5: 0.7329}]
     glyphosate_multipliers = ArrayField(JSONField(), blank=True, null=True)
@@ -122,9 +113,14 @@ class Practice(models.Model):
     # E.g., [{'recjzIBqwGkton9Ed': 1.0024}, {'recjzIAuvEkton9Ed': 0.6362}]
     pest_multipliers = ArrayField(JSONField(), blank=True, null=True)
 
-    # While these fields can be deduced from the ones above, they are in a separate
-    # place to avoid expensive join statements
-    needs_shallow_tillage = models.BooleanField(blank=True, null=True)
-    needs_deep_tillage = models.BooleanField(blank=True, null=True)
-    weed_whitelist_external_ids = ArrayField(models.TextField(), default=list)
-    pest_whitelist_external_ids = ArrayField(models.TextField(), default=list)
+    # If this practice involves adding new cultures to the rotation, this field specifies which
+    # cultures are being added. These are culture external IDs.
+    added_cultures = ArrayField(models.TextField(), blank=True, null=True)
+
+    # If this practice is relevant only for certain types of cultures, they should be specified
+    # here. If the practice could be applied to any kind of culture this field should remain
+    # empty. These are culture external IDs.
+    culture_whitelist = ArrayField(models.TextField(), blank=True, null=True)
+
+    # E.g., [{'recjzIAuvEkton9Ed': 1.003}, {'recjzIArvEkton9Ds': 0.7329}]
+    culture_multipliers = ArrayField(JSONField(), blank=True, null=True)

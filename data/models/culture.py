@@ -1,63 +1,43 @@
-from .pepsenum import PepsEnum
+import uuid
+from enum import Enum
+from django.utils import timezone
+from django.db import models
+from django.contrib.postgres.fields import JSONField, ArrayField
 
+class Culture(models.Model):
 
-class Culture(PepsEnum):
-    BLE = 1
-    BLE_HIVER = 2
-    BLE_PRINTEMPS = 3
-    BETTRAVE = 4
-    ORGE = 5
-    MAIS = 6
-    TOURNESOL = 7
-    COLZA = 8
-    AUTRES_CEREALES = 9
-    AUTRES_LEGUMINEUSES = 10
-    CHANVRE = 11
-    AUTRES_OLEAGINEAUX = 12
-    POIS = 13
-    FEVEROLES = 14
-    POMME_DE_TERRE = 15
-    LIN = 16
-    SOJA = 17
-    PRAIRIES_CULTURES_FOURRAGERES = 18
-    LENTILLES = 19
-    SARRASIN = 20
-    ORGE_PRINTEMPS = 21
-    VIGNE = 22
-    LUZERNE = 23
-    AVOINE = 24
-    LIN_HIVER = 25
-    LIN_PRINTEMPS = 26
+    class CulturesSowingPeriod(Enum):
+        PRINTEMPS = 1
+        AUTOMNE = 2
+        ETE = 3
+        FIN_ETE = 4
 
-    @property
-    def display_text(self):
-        display_texts = {
-            'BLE': 'Blé dur',
-            'BLE_HIVER': 'Blé tendre d\'hiver',
-            'BLE_PRINTEMPS': 'Blé tendre de printemps',
-            'BETTRAVE': 'Bettrave',
-            'ORGE': 'Orge',
-            'MAIS': 'Maïs',
-            'TOURNESOL': 'Tournesol',
-            'COLZA': 'Colza',
-            'AUTRES_CEREALES': 'Autres céreales',
-            'AUTRES_LEGUMINEUSES': 'Autres légumineuses',
-            'CHANVRE': 'Chanvre',
-            'AUTRES_OLEAGINEAUX': 'Autres oléagineux',
-            'POIS': 'Pois',
-            'FEVEROLES': 'Féveroles',
-            'POMME_DE_TERRE': 'Pomme de terre',
-            'LIN': 'Lin',
-            'LIN_HIVER': 'Lin hiver',
-            'LIN_PRINTEMPS': 'Lin printemps',
-            'SOJA': 'Soja',
-            'PRAIRIES_CULTURES_FOURRAGERES': 'Prairies et cultures fourragères',
-            'LENTILLES': 'Lentilles',
-            'SARRASIN': 'Sarrasin',
-            'ORGE_PRINTEMPS': 'Orge de printemps',
-            'VIGNE': 'Vigne',
-            'LUZERNE': 'Luzerne',
-            'AVOINE': 'Avoine',
-        }
+    class CulturesSowingMonth(Enum):
+        JAN = 1
+        FEV = 2
+        MARS = 3
+        AVR = 4
+        MAI = 5
+        JUIN = 6
+        JUL = 7
+        AOUT = 8
+        SEP = 9
+        OCT = 10
+        NOV = 11
+        DEC = 12
 
-        return display_texts.get(self.name) or self.name
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    external_id = models.CharField(max_length=100, db_index=True)
+    modification_date = models.DateTimeField()
+    creation_date = models.DateTimeField(default=timezone.now)
+
+    airtable_json = JSONField(null=True, blank=True)
+    airtable_url = models.TextField(null=True, blank=True)
+
+    display_text = models.TextField(null=True, blank=True)
+
+    # 1-12 (for January through December)
+    sowing_months = ArrayField(models.IntegerField(), blank=True, null=True)
+
+    # Must be part of the CulturePeriod enum
+    sowing_period = models.IntegerField(null=True, blank=True)

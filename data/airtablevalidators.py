@@ -212,17 +212,6 @@ def validate_cultures(airtable_cultures):
             message = 'Culture ID %s n\'a pas de nom (colonne Name)' % culture_id
             errors.append(AirtableError(message, url=url))
 
-        if not fields.get('Enum code'):
-            message = 'Culture "%s" (ID %s) manque l\'enum code (colonne Enum code)' % (culture_title, culture_id)
-            errors.append(AirtableError(message, url=url))
-
-        if fields.get('Enum code'):
-            try:
-                Culture[fields.get('Enum code')]
-            except KeyError as _:
-                message = 'Culture "%s" (ID %s) a un code enum qui n\'est pas connu du backend' % (culture_title, culture_id)
-                errors.append(AirtableError(message, fatal=False, url=url))
-
         return errors
 
     for pest in airtable_cultures:
