@@ -148,7 +148,7 @@ class SendEmailView(APIView):
             variables['schedule_' + position] = practice.schedule or ''
             variables['title_' + position] = practice.title or ''
             variables['description_' + position] = practice.description or ''
-            variables['cta_label_' + position] = (practice.main_resource.name or '') if practice.main_resource else ''
+            variables['cta_label_' + position] = (practice.main_resource_label or '') if practice.main_resource_label else ''
             variables['cta_url_' + position] = (practice.main_resource.url or '') if practice.main_resource else ''
 
             resource_labels = []
