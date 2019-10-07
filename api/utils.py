@@ -1,6 +1,6 @@
 from django.utils.functional import cached_property
 from django.core.exceptions import ValidationError
-from data.models import Problem, Weed, Pest, Culture, PracticeTypeCategory, GlyphosateUses
+from data.models import Problem, PracticeTypeCategory, GlyphosateUses
 
 class AlpacaUtils:
 

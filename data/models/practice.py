@@ -38,6 +38,7 @@ class Practice(models.Model):
     needs_deep_tillage = models.BooleanField(blank=True, null=True)
     weed_whitelist_external_ids = ArrayField(models.TextField(), default=list)
     pest_whitelist_external_ids = ArrayField(models.TextField(), default=list)
+    balances_sowing_period = models.BooleanField(blank=True, null=True)
 
     # Practices can have one main resource and several secondary ones
     main_resource_label = models.TextField(null=True, blank=True)

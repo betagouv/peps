@@ -572,6 +572,71 @@ class TestEngine(TestCase):
         self.assertGreater(shallow_tillage_result.weight, 0)
 
 
+    def test_unbalanced_rotation(self):
+        """
+        If the user has <=25% of cultures of either spring or fall, they will need
+        to balance their rotation. We must propose practices that help balance this
+        out.
+        """
+        # Spring cultures:
+        mais = Culture.objects.filter(display_text='Maïs').first()
+        tournesol = Culture.objects.filter(display_text='Tournesol').first()
+        soja = Culture.objects.filter(display_text='Soja').first()
+
+        # Fall cultures:
+        ble = Culture.objects.filter(display_text='Blé dur').first()
+        orge = Culture.objects.filter(display_text='Orge').first()
+
+        # This practice balances the sowing period and should be proposed when having an unbalanced rotation
+        practice_name = 'Favoriser l\'alternance de cultures à semis de printemps et d\'automne'
+
+        # In this example, we have 75% of spring cultures: an unbalanced rotation
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [
+                mais.external_id,
+                tournesol.external_id,
+                soja.external_id,
+                ble.external_id
+            ],
+        }
+        engine = Engine(answers, [], [])
+        unbalanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+
+        # Now we balance it out, having half fall, half spring rotation
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [
+                mais.external_id,
+                tournesol.external_id,
+                orge.external_id,
+                ble.external_id
+            ],
+        }
+        engine = Engine(answers, [], [])
+        balanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+
+        # The practice weight when the rotation was unbalanced must be higher
+        self.assertGreater(unbalanced_result.weight, balanced_result.weight)
+
+        # Note that the threshold is 25%, so having an unbalanced rotation of 2-1 (33%)
+        # should count as a balanced rotation
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [
+                mais.external_id,
+                tournesol.external_id,
+                ble.external_id
+            ],
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        self.assertEqual(balanced_result.weight, result.weight)
+
+
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
     # data instead of the real deal.

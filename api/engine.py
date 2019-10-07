@@ -120,6 +120,7 @@ class Engine:
         weight *= self._get_highest_culture_multiplier(practice)
         weight *= self._get_lowest_type_redundancy_multiplier(practice)
         weight *= self._get_department_multiplier(practice)
+        weight *= self._get_unbalanced_rotation_multiplier(practice)
 
         return weight
 
@@ -318,3 +319,25 @@ class Engine:
             return 1
         relevant_multipliers = [list(x.values())[0] for x in practice.department_multipliers if self.form.department == list(x.keys())[0]]
         return float(max(relevant_multipliers)) if relevant_multipliers else 1
+
+    def _get_unbalanced_rotation_multiplier(self, practice):
+        """
+        If the rotation is considered unbalanced and the practice balances out the sillage
+        periods, we will boost it up with a multiplier.
+        """
+        if not practice.balances_sowing_period or not self.form.cultures:
+            return 1
+
+        unbalanced_multiplier = 2
+        threshold = 0.75
+
+        spring = Culture.CulturesSowingPeriod.PRINTEMPS.value
+        fall = Culture.CulturesSowingPeriod.AUTOMNE.value
+
+        form_cultures = list(Culture.objects.filter(external_id__in=self.form.cultures))
+        spring_cultures = list(filter(lambda x: x.sowing_period == spring, form_cultures))
+        fall_cultures = list(filter(lambda x: x.sowing_period == fall, form_cultures))
+
+        if len(spring_cultures) / len(form_cultures) >= threshold or len(fall_cultures) / len(form_cultures) >= threshold:
+            return unbalanced_multiplier
+        return 1

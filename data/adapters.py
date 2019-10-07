@@ -136,6 +136,7 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             needs_tillage=json_practice['fields'].get('Nécessite travail du sol', False),
             livestock_multiplier=json_practice['fields'].get('Élevage multiplicateur'),
             needs_livestock=json_practice['fields'].get('Élevage nécessaire', False),
+            balances_sowing_period=json_practice['fields'].get('Équilibre période semis', False),
             direct_sale_multiplier=json_practice['fields'].get('Vente directe multiplicateur'),
             precision=json_practice['fields'].get('Précision'),
             difficulty=json_practice['fields'].get('Difficulté'),
