@@ -329,7 +329,7 @@ class Engine:
             return 1
 
         unbalanced_multiplier = 2
-        threshold = 0.75
+        threshold = 0.25
 
         spring = Culture.CulturesSowingPeriod.PRINTEMPS.value
         fall = Culture.CulturesSowingPeriod.AUTOMNE.value
@@ -338,6 +338,6 @@ class Engine:
         spring_cultures = list(filter(lambda x: x.sowing_period == spring, form_cultures))
         fall_cultures = list(filter(lambda x: x.sowing_period == fall, form_cultures))
 
-        if len(spring_cultures) / len(form_cultures) >= threshold or len(fall_cultures) / len(form_cultures) >= threshold:
+        if len(spring_cultures) / len(form_cultures) <= threshold or len(fall_cultures) / len(form_cultures) <= threshold:
             return unbalanced_multiplier
         return 1

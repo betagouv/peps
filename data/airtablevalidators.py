@@ -1,4 +1,4 @@
-from data.models import Problem, PracticeTypeCategory, Weed, Pest, Culture, GlyphosateUses
+from data.models import Problem, PracticeTypeCategory, GlyphosateUses
 
 class AirtableError():
     def __init__(self, message, fatal=True, url=None):

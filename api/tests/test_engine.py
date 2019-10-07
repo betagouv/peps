@@ -587,10 +587,13 @@ class TestEngine(TestCase):
         ble = Culture.objects.filter(display_text='Blé dur').first()
         orge = Culture.objects.filter(display_text='Orge').first()
 
+        # Summer cultures
+        colza = Culture.objects.filter(display_text='Colza').first()
+
         # This practice balances the sowing period and should be proposed when having an unbalanced rotation
         practice_name = 'Favoriser l\'alternance de cultures à semis de printemps et d\'automne'
 
-        # In this example, we have 75% of spring cultures: an unbalanced rotation
+        # In this example, we have only 25% of fall cultures: an unbalanced rotation
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
@@ -635,6 +638,41 @@ class TestEngine(TestCase):
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
         self.assertEqual(balanced_result.weight, result.weight)
+
+        # We should only look at spring and fall cultures when we apply this logic.
+        # In this case we have 40% fall, 40% spring, and 20% end-of-summer. Despite
+        # having a sowing period of less than 25%, since it is not fall nor spring we
+        # still consider this a balanced culture.
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [
+                mais.external_id,
+                tournesol.external_id,
+                ble.external_id,
+                orge.external_id,
+                colza.external_id,
+            ],
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        self.assertEqual(balanced_result.weight, result.weight)
+
+        # In this case we have 25% summer, 25% spring and 50% fall. This should
+        # be considered an unbalanced rotation because spring is <= 25%
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [
+                tournesol.external_id,
+                ble.external_id,
+                orge.external_id,
+                colza.external_id,
+            ],
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        self.assertEqual(unbalanced_result.weight, result.weight)
 
 
 def _populate_database():
