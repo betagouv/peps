@@ -121,6 +121,7 @@ class Engine:
         weight *= self._get_lowest_type_redundancy_multiplier(practice)
         weight *= self._get_department_multiplier(practice)
         weight *= self._get_unbalanced_rotation_multiplier(practice)
+        weight *= self._get_unbalanced_large_multiplier(practice)
 
         return weight
 
@@ -338,6 +339,22 @@ class Engine:
         spring_cultures = list(filter(lambda x: x.sowing_period == spring, form_cultures))
         fall_cultures = list(filter(lambda x: x.sowing_period == fall, form_cultures))
 
+        if not form_cultures:
+            return 1
+
         if len(spring_cultures) / len(form_cultures) <= threshold or len(fall_cultures) / len(form_cultures) <= threshold:
             return unbalanced_multiplier
         return 1
+
+
+    def _get_unbalanced_large_multiplier(self, practice):
+        """
+        If the user has more than 6 cultures, a handicap will be applied
+        to practices adding a new culture in the rotation.
+        """
+        if not practice.added_cultures or not self.form.cultures:
+            return 1
+
+        handicap = 0.9
+
+        return handicap if len(self.form.cultures) > 6 else 1

@@ -675,6 +675,49 @@ class TestEngine(TestCase):
         self.assertEqual(unbalanced_result.weight, result.weight)
 
 
+    def test_large_rotation(self):
+        """
+        If there are more than six cultures in the rotation of a user, practices with
+        added cultures should be handicaped.
+        """
+        practice_name = 'Faucher une culture fourragère'
+
+        mais = 'recsPtaEneeYVoEWx'
+        tournesol = 'rec5MHmc9xIgAg8ha'
+        soja = 'recwHs4aAiZc9okg9'
+        ble = 'recuVebqXEqCg8kK0'
+        orge = 'recfGVtMZSz05Rfl8'
+        ble_hiver = 'recmm8lo1bGXCYSA3'
+        colza = 'recZj4cTO0dwcYhbe'
+        rumex = 'rec2wnpJOAJzUFe5v'
+
+        # When having 6 or less cultures, there is no handicap
+        answers = {
+            'problem': 'DESHERBAGE',
+            'rotation': [mais, tournesol, ble, orge],
+            'weeds': rumex,
+            "cattle": "Oui",
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        initial_weight = result.weight
+
+        # When having 6 or more, a handicap of 0.9 will be applied to cultures that
+        # add a new culture to the rotation
+        answers = {
+            'problem': 'DESHERBAGE',
+            'rotation': [mais, tournesol, ble, orge, soja, ble_hiver, colza],
+            'weeds': rumex,
+            "cattle": "Oui",
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        large_rotation_weight = result.weight
+
+        self.assertEqual(initial_weight * 0.9, large_rotation_weight)
+
+
+
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
     # data instead of the real deal.
