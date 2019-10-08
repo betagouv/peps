@@ -144,7 +144,7 @@ class TestEngine(TestCase):
         to. As an example, practice "Faucher une culture fourragère " can only be relevant
         for Rumex.
         """
-        practice_title = "Faucher une culture fourragère "
+        practice_title = "Faucher une culture fourragère"
         rumex = Weed.objects.filter(display_text='Rumex').first()
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
         ble = Culture.objects.filter(display_text='Blé dur').first()
@@ -175,7 +175,7 @@ class TestEngine(TestCase):
         Three form fields can contain weed information: weeds, perennials
         and weedsGlyphosate. All must be treated the same way by the engine.
         """
-        practice_title = "Faucher une culture fourragère "
+        practice_title = "Faucher une culture fourragère"
         rumex = Weed.objects.filter(display_text='Rumex').first()
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
         ble = Culture.objects.filter(display_text='Blé dur').first()
