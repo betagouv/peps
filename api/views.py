@@ -100,7 +100,7 @@ class SendEmailView(APIView):
         data = {
             'Messages': [{
                 "From": {
-                    "Email": "peps.agriculture@gmail.com",
+                    "Email": "peps@beta.gouv.fr",
                     "Name": "Peps"
                 },
                 "To": [{
