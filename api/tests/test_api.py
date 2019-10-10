@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import AirtableAdapter
 from data.models import Practice
-from api.views import SendEmailView
+from api.views import SendEmailView, SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
 # pylint: disable = protected-access
@@ -252,6 +252,65 @@ class TestApi(TestCase):
 
         finally:
             SendEmailView._send_email = original_function
+
+
+    def test_task_unauthenticated(self):
+        """
+        Tests the task API endpoint without authentication,
+        which should not work.
+        """
+
+        self.client.logout()
+        original_function = SendTaskView._send_task
+        SendTaskView._send_task = MagicMock()
+        try:
+            response = self.client.post(
+                reverse('send_task'),
+                {
+                    "name": "Jean-Michel",
+                    "phone_number": "07 77 08 81 79",
+                    "datetime": "2019-10-09T12:02:17+00:00",
+                    "problem": "Contacter un conseiller",
+                    "answers": {"a": 1, "b": True, "c": "Foo"},
+                    "practice_id": "recKGS5iSIiD26eah",
+                },
+                format='json',
+            )
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+            SendTaskView._send_task.assert_not_called()
+        finally:
+            SendTaskView._send_task = original_function
+
+
+    def test_task_api_key_auth(self):
+        """
+        Tests the task API using the Api key, meant to identify
+        projects and apps, not users.
+        """
+        self.client.logout()
+        original_function = SendTaskView._send_task
+        SendTaskView._send_task = MagicMock()
+        try:
+            response = self.client.post(
+                reverse('send_task'),
+                {
+                    "name": "Jean-Michel",
+                    "phone_number": "07 77 08 81 79",
+                    "datetime": "2019-10-09T12:02:17+00:00",
+                    "problem": "Contacter un conseiller",
+                    "answers": {"a": 1, "b": True, "c": "Foo"},
+                    "practice_id": "recKGS5iSIiD26eah",
+                },
+                format='json',
+                **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
+            )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+            notes = 'Contacter un conseiller\n\nJean-Michel a besoin d\'aide pour implémenter la pratique https://airtable.com/tblobpdQDxkzcllWo/recKGS5iSIiD26eah.\n\nNum tel : 07 77 08 81 79\n\nRéponses : {\n    "a": 1,\n    "b": true,\n    "c": "Foo"\n}'
+            SendTaskView._send_task.assert_called_once_with('1143885392507417', '2019-10-09T12:02:17+00:00', 'Jean-Michel', notes)
+
+        finally:
+            SendTaskView._send_task = original_function
 
 
 

@@ -1,3 +1,5 @@
+import json
+import dateutil.parser
 from mailjet_rest import Client
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
@@ -5,6 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
+import asana
 from data.adapters import AirtableAdapter
 from data.models import Practice
 from api.engine import Engine
@@ -172,3 +175,64 @@ class SendEmailView(APIView):
             variables['html_text_' + position] = links_html
 
         return variables
+
+
+class SendTaskView(APIView):
+    """
+    This view will send a task to Asana in order to follow-up the
+    implementation of a certain practice.
+    """
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated | HasAPIKey]
+
+    def post(self, request):
+        name = request.data.get('name')
+        email = request.data.get('email')
+        phone_number = request.data.get('phone_number')
+        practice_id = request.data.get('practice_id')
+        answers = request.data.get('answers')
+        problem = request.data.get('problem')
+        date = request.data.get('datetime')
+
+        # We need at least name, phone, practice, and date
+        if not name or not phone_number or not practice_id or not date:
+            return JsonResponse({'error': 'Missing information'}, status=400)
+
+        # We need a valid date
+        try:
+            date = dateutil.parser.parse(date)
+        except ValueError as _:
+            return JsonResponse({'error': 'Invalid date'}, status=500)
+
+        practice_url = 'https://airtable.com/tblobpdQDxkzcllWo/{0}'.format(practice_id)
+        notes = '{0}\n\n'.format(problem)
+        notes += '{0} a besoin d\'aide pour implémenter la pratique {1}.\n\n'.format(name, practice_url)
+
+        notes += 'Num tel : {0}\n\n'.format(phone_number)
+
+        if email:
+            notes += 'Email: {0}\n\n'.format(email)
+
+        if answers:
+            notes += 'Réponses : {0}'.format(json.dumps(answers, indent=4))
+
+        try:
+            SendTaskView._send_task(settings.ASANA_PROJECT, date.astimezone().isoformat(), name, notes)
+            return JsonResponse({}, status=200)
+        except asana.error.InvalidRequestError as _:
+            return JsonResponse({'error': 'Invalid request'}, status=400)
+        except asana.error.InvalidTokenError as _:
+            return JsonResponse({'error': 'Invalid token'}, status=403)
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+    @staticmethod
+    def _send_task(projects, due_at, name, notes):
+        client = asana.Client.access_token(settings.ASANA_PERSONAL_TOKEN)
+        # pylint: disable=no-member
+        client.tasks.create({
+            'projects': projects,
+            'due_at': due_at,
+            'name': name,
+            'notes': notes,
+        })
+        # pylint: enable=no-member

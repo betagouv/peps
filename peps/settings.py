@@ -32,6 +32,9 @@ ALLOWED_HOSTS = [x.strip() for x in os.getenv('PEPS_ALLOWED_HOSTS').split(',')]
 AIRTABLE_API_KEY = os.getenv('PEPS_AIRTABLE_KEY')
 AIRTABLE_REQUEST_INTERVAL_SECONDS = 0.2
 
+ASANA_PERSONAL_TOKEN = os.getenv('PEPS_ASANA_PERSONAL_TOKEN')
+ASANA_PROJECT = os.getenv('PEPS_ASANA_PROJECT')
+
 # Application definition
 
 INSTALLED_APPS = [

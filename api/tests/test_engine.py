@@ -97,7 +97,7 @@ class TestEngine(TestCase):
         practices = engine.calculate_results()
         response_items = engine.get_suggestions(practices)
 
-        # Now let' verify that the suggestions no longer include the
+        # Now let's verify that the suggestions no longer include the
         # blacklisted practice
         suggested_ids = list(map(lambda x: str(x.practice.id), response_items))
         self.assertNotIn(blacklisted_suggestion_id, suggested_ids)
@@ -579,16 +579,16 @@ class TestEngine(TestCase):
         out.
         """
         # Spring cultures:
-        mais = Culture.objects.filter(display_text='Maïs').first()
-        tournesol = Culture.objects.filter(display_text='Tournesol').first()
-        soja = Culture.objects.filter(display_text='Soja').first()
+        mais = 'recsPtaEneeYVoEWx'
+        tournesol = 'rec5MHmc9xIgAg8ha'
+        soja = 'recwHs4aAiZc9okg9'
 
         # Fall cultures:
-        ble = Culture.objects.filter(display_text='Blé dur').first()
-        orge = Culture.objects.filter(display_text='Orge').first()
+        ble = 'recuVebqXEqCg8kK0'
+        orge = 'recfGVtMZSz05Rfl8'
 
         # Summer cultures
-        colza = Culture.objects.filter(display_text='Colza').first()
+        colza = 'recZj4cTO0dwcYhbe'
 
         # This practice balances the sowing period and should be proposed when having an unbalanced rotation
         practice_name = 'Favoriser l\'alternance de cultures à semis de printemps et d\'automne'
@@ -597,12 +597,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [
-                mais.external_id,
-                tournesol.external_id,
-                soja.external_id,
-                ble.external_id
-            ],
+            "rotation": [mais, tournesol, soja, ble],
         }
         engine = Engine(answers, [], [])
         unbalanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -611,12 +606,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [
-                mais.external_id,
-                tournesol.external_id,
-                orge.external_id,
-                ble.external_id
-            ],
+            "rotation": [ mais, tournesol, orge, ble],
         }
         engine = Engine(answers, [], [])
         balanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -629,11 +619,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [
-                mais.external_id,
-                tournesol.external_id,
-                ble.external_id
-            ],
+            "rotation": [ mais, tournesol, ble],
         }
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -646,13 +632,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [
-                mais.external_id,
-                tournesol.external_id,
-                ble.external_id,
-                orge.external_id,
-                colza.external_id,
-            ],
+            "rotation": [ mais, tournesol, ble, orge, colza],
         }
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -663,12 +643,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [
-                tournesol.external_id,
-                ble.external_id,
-                orge.external_id,
-                colza.external_id,
-            ],
+            "rotation": [ tournesol, ble, orge, colza],
         }
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
