@@ -334,15 +334,22 @@ class Engine:
 
         spring = Culture.CulturesSowingPeriod.PRINTEMPS.value
         fall = Culture.CulturesSowingPeriod.AUTOMNE.value
+        summer = Culture.CulturesSowingPeriod.ETE.value
+        end_summer = Culture.CulturesSowingPeriod.FIN_ETE.value
 
         form_cultures = list(Culture.objects.filter(external_id__in=self.form.cultures))
         spring_cultures = list(filter(lambda x: x.sowing_period == spring, form_cultures))
         fall_cultures = list(filter(lambda x: x.sowing_period == fall, form_cultures))
+        summer_cultures = list(filter(lambda x: x.sowing_period == summer, form_cultures))
+        end_summer_cultures = list(filter(lambda x: x.sowing_period == end_summer, form_cultures))
 
         if not form_cultures:
             return 1
 
-        if len(spring_cultures) / len(form_cultures) <= threshold or len(fall_cultures) / len(form_cultures) <= threshold:
+        side_1 = len(spring_cultures)
+        side_2 = len(fall_cultures) + len(summer_cultures) + len(end_summer_cultures)
+
+        if side_1 / len(form_cultures) <= threshold or side_2 / len(form_cultures) <= threshold:
             return unbalanced_multiplier
         return 1
 

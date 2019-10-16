@@ -606,7 +606,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [ mais, tournesol, orge, ble],
+            "rotation": [mais, tournesol, orge, ble],
         }
         engine = Engine(answers, [], [])
         balanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -619,7 +619,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [ mais, tournesol, ble],
+            "rotation": [mais, tournesol, ble],
         }
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -632,7 +632,7 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [ mais, tournesol, ble, orge, colza],
+            "rotation": [mais, tournesol, ble, orge, colza],
         }
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
@@ -643,11 +643,53 @@ class TestEngine(TestCase):
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
-            "rotation": [ tournesol, ble, orge, colza],
+            "rotation": [tournesol, ble, orge, colza],
         }
         engine = Engine(answers, [], [])
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
         self.assertEqual(unbalanced_result.weight, result.weight)
+
+
+    def test_balanced_rotation(self):
+        """
+        Summer cultures should be counted with the automn ones when
+        calculating the balance of the rotation. 
+        """
+        # Printemps
+        betterave = 'recKDNdfSiV33djzf'
+        pomme_de_terre = 'recURJ9JQS9u6OHva'
+        orge_printemps = 'recEEz6LZ3MRDdV99'
+
+        # Automne
+        ble_hiver = 'recmm8lo1bGXCYSA3'
+
+        # Summer
+        colza = 'recZj4cTO0dwcYhbe'
+
+        # This practice balances the sowing period and should be proposed when having an unbalanced rotation
+        practice_name = 'Favoriser l\'alternance de cultures à semis de printemps et d\'automne'
+
+        # In this example, all cultures are spring cultures, so it should be unbalanced
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [betterave, pomme_de_terre, orge_printemps],
+        }
+        engine = Engine(answers, [], [])
+        unbalanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+
+        # Now we balance it out, having 3 spring, 1 automn and 1 summer (automn and
+        # summer count together)
+        answers = {
+            "problem": "DESHERBAGE",
+            "tillage": "TRAVAIL_PROFOND",
+            "rotation": [betterave, pomme_de_terre, orge_printemps, ble_hiver, colza],
+        }
+        engine = Engine(answers, [], [])
+        balanced_result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+
+        self.assertGreater(unbalanced_result.weight, balanced_result.weight)
+
 
 
     def test_large_rotation(self):
