@@ -298,7 +298,7 @@ class TestApi(TestCase):
                     "phone_number": "07 77 08 81 79",
                     "datetime": "2019-10-09T12:02:17+00:00",
                     "problem": "Contacter un conseiller",
-                    "answers": {"a": 1, "b": True, "c": "Foo"},
+                    "answers": "What help do you need?\nNothing",
                     "practice_id": "recKGS5iSIiD26eah",
                 },
                 format='json',
@@ -306,7 +306,7 @@ class TestApi(TestCase):
             )
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-            notes = 'Contacter un conseiller\n\nJean-Michel a besoin d\'aide pour implémenter la pratique https://airtable.com/tblobpdQDxkzcllWo/recKGS5iSIiD26eah.\n\nNum tel : 07 77 08 81 79\n\nRéponses : {\n    "a": 1,\n    "b": true,\n    "c": "Foo"\n}'
+            notes = 'Contacter un conseiller\n\nJean-Michel a besoin d\'aide pour implémenter la pratique https://airtable.com/tblobpdQDxkzcllWo/recKGS5iSIiD26eah.\n\nNum tel : 07 77 08 81 79\n\nRéponses :\nWhat help do you need?\nNothing'
             SendTaskView._send_task.assert_called_once_with('1143885392507417', '2019-10-09T12:02:17+00:00', 'Jean-Michel', notes)
 
         finally:

@@ -131,7 +131,7 @@ class TestEngine(TestCase):
         practices = engine.calculate_results()
         response_items = engine.get_suggestions(practices)
 
-        # Now let' verify that all the practices belonging to that type
+        # Now let's verify that all the practices belonging to that type
         # have a score of zero.
         for practice_item in practices:
             practice_types_ids = list(map(lambda x: str(x.id), practice_item.practice.types.all()))

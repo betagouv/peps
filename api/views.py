@@ -214,7 +214,7 @@ class SendTaskView(APIView):
             notes += 'Email: {0}\n\n'.format(email)
 
         if answers:
-            notes += 'Réponses : {0}'.format(json.dumps(answers, indent=4))
+            notes += 'Réponses :\n{0}'.format(answers)
 
         try:
             SendTaskView._send_task(settings.ASANA_PROJECT, date.astimezone().isoformat(), name, notes)
