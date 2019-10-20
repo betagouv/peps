@@ -88,7 +88,7 @@ def get_form_schema():
                 },
                 "pests": {
                     "hideNone": True,
-                    "sort": False,
+                    "sort": True,
                     "type": "checkbox",
                     "multiple": True,
                     "dependencies": {
@@ -99,7 +99,7 @@ def get_form_schema():
                 },
                 "weeds": {
                     "hideNone": True,
-                    "sort": False,
+                    "sort": True,
                     "type": "checkbox",
                     "multiple": True,
                     "dependencies": {
@@ -109,7 +109,7 @@ def get_form_schema():
                 },
                 "weedsGlyphosate": {
                     "hideNone": True,
-                    "sort": False,
+                    "sort": True,
                     "type": "checkbox",
                     "multiple": True,
                     "dependencies": {
@@ -119,7 +119,7 @@ def get_form_schema():
                 },
                 "perennials": {
                     "hideNone": True,
-                    "sort": False,
+                    "sort": True,
                     "type": "checkbox",
                     "multiple": True,
                     "dependencies": {
@@ -139,7 +139,7 @@ def get_form_schema():
                 },
                 "practices": {
                     "hideNone": True,
-                    "sort": False,
+                    "sort": True,
                     "type": "checkbox",
                     "multiple": True,
                     "dataSource": _get_practice_types(),
