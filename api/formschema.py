@@ -58,8 +58,18 @@ def get_form_schema():
                 },
                 "department": {
                     "title": "Quel est le département de votre exploitation ?",
-                    "required": True
-                }
+                    "required": False
+                },
+                "groups": {
+                    "title": "Faites-vous partie de groupes ou d'initiatives travaillant sur la réduction des produits phytosanitaires ?",
+                    "required": False,
+                    "logAnswer": True,
+                },
+                "referer": {
+                    "title": "Comment avez-vous connu Peps ?",
+                    "required": False,
+                    "logAnswer": True,
+                },
             },
             "dependencies": {
                 "pests": ["problem"],
@@ -95,7 +105,6 @@ def get_form_schema():
                         "problem": "RAVAGEURS"
                     },
                     "dataSource": _get_pests(),
-
                 },
                 "weeds": {
                     "hideNone": True,
@@ -289,7 +298,41 @@ def get_form_schema():
                         {"value": "974", "text": "974 - La réunion"},
                         {"value": "976", "text": "976 - Mayotte"}
                     ],
-                }
+                },
+                "groups": {
+                    "hideNone": True,
+                    "sort": False,
+                    "type": "checkbox",
+                    "multiple": True,
+                    "dataSource": [
+                        {'text': 'DEPHY', 'value': 'groupe_DEPHY'},
+                        {'text': '30000', 'value': 'groupe_30000'},
+                        {'text': 'GIEE', 'value': 'groupe_GIEE'},
+                        {'text': 'Groupe de Chambre d\'agriculture', 'value': 'groupe_autre_chambre_agriculture'},
+                        {'text': 'Groupe de Coopérative ou Négoce', 'value': 'groupe_autre_cooperative'},
+                        {'text': 'Je suis en AB ou en conversion AB', 'value': 'groupe_conversion_ab'},
+                        {'text': 'Autre', 'value': 'groupe_autre'},
+                        {'text': 'Aucun', 'value': 'groupe_aucun'},
+                    ],
+                },
+                "referer": {
+                    "hideNone": True,
+                    "sort": False,
+                    "type": "checkbox",
+                    "multiple": True,
+                    "dataSource": [
+                        {'text': 'Moteur de recherche (Google, Bing, etc.)', 'value': 'referer_moteur_recherche'},
+                        {'text': 'Réseaux sociaux (Facebook, Twitter)', 'value': 'referer_reseaux_sociaux'},
+                        {'text': 'Bouche à oreille', 'value': 'referer_bouche_a_oreille'},
+                        {'text': 'Presse', 'value': 'referer_presse'},
+                        {'text': 'Par ma coopérative ou mon négoce', 'value': 'referer_cooperative_negoce'},
+                        {'text': 'Par ma Chambre d\'Agriculture', 'value': 'referer_chambre_agriculture'},
+                        {'text': 'Par un agriculteur', 'value': 'referer_agriculteur'},
+                        {'text': 'Via un atelier sur mon territoire', 'value': 'referer_aterlier'},
+                        {'text': 'Par la DDT', 'value': 'referer_ddt'},
+                        {'text': 'Autre', 'value': 'referer_autre'},
+                    ],
+                },
             }
         },
     }
