@@ -170,7 +170,7 @@ def get_form_schema():
                 },
                 "wheat": {
                     "dependencies": {
-                        "rotation": ["BLE", "BLE_HIVER", "BLE_PRINTEMPS"]
+                        "rotation": ["recuVebqXEqCg8kK0", "recmm8lo1bGXCYSA3", "recSmDBTPyv0R1Rik"],
                     },
                     "sort": False,
                     "hideNone": True,
