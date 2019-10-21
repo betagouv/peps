@@ -16,7 +16,12 @@ $(document).ready(function () {
     $.get('api/v1/formSchema', (schema) => {
         schema.postRender = (control) => {
             window.alpacaForm = control.form;
-            control.children.forEach((x) => x.on('change', window.pepsRenderer.onFormChange));
+            control.children.forEach((field) => {
+                field.on('change', window.pepsRenderer.onFormChange);
+                field.on('add', window.pepsRenderer.onFormChange);
+                field.on('remove', window.pepsRenderer.onFormChange);
+                field.on('move', window.pepsRenderer.onFormChange);
+            });
         }
         $("#form").alpaca(schema)
     }).fail(() => {
