@@ -175,7 +175,22 @@ def get_form_schema():
                     "items": {
                         "type": "select",
                         "dataSource": _get_cultures(),
-                    }
+                    },
+                    "toolbar": {
+                        "actions": [{
+                            "label": "Ajoutez une culture",
+                            "action": "add",
+                        }],
+                    },
+                    "actionbar": {
+                        "actions": [{
+                            "action": "up",
+                            "enabled": False,
+                        }, {
+                            "action": "down",
+                            "enabled": False,
+                        }]
+                    },
                 },
                 "wheat": {
                     "dependencies": {

@@ -1,0 +1,212 @@
+body {
+    background-color: #EEE;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+.nav-bar {
+    background-color: #008763;
+    color: white;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 64px;
+    top: 0;
+    padding-left: 60px;
+    padding-right: 60px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.nav-title {
+    float: left;
+    font-size: 1.4em;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    padding-top: 17px;
+}
+
+.nav-links {
+    float: right;
+    padding-top: 24px;
+}
+
+.nav-link {
+    color: white;
+    padding-left: 20px;
+    float: right;
+}
+
+#content {
+    background-color: white;
+    padding: 20px;
+    margin-top: 40px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.control-label.alpaca-control-label {
+    font-size: 1.3em;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.radio.alpaca-control {
+    margin-left: 0;
+}
+
+.alpaca-field-array {
+    border: none;
+    padding: 0;
+}
+
+.alpaca-field > legend.alpaca-container-label {
+    font-size: 1.3em;
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.alpaca-control.radio, .alpaca-control.checkbox {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.radio label, .checkbox label {
+    padding-left: 30px;
+}
+
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    margin-top: 0px;
+    margin-left: -30px;
+    position: absolute;
+}
+
+#submit {
+    float: right;
+    background: #008763;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+}
+
+#submit:disabled {
+    background: #999;
+}
+
+#footer {
+    clear: both;
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: 700;
+    color: #999;
+}
+
+.modal-title {
+    font-family: 'Roboto',inherit sans-serif;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+
+#results {
+    padding-top: 30px;
+}
+
+.practice-header {
+    background-color: #008763;
+    padding: 15px;
+    color: white;
+    position: relative;
+}
+
+.practice-header .title {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.mechanism {
+    font-size: 12px;
+    font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
+    word-break: break-word;
+    line-height: 150%;
+}
+
+.mechanism-description {
+    color: #202020;
+    margin-top: 20px;
+}
+
+.resource-inline {
+    font-weight: bold;
+}
+
+.practice .description, .practice .resources {
+    word-break: break-word;
+    color: #202020;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.practice .cta > button {
+    border-collapse: separate !important;
+    border-radius: 50px;
+    background-color: #ececec;
+    border: none;
+    padding: 18px;
+    font-size: 16px;
+    letter-spacing: normal;
+    line-height: 100%;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 2px 2px 4px -2px #464646;
+}
+
+.cta {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: #DEDEDE solid 2px;
+}
+
+.columns {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.columns:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.column-item {
+    font-size: 12px;
+    font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
+    line-height: 150%;
+    color: #202020;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.column-item-title {
+    color: #696969;
+    font-weight: normal;
+}

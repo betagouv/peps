@@ -26,3 +26,9 @@ class UserDisplayView(LoginRequiredMixin, TemplateView):
             'suggestions': json.loads(suggestions_rendered),
         }
         return context
+
+class AppDisplayView(LoginRequiredMixin, TemplateView):
+    """
+    This is the app web version of the client-facing simulator
+    """
+    template_name = 'app.html'
