@@ -30,6 +30,7 @@ class PracticeTypeCategory(Enum):
     ELEVAGE = 23
     BIOCONTROLE = 24
     VARIETES = 25
+    CONVENTIONNEL = 26
 
 class PracticeType(models.Model):
 
