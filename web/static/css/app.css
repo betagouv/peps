@@ -100,6 +100,18 @@ body {
     border: none;
     border-radius: 25px;
     padding: 15px;
+    box-shadow: 2px 2px 4px -2px #464646;
+    outline: 0;
+    margin-bottom: 30px;
+}
+
+#submit:hover {
+    background: #016b4f;
+}
+
+button#submit:active {
+    box-shadow: none;
+    background: #004a36;
 }
 
 #submit:disabled {
@@ -112,6 +124,25 @@ body {
     font-size: 0.8em;
     font-weight: 700;
     color: #999;
+    padding-top: 20px;
+    border-top: solid 1px #ddd;
+}
+
+#social-media > a {
+    padding: 5px;
+    opacity: 0.4;
+}
+
+#social-media > a:hover {
+    opacity: 0.6;
+}
+
+#social-media > a:active {
+    opacity: 0.8;
+}
+
+div#social-media {
+    padding: 10px;
 }
 
 .modal-title {
@@ -163,19 +194,26 @@ body {
     margin-bottom: 15px;
 }
 
-.practice .cta > button {
-    border-collapse: separate !important;
-    border-radius: 50px;
+.practice .cta button {
     background-color: #ececec;
     border: none;
-    padding: 18px;
-    font-size: 16px;
-    letter-spacing: normal;
-    line-height: 100%;
-    text-align: center;
-    text-decoration: none;
     color: #333;
     box-shadow: 2px 2px 4px -2px #464646;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+    outline: 0;
+}
+
+.practice .cta button:hover {
+    background: #ddd;
+}
+
+.practice .cta button:active {
+    background: #ccc;
+    box-shadow: none;
 }
 
 .cta {
@@ -184,6 +222,7 @@ body {
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: #DEDEDE solid 2px;
+    outline: 0;
 }
 
 .columns {

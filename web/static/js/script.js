@@ -99,9 +99,9 @@ window.peps = {
                     <div class="description">${practice.description}</div>
                     <div class="resources">${resources}</div>
                     <div class="cta">
-                        <button onclick="location.href='${practice.main_resource ? practice.main_resource.url : ''}'">
+                        <a target="_blank" href="${practice.main_resource ? practice.main_resource.url : ''}"><button>
                             ${practice.main_resource_label ? practice.main_resource_label : practice.main_resource.name}
-                        </button>
+                        </button></a>
                     </div>
                 </div>
             `
