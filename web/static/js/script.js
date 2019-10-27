@@ -1,5 +1,9 @@
+// Once the document is ready and every time we pop a history event we will load the content
+$(document).ready(loadContent);
+window.onpopstate = (event) => loadContent();
+
+// Include CSRF token on relevant AJAX methods
 function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
@@ -11,24 +15,23 @@ $.ajaxSetup({
     }
 });
 
-$(document).ready(function () {
-    $('#submit').click(window.peps.submit);
-    $.get('api/v1/formSchema', (schema) => {
-        schema.postRender = (control) => {
-            $('#content').show();
-            window.alpacaControl = control;
-            control.children.forEach((field) => {
-                field.on('change', window.peps.onFieldChange);
-                field.on('add', window.peps.onFieldChange);
-                field.on('remove', window.peps.onFieldChange);
-                field.on('move', window.peps.onFieldChange);
-            });
+
+function loadContent() {
+    // The user wants to see the results
+    if (window.location.toString().indexOf('page=results') != -1) {
+        let suggestions = history.state && history.state.hasOwnProperty('suggestions') ? history.state.suggestions : null;
+        let answers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : null;
+        if (suggestions) {
+            return window.peps.renderSuggestions(suggestions);
+        } 
+        if (answers) {
+            return window.peps.fetchSuggestions();
         }
-        $("#form").alpaca(schema);
-    }).fail(() => {
-        alert('Error getting form information');
-    });
-});
+    }
+    // The user wants to see the form
+    return window.peps.renderForm();
+}
+
 
 window.peps = {
     'onFieldChange': function(e) {
@@ -40,49 +43,20 @@ window.peps = {
         $('#submit').prop('disabled', hasIncompleteFields);
     },
     'submit': function(e) {
-        let modal = $('#loadingModal');
-        let modalIsVisible = modal.hasClass('in');
-        if (modalIsVisible) {
+        if (peps.waitingModalIsVisible()) {
             return;
         }
-        modal.modal('show')
-        let progress = 0;
-        let width = 0
-        let progressBarInterval = setInterval(() => {
-            progress++;
-            width += 15 / progress;
-            $('.progress-bar').css('width', width + '%');
-        }, 100);
-
-        setTimeout(() => {
-            data = JSON.stringify({
-                "answers": window.alpacaControl.form.getValue(),
-                "practice_blacklist": []
-            });
-    
-            var promise = $.ajax({headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data});
-            promise.done(function(response) {
-                clearInterval(progressBarInterval);
-                $('.progress-bar').css('width', '100%');
-                setTimeout(() => {
-                    modal.modal('hide');
-                    window.suggestions = response['suggestions'];
-                    window.peps.renderSuggestions(response['suggestions']);
-                }, 600)
-            });
-            promise.fail(function() {
-                clearInterval(progressBarInterval);
-                modal.modal('hide');
-                alert("Error");
-            });
-        }, 2000)
+        window.peps.showWaitingModal();
+        let answers = window.alpacaControl.form.getValue();
+        window.history.pushState({'answers': answers}, window.title, window.location);
+        setTimeout(() => peps.fetchSuggestions(), 2000);
     },
     'renderSuggestions': function(suggestions) {
         $('#form').hide();
         $('#submit').hide();
-        let container = $('#results');
+        let results = $('#results');
 
-        container.empty();
+        results.empty();
 
         for (let i = suggestions.length - 1; i >= 0; i--) {
             let practice = suggestions[i].practice;
@@ -95,6 +69,10 @@ window.peps = {
                         <div class="mechanism"><strong>${practice.mechanism ? practice.mechanism.name : ""}</strong></div>
                         <div class="title">${practice.title}</div>
                     </div>
+                    <div class="button-row">
+                        <button>Recalculer sans cette pratique</button>
+                        <button>M'envoyer cette pratique</button>
+                    </div>
                     <div class="columns">${columns}</div>
                     <div class="description">${practice.description}</div>
                     <div class="resources">${resources}</div>
@@ -105,10 +83,97 @@ window.peps = {
                     </div>
                 </div>
             `
-            container.append(practiceHtml);
+            results.append(practiceHtml);
         }
         window.scrollTo(0, 0);
-        container.show();
+        results.show();
+        $('#content').show();
+    },
+    'renderForm': function() {
+
+        if (window.alpacaControl && window.alpacaControl.form) {
+            $('#content').show();
+            $('#form').show();
+            $('#submit').show();
+            $('#results').hide();
+            window.scrollTo(0, 0);
+            return;
+        }
+
+        let prefilledAnswers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : {};
+
+        $('#submit').click(window.peps.submit);
+        $.get('api/v1/formSchema', (schema) => {
+            schema.postRender = (control) => {
+                $('#content').show();
+                $('#form').show();
+                $('#submit').show();
+                $('#results').hide();
+                window.scrollTo(0, 0);
+                window.alpacaControl = control;
+                control.children.forEach((field) => {
+                    ['change', 'add', 'remove', 'move'].forEach(x => field.on(x, window.peps.onFieldChange));
+                });
+                window.peps.onFieldChange();
+            }
+            schema.data = prefilledAnswers;
+            $("#form").alpaca(schema);
+        }).fail(() => {
+            alert('Error getting form information');
+        });
+        window.scrollTo(0, 0);
+    },
+    'fetchSuggestions': function() {
+        $('#content').show();
+        answers = history.state.answers;
+        data = JSON.stringify({
+            "answers": answers,
+            "practice_blacklist": []
+        });
+
+        var promise = $.ajax({headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data});
+
+        promise.done(function(response) {
+            window.peps.hideWaitingModal();
+            $('.progress-bar').css('width', '100%');
+            setTimeout(() => {
+                window.history.pushState({
+                    'answers': answers,
+                    'suggestions': response['suggestions'],
+                }, 'Results', '?page=results');
+                window.peps.renderSuggestions(response['suggestions']);
+            }, 600)
+        });
+        promise.fail(function() {
+            window.peps.hideWaitingModal();
+            alert("Error");
+        });
+    },
+    'showWaitingModal': function() {
+        if (peps.waitingModalIsVisible()) {
+            return;
+        }
+        if (window.peps.progressBarInterval) {
+            window.peps.hideWaitingModal();
+        }
+        $('#loadingModal').modal('show')
+        let progress = 0;
+        let width = 0
+        window.peps.progressBarInterval = setInterval(() => {
+            progress++;
+            width += 15 / progress;
+            $('.progress-bar').css('width', width + '%');
+        }, 100);
+    },
+    'hideWaitingModal': function() {
+        if (window.peps.progressBarInterval) {
+            clearInterval(window.peps.progressBarInterval);
+            window.peps.progressBarInterval = null;
+        }
+        $('#loadingModal').modal('hide');
+    },
+    'waitingModalIsVisible': function() {
+        return $('#loadingModal').hasClass('in');
     },
 }
 
@@ -178,6 +243,7 @@ function getResourcesHtml(practice) {
 
     return `${start} ${resourceLabels.slice(0, -1).join(', ')} et ${resourceLabels[resourceLabels.length - 1]}.`;
 }
+
 String.prototype.firstLower = function () {
     return this.charAt(0).toLowerCase() + this.slice(1)
 }

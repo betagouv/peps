@@ -37,12 +37,19 @@ body {
 }
 
 #content {
-    background-color: white;
-    padding: 20px;
-    margin-top: 40px;
+    margin-top: 80px;
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#form {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0,0,0,.12);
 }
 
 .control-label.alpaca-control-label {
@@ -151,15 +158,14 @@ div#social-media {
     font-weight: 700;
 }
 
-#results {
-    padding-top: 30px;
-}
-
 .practice-header {
     background-color: #008763;
     padding: 15px;
-    color: white;
+    color:white;
     position: relative;
+    margin: -15px;
+    margin-bottom: 15px;
+    border-radius: 6px 5px 0px 0px;
 }
 
 .practice-header .title {
@@ -181,6 +187,14 @@ div#social-media {
 
 .resource-inline {
     font-weight: bold;
+}
+
+.practice {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0,0,0,.12);
 }
 
 .practice .description, .practice .resources {
@@ -220,8 +234,6 @@ div#social-media {
     width: 100%;
     text-align: center;
     margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: #DEDEDE solid 2px;
     outline: 0;
 }
 
