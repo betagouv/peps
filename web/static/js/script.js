@@ -107,6 +107,7 @@ window.peps = {
             schema.postRender = (control) => {
                 window.peps.toggleResults(false);
                 window.peps.toggleForm(true);
+                $('#content').show();
                 window.scrollTo(0, 0);
                 window.alpacaControl = control;
                 control.children.forEach((field) => {
