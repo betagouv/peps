@@ -36,6 +36,10 @@ body {
     float: right;
 }
 
+a.nav-link:hover {
+    color: white;
+}
+
 #content {
     margin-top: 80px;
     max-width: 850px;
@@ -117,11 +121,17 @@ body {
 }
 
 button#submit:active {
-    box-shadow: none;
+    box-shadow: inset 2px 2px 4px -2px #464646;
     background: #004a36;
 }
 
 #submit:disabled {
+    background: #999;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+#submit:disabled:active {
     background: #999;
 }
 
@@ -197,7 +207,7 @@ div#social-media {
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 1px 3px 0px rgba(0,0,0,.12);
 }
 
-.practice .description, .practice .resources {
+.practice .description {
     word-break: break-word;
     color: #202020;
     font-family: 'Roboto', sans-serif;
@@ -221,25 +231,63 @@ div#social-media {
     outline: 0;
 }
 
-.practice .cta button:hover {
-    background: #ddd;
+.resource-icon {
+    float: left;
+    margin-right: 15px;
+    font-size: 23px;
+    color: #008763;
 }
 
-.practice .cta button:active {
-    background: #ccc;
-    box-shadow: none;
+.practice .resources {
+    word-break: break-word;
+    color: #202020;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
-.cta {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
+.resource {
+    padding: 15px 0px 15px 0px;
+    display: block;
+    border-bottom: solid #EEE 1px;
+    color: #202020;
+}
+
+.resources .resource:last-child {
+    border-bottom: none;
+}
+
+.resource:hover {
+    text-decoration: none;
+    color: #202020;
+}
+
+.resource:hover .resource-title {
+    text-decoration: underline;
+}
+
+.resource:focus {
+    text-decoration: none;
+    color: #202020;
     outline: 0;
+}
+
+.resource-description {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+    padding-left: 37px;
 }
 
 .columns {
     margin-top: 20px;
     margin-bottom: 20px;
+    padding-bottom: 11px;
 }
 
 .columns:after {
@@ -253,11 +301,56 @@ div#social-media {
     font-family: roboto,helvetica neue,helvetica,arial,sans-serif;
     line-height: 150%;
     color: #202020;
-    font-weight: bold;
     margin-bottom: 5px;
 }
 
 .column-item-title {
     color: #696969;
     font-weight: normal;
+    min-width: 160px;
+    display: block;
+    float: left;
+    text-align: left;
+}
+
+.button-row {
+    text-align: right;
+}
+
+.button-row button {
+    padding: 12px;
+    border-radius: 21px;
+    box-shadow: 2px 2px 4px -2px #464646;
+    outline: 0;
+    border: 0;
+    background: #f5f5f5;
+}
+
+.button-row button:hover {
+    box-shadow: 2px 2px 4px -1px #464646;
+    background: #f1f1f1;
+}
+
+.button-row button:active {
+    box-shadow: inset 2px 2px 4px -2px #464646;;
+    background: #ededed;
+}
+
+.button-row button:first-child {
+    margin-right: 10px;
+}
+
+.button-emoji {
+    font-size: 15px;
+    padding-right: 3px;
+}
+
+.subtitle {
+    color: #202020;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 150%;
+    text-align: left;
+    margin-top: 20px;
+    font-weight: bold;
 }

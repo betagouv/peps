@@ -69,17 +69,13 @@ window.peps = {
                         <div class="mechanism"><strong>${practice.mechanism ? practice.mechanism.name : ""}</strong></div>
                         <div class="title">${practice.title}</div>
                     </div>
-                    <div class="button-row">
-                        <button>Recalculer sans cette pratique</button>
-                        <button>M'envoyer cette pratique</button>
-                    </div>
-                    <div class="columns">${columns}</div>
+                    <div class="columns well">${columns}</div>
                     <div class="description">${practice.description}</div>
+                    <div class="subtitle">Resources</div>
                     <div class="resources">${resources}</div>
-                    <div class="cta">
-                        <a target="_blank" href="${practice.main_resource ? practice.main_resource.url : ''}"><button>
-                            ${practice.main_resource_label ? practice.main_resource_label : practice.main_resource.name}
-                        </button></a>
+                    <div class="button-row">
+                        <button class="blacklist" id="blacklist-${practice.id}"><span class="button-emoji">🚫</span> Recalculer sans cette pratique</button>
+                        <button class="try" id="try-${practice.id}"><span class="button-emoji">👍</span> Essayer cette pratique</button>
                     </div>
                 </div>
             `
@@ -184,9 +180,12 @@ function getColumnsHtml(practice) {
     let columns = []
 
     function get_item_html(title, value) {
-        return `<div class="column-item">
-            <span class="column-item-title">${title} : </span>${value}
-        </div>`
+        return `<table class="column-item">
+            <tr>
+                <td class="column-item-title">${title} : </td>
+                <td class="column-item-value">${value}</td>
+            </tr>
+        </table>`
     }
 
     if (practice.equipment)
@@ -214,34 +213,34 @@ function getColumnsHtml(practice) {
 }
 
 function getResourcesHtml(practice) {
-    if (!practice.secondary_resources || practice.secondary_resources.length == 0)
+
+    let hasMainResource = !!practice.main_resource;
+    let hasSecondaryResource = !!practice.secondary_resources && practice.secondary_resources.length == 0;
+    if (!hasMainResource && !hasSecondaryResource)
         return ''
 
-    let resourceLabels = []
-    let text = ''
-    let start = 'Pour plus d\'informations voici'
-    for (let i = 0; i < practice.secondary_resources.length; i++) {
-        let resource = practice.secondary_resources[i];
-        let type = ''
-        if (resource.resource_type === 'SITE_WEB')
-            type = 'le site web';
-        else if (resource.resource_type === 'VIDEO')
-            type = 'la vidéo';
-        else if (resource.resource_type === 'PDF')
-            type = 'le document';
-        else 
-            type = 'la resource';
+    let resources = [practice.main_resource].concat(practice.secondary_resources || []);
+    let html = '';
 
-        resourceLabel = `<span class="resource-inline">${type} <a href="${resource.url}">"${resource.name}"</a></span>`;
-        if (resource.description)
-            resourceLabel += ` (${resource.description.firstLower()})`;
-        resourceLabels.push(resourceLabel);
+    for (let i = 0; i < resources.length; i++) {
+        let resource = resources[i];
+        let glyphicons = {
+            'SITE_WEB': 'glyphicon-globe',
+            'PDF': 'glyphicon-file',
+            'VIDEO': 'glyphicon-film',
+        }
+        let glyphicon = glyphicons.hasOwnProperty(resource.resource_type) ? glyphicons[resource.resource_type] : 'glyphicon-info-sign';
+        html += `
+            <a class="resource" id="resource-${resource.id}" target="_blank" href="${resource.url}">
+                <div class="resource-icon">
+                    <span class="glyphicon ${glyphicon}" aria-hidden="true"></span>
+                </div>
+                <div class="resource-title">${resource.name}</div>
+                <div class="resource-description">${resource.description}</div>
+            </a>
+        `
     }
-
-    if (resourceLabels.length === 1)
-        return `${start} ${resourceLabels.join(', ')}.`;
-
-    return `${start} ${resourceLabels.slice(0, -1).join(', ')} et ${resourceLabels[resourceLabels.length - 1]}.`;
+    return html;
 }
 
 String.prototype.firstLower = function () {
