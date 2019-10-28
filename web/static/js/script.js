@@ -51,9 +51,14 @@ window.peps = {
         window.history.pushState({'answers': answers}, window.title, window.location);
         setTimeout(() => peps.fetchSuggestions(), 2000);
     },
+    'toggleForm': function(visible) {
+        [$('#form'), $('#submit'), $('#info-form')].forEach(x => x.toggle(visible));
+    },
+    'toggleResults': function(visible) {
+        [$('#results'), $('#info-results')].forEach(x => x.toggle(visible));
+    },
     'renderSuggestions': function(suggestions) {
-        $('#form').hide();
-        $('#submit').hide();
+        window.peps.toggleForm(false);
         let results = $('#results');
 
         results.empty();
@@ -82,16 +87,15 @@ window.peps = {
             results.append(practiceHtml);
         }
         window.scrollTo(0, 0);
-        results.show();
+        window.peps.toggleResults(true);
         $('#content').show();
     },
     'renderForm': function() {
 
         if (window.alpacaControl && window.alpacaControl.form) {
             $('#content').show();
-            $('#form').show();
-            $('#submit').show();
-            $('#results').hide();
+            window.peps.toggleResults(false);
+            window.peps.toggleForm(true);
             window.scrollTo(0, 0);
             return;
         }
@@ -101,10 +105,8 @@ window.peps = {
         $('#submit').click(window.peps.submit);
         $.get('api/v1/formSchema', (schema) => {
             schema.postRender = (control) => {
-                $('#content').show();
-                $('#form').show();
-                $('#submit').show();
-                $('#results').hide();
+                window.peps.toggleResults(false);
+                window.peps.toggleForm(true);
                 window.scrollTo(0, 0);
                 window.alpacaControl = control;
                 control.children.forEach((field) => {
