@@ -1,13 +1,9 @@
-// Once the document is ready and every time we pop a history event we will load the content
-$(document).ready(loadContent);
-window.onpopstate = (event) => loadContent();
-
 // Include CSRF token on relevant AJAX methods
 function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
+    beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             xhr.setRequestHeader("X-CSRFToken", window.CSRF_TOKEN);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -15,26 +11,27 @@ $.ajaxSetup({
     }
 });
 
-
-function loadContent() {
-    // The user wants to see the results
-    if (window.location.toString().indexOf('page=results') != -1) {
-        let suggestions = history.state && history.state.hasOwnProperty('suggestions') ? history.state.suggestions : null;
-        let answers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : null;
-        if (suggestions) {
-            return window.peps.renderSuggestions(suggestions);
-        } 
-        if (answers) {
-            return window.peps.fetchSuggestions();
-        }
-    }
-    // The user wants to see the form
-    return window.peps.renderForm();
+String.prototype.firstLower = function () {
+    return this.charAt(0).toLowerCase() + this.slice(1)
 }
 
-
 window.peps = {
-    'onFieldChange': function(e) {
+    'loadContent': function () {
+        // The user wants to see the results
+        if (window.location.toString().indexOf('page=results') != -1) {
+            let suggestions = history.state && history.state.hasOwnProperty('suggestions') ? history.state.suggestions : null;
+            let answers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : null;
+            if (suggestions) {
+                return window.peps.renderSuggestions(suggestions);
+            }
+            if (answers) {
+                return window.peps.fetchSuggestions();
+            }
+        }
+        // The user wants to see the form
+        return window.peps.renderForm();
+    },
+    'onFieldChange': function (e) {
         let hasIncompleteFields = window.alpacaControl.children.some((field) => {
             let isVisible = field.isHidden && !field.isHidden();
             let isEmpty = Array.isArray(field.getValue()) ? !!field.getValue().length : !!field.getValue();
@@ -42,22 +39,21 @@ window.peps = {
         });
         $('#submit').prop('disabled', hasIncompleteFields);
     },
-    'submit': function(e) {
+    'submit': function (e) {
         if (peps.waitingModalIsVisible()) {
             return;
         }
-        window.peps.showWaitingModal();
         let answers = window.alpacaControl.form.getValue();
-        window.history.pushState({'answers': answers}, window.title, window.location);
-        setTimeout(() => peps.fetchSuggestions(), 2000);
+        window.history.pushState({ 'answers': answers }, window.title, window.location);
+        window.peps.fetchSuggestions();
     },
-    'toggleForm': function(visible) {
+    'toggleForm': function (visible) {
         [$('#form'), $('#submit'), $('#info-form')].forEach(x => x.toggle(visible));
     },
-    'toggleResults': function(visible) {
+    'toggleResults': function (visible) {
         [$('#results'), $('#info-results')].forEach(x => x.toggle(visible));
     },
-    'renderSuggestions': function(suggestions) {
+    'renderSuggestions': function (suggestions) {
         window.peps.toggleForm(false);
         let results = $('#results');
 
@@ -67,7 +63,7 @@ window.peps = {
             let practice = suggestions[i].practice;
             let columns = getColumnsHtml(practice);
             let resources = getResourcesHtml(practice);
-    
+
             let practiceHtml = `
                 <div class="practice" id="${practice.id}">
                     <div class="practice-header">
@@ -81,16 +77,18 @@ window.peps = {
                     <div class="button-row">
                         <button class="blacklist" id="blacklist-${practice.id}"><span class="button-emoji">🚫</span> Recalculer sans cette pratique</button>
                         <button class="try" id="try-${practice.id}"><span class="button-emoji">👍</span> Essayer cette pratique</button>
-                    </div>
+                    </div> 
                 </div>
             `
             results.append(practiceHtml);
+            $('#blacklist-'+ practice.id).click(() => window.peps.blacklistPractice(practice.id));
+            $('#try-'+ practice.id).click(() => window.peps.tryPractice(practice.id));
         }
         window.scrollTo(0, 0);
         window.peps.toggleResults(true);
         $('#content').show();
     },
-    'renderForm': function() {
+    'renderForm': function () {
 
         if (window.alpacaControl && window.alpacaControl.form) {
             $('#content').show();
@@ -122,33 +120,38 @@ window.peps = {
         });
         window.scrollTo(0, 0);
     },
-    'fetchSuggestions': function() {
-        $('#content').show();
-        answers = history.state.answers;
-        data = JSON.stringify({
-            "answers": answers,
-            "practice_blacklist": []
-        });
+    'fetchSuggestions': function () {
+        window.peps.showWaitingModal();
+        setTimeout(() => {
+            $('#content').show();
+            answers = history.state.answers;
+            let blacklist = history.state.hasOwnProperty('blacklist') ? history.state.blacklist : [];
+            data = JSON.stringify({
+                "answers": answers,
+                "practice_blacklist": blacklist
+            });
 
-        var promise = $.ajax({headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data});
+            var promise = $.ajax({ headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data });
 
-        promise.done(function(response) {
-            window.peps.hideWaitingModal();
-            $('.progress-bar').css('width', '100%');
-            setTimeout(() => {
-                window.history.pushState({
-                    'answers': answers,
-                    'suggestions': response['suggestions'],
-                }, 'Results', '?page=results');
-                window.peps.renderSuggestions(response['suggestions']);
-            }, 600)
-        });
-        promise.fail(function() {
-            window.peps.hideWaitingModal();
-            alert("Error");
-        });
+            promise.done(function (response) {
+                $('.progress-bar').css('width', '100%');
+                setTimeout(() => {
+                    window.history.pushState({
+                        'answers': answers,
+                        'blacklist': blacklist,
+                        'suggestions': response['suggestions'],
+                    }, 'Results', '?page=results');
+                    window.peps.hideWaitingModal();
+                    window.peps.renderSuggestions(response['suggestions']);
+                }, 600)
+            });
+            promise.fail(function () {
+                window.peps.hideWaitingModal();
+                alert("Error");
+            });
+        }, 2000);
     },
-    'showWaitingModal': function() {
+    'showWaitingModal': function () {
         if (peps.waitingModalIsVisible()) {
             return;
         }
@@ -164,15 +167,29 @@ window.peps = {
             $('.progress-bar').css('width', width + '%');
         }, 100);
     },
-    'hideWaitingModal': function() {
+    'hideWaitingModal': function () {
         if (window.peps.progressBarInterval) {
             clearInterval(window.peps.progressBarInterval);
             window.peps.progressBarInterval = null;
         }
         $('#loadingModal').modal('hide');
+        $('.progress-bar').css('width', '0%');
     },
-    'waitingModalIsVisible': function() {
+    'waitingModalIsVisible': function () {
         return $('#loadingModal').hasClass('in');
+    },
+    'blacklistPractice': function (practiceId) {
+        let answers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : null;
+        let blacklist = history.state && history.state.hasOwnProperty('blacklist') ? history.state.blacklist : [];
+
+        window.history.pushState({
+            'answers': answers,
+            'blacklist': blacklist.concat(practiceId)
+        }, window.title, window.location);
+        window.peps.fetchSuggestions();
+    },
+    'tryPractice': function (practiceId) {
+        console.log('tryPractice - ' + practiceId);
     },
 }
 
@@ -246,6 +263,6 @@ function getResourcesHtml(practice) {
     return html;
 }
 
-String.prototype.firstLower = function () {
-    return this.charAt(0).toLowerCase() + this.slice(1)
-}
+// Once the document is ready and every time we pop a history event we will load the content
+$(document).ready(window.peps.loadContent);
+window.onpopstate = (event) => window.peps.loadContent();
