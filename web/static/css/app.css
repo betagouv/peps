@@ -362,3 +362,9 @@ div#social-media {
     margin-top: 20px;
     font-weight: bold;
 }
+
+.betagouv-logo {
+    margin-bottom: 15px;
+    height: 35px;
+    opacity: 0.5;
+}
