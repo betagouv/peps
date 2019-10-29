@@ -191,22 +191,27 @@ class SendTaskView(APIView):
         phone_number = request.data.get('phone_number')
         practice_id = request.data.get('practice_id')
         answers = request.data.get('answers')
-        problem = request.data.get('problem')
+        problem = request.data.get('problem') or request.data.get('reason')
         date = request.data.get('datetime')
 
-        # We need at least name, phone, practice, and date
-        if not name or not phone_number or not practice_id or not date:
+        # We need at least name and phone number
+        if not name or not phone_number:
             return JsonResponse({'error': 'Missing information'}, status=400)
 
-        # We need a valid date
-        try:
-            date = dateutil.parser.parse(date)
-        except ValueError as _:
-            return JsonResponse({'error': 'Invalid date'}, status=500)
+        # If we have a date, it needs to be a valid one
+        if date:
+            try:
+                date = dateutil.parser.parse(date)
+            except ValueError as _:
+                return JsonResponse({'error': 'Invalid date'}, status=400)
 
-        practice_url = 'https://airtable.com/tblobpdQDxkzcllWo/{0}'.format(practice_id)
-        notes = '{0}\n\n'.format(problem)
-        notes += '{0} a besoin d\'aide pour implémenter la pratique {1}.\n\n'.format(name, practice_url)
+        notes = '{0}\n\n'.format(problem or '')
+
+        if practice_id:
+            practice_url = 'https://airtable.com/tblobpdQDxkzcllWo/{0}'.format(practice_id)
+            notes += '{0} a besoin d\'aide pour implémenter la pratique {1}.\n\n'.format(name, practice_url)
+        else:
+            notes += '{0} voudrait être contacté par notre équipe.\n\n'.format(name)
 
         notes += 'Num tel : {0}\n\n'.format(phone_number)
 
@@ -217,7 +222,7 @@ class SendTaskView(APIView):
             notes += 'Réponses :\n{0}'.format(answers)
 
         try:
-            SendTaskView._send_task(settings.ASANA_PROJECT, date.astimezone().isoformat(), name, notes)
+            SendTaskView._send_task(settings.ASANA_PROJECT, name, notes, date)
             return JsonResponse({}, status=200)
         except asana.error.InvalidRequestError as _:
             return JsonResponse({'error': 'Invalid request'}, status=400)
@@ -226,12 +231,13 @@ class SendTaskView(APIView):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
     @staticmethod
-    def _send_task(projects, due_at, name, notes):
+    def _send_task(projects, name, notes, due_at):
         client = asana.Client.access_token(settings.ASANA_PERSONAL_TOKEN)
+        date = due_at.astimezone().isoformat() if due_at else None
         # pylint: disable=no-member
         client.tasks.create({
             'projects': projects,
-            'due_at': due_at,
+            'due_at': date,
             'name': name,
             'notes': notes,
         })
