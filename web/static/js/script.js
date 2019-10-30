@@ -14,9 +14,16 @@ $.ajaxSetup({
 String.prototype.firstLower = function () {
     return this.charAt(0).toLowerCase() + this.slice(1)
 }
+String.prototype.isEmail = function () {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(this.toLowerCase());
+}
 
 window.peps = {
     'loadContent': function () {
+        // button bindings
+        $('#try-modal-close').click(window.peps.hideTryModal);
+
         // The user wants to see the results
         if (window.location.toString().indexOf('page=results') != -1) {
             let suggestions = history.state && history.state.hasOwnProperty('suggestions') ? history.state.suggestions : null;
@@ -81,8 +88,8 @@ window.peps = {
                 </div>
             `
             results.append(practiceHtml);
-            $('#blacklist-'+ practice.id).click(() => window.peps.blacklistPractice(practice.id));
-            $('#try-'+ practice.id).click(() => window.peps.tryPractice(practice.id));
+            $('#blacklist-' + practice.id).click(() => window.peps.blacklistPractice(practice.id));
+            $('#try-' + practice.id).click(() => window.peps.showTryModal(practice.id));
         }
         window.scrollTo(0, 0);
         window.peps.toggleResults(true);
@@ -116,12 +123,12 @@ window.peps = {
             schema.data = prefilledAnswers;
             $("#form").alpaca(schema);
         }).fail(() => {
-            alert('Error getting form information');
+            alert("🙁 Oops ! On n'a pas pu charger les données. Veuillez essayer plus tard.");
         });
         window.scrollTo(0, 0);
     },
-    'fetchSuggestions': function () {
-        window.peps.showWaitingModal();
+    'fetchSuggestions': function (silent=false) {
+        window.peps.showWaitingModal('⌛️ Nous cherchons des pratiques alternatives', 'Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation');
         setTimeout(() => {
             $('#content').show();
             answers = history.state.answers;
@@ -136,7 +143,8 @@ window.peps = {
             promise.done(function (response) {
                 $('.progress-bar').css('width', '100%');
                 setTimeout(() => {
-                    window.history.pushState({
+                    historyFn = silent ? window.history.replaceState : window.history.pushState;
+                    historyFn.call(history, {
                         'answers': answers,
                         'blacklist': blacklist,
                         'suggestions': response['suggestions'],
@@ -147,17 +155,19 @@ window.peps = {
             });
             promise.fail(function () {
                 window.peps.hideWaitingModal();
-                alert("Error");
+                alert("🙁 Oops ! On n'a pas pu trouver des suggestions. Veuillez essayer plus tard.");
             });
         }, 2000);
     },
-    'showWaitingModal': function () {
+    'showWaitingModal': function (title, body) {
         if (peps.waitingModalIsVisible()) {
             return;
         }
         if (window.peps.progressBarInterval) {
             window.peps.hideWaitingModal();
         }
+        $('#modalTitle').text(title);
+        $('#modalBody').text(body);
         $('#loadingModal').modal('show')
         let progress = 0;
         let width = 0
@@ -182,14 +192,91 @@ window.peps = {
         let answers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : null;
         let blacklist = history.state && history.state.hasOwnProperty('blacklist') ? history.state.blacklist : [];
 
-        window.history.pushState({
+        window.history.replaceState({
             'answers': answers,
             'blacklist': blacklist.concat(practiceId)
         }, window.title, window.location);
-        window.peps.fetchSuggestions();
+        window.peps.fetchSuggestions(true);
     },
-    'tryPractice': function (practiceId) {
-        console.log('tryPractice - ' + practiceId);
+    'showTryModal': function (practiceId) {
+        $('#tryModal').modal('show');
+        $('#try-modal-confirm').unbind().click(() => {
+            let invalidFields = window.peps.getInvalidTryModalFields();
+            if (invalidFields.length > 0) {
+                invalidFields.forEach(x => x.toggleClass('invalid', true));
+                return;
+            }
+            let nameField = $('#nameField');
+            let emailField = $('#emailField');
+            let phoneField = $('#phoneField');
+            let dateField = $('#dateTimeField');
+            [nameField, emailField, phoneField].forEach(x => x.toggleClass('invalid', false));
+
+            let date = moment($('#dateTimeField').val(), 'dddd, MMMM Do YYYY, H:mm', 'FR').toISOString(true);
+            let problem = $('#try-problem input[type="radio"]:checked').first().attr('value') || 'Problème pas connu';
+
+            window.peps.createTryTask(nameField.val(), emailField.val(), phoneField.val(), date, problem, practiceId);
+        });
+    },
+    'getInvalidTryModalFields': function () {
+        let nameField = $('#nameField');
+        let emailField = $('#emailField');
+        let phoneField = $('#phoneField');
+        let dateField = $('#dateTimeField');
+        let invalidFields = [];
+
+        if (!nameField.val()) {
+            invalidFields.push(nameField);
+        }
+        if (!emailField.val() || !emailField.val().isEmail()) {
+            invalidFields.push(emailField);
+        }
+        if (!phoneField.val()) {
+            invalidFields.push(phoneField);
+        }
+        if (!dateField.val()) {
+            invalidFields.push(dateField);
+        }
+        return invalidFields;
+    },
+    'hideTryModal': function () {
+        $('#tryModal').modal('hide');
+        [$('#nameField'), $('#emailField'), $('#phoneField')].forEach(x => x.val('').toggleClass('invalid', false));
+        $('#try-problem input[type="radio"]').prop("checked", false);
+    },
+    'createTryTask': function (name, email, phone, date, problem, practiceId) {
+        window.peps.hideTryModal();
+        this.showWaitingModal('Juste un instant', 'Nous envoyons vos disponibilités à notre équipe...');
+        let answers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : {};
+        let readableAnswers = '';
+        for (let key in answers) {
+            readableAnswers += key + '\n' + answers[key].toString() + '\n\n';
+        }
+        setTimeout(function () {
+            var promise = $.ajax({
+                headers: {}, dataType: "json", url: "/api/v1/sendTask", type: "post", data: JSON.stringify({
+                    'answers': readableAnswers,
+                    'email': email,
+                    'name': name,
+                    'phone_number': phone,
+                    'datetime': date,
+                    'practice_id': practiceId,
+                    'problem': problem,
+                })
+            });
+
+            promise.done(function (response) {
+                $('.progress-bar').css('width', '100%');
+                setTimeout(() => {
+                    window.peps.hideWaitingModal();
+                    alert('👍 Vos disponibilités ont bien été envoyées. À bientôt !');
+                }, 600)
+            });
+            promise.fail(function () {
+                window.peps.hideWaitingModal();
+                alert("🙁 Oops ! On n'a pas pu envoyer vos disponibilités. Veuillez essayer plus tard.");
+            });
+        }, 1500)
     },
 }
 

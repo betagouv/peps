@@ -368,3 +368,49 @@ div#social-media {
     height: 35px;
     opacity: 0.5;
 }
+
+.modal-button-group button {
+    padding: 12px;
+    border-radius: 21px;
+    box-shadow: 2px 2px 4px -2px #464646;
+    outline: 0;
+    border: 0;
+    margin-left: 10px;
+}
+#try-problem {
+    margin-top: 15px;
+}
+
+.modal-content .input-group {
+    margin-bottom: 5px;
+}
+
+.try-modal-form {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-button-group {
+    text-align: right;
+}
+
+#try-problem input[type="radio"] {
+    margin-right: 10px;
+}
+
+.radio label {
+    width: 100%;
+}
+
+#try-problem .radio {
+    width: 100%;
+    padding-top: 5px;
+}
+
+.radio .glyphicon {
+    margin-right: 10px;
+}
+
+.invalid {
+    border: solid #e60e0e 1px;
+}
