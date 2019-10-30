@@ -52,10 +52,6 @@ def get_form_schema():
                         "required": True
                     }
                 },
-                "wheat": {
-                    "title": "Pour le blé, combien de traitements appliquez-vous par campagne ?",
-                    "required": False
-                },
                 "department": {
                     "title": "Quel est le département de votre exploitation ?",
                     "required": False
@@ -77,7 +73,6 @@ def get_form_schema():
                 "weedsGlyphosate": ["glyphosate"],
                 "perennials": ["glyphosate"],
                 "glyphosate": ["problem"],
-                "wheat": ["rotation"],
             }
         },
         "options": {
@@ -191,22 +186,6 @@ def get_form_schema():
                             "enabled": False,
                         }]
                     },
-                },
-                "wheat": {
-                    "dependencies": {
-                        "rotation": ["recuVebqXEqCg8kK0", "recmm8lo1bGXCYSA3", "recSmDBTPyv0R1Rik"],
-                    },
-                    "sort": False,
-                    "hideNone": True,
-                    "type": "radio",
-                    "dataSource": [
-                        {"text": "Je n'applique pas de traitement", "value": "1.0"},
-                        {"text": "1 à 2", "value": "0.8"},
-                        {"text": "3 à 5", "value": "0.6"},
-                        {"text": "5 à 8", "value": "0.4"},
-                        {"text": "Plus de 8", "value": "0.15"},
-                        {"text": "Je ne sais pas", "value": "0.1"},
-                    ]
                 },
                 "department": {
                     "type": "select",
