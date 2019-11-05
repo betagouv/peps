@@ -293,7 +293,7 @@ class TestEngine(TestCase):
         practice_title = "Associer un colza avec un couvert de légumineuses"
         charancon = Pest.objects.filter(display_text='Charançons').first()
         colza = Culture.objects.filter(display_text='Colza').first()
-        charancon_multiplier = 1.3
+        charancon_multiplier = 1.21
 
         # First we check the weignt without using CHARANCONS in the response
         answers = {
@@ -362,11 +362,11 @@ class TestEngine(TestCase):
         """
         A practice can be more (or less) useful to address certain cultures, this
         is specified in the culture_multipliers field of the practice model.
-        The practice "Exploiter l'inter-rang pour réduire la place disponible aux
-        adventices" has a multiplier for the culture COLZA, here we check that said
+        The practice "Semer l'inter-rang pour réduire la place disponible aux adventices"
+        has a multiplier for the culture COLZA, here we check that said
         multiplier is taken into account by the engine.
         """
-        practice_title = "Exploiter l'inter-rang pour réduire la place disponible aux adventices"
+        practice_title = "Semer l'inter-rang pour réduire la place disponible aux adventices"
         colza = Culture.objects.filter(display_text='Colza').first()
         colza_multiplier = 1.2
 
