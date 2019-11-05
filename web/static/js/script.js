@@ -45,6 +45,7 @@ window.peps = {
             return isVisible && !isEmpty;
         });
         $('#submit').prop('disabled', hasIncompleteFields);
+        $('#missing-answers').css('visibility', hasIncompleteFields ? 'visible' : 'hidden');
     },
     'submit': function (e) {
         if (peps.waitingModalIsVisible()) {

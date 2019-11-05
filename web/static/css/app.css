@@ -121,7 +121,7 @@ a.nav-link:hover {
     padding: 15px;
     box-shadow: 2px 2px 4px -2px #464646;
     outline: 0;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 #submit:hover {
@@ -141,6 +141,7 @@ button#submit:active {
 
 #submit:disabled:active {
     background: #999;
+    box-shadow: none;
 }
 
 #footer {
@@ -151,6 +152,7 @@ button#submit:active {
     color: #999;
     padding-top: 20px;
     border-top: solid 1px #ddd;
+    margin-top: 20px;
 }
 
 #social-media > a {
@@ -413,4 +415,13 @@ div#social-media {
 
 .invalid {
     border: solid #e60e0e 1px;
+}
+
+#missing-answers {
+    text-align: right;
+    clear: both;
+    margin-bottom: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
 }
