@@ -31,6 +31,7 @@ class PracticeTypeCategory(Enum):
     BIOCONTROLE = 24
     VARIETES = 25
     CONVENTIONNEL = 26
+    COMPETITIVITE = 27
 
 class PracticeType(models.Model):
 
