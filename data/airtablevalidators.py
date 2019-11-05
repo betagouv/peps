@@ -97,6 +97,10 @@ def validate_practices(airtable_practices):
             message = 'Le label CTA de la pratique "%s" (ID %s) commence par une lettre en minuscule (colonne CTA title)' % (practice_title, practice_id)
             errors.append(AirtableError(message, fatal=False, url=url))
 
+        if not fields.get('Matériel') and not fields.get('Période de travail') and not fields.get('Impact') and not fields.get('Bénéfices supplémentaires') and not fields.get('Facteur clé de succès'):
+            message = 'La pratique "%s" (ID %s) n\'a aucune information additionelle. Il faut au moins une parmi : matériel, période de travail, impact, bénéfices supplémentaires, ou facteur clé de succès' % (practice_title, practice_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
         return errors
 
     for practice in airtable_practices:

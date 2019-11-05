@@ -236,3 +236,27 @@ class TestValidators(TestCase):
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de titre CTA (colonne CTA title)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de type (colonne Types)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de difficulté (colonne Difficulté)' for x in errors))
+
+        # If there is nothing among "matériel, période de travail, impact, bénéfices supplémentaires, or facteur clé de succès"
+        # we should get an error
+        json = [{
+            "id": "recopQwOR1Bxr4m5S",
+            "fields": {
+                "Nom": "[vigne] Désherber mécanique le cavaillon",
+                "Description": "Il existe divers outils pour désherber le pied des vignes.",
+                "CTA lien": ["recPIJIM77lSOEwfR"],
+                "CTA title": "Comparez les outils",
+                "Élevage multiplicateur": 1,
+                "Nécessite travail du sol": True,
+                "Difficulté": 0.7,
+                "Vente directe multiplicateur": 1.15,
+                "Marges de manoeuvre": ["recRcRPuPF8QsGt4Z", "reclHkrRmtx5tHbcm"],
+                "Problèmes adressés": ["DESHERBAGE"],
+                "Cultures whitelist": ["recT3CrK0EqgCGL8z"],
+                "Types": ["reciTfZiZI2otTUFN"],
+            },
+        }]
+        errors = validate_practices(json)
+        self.assertEqual(len(errors), 1)
+        message = 'La pratique "[vigne] Désherber mécanique le cavaillon" (ID recopQwOR1Bxr4m5S) n\'a aucune information additionelle. Il faut au moins une parmi : matériel, période de travail, impact, bénéfices supplémentaires, ou facteur clé de succès'
+        self.assertTrue(errors[0].message == message)
