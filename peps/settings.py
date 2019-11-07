@@ -10,9 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import os
-# from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
-# load_dotenv()
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv('PEPS_DEBUG') == 'True'
+
+# No need making this one secret: https://forum.sentry.io/t/dsn-private-public/6297/3
+if not DEBUG:
+    sentry_sdk.init(
+        dsn="https://8304ecd60f614091ab5bcdea016c650c@sentry.io/1810854",
+        integrations=[DjangoIntegration()]
+    )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +32,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('PEPS_SECRET')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('PEPS_DEBUG') == 'True'
 
 ALLOWED_HOSTS = [x.strip() for x in os.getenv('PEPS_ALLOWED_HOSTS').split(',')]
 
