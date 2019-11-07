@@ -34,7 +34,7 @@
 
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
 
-    <link rel="stylesheet" href="{% static 'css/app.css' %}?1573118512">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}?1573137789">
 
     <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
@@ -168,8 +168,10 @@
     <div id="info-results" class="well info" style="display:none;">🌱 Vous trouverez ci-dessous les trois pratiques que
         nous avons sélectionnées pour votre problématique.</div>
     <div id="form"></div>
-    <button id="submit" disabled="">Trouver des pratiques alternatives<div class="spacer" style="clear: both;"></div></button>
-    <div id="missing-answers"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Répondez à toutes les questions ci-dessus pour continuer</div>
+    <div id=submit-items>
+            <button id="submit" disabled="">Trouver des pratiques alternatives<div class="spacer" style="clear: both;"></div></button>
+            <div id="missing-answers"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Répondez à toutes les questions ci-dessus pour continuer</div>
+    </div>
 
     <div id="results" style="display:none;"></div>
     <div id='footer'>
@@ -184,7 +186,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'js/script.js' %}?1573118512"></script>
+<script type="text/javascript" src="{% static 'js/script.js' %}?1573137789"></script>
 <hr>
 </body>
 

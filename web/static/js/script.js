@@ -56,7 +56,7 @@ window.peps = {
         window.peps.fetchSuggestions();
     },
     'toggleForm': function (visible) {
-        [$('#form'), $('#submit'), $('#info-form')].forEach(x => x.toggle(visible));
+        [$('#form'), $('#submit-items'), $('#info-form')].forEach(x => x.toggle(visible));
     },
     'toggleResults': function (visible) {
         [$('#results'), $('#info-results')].forEach(x => x.toggle(visible));
