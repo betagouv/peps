@@ -121,7 +121,8 @@ class Engine:
         weight *= self._get_lowest_type_redundancy_multiplier(practice)
         weight *= self._get_department_multiplier(practice)
         weight *= self._get_unbalanced_rotation_multiplier(practice)
-        weight *= self._get_unbalanced_large_multiplier(practice)
+        weight *= self._get_large_rotation_multiplier(practice)
+        weight *= self._get_small_rotation_multiplier(practice)
 
         return weight
 
@@ -354,14 +355,27 @@ class Engine:
         return 1
 
 
-    def _get_unbalanced_large_multiplier(self, practice):
+    def _get_large_rotation_multiplier(self, practice):
         """
         If the user has more than 6 cultures, a handicap will be applied
         to practices adding a new culture in the rotation.
         """
-        if not practice.added_cultures or not self.form.cultures:
+        if self.form.cultures and len(self.form.cultures) <= 6:
             return 1
 
-        handicap = 0.9
+        if practice.types.filter(category=PracticeTypeCategory.ALLONGEMENT_ROTATION.value).first():
+            return 0.9
+        return 1
 
-        return handicap if len(self.form.cultures) > 6 else 1
+
+    def _get_small_rotation_multiplier(self, practice):
+        """
+        If the user has 3 or less cultures a boost will be given to
+        practices adding more cultures
+        """
+        if self.form.cultures and len(self.form.cultures) > 3:
+            return 1
+
+        if practice.types.filter(category=PracticeTypeCategory.ALLONGEMENT_ROTATION.value).first():
+            return 1.1
+        return 1

@@ -37,13 +37,13 @@ class TestEngine(TestCase):
         chanvre = Culture.objects.filter(display_text='Chanvre').first()
 
         # If we have a problem with weeds we expect to have the chanvre practice
-        # with a high ranking
+        # with a ranking above 0
         answers = {"problem":"DESHERBAGE", "department":"01"}
         engine = Engine(answers, [], [])
         practices = engine.calculate_results()
         chanvre_practice = next(filter(lambda x: x.practice.title == practice_title, practices))
 
-        self.assertEqual(chanvre_practice.weight, 1.5)
+        self.assertGreater(chanvre_practice.weight, 0)
 
         # However, if the user says they already have chanvre in their rotation,
         # the same practice will now have 0 as weight
@@ -615,15 +615,17 @@ class TestEngine(TestCase):
         self.assertGreater(unbalanced_result.weight, balanced_result.weight)
 
         # Note that the threshold is 25%, so having an unbalanced rotation of 2-1 (33%)
-        # should count as a balanced rotation
+        # should count as a balanced rotation. We need to account here for the short-rotation
+        # bonis though.
         answers = {
             "problem": "DESHERBAGE",
             "tillage": "TRAVAIL_PROFOND",
             "rotation": [mais, tournesol, ble],
         }
         engine = Engine(answers, [], [])
+        short_rotation_bonus = 1.1
         result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
-        self.assertEqual(balanced_result.weight, result.weight)
+        self.assertEqual(balanced_result.weight * short_rotation_bonus, result.weight)
 
         # We should only look at spring and fall cultures when we apply this logic.
         # In this case we have 40% fall, 40% spring, and 20% end-of-summer. Despite
@@ -733,6 +735,41 @@ class TestEngine(TestCase):
 
         self.assertEqual(initial_weight * 0.9, large_rotation_weight)
 
+    def test_small_rotation(self):
+        """
+        If there are three or less cultures in the rotation practices that extend
+        the rotation should be boosted by 1.1.
+        """
+        practice_name = 'Introduire une culture étouffant les adventices'
+        mais = 'recsPtaEneeYVoEWx'
+        tournesol = 'rec5MHmc9xIgAg8ha'
+        soja = 'recwHs4aAiZc9okg9'
+        orge = 'recfGVtMZSz05Rfl8'
+        raygrass = 'recjzIBqwGkton9Ed'
+
+        # When having more than 3 cultures, there is no bonus
+        answers = {
+            'problem': 'DESHERBAGE',
+            'rotation': [mais, tournesol, soja, orge],
+            'weeds': raygrass,
+            "cattle": "Oui",
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        initial_weight = result.weight
+
+        # When having 3 or less cultures, the bonus is 1.1
+        answers = {
+            'problem': 'DESHERBAGE',
+            'rotation': [mais, tournesol, soja],
+            'weeds': raygrass,
+            "cattle": "Oui",
+        }
+        engine = Engine(answers, [], [])
+        result = next(filter(lambda x: x.practice.title == practice_name, engine.calculate_results()))
+        small_rotation_weight = result.weight
+
+        self.assertEqual(initial_weight * 1.1, small_rotation_weight)
 
 
 def _populate_database():
