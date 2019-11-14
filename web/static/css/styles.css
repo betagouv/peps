@@ -213,3 +213,9 @@ h4.practice_name {
     color: #33b30b;
     font-size: 1.5em;
 }
+
+.alpaca-field[data-alpaca-field-name="contact"] .control-label.alpaca-control-label {
+    font-size: 1em;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}

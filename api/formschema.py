@@ -62,6 +62,24 @@ def get_form_schema():
                     "required": False,
                     "logAnswer": True,
                 },
+                "contact": {
+                    "type": "object",
+                    "hideOnMobile": True,
+                    "properties": {
+                        "name": {
+                            "title": "Nom et prénom",
+                            "type": "string",
+                        },
+                        "email": {
+                            "title": "Adresse email",
+                            "type": "string",
+                        },
+                        "phone": {
+                            "title": "Numéro téléphone",
+                            "type": "string",
+                        }
+                    }
+                }
             },
             "dependencies": {
                 "pests": ["problem"],
@@ -317,6 +335,19 @@ def get_form_schema():
                         {'text': 'Autre', 'value': 'referer_autre'},
                     ],
                 },
+                "contact": {
+                    "fields": {
+                        "name": {
+                            "placeholder": "Nom Prénom",
+                        },
+                        "email": {
+                            "placeholder": "nom@adresse.com",
+                        },
+                        "phone": {
+                            "placeholder": "06 12 34 56 78",
+                        },
+                    }
+                }
             }
         },
     }

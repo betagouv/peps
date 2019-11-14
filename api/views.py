@@ -211,7 +211,7 @@ class SendTaskView(APIView):
             practice_url = 'https://airtable.com/tblobpdQDxkzcllWo/{0}'.format(practice_id)
             notes += '{0} a besoin d\'aide pour implémenter la pratique {1}.\n\n'.format(name, practice_url)
         else:
-            notes += '{0} voudrait être contacté par notre équipe.\n\n'.format(name)
+            notes += '{0} a partagé son information de contact.\n\n'.format(name)
 
         notes += 'Num tel : {0}\n\n'.format(phone_number)
 

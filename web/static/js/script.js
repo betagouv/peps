@@ -32,20 +32,39 @@ window.peps = {
                 return window.peps.renderSuggestions(suggestions);
             }
             if (answers) {
-                return window.peps.fetchSuggestions();
+                window.peps.showWaitingModal('⌛️ Nous cherchons des pratiques alternatives', 'Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation');
+                setTimeout(() => {
+                    return window.peps.fetchSuggestions();
+                }, 2000);
             }
         }
         // The user wants to see the form
         return window.peps.renderForm();
     },
     'onFieldChange': function (e) {
-        let hasIncompleteFields = window.alpacaControl.children.some((field) => {
-            let isVisible = field.isHidden && !field.isHidden();
-            let isEmpty = Array.isArray(field.getValue()) ? !!field.getValue().length : !!field.getValue();
-            return isVisible && !isEmpty;
-        });
-        $('#submit').prop('disabled', hasIncompleteFields);
-        $('#missing-answers').css('visibility', hasIncompleteFields ? 'visible' : 'hidden');
+        let hasIncompleteFields = function (fields) {
+            for (let i = 0; i < fields.length; i++) {
+                let field = fields[i];
+
+                let isVisible = field.isHidden && !field.isHidden();
+                if (!isVisible)
+                    continue;
+
+                let fieldIsIncomplete = false;
+                if (field.type == 'object' && field.children && field.children.length) {
+                    fieldIsIncomplete = hasIncompleteFields(field.children);
+                } else {
+                    fieldIsIncomplete = Array.isArray(field.getValue()) ? !field.getValue().length : !field.getValue();
+                }
+
+                if (fieldIsIncomplete)
+                    return true
+            }
+            return false
+        }
+
+        $('#submit').prop('disabled', hasIncompleteFields(window.alpacaControl.children));
+        $('#missing-answers').css('visibility', hasIncompleteFields(window.alpacaControl.children) ? 'visible' : 'hidden');
     },
     'submit': function (e) {
         if (peps.waitingModalIsVisible()) {
@@ -53,7 +72,13 @@ window.peps = {
         }
         let answers = window.alpacaControl.form.getValue();
         window.history.pushState({ 'answers': answers }, window.title, window.location);
-        window.peps.fetchSuggestions();
+
+        window.peps.showWaitingModal('⌛️ Nous cherchons des pratiques alternatives', 'Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation');
+        setTimeout(() => {
+            window.peps.sendContactInfo();
+            window.peps.fetchSuggestions();
+        }, 2000);
+
     },
     'toggleForm': function (visible) {
         [$('#form'), $('#submit-items'), $('#info-form')].forEach(x => x.toggle(visible));
@@ -110,7 +135,23 @@ window.peps = {
 
         $('#submit').click(window.peps.submit);
         $.get('api/v1/formSchema', (schema) => {
+            // if we have already sent the contact info, we will remove this question
+            let supportsLocalStorage = !!window.localStorage
+            if (supportsLocalStorage && localStorage.getItem('contactInfoSent') == 'true') {
+                delete schema.schema.properties['contact'];
+                delete schema.options['contact'];
+            }
+
             schema.postRender = (control) => {
+                // add description to the contact information
+                let contactField = $('.alpaca-field[data-alpaca-field-name="contact"]');
+                if (contactField.length > 0) {
+                    contactField.toggleClass('well', true);
+                    contactField.prepend(`<div class="field-description">
+                        Peps est en étape d'éxperimentation. Afin d'améliorer le service, cela nous aiderait grandement d'en savoir un peu plus sur vous.
+                    </div>`);
+                }
+
                 window.peps.toggleResults(false);
                 window.peps.toggleForm(true);
                 $('#content').show();
@@ -119,6 +160,10 @@ window.peps = {
                 control.children.forEach((field) => {
                     ['change', 'add', 'remove', 'move'].forEach(x => field.on(x, window.peps.onFieldChange));
                 });
+
+                // We need to manually add the keyup event to input texts: https://github.com/gitana/alpaca/issues/178
+                $('.alpaca-field input[type="text"]').on('keyup', window.peps.onFieldChange);
+
                 window.peps.onFieldChange();
             }
             schema.data = prefilledAnswers;
@@ -128,37 +173,63 @@ window.peps = {
         });
         window.scrollTo(0, 0);
     },
-    'fetchSuggestions': function (silent=false) {
-        window.peps.showWaitingModal('⌛️ Nous cherchons des pratiques alternatives', 'Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation');
-        setTimeout(() => {
-            $('#content').show();
-            answers = history.state.answers;
-            let blacklist = history.state.hasOwnProperty('blacklist') ? history.state.blacklist : [];
-            data = JSON.stringify({
-                "answers": answers,
-                "practice_blacklist": blacklist
-            });
+    'sendContactInfo': function () {
+        let supportsLocalStorage = !!window.localStorage
+        if (supportsLocalStorage && localStorage.getItem('contactInfoSent') == 'true') {
+            return;
+        }
 
-            var promise = $.ajax({ headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data });
+        $('#content').show();
+        answers = history.state.answers;
+        contact = answers['contact'] || {}
+        contactData = JSON.stringify({
+            "name": contact['name'],
+            "email": contact['email'],
+            "phone_number": contact['phone'],
+            "answers": answers,
+            "datetime": "",
+            "practice_id": "",
+            "reason": "A répondu depuis l'application Web"
+        });
 
-            promise.done(function (response) {
-                $('.progress-bar').css('width', '100%');
-                setTimeout(() => {
-                    historyFn = silent ? window.history.replaceState : window.history.pushState;
-                    historyFn.call(history, {
-                        'answers': answers,
-                        'blacklist': blacklist,
-                        'suggestions': response['suggestions'],
-                    }, 'Results', '?page=results');
-                    window.peps.hideWaitingModal();
-                    window.peps.renderSuggestions(response['suggestions']);
-                }, 600)
-            });
-            promise.fail(function () {
+        var contactPromise = $.ajax({ headers: {}, dataType: "json", url: "/api/v1/sendTask", type: "post", data: contactData });
+
+        contactPromise.done(function (response) {
+            if (supportsLocalStorage) {
+                localStorage.setItem('contactInfoSent', 'true');
+            }
+            console.log('Contact information sent');
+        });
+    },
+    'fetchSuggestions': function (silent = false) {
+        $('#content').show();
+        answers = history.state.answers;
+        let blacklist = history.state.hasOwnProperty('blacklist') ? history.state.blacklist : [];
+
+        data = JSON.stringify({
+            "answers": answers,
+            "practice_blacklist": blacklist
+        });
+
+        var promise = $.ajax({ headers: {}, dataType: "json", url: "/api/v1/calculateRankings", type: "post", data: data });
+
+        promise.done(function (response) {
+            $('.progress-bar').css('width', '100%');
+            setTimeout(() => {
+                historyFn = silent ? window.history.replaceState : window.history.pushState;
+                historyFn.call(history, {
+                    'answers': answers,
+                    'blacklist': blacklist,
+                    'suggestions': response['suggestions'],
+                }, 'Results', '?page=results');
                 window.peps.hideWaitingModal();
-                alert("🙁 Oops ! On n'a pas pu trouver des suggestions. Veuillez essayer plus tard.");
-            });
-        }, 2000);
+                window.peps.renderSuggestions(response['suggestions']);
+            }, 600)
+        });
+        promise.fail(function () {
+            window.peps.hideWaitingModal();
+            alert("🙁 Oops ! On n'a pas pu trouver des suggestions. Veuillez essayer plus tard.");
+        });
     },
     'showWaitingModal': function (title, body) {
         if (peps.waitingModalIsVisible()) {
@@ -197,7 +268,10 @@ window.peps = {
             'answers': answers,
             'blacklist': blacklist.concat(practiceId)
         }, window.title, window.location);
-        window.peps.fetchSuggestions(true);
+        window.peps.showWaitingModal('⌛️ Nous re-calculons les pratiques', 'Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation');
+        setTimeout(() => {
+            window.peps.fetchSuggestions(true);
+        }, 2000);
     },
     'showTryModal': function (practiceId) {
         $('#tryModal').modal('show');
