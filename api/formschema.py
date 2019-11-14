@@ -28,10 +28,6 @@ def get_form_schema():
                     "title": "Quelles vivaces vous posent problème aujourd'hui dans votre exploitation ?",
                     "required": False
                 },
-                "practices": {
-                    "title": "Quelles pratiques avez-vous déjà essayées pour répondre à ce problème ?",
-                    "required": False
-                },
                 "tillage": {
                     "title": "Quels types de travail du sol pouvez-vous intégrer dans votre système ?",
                     "required": False,
@@ -140,13 +136,6 @@ def get_form_schema():
                         "problem": "GLYPHOSATE"
                     },
                     "dataSource": _get_glyphosate_uses(),
-                },
-                "practices": {
-                    "hideNone": True,
-                    "sort": True,
-                    "type": "checkbox",
-                    "multiple": True,
-                    "dataSource": _get_practice_types(),
                 },
                 "tillage": {
                     "hideNone": True,
@@ -347,11 +336,6 @@ def _get_perennials():
 def _get_problems():
     from data.models import Problem
     return [{'text': x.display_text, 'value': x.name} for x in Problem]
-
-def _get_practice_types():
-    from data.models import PracticeType
-    form_types = PracticeType.objects.filter(penalty__lte=1.0)
-    return [{'text': x.display_text, 'value': x.get_category_name()} for x in form_types]
 
 def _get_cultures():
     from data.models import Culture
