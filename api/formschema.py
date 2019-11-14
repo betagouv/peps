@@ -335,7 +335,7 @@ def _get_perennials():
 
 def _get_problems():
     from data.models import Problem
-    return [{'text': x.display_text, 'value': x.name} for x in Problem]
+    return [{'text': x.display_text, 'value': x.name} for x in Problem if x.display_text != 'Autres']
 
 def _get_cultures():
     from data.models import Culture
