@@ -1,7 +1,7 @@
 import json
+from unittest.mock import MagicMock
 import datetime
 import dateutil
-from unittest.mock import MagicMock
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey

@@ -207,7 +207,10 @@ def _create_pest_models(json_pests):
 
 def _create_culture_models(json_cultures):
     cultures = []
+    accepted_sectors = ['Grande culture']
     for json_culture in json_cultures:
+        if json_culture['fields'].get('Filière') not in accepted_sectors:
+            continue
         culture = Culture(
             external_id=json_culture.get('id'),
             airtable_json=json_culture,

@@ -772,6 +772,14 @@ class TestEngine(TestCase):
         self.assertEqual(initial_weight * 1.1, small_rotation_weight)
 
 
+    def test_accepted_cultures(self):
+        """
+        For now, we will only accept cultures from the Grandes Cultures sector.
+        Other cultures should not be saved.
+        """
+        self.assertEqual(Culture.objects.filter(display_text='Vigne').count(), 0)
+
+
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
     # data instead of the real deal.
