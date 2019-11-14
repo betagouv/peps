@@ -15,7 +15,7 @@ class Problem(PepsEnum):
             'RAVAGEURS': 'Lutter contre les ravageurs',
             'DEPENSE': 'Réduire ma consommation des produits phytosanitaires',
             'MALADIES_FONGIQUES': 'Éviter des maladies fongiques',
-            'GLYPHOSATE': 'Sortir du glyphosate',
+            'GLYPHOSATE': 'Trouver des alternatives à l’utilisation du glyphosate',
             'AUTRES': 'Autres',
         }
 

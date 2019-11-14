@@ -80,7 +80,7 @@ window.peps = {
                     </div>
                     <div class="columns well">${columns}</div>
                     <div class="description">${practice.description}</div>
-                    <div class="subtitle">Resources</div>
+                    <div class="subtitle">Ressources</div>
                     <div class="resources">${resources}</div>
                     <div class="button-row">
                         <button class="blacklist" id="blacklist-${practice.id}"><span class="button-emoji">🚫</span> Recalculer sans cette pratique</button>

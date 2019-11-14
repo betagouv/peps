@@ -29,7 +29,7 @@ def get_form_schema():
                     "required": False
                 },
                 "tillage": {
-                    "title": "Quels types de travail du sol pouvez-vous intégrer dans votre système ?",
+                    "title": "Quels types de travail du sol souhaitez-vous intégrer dans votre système ?",
                     "required": False,
                 },
                 "cattle": {
@@ -177,6 +177,7 @@ def get_form_schema():
                     },
                 },
                 "department": {
+                    "noneLabel": "Sélectionnez",
                     "type": "select",
                     "dataSource": [
                         {"value": "01", "text": "01 - Ain"},
