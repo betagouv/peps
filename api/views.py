@@ -5,13 +5,14 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
 from data.adapters import AirtableAdapter
 from data.models import Practice
 from api.engine import Engine
-from api.serializers import ResponseSerializer
+from api.serializers import ResponseSerializer, DiscardActionSerializer
 from api.models import Response
 from api.formschema import get_form_schema
 
@@ -242,3 +243,7 @@ class SendTaskView(APIView):
             'notes': notes,
         })
         # pylint: enable=no-member
+
+
+class DiscardActionView(CreateAPIView):
+    serializer_class = DiscardActionSerializer

@@ -10,3 +10,4 @@ from .mechanism import Mechanism
 from .resource import Resource, ResourceType
 from .pepsenum import PepsEnum
 from .glyphosateuses import GlyphosateUses
+from .discardaction import DiscardAction

@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import AirtableAdapter
-from data.models import Practice
+from data.models import Practice, DiscardAction
 from api.views import SendEmailView, SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -407,6 +407,31 @@ class TestApi(TestCase):
             SendTaskView._send_task.assert_not_called()
         finally:
             SendTaskView._send_task = original_function
+
+
+    def test_discard_action(self):
+        """
+        Tests the task API endpoint used to create discard actions.
+        """
+
+        self.client.logout()
+
+        response = self.client.post(
+            reverse('discard_action'),
+            {
+                "practice_airtable_id": "recHLVNm0nhc2R1mN",
+                "reason": "Cette pratique a été testée ou est en place sur mon exploitation",
+            },
+            format='json',
+            **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(DiscardAction.objects.all().count(), 1)
+
+        discard_action = DiscardAction.objects.first()
+        self.assertEqual(discard_action.reason, 'Cette pratique a été testée ou est en place sur mon exploitation')
+        self.assertEqual(discard_action.practice_airtable_id, 'recHLVNm0nhc2R1mN')
+
 
 
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from data.models import Practice, Mechanism, Resource, PracticeType
+from data.models import Practice, Mechanism, Resource, PracticeType, DiscardAction
 
 
 class MechanismSerializer(serializers.ModelSerializer):
@@ -94,3 +94,11 @@ class ResponseSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         raise NotImplementedError('`create()` must be implemented.')
+
+class DiscardActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DiscardAction
+        fields = (
+            'practice_airtable_id',
+            'reason',
+        )
