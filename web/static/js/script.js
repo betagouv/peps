@@ -121,13 +121,13 @@ window.peps = {
                     <div class="resources">${resources}</div>
                     <div class="button-row">
                         <button class="blacklist" id="blacklist-${practice.id}"><span class="button-emoji">🚫</span> Recalculer sans cette pratique</button>
-                        <button class="try" id="try-${practice.id}"><span class="button-emoji">👍</span> Essayer cette pratique</button>
+                        <button class="try" id="try-${practice.id}"><span class="button-emoji">👍</span> Cette pratique m'intéresse</button>
                     </div> 
                 </div>
             `
             results.append(practiceHtml);
             $('#blacklist-' + practice.id).click(() => window.peps.showDiscardModal(practice.id, practice.external_id));
-            $('#try-' + practice.id).click(() => window.peps.showTryModal(practice.id));
+            $('#try-' + practice.id).click(() => window.peps.showTryModal(practice));
         }
         window.scrollTo(0, 0);
         window.peps.toggleResults(true);
@@ -143,13 +143,13 @@ window.peps = {
             return;
         }
 
-        let prefilledAnswers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : {};
-
         $('#submit').click(window.peps.submit);
         $.get('api/v1/formSchema', (schemaBundle) => {
             peps.renderPracticesForm(schemaBundle['practices_form']);
-            peps.renderStatsForm(schemaBundle['stats_form']);
-            peps.renderContactForm(schemaBundle['contact_form']);
+            if (schemaBundle['stats_form'])
+                peps.renderStatsForm(schemaBundle['stats_form']);
+            if (schemaBundle['contact_form'])
+                peps.renderContactForm(schemaBundle['contact_form']);
         }).fail(() => {
             alert("🙁 Oops ! On n'a pas pu charger les données. Veuillez essayer plus tard.");
         });
@@ -189,7 +189,6 @@ window.peps = {
         }
         schema.data = prefilledAnswers;
         $("#form-stats").alpaca(schema);
-
     },
     'renderContactForm': function (schema) {
         let supportsLocalStorage = !!window.localStorage
@@ -332,7 +331,21 @@ window.peps = {
             window.peps.fetchSuggestions(true);
         }, 2000);
     },
-    'showTryModal': function (practiceId) {
+    'showTryModal': function (practice) {
+        let practiceId = practice.id;
+        let addsNewCultures = (practice.types || []).some((x) => x.category && (x.category === 'NOUVELLES_CULTURES' || x.category === 'ALLONGEMENT_ROTATION'));
+
+        $('#problem-debouches').parent().parent().toggle(addsNewCultures);
+
+        if (!!window.localStorage) {
+            if (localStorage.getItem('name'))
+                $('#nameField').val(localStorage.getItem('name'));
+            if (localStorage.getItem('email'))
+                $('#emailField').val(localStorage.getItem('email'));
+            if (localStorage.getItem('phone'))
+                $('#phoneField').val(localStorage.getItem('phone'));
+        }
+
         $('#tryModal').modal('show');
         $('#try-modal-confirm').unbind().click(() => {
             let invalidFields = window.peps.getInvalidTryModalFields();
@@ -345,6 +358,12 @@ window.peps = {
             let phoneField = $('#phoneField');
             let dateField = $('#dateTimeField');
             [nameField, emailField, phoneField].forEach(x => x.toggleClass('invalid', false));
+
+            if (!!window.localStorage) {
+                localStorage.setItem('name', $('#nameField').val())
+                localStorage.setItem('email', $('#emailField').val())
+                localStorage.setItem('phone', $('#phoneField').val())
+            }
 
             let date = moment($('#dateTimeField').val(), 'dddd, MMMM Do YYYY, H:mm', 'FR').toISOString(true);
             let problem = $('#try-problem input[type="radio"]:checked').first().attr('value') || 'Problème pas connu';

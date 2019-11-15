@@ -34,7 +34,7 @@
 
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}" />
 
-    <link rel="stylesheet" href="{% static 'css/app.css' %}?1573721048">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}?1573834626">
 
     <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
@@ -77,36 +77,60 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title" id="try-modal-title">🎉 Essayez cette pratique !</h5>
+                <h5 class="modal-title" id="try-modal-title">Cette pratique vous interesse ?</h5>
             </div>
             <div class="modal-body">
-                <div>Comment pouvons-nous vous aider ?</div>
+                <div>Quelles informations ou actions vous semblent nécessaires afin de vous décider sur le test de cette
+                    pratique (il est possible de sélectionner plusieurs items) :</div>
 
                 <div id="try-problem" class="list-group">
                     <div class="radio"><label><input name="problemRadios" value="Échanger avec un conseiller"
                                 id="problem-conseiller" type="radio"><span class="glyphicon glyphicon-briefcase"
-                                aria-hidden="true"></span> Échanger
-                            avec un conseiller</label></div>
-                    <div class="radio"><label><input name="problemRadios" value="Trouver du matériel"
-                                id="problem-equipment" type="radio"><span class="glyphicon glyphicon-wrench"
-                                aria-hidden="true"></span> Trouver
-                            du matériel</label></div>
-                    <div class="radio"><label><input name="problemRadios" value="Parler à un agriculteur"
+                                aria-hidden="true"></span> Échanger avec un conseiller</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Avoir le retour d'expérience d'un agriculteur l'ayant déjà mis en place"
                                 id="problem-farmer" type="radio"><span class="glyphicon glyphicon-user"
-                                aria-hidden="true"></span> Parler à un
-                            agriculteur</label></div>
-                    <div class="radio"><label><input name="problemRadios" value="J'ai une autre question"
-                                id="problem-question" type="radio"><span class="glyphicon glyphicon-question-sign"
-                                aria-hidden="true"></span> J'ai une
-                            autre question</label></div>
-                    <div class="radio"><label><input name="problemRadios" value="Je teste la pratique" id="problem-none"
-                                type="radio"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> J'ai
-                            tout ce
-                            qu'il faut</label></div>
+                                aria-hidden="true"></span> Avoir le retour d'expérience d'un agriculteur l'ayant déjà
+                            mis en place</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Obtenir plus de documentation technique et un protocole de test" id="problem-doc"
+                                type="radio"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Obtenir
+                            plus de documentation technique et un protocole de test</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Connaitre les aides disponibles pour cette pratique" id="problem-aides"
+                                type="radio"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                            Connaitre les aides disponibles pour cette pratique</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Connaitre les cahiers des charges incluant cette pratique" id="problem-cahiers"
+                                type="radio"><span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                            Connaitre les cahiers des charges incluant cette pratique</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Avoir une estimation du risque économique pris" id="problem-risque"
+                                type="radio"><span class="glyphicon glyphicon-euro" aria-hidden="true"></span>
+                            Avoir une estimation du risque économique pris</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Chercher les débouchés disponibles pour cette nouvelle culture"
+                                id="problem-debouches" type="radio"><span class="glyphicon glyphicon-thumbs-up"
+                                aria-hidden="true"></span>
+                            Chercher les débouchés disponibles pour cette nouvelle culture</label></div>
+
+                    <div class="radio"><label><input name="problemRadios"
+                                value="Connaitre le matériel nécessaire et disponible" id="problem-materiel"
+                                type="radio"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                            Connaitre le matériel nécessaire et disponible</label></div>
+
+                    <div class="radio"><label><input name="problemRadios" value="Autre" id="problem-none"
+                                type="radio"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                            Autre</label></div>
                 </div>
 
-                <div>Laissez-nous vos coordonnées, notre équipe reviendra vers vous pour la mise en place de cette
-                    pratique.</div>
+                <div>Ces informations nous permettront d'aller plus loin dans la compréhension des freins à la mise en place de pratiques alternatives. Pouvons-nous vous contacter afin d'approfondir ces sujets avec vous ?</div>
 
 
                 <div class="try-modal-form">
@@ -238,7 +262,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{% static 'js/script.js' %}?1573721048"></script>
+<script type="text/javascript" src="{% static 'js/script.js' %}?1573834626"></script>
 <hr>
 </body>
 
