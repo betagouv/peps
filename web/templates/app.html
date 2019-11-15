@@ -162,12 +162,62 @@
     </div>
 </div>
 
+
+<div class="modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" id="discardModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="discard-modal-title">Cette pratique n'est pas pertinente ?</h5>
+            </div>
+            <div class="modal-body">
+
+                <div id="discard-reason" class="list-group">
+                    <div class="radio"><label><input name="discardReasonRadios"
+                                value="J'ai déjà prévu de mettre en place cette pratique" id="reason-known"
+                                type="radio"> J'ai déjà prévu de mettre en place cette pratique</label></div>
+                    <div class="radio"><label><input name="discardReasonRadios"
+                                value="Cette pratique a été testée ou est en place sur mon exploitation"
+                                id="reason-test" type="radio"> Cette pratique a été testée ou est en place sur mon
+                            exploitation</label></div>
+                    <div class="radio"><label><input name="discardReasonRadios"
+                                value="Cette pratique n’est pas applicable pour mon exploitation"
+                                id="reason-applicability" type="radio"> Cette pratique n’est pas applicable pour mon
+                            exploitation</label></div>
+                    <div class="radio"><label><input name="discardReasonRadios" value="Autre" id="reason-other"
+                                type="radio"> Autre</label></div>
+                </div>
+
+                <div class="modal-button-group">
+                    <button type="button" id="discard-modal-close" class="btn btn-default">Annuler</button>
+                    <button type="button" id="discard-modal-confirm" class="btn btn-success">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="content" class="mdl-cell--8-col mdl-cell--2-offset" style="display:none;">
-    <div id="info-form" class="well info" style="display:none;">Vos réponses à ces questions vont permettre d'identifier
-        trois pratiques alternatives adaptées à votre problématiques ainsi qu'à votre exploitation</div>
     <div id="info-results" class="well info" style="display:none;">🌱 Vous trouverez ci-dessous les trois pratiques que
         nous avons sélectionnées pour votre problématique.</div>
-    <div id="form"></div>
+    <div id="forms-container">
+        <div id="info-form" class="well info" style="display:none;">Vos réponses à ces questions vont permettre
+            d'identifier trois pratiques alternatives adaptées à votre problématiques ainsi qu'à votre exploitation
+        </div>
+        <div class="form" id="form"></div>
+
+        <div id="info-form-stats" class="well info" style="display:none;">Peps est en étape d'expérimentation. Afin
+            d'améliorer le service, cela nous aiderait grandement d'en savoir un peu plus sur vous.
+        </div>
+        <div class="form" id="form-stats"></div>
+
+        <div id="info-form-contact" class="well info" style="display:none;">Notre équipe pourrait éventuellement être
+            amenée à
+            vous contacter pour avoir votre avis sur Peps et discuter davantage des pratiques adaptées pour votre
+            situation</div>
+        <div class="form" id="form-contact"></div>
+    </div>
     <div id=submit-items>
         <button id="submit" disabled="">Trouver des pratiques alternatives<div class="spacer" style="clear: both;">
             </div></button>

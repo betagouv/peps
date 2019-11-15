@@ -21,8 +21,9 @@ String.prototype.isEmail = function () {
 
 window.peps = {
     'loadContent': function () {
-        // button bindings
+
         $('#try-modal-close').click(window.peps.hideTryModal);
+        $('#discard-modal-close').click(window.peps.hideDiscardModal);
 
         // The user wants to see the results
         if (window.location.toString().indexOf('page=results') != -1) {
@@ -38,8 +39,9 @@ window.peps = {
                 }, 2000);
             }
         }
+
         // The user wants to see the form
-        return window.peps.renderForm();
+        return window.peps.renderForms();
     },
     'onFieldChange': function (e) {
         let hasIncompleteFields = function (fields) {
@@ -56,32 +58,42 @@ window.peps = {
                 } else {
                     fieldIsIncomplete = Array.isArray(field.getValue()) ? !field.getValue().length : !field.getValue();
                 }
-
                 if (fieldIsIncomplete)
                     return true
             }
             return false
         }
 
-        $('#submit').prop('disabled', hasIncompleteFields(window.alpacaControl.children));
-        $('#missing-answers').css('visibility', hasIncompleteFields(window.alpacaControl.children) ? 'visible' : 'hidden');
+        let fieldArray = []
+        window.alpacaControl && fieldArray.push(window.alpacaControl.children);
+        window.alpacaControlStats && fieldArray.push(window.alpacaControlStats.children);
+        window.alpacaControlContact && fieldArray.push(window.alpacaControlContact.children);
+
+        let incomplete = fieldArray.some(hasIncompleteFields);
+        $('#submit').prop('disabled', incomplete);
+        $('#missing-answers').css('visibility', incomplete ? 'visible' : 'hidden');
     },
     'submit': function (e) {
         if (peps.waitingModalIsVisible()) {
             return;
         }
         let answers = window.alpacaControl.form.getValue();
-        window.history.pushState({ 'answers': answers }, window.title, window.location);
+        let statsAnswers = !!window.alpacaControlStats ? window.alpacaControlStats.form.getValue() : undefined;
+        let contactAnswers = !!window.alpacaControlContact ? window.alpacaControlContact.form.getValue() : undefined;
+        window.history.pushState({ 'answers': answers, 'statsAnswers': statsAnswers, 'contactAnswers': contactAnswers }, window.title, window.location);
 
         window.peps.showWaitingModal('⌛️ Nous cherchons des pratiques alternatives', 'Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation');
         setTimeout(() => {
             window.peps.sendContactInfo();
+            window.peps.sendStatsInfo();
             window.peps.fetchSuggestions();
         }, 2000);
 
     },
     'toggleForm': function (visible) {
-        [$('#form'), $('#submit-items'), $('#info-form')].forEach(x => x.toggle(visible));
+        [$('#forms-container'), $('#submit-items'), $('#info-form')].forEach(x => x.toggle(visible));
+        $('#info-form-stats').toggle(visible && !!window.alpacaControlStats);
+        $('#info-form-contact').toggle(visible && !!window.alpacaControlContact);
     },
     'toggleResults': function (visible) {
         [$('#results'), $('#info-results')].forEach(x => x.toggle(visible));
@@ -114,14 +126,14 @@ window.peps = {
                 </div>
             `
             results.append(practiceHtml);
-            $('#blacklist-' + practice.id).click(() => window.peps.blacklistPractice(practice.id));
+            $('#blacklist-' + practice.id).click(() => window.peps.showDiscardModal(practice.id, practice.external_id));
             $('#try-' + practice.id).click(() => window.peps.showTryModal(practice.id));
         }
         window.scrollTo(0, 0);
         window.peps.toggleResults(true);
         $('#content').show();
     },
-    'renderForm': function () {
+    'renderForms': function () {
 
         if (window.alpacaControl && window.alpacaControl.form) {
             $('#content').show();
@@ -134,54 +146,87 @@ window.peps = {
         let prefilledAnswers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : {};
 
         $('#submit').click(window.peps.submit);
-        $.get('api/v1/formSchema', (schema) => {
-            // if we have already sent the contact info, we will remove this question
-            let supportsLocalStorage = !!window.localStorage
-            if (supportsLocalStorage && localStorage.getItem('contactInfoSent') == 'true') {
-                delete schema.schema.properties['contact'];
-                delete schema.options['contact'];
-            }
-
-            schema.postRender = (control) => {
-                // add description to the contact information
-                let contactField = $('.alpaca-field[data-alpaca-field-name="contact"]');
-                if (contactField.length > 0) {
-                    contactField.toggleClass('well', true);
-                    contactField.prepend(`<div class="field-description">
-                        Peps est en étape d'éxperimentation. Afin d'améliorer le service, cela nous aiderait grandement d'en savoir un peu plus sur vous.
-                    </div>`);
-                }
-
-                window.peps.toggleResults(false);
-                window.peps.toggleForm(true);
-                $('#content').show();
-                window.scrollTo(0, 0);
-                window.alpacaControl = control;
-                control.children.forEach((field) => {
-                    ['change', 'add', 'remove', 'move'].forEach(x => field.on(x, window.peps.onFieldChange));
-                });
-
-                // We need to manually add the keyup event to input texts: https://github.com/gitana/alpaca/issues/178
-                $('.alpaca-field input[type="text"]').on('keyup', window.peps.onFieldChange);
-
-                window.peps.onFieldChange();
-            }
-            schema.data = prefilledAnswers;
-            $("#form").alpaca(schema);
+        $.get('api/v1/formSchema', (schemaBundle) => {
+            peps.renderPracticesForm(schemaBundle['practices_form']);
+            peps.renderStatsForm(schemaBundle['stats_form']);
+            peps.renderContactForm(schemaBundle['contact_form']);
         }).fail(() => {
             alert("🙁 Oops ! On n'a pas pu charger les données. Veuillez essayer plus tard.");
         });
         window.scrollTo(0, 0);
     },
+    'renderPracticesForm': function (schema) {
+        let prefilledAnswers = history.state && history.state.hasOwnProperty('answers') ? history.state.answers : {};
+
+        schema.postRender = (control) => {
+            window.alpacaControl = control;
+            window.peps.toggleResults(false);
+            window.peps.toggleForm(true);
+            $('#content').show();
+            window.scrollTo(0, 0);
+            control.children.forEach((field) => {
+                ['change', 'add', 'remove', 'move'].forEach(x => field.on(x, window.peps.onFieldChange));
+            });
+            window.peps.onFieldChange();
+        }
+        schema.data = prefilledAnswers;
+        $("#form").alpaca(schema);
+    },
+    'renderStatsForm': function (schema) {
+        let prefilledAnswers = history.state && history.state.hasOwnProperty('statsAnswers') ? history.state.answers : {};
+
+        schema.postRender = (control) => {
+            window.alpacaControlStats = control;
+            window.peps.toggleResults(false);
+            window.peps.toggleForm(true);
+            $('#content').show();
+            window.scrollTo(0, 0);
+            control.children.forEach((field) => {
+                ['change', 'add', 'remove', 'move'].forEach(x => field.on(x, window.peps.onFieldChange));
+            });
+            $('#info-form-stats').show();
+            window.peps.onFieldChange();
+        }
+        schema.data = prefilledAnswers;
+        $("#form-stats").alpaca(schema);
+
+    },
+    'renderContactForm': function (schema) {
+        let supportsLocalStorage = !!window.localStorage
+        if (supportsLocalStorage && !!localStorage.getItem('name') && !!localStorage.getItem('email') && !!localStorage.getItem('phone')) {
+            return;
+        }
+
+        let prefilledAnswers = history.state && history.state.hasOwnProperty('contactAnswers') ? history.state.answers : {};
+
+        schema.postRender = (control) => {
+
+            window.peps.toggleResults(false);
+            window.peps.toggleForm(true);
+            $('#content').show();
+            window.scrollTo(0, 0);
+            window.alpacaControlContact = control;
+            control.children.forEach((field) => {
+                ['change', 'add', 'remove', 'move'].forEach(x => field.on(x, window.peps.onFieldChange));
+            });
+            $('#info-form-stats').show();
+            // We need to manually add the keyup event to input texts: https://github.com/gitana/alpaca/issues/178
+            $('.alpaca-field input[type="text"]').on('keyup', window.peps.onFieldChange);
+
+            window.peps.onFieldChange();
+        }
+        schema.data = prefilledAnswers;
+        $("#form-contact").alpaca(schema);
+    },
     'sendContactInfo': function () {
         let supportsLocalStorage = !!window.localStorage
-        if (supportsLocalStorage && localStorage.getItem('contactInfoSent') == 'true') {
+        if (supportsLocalStorage && !!localStorage.getItem('name') && !!localStorage.getItem('email') && !!localStorage.getItem('phone')) {
             return;
         }
 
         $('#content').show();
         answers = history.state.answers;
-        contact = answers['contact'] || {}
+        contact = history.state.contactAnswers;
         contactData = JSON.stringify({
             "name": contact['name'],
             "email": contact['email'],
@@ -196,9 +241,23 @@ window.peps = {
 
         contactPromise.done(function (response) {
             if (supportsLocalStorage) {
-                localStorage.setItem('contactInfoSent', 'true');
+                localStorage.setItem('name', contact['name']);
+                localStorage.setItem('email', contact['email']);
+                localStorage.setItem('phone', contact['phone']);
             }
-            console.log('Contact information sent');
+        });
+    },
+    'sendStatsInfo': function () {
+        let supportsLocalStorage = !!window.localStorage
+        if (supportsLocalStorage && !!localStorage.getItem('groups') && !!localStorage.getItem('referers')) {
+            return;
+        }
+
+        $('#content').show();
+        answers = history.state.answers;
+        stats = history.state.statsAnswers;
+        contactData = JSON.stringify({
+            "group": stats['groups'],
         });
     },
     'fetchSuggestions': function (silent = false) {
@@ -352,6 +411,27 @@ window.peps = {
                 alert("🙁 Oops ! On n'a pas pu envoyer vos disponibilités. Veuillez essayer plus tard.");
             });
         }, 1500)
+    },
+    'showDiscardModal': function(practiceId, practiceAirtableId) {
+        $('#discardModal').modal('show');
+        $('#discard-modal-confirm').unbind().click(() => {
+            let reason = $('#discard-reason input[type="radio"]:checked').first().attr('value') || 'Autre';
+            var discardActionPromise = $.ajax({
+                headers: {}, dataType: "json", url: "/api/v1/discardAction", type: "post", data: JSON.stringify({
+                    'practice_airtable_id': practiceAirtableId,
+                    'reason': reason,
+                })
+            });
+            discardActionPromise.done(function (response) {
+                console.log('discard action successful');
+            });
+            window.peps.hideDiscardModal();
+            window.peps.blacklistPractice(practiceId);
+        });
+    },
+    'hideDiscardModal': function() {
+        $('#discardModal').modal('hide');
+        $('#discard-reason input[type="radio"]').prop("checked", false);
     },
 }
 
