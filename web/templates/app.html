@@ -38,6 +38,17 @@
 
     <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 
+    <script>
+        var $buoop = { required: { e: -3 }, mobile: false, api: 2019.11 };
+        function $buo_f() {
+            var e = document.createElement("script");
+            e.src = "//browser-update.org/update.min.js";
+            document.body.appendChild(e);
+        };
+        try { document.addEventListener("DOMContentLoaded", $buo_f, false) }
+        catch (e) { window.attachEvent("onload", $buo_f) }
+    </script>
+
 </head>
 
 <div class="nav-bar">
@@ -96,7 +107,8 @@
 
                     <div class="radio"><label><input name="problemRadios"
                                 value="Obtenir plus de documentation technique et un protocole de test" id="problem-doc"
-                                type="radio"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Obtenir
+                                type="radio"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                            Obtenir
                             plus de documentation technique et un protocole de test</label></div>
 
                     <div class="radio"><label><input name="problemRadios"
@@ -130,7 +142,9 @@
                             Autre</label></div>
                 </div>
 
-                <div>Ces informations nous permettront d'aller plus loin dans la compréhension des freins à la mise en place de pratiques alternatives. Pouvons-nous vous contacter afin d'approfondir ces sujets avec vous ?</div>
+                <div>Ces informations nous permettront d'aller plus loin dans la compréhension des freins à la mise en
+                    place de pratiques alternatives. Pouvons-nous vous contacter afin d'approfondir ces sujets avec vous
+                    ?</div>
 
 
                 <div class="try-modal-form">
