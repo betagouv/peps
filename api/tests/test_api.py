@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import AirtableAdapter
-from data.models import Practice, DiscardAction
+from data.models import Practice, DiscardAction, RefererCount, GroupCount
 from api.views import SendEmailView, SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -433,6 +433,43 @@ class TestApi(TestCase):
         self.assertEqual(discard_action.practice_airtable_id, 'recHLVNm0nhc2R1mN')
 
 
+    def test_stats(self):
+        """
+        Tests the task API endpoint used to post stats.
+        """
+
+        self.client.logout()
+
+        response = self.client.post(
+            reverse('register_stats'),
+            {
+                "groups": "DEPHY,GROUPE_30000",
+                "referers": "RESEAUX_SOCIAUX,COOPERATIVE_OU_NEGOCE",
+            },
+            format='json',
+            **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # There must be two items for groups and another 2 for referers
+        self.assertEqual(GroupCount.objects.all().count(), 2)
+        self.assertEqual(RefererCount.objects.all().count(), 2)
+
+        dephy = GroupCount.objects.filter(group=GroupCount.AgriculturalGroup['DEPHY'].value)
+        self.assertEqual(dephy.count(), 1)
+        self.assertEqual(dephy.first().counter, 1)
+
+        groupe_30000 = GroupCount.objects.filter(group=GroupCount.AgriculturalGroup['GROUPE_30000'].value)
+        self.assertEqual(groupe_30000.count(), 1)
+        self.assertEqual(groupe_30000.first().counter, 1)
+
+        reseaux_sociaux = RefererCount.objects.filter(referer=RefererCount.Referer['RESEAUX_SOCIAUX'].value)
+        self.assertEqual(reseaux_sociaux.count(), 1)
+        self.assertEqual(reseaux_sociaux.first().counter, 1)
+
+        cooperative_ou_negoce = RefererCount.objects.filter(referer=RefererCount.Referer['COOPERATIVE_OU_NEGOCE'].value)
+        self.assertEqual(cooperative_ou_negoce.count(), 1)
+        self.assertEqual(cooperative_ou_negoce.first().counter, 1)
 
 
 def _populate_database():

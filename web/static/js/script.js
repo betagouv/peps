@@ -174,6 +174,10 @@ window.peps = {
     },
     'renderStatsForm': function (schema) {
         let prefilledAnswers = history.state && history.state.hasOwnProperty('statsAnswers') ? history.state.answers : {};
+        let supportsLocalStorage = !!window.localStorage
+        if (supportsLocalStorage && !!localStorage.getItem('groups') && !!localStorage.getItem('referers')) {
+            return;
+        }
 
         schema.postRender = (control) => {
             window.alpacaControlStats = control;
@@ -255,8 +259,17 @@ window.peps = {
         $('#content').show();
         answers = history.state.answers;
         stats = history.state.statsAnswers;
-        contactData = JSON.stringify({
-            "group": stats['groups'],
+        data = JSON.stringify({
+            "groups": stats['groups'],
+            "referers": stats['referers']
+        });
+        var statsPromise = $.ajax({ headers: {}, dataType: "json", url: "/api/v1/stats", type: "post", data: data });
+
+        statsPromise.done(function (response) {
+            if (supportsLocalStorage) {
+                localStorage.setItem('groups', stats['groups']);
+                localStorage.setItem('referers', stats['referers']);
+            }
         });
     },
     'fetchSuggestions': function (silent = false) {

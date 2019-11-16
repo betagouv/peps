@@ -1,4 +1,3 @@
-import json
 import dateutil.parser
 from mailjet_rest import Client
 from django.http import HttpResponse, JsonResponse
@@ -10,11 +9,11 @@ from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
 from data.adapters import AirtableAdapter
-from data.models import Practice
+from data.models import Practice, GroupCount, RefererCount
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer
-from api.models import Response
 from api.formschema import get_form_schema
+from api.models import Response
 
 # For the moment, we will authorize access to this endpoint in one of these two situations:
 # - The user logged in and has a session (which identifies a user)
@@ -243,6 +242,34 @@ class SendTaskView(APIView):
             'notes': notes,
         })
         # pylint: enable=no-member
+
+
+class StatsView(APIView):
+    """
+    Temporary view that will increment the counters of stat models
+    such as groupCount.
+    """
+
+    def post(self, request):
+        groups = request.data.get('groups')
+        referers = request.data.get('referers')
+
+        try:
+            StatsView._increment_groups(groups)
+            StatsView._increment_referers(referers)
+            return JsonResponse({}, status=200)
+        except Exception as _:
+            return JsonResponse({}, status=400)
+
+    @staticmethod
+    def _increment_groups(groups):
+        for group in groups.split(','):
+            GroupCount.create_or_increment(GroupCount.AgriculturalGroup[group])
+
+    @staticmethod
+    def _increment_referers(referers):
+        for referer in referers.split(','):
+            RefererCount.create_or_increment(RefererCount.Referer[referer])
 
 
 class DiscardActionView(CreateAPIView):
