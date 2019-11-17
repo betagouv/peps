@@ -5,6 +5,7 @@
     "deploy": {
         "managetasks": [
             "migrate --noinput",
+            "buildnpm",
             "collectstatic --noinput"
         ]
     }

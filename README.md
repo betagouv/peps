@@ -81,3 +81,34 @@ API tests rely on mock data available under ```api/tests/testdata```. To update 
 ```
 python manage.py generatetestdata
 ```
+
+## Web applications and frontend
+
+There are two different client-side code locations in this repository:
+
+### 1- ```/web```
+
+These are templates and client-side elements that adhere to Django's standard way of doing things. These are currently used for utility views - such as the one showing the weight of the practices in real time and the email view.
+
+The views here are not meant to be shown to the final user.
+
+### 2- ```/frontend```
+
+Under frontend we have a VueJS single page application meant to be the main client side web app.
+
+#### Developing for ```/frontend```
+
+In order to develop and debug this web app we need to launch two development servers: Django's and Vue's.
+
+To launch Django's server:
+```
+python manage.py runserver
+```
+
+To launch Vue's server:
+```
+cd frontend
+npm run serve
+```
+
+This will allow you to have instant reload on both the backend and the frontend.

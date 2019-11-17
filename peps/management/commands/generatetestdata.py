@@ -68,4 +68,3 @@ def _get_airtable_data(url, offset=None):
     if offset:
         return records + _get_airtable_data(url, offset)
     return records
-
