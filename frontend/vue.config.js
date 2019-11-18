@@ -9,6 +9,10 @@ module.exports = {
   publicPath: publicPath,
   outputDir: './dist/',
 
+  configureWebpack: {
+    devtool: 'source-map',
+  },
+
   chainWebpack: config => {
 
     config.optimization

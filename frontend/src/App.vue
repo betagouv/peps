@@ -1,24 +1,32 @@
 <template>
   <v-app>
     <Header />
-    <router-view/>
+    <v-content>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
+import Header from "@/components/Header.vue";
+import store from "@/store/index";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    Header,
+    Header
+  },
+  mounted() {
+    store.dispatch("fetchFormDefinitions");
   }
-}
+};
 </script>
 
 <style lang="scss">
 #app {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

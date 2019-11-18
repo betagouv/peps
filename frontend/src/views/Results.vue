@@ -1,7 +1,7 @@
 <template>
-  <v-content>
+  <div>
     <p>Results</p>
-  </v-content>
+  </div>
 </template>
 
 <script>

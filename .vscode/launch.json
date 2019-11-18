@@ -4,7 +4,30 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "vuejs: chrome",
+            "url": "http://localhost:8000/vueapp",
+            "webRoot": "${workspaceFolder}/frontend/src",
+            "breakOnLoad": true,
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${webRoot}/*"
+            }
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "vuejs: firefox",
+            "url": "http://localhost:8000/vueapp",
+            "webRoot": "${workspaceFolder}/frontend/src",
+            "pathMappings": [
+                {
+                    "url": "webpack:///src/",
+                    "path": "${webRoot}/"
+                }
+            ]
+        },
         {
             "name": "Django",
             "type": "python",

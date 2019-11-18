@@ -443,8 +443,8 @@ def get_form_schema():
         },
 
         "stats_form": {
-            "description": "Peps est en étape d'expérimentation. Afin d'améliorer le service, cela nous aiderait grandement d'en savoir un peu plus sur vous.",
             "schema": {
+                "description": "Peps est en étape d'expérimentation. Afin d'améliorer le service, cela nous aiderait grandement d'en savoir un peu plus sur vous.",
                 "type": "object",
                 "properties": {
                     "groups": {
@@ -533,18 +533,14 @@ def get_form_schema():
                     }
                 },
                 "fields": {
-                    "contact": {
-                        "fields": {
-                            "name": {
-                                "placeholder": "Nom Prénom",
-                            },
-                            "email": {
-                                "placeholder": "nom@adresse.com",
-                            },
-                            "phone": {
-                                "placeholder": "06 12 34 56 78",
-                            },
-                        },
+                    "name": {
+                        "placeholder": "Nom Prénom",
+                    },
+                    "email": {
+                        "placeholder": "nom@adresse.com",
+                    },
+                    "phone": {
+                        "placeholder": "06 12 34 56 78",
                     },
                 },
             },
