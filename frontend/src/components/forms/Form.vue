@@ -6,7 +6,8 @@
         :description="schema.description"
         style="margin-bottom: 10px;"
       />
-      <div v-for="(value, name) in schema.properties" :key="name">
+      <div v-for="(value, name) in visibleFieldsSchema" :key="name">
+
         <FieldTitle :title="getTitle(name)" />
         <RadioField
           v-if="getType(name) == 'radio'"
@@ -50,11 +51,13 @@
           :storeDataName="storeDataName"
         />
       </div>
+
     </v-container>
   </v-card>
 </template>
 
 <script>
+import store from "@/store/index";
 import FormInfo from "@/components/forms/FormInfo.vue";
 import RadioField from "@/components/forms/fields/RadioField.vue";
 import CheckboxField from "@/components/forms/fields/CheckboxField.vue";
@@ -82,9 +85,6 @@ export default {
     options: {
       type: Object
     },
-    data: {
-      type: Object
-    },
     storeDataName: {
       type: String
     },
@@ -92,31 +92,56 @@ export default {
       type: String
     }
   },
+  computed: {
+    visibleFieldsSchema() {
+      let visibleSchemaFields = {}
+
+      for (const name in this.schema.properties)
+        if (this.dependenciesAreMet(name))
+          visibleSchemaFields[name] = this.schema.properties[name]
+
+      return visibleSchemaFields
+    },
+  },
   methods: {
     getType(name) {
       if (this.schema.properties[name] && this.schema.properties[name].type)
-        return this.schema.properties[name].type;
+        return this.schema.properties[name].type
       if (
         this.options &&
         this.options.fields[name] &&
         this.options.fields[name].type
       )
-        return this.options.fields[name].type;
-      return undefined;
+        return this.options.fields[name].type
     },
     getTitle(name) {
       if (this.schema.properties[name] && this.schema.properties[name].title)
-        return this.schema.properties[name].title;
-      return name;
+        return this.schema.properties[name].title
+      return name
     },
     getOptions(name) {
       if (this.options && this.options.fields && this.options.fields[name])
         return this.options.fields[name];
-      return undefined;
     },
-    getData(name) {
-      if (this.data && this.data[name]) return this.data[name];
-      return undefined;
+    dependenciesAreMet(name) {
+      const dependencies = this.schema.dependencies
+      const options = this.options && this.options.fields[name] ? this.options.fields[name] : undefined
+      if (!dependencies || !dependencies[name] || !options || !options.dependencies)
+        return true
+
+      for (let dependentFieldName in options.dependencies) {
+        if (!this.dependenciesAreMet(dependentFieldName))
+          return false
+        const dependentValue = store.state[this.storeDataName][dependentFieldName]
+        let dependency = options.dependencies[dependentFieldName]
+
+        if (!Array.isArray(dependency))
+          dependency = [dependency]
+        
+        if (dependency.indexOf(dependentValue) === -1)
+          return false
+      }
+      return true
     }
   }
 };

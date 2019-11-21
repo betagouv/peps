@@ -45,7 +45,6 @@ export default {
       return this.checkboxItems.map(x => {
         if (storeData.indexOf(x.value) != -1)
           return x.value
-        return undefined
       })
     },
     checkboxItems() {

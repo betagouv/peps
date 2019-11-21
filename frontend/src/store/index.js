@@ -26,13 +26,13 @@ export default new Vuex.Store({
       state.contactFormDefinition = formDefinitions['contact_form'] || {}
     },
     SET_MIA_FORM_DATA(state, {fieldId, fieldValue}) {
-      state.miaFormData[fieldId] = fieldValue
+      Vue.set(state.miaFormData, fieldId, fieldValue)
     },
     SET_STATS_FORM_DATA(state, {fieldId, fieldValue}) {
-      state.statsFormData[fieldId] = fieldValue
+      Vue.set(state.statsFormData, fieldId, fieldValue)
     },
     SET_CONTACT_FORM_DATA(state, {fieldId, fieldValue}) {
-      state.contactFormData[fieldId] = fieldValue
+      Vue.set(state.contactFormData, fieldId, fieldValue)
     },
   },
   actions: {
@@ -57,5 +57,7 @@ export default new Vuex.Store({
     },
   },
   modules: {
+  },
+  getters: {
   }
 })
