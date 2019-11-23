@@ -1,5 +1,5 @@
 <template>
-    <v-card outlined color="#fafafa" elevation=0 style="border: 1px solid #e7e7e7;">
+    <v-card class="form-info" color="#fafafa" elevation=0>
       <v-card-text>{{ description }}</v-card-text>
     </v-card>
 </template>
@@ -14,3 +14,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.form-info {  
+  border: 1px solid rgb(217, 217, 217) !important;
+}
+</style>

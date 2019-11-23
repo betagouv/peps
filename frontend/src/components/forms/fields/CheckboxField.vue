@@ -2,6 +2,7 @@
   <div>
     <v-checkbox
       class="ma-0 pa-0"
+      color="primary"
       v-for="(item, index) in checkboxItems"
       v-model="checkboxModels[index]"
       :key="index"
@@ -13,8 +14,6 @@
 </template>
 
 <script>
-import store from "@/store/index";
-
 export default {
   name: "CheckboxField",
   props: {
@@ -39,8 +38,8 @@ export default {
   computed: {
     checkboxModels() {
       let storeData = []
-      if (this.storeDataName && store.state[this.storeDataName] && store.state[this.storeDataName][this.id])
-        storeData = store.state[this.storeDataName][this.id]
+      if (this.storeDataName && this.$store.state[this.storeDataName] && this.$store.state[this.storeDataName][this.id])
+        storeData = this.$store.state[this.storeDataName][this.id]
 
       return this.checkboxItems.map(x => {
         if (storeData.indexOf(x.value) != -1)
@@ -65,7 +64,7 @@ export default {
     updateValue() {
       let newValue = this.checkboxModels.filter(x => !!x)
       if (this.updateActionName)
-          store.dispatch(this.updateActionName, { fieldId: this.id, fieldValue: newValue })
+          this.$store.dispatch(this.updateActionName, { fieldId: this.id, fieldValue: newValue })
     }
   }
 };

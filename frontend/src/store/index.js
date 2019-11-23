@@ -59,5 +59,9 @@ export default new Vuex.Store({
   modules: {
   },
   getters: {
+    formsAreComplete(state) {
+      const formAnswers = [state.miaFormData, state.statsFormData, state.contactFormData]
+      return formAnswers.every(x => x.constructor === Object && Object.keys(x).length > 0)
+    }
   }
 })

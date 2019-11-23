@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import store from "@/store/index";
-
 export default {
   name: "SelectField",
   props: {
@@ -31,13 +29,13 @@ export default {
   computed: {
     selected: {
       get() {
-        if (this.storeDataName && store.state[this.storeDataName] && store.state[this.storeDataName][this.id])
-          return store.state[this.storeDataName][this.id]
+        if (this.storeDataName && this.$store.state[this.storeDataName] && this.$store.state[this.storeDataName][this.id])
+          return this.$store.state[this.storeDataName][this.id]
         return undefined
       },
       set(value) {
         if (this.updateActionName)
-          store.dispatch(this.updateActionName, { fieldId: this.id, fieldValue: value })
+          this.$store.dispatch(this.updateActionName, { fieldId: this.id, fieldValue: value })
       }
     },
     selectItems() {

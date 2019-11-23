@@ -5,21 +5,23 @@
       <v-container>
         <router-view />
       </v-container>
+      <Footer />
     </v-content>
   </v-app>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
-import store from "@/store/index";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "App",
   components: {
-    Header
+    Header,
+    Footer,
   },
   mounted() {
-    store.dispatch("fetchFormDefinitions");
+    this.$store.dispatch("fetchFormDefinitions");
   }
 };
 </script>

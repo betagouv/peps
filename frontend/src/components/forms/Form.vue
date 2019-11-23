@@ -7,7 +7,6 @@
         style="margin-bottom: 10px;"
       />
       <div v-for="(value, name) in visibleFieldsSchema" :key="name">
-
         <FieldTitle :title="getTitle(name)" />
         <RadioField
           v-if="getType(name) == 'radio'"
@@ -24,7 +23,6 @@
           :id="name"
           :storeDataName="storeDataName"
           :updateActionName="updateActionName"
-
         />
         <ArrayField
           v-if="getType(name) == 'array'"
@@ -51,20 +49,19 @@
           :storeDataName="storeDataName"
         />
       </div>
-
     </v-container>
   </v-card>
 </template>
 
 <script>
-import store from "@/store/index";
-import FormInfo from "@/components/forms/FormInfo.vue";
-import RadioField from "@/components/forms/fields/RadioField.vue";
-import CheckboxField from "@/components/forms/fields/CheckboxField.vue";
-import ArrayField from "@/components/forms/fields/ArrayField.vue";
-import SelectField from "@/components/forms/fields/SelectField.vue";
-import TextField from "@/components/forms/fields/TextField.vue";
-import FieldTitle from "@/components/forms/fields/FieldTitle.vue";
+import formutils from "@/formutils"
+import FormInfo from "@/components/forms/FormInfo.vue"
+import RadioField from "@/components/forms/fields/RadioField.vue"
+import CheckboxField from "@/components/forms/fields/CheckboxField.vue"
+import ArrayField from "@/components/forms/fields/ArrayField.vue"
+import SelectField from "@/components/forms/fields/SelectField.vue"
+import TextField from "@/components/forms/fields/TextField.vue"
+import FieldTitle from "@/components/forms/fields/FieldTitle.vue"
 
 export default {
   name: "Form",
@@ -95,13 +92,19 @@ export default {
   computed: {
     visibleFieldsSchema() {
       let visibleSchemaFields = {}
+      let data = this.$store.state[this.storeDataName]
+      let visibleFields = formutils.getVisibleFields(
+        this.schema,
+        this.options,
+        data
+      )
 
-      for (const name in this.schema.properties)
-        if (this.dependenciesAreMet(name))
-          visibleSchemaFields[name] = this.schema.properties[name]
-
+      for (let i = 0; i < visibleFields.length; i++) {
+        let name = visibleFields[i]
+        visibleSchemaFields[name] = this.schema.properties[name]
+      }
       return visibleSchemaFields
-    },
+    }
   },
   methods: {
     getType(name) {
@@ -121,28 +124,8 @@ export default {
     },
     getOptions(name) {
       if (this.options && this.options.fields && this.options.fields[name])
-        return this.options.fields[name];
-    },
-    dependenciesAreMet(name) {
-      const dependencies = this.schema.dependencies
-      const options = this.options && this.options.fields[name] ? this.options.fields[name] : undefined
-      if (!dependencies || !dependencies[name] || !options || !options.dependencies)
-        return true
-
-      for (let dependentFieldName in options.dependencies) {
-        if (!this.dependenciesAreMet(dependentFieldName))
-          return false
-        const dependentValue = store.state[this.storeDataName][dependentFieldName]
-        let dependency = options.dependencies[dependentFieldName]
-
-        if (!Array.isArray(dependency))
-          dependency = [dependency]
-        
-        if (dependency.indexOf(dependentValue) === -1)
-          return false
-      }
-      return true
+        return this.options.fields[name]
     }
   }
-};
+}
 </script>

@@ -26,34 +26,50 @@
         updateActionName="addContactFormData"
         storeDataName="contactFormData"
       />
+      <FormSubmit />
     </div>
   </div>
 </template>
 
 <script>
-import store from "@/store/index";
 import Loader from "@/components/Loader.vue";
 import Form from "@/components/forms/Form.vue";
 import Constants from "@/constants";
+import FormSubmit from "@/components/FormSubmit.vue";
 
 export default {
   name: "FormsContainer",
-  components: { Loader, Form },
+  components: { Loader, Form, FormSubmit },
   data() {
     return {
       loadingTitle: "Juste un instant..."
     };
   },
   computed: {
-    loading: () =>
-      store.state.formDefinitionsLoadingStatus ===
-      Constants.LoadingStatus.LOADING,
-    miaFormDefinition: () => store.state.miaFormDefinition,
-    statsFormDefinition: () => store.state.statsFormDefinition,
-    contactFormDefinition: () => store.state.contactFormDefinition,
-    shouldShowMiaForm: () => true,
-    shouldShowStatsForm: () => true,
-    shouldShowContactForm: () => true
+    loading() {
+      return (
+        this.$store.state.formDefinitionsLoadingStatus ===
+        Constants.LoadingStatus.LOADING
+      );
+    },
+    miaFormDefinition() {
+      return this.$store.state.miaFormDefinition;
+    },
+    statsFormDefinition() {
+      return this.$store.state.statsFormDefinition;
+    },
+    contactFormDefinition() {
+      return this.$store.state.contactFormDefinition;
+    },
+    shouldShowMiaForm() {
+      return true;
+    },
+    shouldShowStatsForm() {
+      return true;
+    },
+    shouldShowContactForm() {
+      return true;
+    }
   }
 };
 </script>
