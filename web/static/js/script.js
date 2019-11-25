@@ -21,6 +21,7 @@ String.prototype.isEmail = function () {
 
 window.peps = {
     'loadContent': function () {
+        Alpaca.defaultFocus = false;
 
         $('#try-modal-close').click(window.peps.hideTryModal);
         $('#discard-modal-close').click(window.peps.hideDiscardModal);

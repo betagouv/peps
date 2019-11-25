@@ -545,10 +545,7 @@ def get_form_schema():
                 },
             },
         },
-
-        
-        
-    }
+}
 
 
 def _get_pests():
