@@ -29,14 +29,15 @@ class TestApi(TestCase):
     def test_unathenticated_user(self):
         """
         Tests the rankings API without authentication,
-        which should not work
+        which should work since it is an open endpoint.
         """
         self.client.logout()
         response = self.client.post(
             reverse('calculate_rankings'),
-            json={},
+            {"answers": {"problem": "DESHERBAGE", "rotation": [], "department": "01"}, "practice_blacklist": []},
+            format='json',
         )
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
     def test_rankings_session_auth(self):
@@ -131,11 +132,11 @@ class TestApi(TestCase):
     def test_form_schema_unauthenticated(self):
         """
         Tests the form schema API endpoint without authentication,
-        which should not work.
+        which should work since it is an open endpoint.
         """
         self.client.logout()
         response = self.client.get(reverse('form_schema'))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
     def test_form_schema_session_auth(self):
@@ -259,7 +260,7 @@ class TestApi(TestCase):
     def test_task_unauthenticated(self):
         """
         Tests the task API endpoint without authentication,
-        which should not work.
+        which should work since it is an open endpoint.
         """
 
         self.client.logout()
@@ -278,8 +279,8 @@ class TestApi(TestCase):
                 },
                 format='json',
             )
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            SendTaskView._send_task.assert_not_called()
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            SendTaskView._send_task.assert_called_once()
         finally:
             SendTaskView._send_task = original_function
 

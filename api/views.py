@@ -23,8 +23,6 @@ class RankingsApiView(APIView):
     This view will return a list of practice IDs that
     correspond to the form from FormView.
     """
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [HasAPIKey | permissions.IsAuthenticated]
 
     def post(self, request):
         post_data = request.data
@@ -68,8 +66,6 @@ class FormSchemaView(APIView):
     This view will return the schema needed for rendering
     the form in the front-end
     """
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticated | HasAPIKey]
 
     def get(self, request):
         return JsonResponse(get_form_schema())
@@ -182,8 +178,6 @@ class SendTaskView(APIView):
     This view will send a task to Asana in order to follow-up the
     implementation of a certain practice.
     """
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticated | HasAPIKey]
 
     def post(self, request):
         name = request.data.get('name')
