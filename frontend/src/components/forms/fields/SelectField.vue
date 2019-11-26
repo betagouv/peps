@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-select :items="selectItems" v-model="selected" item-text="text" item-value="value" dense outlined label="Selectionnez..."></v-select>
+    <v-select :items="selectItems" v-model="selected" item-text="text" item-value="value" solo label="Selectionnez..."></v-select>
   </div>
 </template>
 

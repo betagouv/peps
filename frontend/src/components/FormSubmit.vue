@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 30px; text-align: right">
-    <v-btn large :disabled="disabled" color="primary">Trouver des pratiques alternatives</v-btn>
+    <v-btn large rounded :disabled="disabled" color="primary">Trouver des pratiques alternatives</v-btn>
     <p
       :style="{visibility: disabled ? 'visible' : 'hidden'}"
       class="caption"
@@ -16,7 +16,7 @@ export default {
   name: "FormSubmit",
   computed: {
     disabled() {
-      return this.$store.getters.formsAreComplete
+      return !this.$store.getters.formsAreComplete
     }
   }
 }

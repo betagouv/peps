@@ -2,7 +2,7 @@
   <v-app>
     <Header />
     <v-content>
-      <v-container>
+      <v-container style="max-width: 900px;">
         <router-view />
       </v-container>
       <Footer />

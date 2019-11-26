@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Constants from '@/constants'
+import formutils from '@/formutils'
 
 Vue.use(Vuex)
 
@@ -60,8 +61,10 @@ export default new Vuex.Store({
   },
   getters: {
     formsAreComplete(state) {
-      const formAnswers = [state.miaFormData, state.statsFormData, state.contactFormData]
-      return formAnswers.every(x => x.constructor === Object && Object.keys(x).length > 0)
+      const miaFormIsComplete = formutils.formIsComplete(state.miaFormDefinition.schema, state.miaFormDefinition.options, state.miaFormData)
+      const statsFormIsComplete = formutils.formIsComplete(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
+      const contactFormIsComplete = formutils.formIsComplete(state.contactFormDefinition.schema, state.contactFormDefinition.options, state.contactFormData)
+      return miaFormIsComplete && statsFormIsComplete && contactFormIsComplete
     }
   }
 })

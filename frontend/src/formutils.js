@@ -1,15 +1,10 @@
 export default {
-    formsAreComplete() {
-
-    },
-    miaFormIsComplete() {
-
-    },
-    statsFormIsComplete() {
-
-    },
-    contactFormIsComplete() {
-
+    formIsComplete(schema, options, data) {
+        const visibleFields = this.getVisibleFields(schema, options, data)
+        return visibleFields.every(fieldName => {
+            const value = data[fieldName]
+            return !!(value && value !== undefined && value !== null && value !== '' && value !== [])
+        })
     },
     getVisibleFields(schema, options, data) {
         let visibleFields = []
