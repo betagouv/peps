@@ -54,7 +54,9 @@ class AlpacaUtils:
     def pests(self):
         try:
             if self.answers.get('pests'):
-                return self.answers.get('pests').split(',')
+                answer = self.answers.get('pests')
+                return answer if isinstance(answer, list) else answer.split(',')
+
         except ValidationError as _:
             return None
 
@@ -68,7 +70,9 @@ class AlpacaUtils:
             fields_with_weeds = ['weeds', 'perennials', 'weedsGlyphosate']
             for field in fields_with_weeds:
                 if self.answers.get(field):
-                    return self.answers.get(field).split(',')
+                    answer = self.answers.get(field)
+                    return answer if isinstance(answer, list) else answer.split(',')
+
         except ValidationError as _:
             return None
 
@@ -84,9 +88,10 @@ class AlpacaUtils:
         form_value = self.answers.get(form_key)
         if not form_value:
             return None
+        form_value = form_value if isinstance(form_value, list) else form_value.split(',')
 
         return_list = []
-        for value in form_value.split(','):
+        for value in form_value:
             try:
                 return_list.append(enum[value])
             except KeyError as _:

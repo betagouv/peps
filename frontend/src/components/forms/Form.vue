@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-container>
-      <FormInfo
+      <InfoWell
         v-if="!!schema.description"
         :description="schema.description"
         style="margin-bottom: 10px;"
@@ -55,7 +55,7 @@
 
 <script>
 import formutils from "@/formutils"
-import FormInfo from "@/components/forms/FormInfo.vue"
+import InfoWell from "@/components/InfoWell.vue"
 import RadioField from "@/components/forms/fields/RadioField.vue"
 import CheckboxField from "@/components/forms/fields/CheckboxField.vue"
 import ArrayField from "@/components/forms/fields/ArrayField.vue"
@@ -66,7 +66,7 @@ import FieldTitle from "@/components/forms/fields/FieldTitle.vue"
 export default {
   name: "Form",
   components: {
-    FormInfo,
+    InfoWell,
     RadioField,
     CheckboxField,
     ArrayField,

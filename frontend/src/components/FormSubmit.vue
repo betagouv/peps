@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 30px; text-align: right">
-    <v-btn large rounded :disabled="disabled" color="primary">Trouver des pratiques alternatives</v-btn>
+    <v-btn large rounded :disabled="disabled" color="primary" @click="submitForm()">Trouver des pratiques alternatives</v-btn>
     <p
       :style="{visibility: disabled ? 'visible' : 'hidden'}"
       class="caption"
@@ -17,6 +17,12 @@ export default {
   computed: {
     disabled() {
       return !this.$store.getters.formsAreComplete
+    }
+  },
+  methods: {
+    submitForm() {
+      this.$router.push({ name: 'Results' })
+      this.$store.dispatch('fetchSuggestions')
     }
   }
 }

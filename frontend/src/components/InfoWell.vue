@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "FormInfo",
+  name: "InfoWell",
   props: {
     description: {
       type: String
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style>
-.form-info {  
+.form-info {
   border: 1px solid rgb(217, 217, 217) !important;
 }
 </style>

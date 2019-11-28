@@ -9,6 +9,10 @@ Vue.config.productionTip = false
 
 Vue.use(VueResource)
 
+Vue.http.interceptors.push((request) => {
+  request.headers['X-CSRFToken'] = window.CSRF_TOKEN
+})
+
 new Vue({
   vuetify,
   store,

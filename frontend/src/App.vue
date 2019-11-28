@@ -5,7 +5,7 @@
       <v-container style="max-width: 900px;">
         <router-view />
       </v-container>
-      <Footer />
+      <Footer v-show="loadingComplete" />
     </v-content>
   </v-app>
 </template>
@@ -13,6 +13,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import Constants from "@/constants"
 
 export default {
   name: "App",
@@ -22,6 +23,16 @@ export default {
   },
   mounted() {
     this.$store.dispatch("fetchFormDefinitions");
+  },
+  computed: {
+    loadingComplete() {
+      return (
+        this.$store.state.formDefinitionsLoadingStatus !==
+          Constants.LoadingStatus.LOADING &&
+        this.$store.state.suggestionsLoadingStatus !==
+          Constants.LoadingStatus.LOADING
+      )
+    }
   }
 };
 </script>

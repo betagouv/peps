@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="loading" persistent width="300">
+  <v-dialog v-model="loading" persistent width="500">
     <v-card>
     <v-card-title>{{title}}</v-card-title>
     <v-card-text v-if="text != ''">{{text}}</v-card-text>
