@@ -8,7 +8,7 @@
       :key="index"
       :label="item.text"
       :value="item.value"
-      @click="updateValue"
+      @change="updateState()"
     ></v-checkbox>
   </div>
 </template>
@@ -38,40 +38,46 @@ export default {
   computed: {
     checkboxModels() {
       let storeData = []
-      if (this.storeDataName && this.$store.state[this.storeDataName] && this.$store.state[this.storeDataName][this.id])
+      if (
+        this.storeDataName &&
+        this.$store.state[this.storeDataName] &&
+        this.$store.state[this.storeDataName][this.id]
+      )
         storeData = this.$store.state[this.storeDataName][this.id]
 
       return this.checkboxItems.map(x => {
-        if (storeData.indexOf(x.value) != -1)
-          return x.value
+        if (storeData.indexOf(x.value) != -1) return x.value
       })
     },
     checkboxItems() {
       if (this.options && this.options.dataSource)
-        return this.options.dataSource;
+        return this.options.dataSource
       if (this.options && this.options.enum)
         return this.options.enum.map(x => {
-          return { text: x, value: x };
-        });
+          return { text: x, value: x }
+        })
       if (this.schema.enum)
         return this.schema.enum.map(x => {
-          return { text: x, value: x };
-        });
-      return [];
+          return { text: x, value: x }
+        })
+      return []
     }
   },
   methods: {
-    updateValue() {
+    updateState() {
       let newValue = this.checkboxModels.filter(x => !!x)
       if (this.updateActionName)
-          this.$store.dispatch(this.updateActionName, { fieldId: this.id, fieldValue: newValue })
+        this.$store.dispatch(this.updateActionName, {
+          fieldId: this.id,
+          fieldValue: newValue
+        })
     }
-  }
-};
+  },
+}
 </script>
 
 <style>
 .ma-0.pa-0.v-input--checkbox .v-input__slot {
-    margin: 0;
+  margin: 0;
 }
 </style>

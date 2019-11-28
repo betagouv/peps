@@ -1,11 +1,14 @@
 <template>
   <v-card>
+    <div class="primary white--text practice-header">
+        <div
+          class="caption"
+          v-if="practice.mechanism && practice.mechanism.name"
+        >{{ practice.mechanism.name }}</div>
+        <div class="subtitle-1 practice-title ma-0 font-weight-bold">{{ practice.title }}</div>
+      </div>
     <v-container>
-      <div
-        class="caption"
-        v-if="practice.mechanism && practice.mechanism.name"
-      >{{ practice.mechanism.name }}</div>
-      <div class="title practice-title">{{ practice.title }}</div>
+      
       <InfoBox v-if="infoBoxItems.length > 0" :infoItems="infoBoxItems" />
       <div class="body-2 practice-description">{{ practice.description }}</div>
       <div v-if="resources.length > 0">
@@ -18,12 +21,8 @@
         />
       </div>
       <div style="padding-right: 10px; text-align: right">
-        <v-btn class="text-none body-1 practice-buttons" rounded>
-          🚫 Recalculer sans cette pratique
-        </v-btn>
-        <v-btn class="text-none body-1 practice-buttons" rounded>
-          👍 Cette pratique m'interesse
-        </v-btn>
+        <v-btn class="text-none body-1 practice-buttons" @click="blacklistPractice()" rounded>🚫 Recalculer sans cette pratique</v-btn>
+        <v-btn class="text-none body-1 practice-buttons" rounded>👍 Cette pratique m'interesse</v-btn>
       </div>
     </v-container>
   </v-card>
@@ -85,16 +84,21 @@ export default {
         resources = resources.concat(this.practice.secondary_resources)
       return resources
     }
+  },
+  methods: {
+    blacklistPractice() {
+      this.$store.dispatch('blacklistPractice', { practice: this.practice })
+    }
   }
 }
 </script>
 
 <style>
+.practice-header {
+  padding: 10px 15px 10px 15px;
+}
 .practice-description {
   margin-top: 15px;
-  margin-bottom: 15px;
-}
-.practice-title {
   margin-bottom: 15px;
 }
 .practice-buttons {

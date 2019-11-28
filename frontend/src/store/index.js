@@ -19,6 +19,7 @@ export default new Vuex.Store({
     contactFormData: {},
 
     suggestions: [],
+    blacklist: [],
   },
   mutations: {
     SET_FORM_SCHEMAS_LOADING(state, status) {
@@ -43,6 +44,11 @@ export default new Vuex.Store({
     },
     SET_SUGGESTIONS(state, suggestions) {
       state.suggestions = suggestions
+    },
+    ADD_TO_BLACKLIST(state, { practice }) {
+      const blacklisted_ids = state.blacklist.map(x => x.id)
+      if (blacklisted_ids.indexOf(practice.id) === -1)
+        state.blacklist.push(practice)
     }
   },
   actions: {
@@ -79,6 +85,10 @@ export default new Vuex.Store({
     addContactFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_CONTACT_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
     },
+    blacklistPractice(context, { practice }) {
+      context.commit('ADD_TO_BLACKLIST', { practice: practice })
+      this.dispatch('fetchSuggestions')
+    }
   },
   modules: {
   },
@@ -90,7 +100,7 @@ export default new Vuex.Store({
       return miaFormIsComplete && statsFormIsComplete && contactFormIsComplete
     },
     suggestionsPayload(state) {
-      return { answers: state.miaFormData }
+      return { answers: state.miaFormData, practice_blacklist: state.blacklist.map(x => x.id) }
     }
   }
 })
