@@ -5,7 +5,7 @@ def get_form_schema():
             "type": "object",
             "properties": {
                 "problem": {
-                    "title": "Quel problème souhaitez-vous résoudre actuellement ?",
+                    "title": "Sur quel sujet pouvons-nous vous aider ?",
                     "required": False
                 },
                 "pests": {
@@ -41,7 +41,7 @@ def get_form_schema():
                     ]
                 },
                 "rotation": {
-                    "title": "Dans l'ordre, quelles cultures composent la rotation des parcelles sur lesquelles vous rencontrez ce problème ?",
+                    "title": "Quelles cultures composent la rotation des parcelles sur lesquelles vous rencontrez ce problème ?",
                     "required": False,
                     "uniqueItems": False,
                     "items": {
