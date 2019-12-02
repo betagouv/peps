@@ -6,9 +6,9 @@
     target="_blank"
     style="border-color: #FFF;"
   >
-    <v-card-title class="body-1 resource-title" style="padding-bottom: 5px;">
+    <v-card-title class="body-1" style="padding-bottom: 5px;">
       <v-icon color="primary" style="margin-right:10px;">{{iconName}}</v-icon>
-      {{ resource.name }}
+      <span class="resource-name">{{ resource.name }}</span>
     </v-card-title>
     <v-card-text>{{ resource.description }}</v-card-text>
   </v-card>
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style>
-.resource-card:hover .resource-title {
+.resource-card:hover .resource-name {
   text-decoration: underline;
 }
 </style>

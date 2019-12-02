@@ -2,6 +2,7 @@
   <div>
     <v-text-field
       :placeholder="placeholder"
+      :prepend-icon="icon"
       v-model="text"
       class="ma-0 pa-0"
       outlined
@@ -51,6 +52,11 @@ export default {
         return this.options.placeholder;
       if (this.schema.placeholder) return this.schema.placeholder;
       return "";
+    },
+    icon() {
+      if (this.options && this.options.mdiIcon)
+        return this.options.mdiIcon
+      return undefined
     }
   }
 };

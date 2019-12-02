@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :elevation="elevation">
     <v-container>
       <InfoWell
         v-if="!!schema.description"
@@ -7,7 +7,7 @@
         style="margin-bottom: 10px;"
       />
       <div v-for="(value, name) in visibleFieldsSchema" :key="name">
-        <FieldTitle :title="getTitle(name)" />
+        <FieldTitle :title="getTitle(name)" v-if="getTitle(name)" />
         <RadioField
           v-if="getType(name) == 'radio'"
           :schema="value"
@@ -87,6 +87,9 @@ export default {
     },
     updateActionName: {
       type: String
+    },
+    elevation: {
+      default: undefined
     }
   },
   computed: {
@@ -120,7 +123,7 @@ export default {
     getTitle(name) {
       if (this.schema.properties[name] && this.schema.properties[name].title)
         return this.schema.properties[name].title
-      return name
+      return null
     },
     getOptions(name) {
       if (this.options && this.options.fields && this.options.fields[name])

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header />
-    <v-content>
+    <v-content style="background: #EEE;">
       <v-container style="max-width: 900px;">
         <router-view />
       </v-container>

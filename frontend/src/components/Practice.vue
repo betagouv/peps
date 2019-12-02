@@ -22,7 +22,7 @@
       </div>
       <div style="padding-right: 10px; text-align: right">
         <v-btn class="text-none body-1 practice-buttons" @click="blacklistPractice()" rounded>🚫 Recalculer sans cette pratique</v-btn>
-        <v-btn class="text-none body-1 practice-buttons" rounded>👍 Cette pratique m'interesse</v-btn>
+        <v-btn class="text-none body-1 practice-buttons" @click="tryPractice()" rounded>👍 Cette pratique m'interesse</v-btn>
       </div>
     </v-container>
   </v-card>
@@ -39,7 +39,7 @@ export default {
     practice: {
       type: Object,
       required: true
-    }
+    },
   },
   computed: {
     infoBoxItems() {
@@ -88,6 +88,9 @@ export default {
   methods: {
     blacklistPractice() {
       this.$store.dispatch('blacklistPractice', { practice: this.practice })
+    },
+    tryPractice() {
+      this.$emit('implement', this.practice)
     }
   }
 }

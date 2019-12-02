@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     formDefinitionsLoadingStatus: Constants.LoadingStatus.LOADING,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
+    implementationLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
     statsFormDefinition: {},
@@ -17,6 +18,8 @@ export default new Vuex.Store({
     miaFormData: {},
     statsFormData: {},
     contactFormData: {},
+
+    implementationFormData: {},
 
     suggestions: [],
     blacklist: [],
@@ -27,6 +30,9 @@ export default new Vuex.Store({
     },
     SET_SUGGESTIONS_LOADING(state, status) {
       state.suggestionsLoadingStatus = status
+    },
+    SET_IMPLEMENTATION_LOADING(state, status) {
+      state.implementationLoadingStatus = status
     },
     SET_FORM_SCHEMAS(state, formDefinitions) {
       state.miaFormDefinition = formDefinitions['practices_form'] || {}
@@ -41,6 +47,9 @@ export default new Vuex.Store({
     },
     SET_CONTACT_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.contactFormData, fieldId, fieldValue)
+    },
+    SET_IMPLEMENTATION_FORM_DATA(state, { fieldId, fieldValue }) {
+      Vue.set(state.implementationFormData, fieldId, fieldValue)
     },
     SET_SUGGESTIONS(state, suggestions) {
       state.suggestions = suggestions
@@ -85,9 +94,31 @@ export default new Vuex.Store({
     addContactFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_CONTACT_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
     },
+    addImplementationFormData(context, { fieldId, fieldValue }) {
+      context.commit('SET_IMPLEMENTATION_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
+    },
     blacklistPractice(context, { practice }) {
       context.commit('ADD_TO_BLACKLIST', { practice: practice })
       this.dispatch('fetchSuggestions')
+    },
+    sendImplementation(context, { practice }) {
+      const headers = {
+        'X-CSRFToken': window.CSRF_TOKEN || '',
+        'Content-Type': 'application/json',
+      }
+      context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
+      let payload = this.getters.implementationPayload
+      payload.practice_id = practice.id
+      Vue.http.post('api/v1/sendTask', payload, { headers }).then(response => {
+        if (!response || response.status < 200 || response.status >= 300) {
+          context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
+        }
+        context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.SUCCESS)
+      })
+    },
+    resetImplementationForm(context) {
+      context.commit('SET_IMPLEMENTATION_FORM_DATA', {fieldId: 'implementationReason', fieldValue: []})
+      context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.IDLE)
     }
   },
   modules: {
@@ -101,6 +132,16 @@ export default new Vuex.Store({
     },
     suggestionsPayload(state) {
       return { answers: state.miaFormData, practice_blacklist: state.blacklist.map(x => x.id) }
+    },
+    implementationPayload(state) {
+      return {
+        answers: state.miaFormData,
+        email: state.contactFormData ? state.contactFormData.email : '',
+        name: state.contactFormData ? state.contactFormData.name : '',
+        phone_number: state.contactFormData ? state.contactFormData.phone : '',
+        problem: state.miaFormData ? state.miaFormData.problem : '',
+        
+      }
     }
   }
 })
