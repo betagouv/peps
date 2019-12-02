@@ -15,9 +15,7 @@ from api.serializers import ResponseSerializer, DiscardActionSerializer
 from api.formschema import get_form_schema
 from api.models import Response
 
-# For the moment, we will authorize access to this endpoint in one of these two situations:
-# - The user logged in and has a session (which identifies a user)
-# - The call has an API key (which identifies projects, not users)
+
 class RankingsApiView(APIView):
     """
     This view will return a list of practice IDs that
@@ -178,7 +176,6 @@ class SendTaskView(APIView):
     This view will send a task to Asana in order to follow-up the
     implementation of a certain practice.
     """
-
     def post(self, request):
         name = request.data.get('name')
         email = request.data.get('email')
@@ -257,12 +254,14 @@ class StatsView(APIView):
 
     @staticmethod
     def _increment_groups(groups):
-        for group in groups.split(','):
+        groups = groups if isinstance(groups, list) else groups.split(',')
+        for group in groups:
             GroupCount.create_or_increment(GroupCount.AgriculturalGroup[group])
 
     @staticmethod
     def _increment_referers(referers):
-        for referer in referers.split(','):
+        referers = referers if isinstance(referers, list) else referers.split(',')
+        for referer in referers:
             RefererCount.create_or_increment(RefererCount.Referer[referer])
 
 

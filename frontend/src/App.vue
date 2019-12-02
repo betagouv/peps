@@ -11,18 +11,18 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue"
+import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
 
 export default {
   name: "App",
   components: {
     Header,
-    Footer,
+    Footer
   },
   mounted() {
-    this.$store.dispatch("fetchFormDefinitions");
+    this.$store.dispatch("fetchFormDefinitions")
   },
   computed: {
     loadingComplete() {
@@ -30,11 +30,15 @@ export default {
         this.$store.state.formDefinitionsLoadingStatus !==
           Constants.LoadingStatus.LOADING &&
         this.$store.state.suggestionsLoadingStatus !==
+          Constants.LoadingStatus.LOADING &&
+        this.$store.state.statsLoadingStatus !==
+          Constants.LoadingStatus.LOADING &&
+        this.$store.state.contactLoadingStatus !==
           Constants.LoadingStatus.LOADING
       )
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

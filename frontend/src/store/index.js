@@ -6,11 +6,19 @@ import formutils from '@/formutils'
 
 Vue.use(Vuex)
 
+const dataVersion = '1'
+const headers = {
+  'X-CSRFToken': window.CSRF_TOKEN || '',
+  'Content-Type': 'application/json',
+}
+
 export default new Vuex.Store({
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
   state: {
-    formDefinitionsLoadingStatus: Constants.LoadingStatus.LOADING,
+    formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
+    statsLoadingStatus: Constants.LoadingStatus.IDLE,
+    contactLoadingStatus: Constants.LoadingStatus.IDLE,
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
@@ -32,6 +40,12 @@ export default new Vuex.Store({
     },
     SET_SUGGESTIONS_LOADING(state, status) {
       state.suggestionsLoadingStatus = status
+    },
+    SET_STATS_LOADING(state, status) {
+      state.statsLoadingStatus = status
+    },
+    SET_CONTACT_LOADING(state, status) {
+      state.contactLoadingStatus = status
     },
     SET_IMPLEMENTATION_LOADING(state, status) {
       state.implementationLoadingStatus = status
@@ -74,10 +88,6 @@ export default new Vuex.Store({
       })
     },
     fetchSuggestions(context) {
-      const headers = {
-        'X-CSRFToken': window.CSRF_TOKEN || '',
-        'Content-Type': 'application/json',
-      }
       context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/calculateRankings', this.getters.suggestionsPayload, { headers }).then(response => {
         if (!response || response.status < 200 || response.status >= 300) {
@@ -85,6 +95,24 @@ export default new Vuex.Store({
         }
         context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.SUCCESS)
         context.commit('SET_SUGGESTIONS', response.body.suggestions)
+      })
+    },
+    sendStatsData(context) {
+      context.commit('SET_STATS_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/stats', this.getters.statsPayload, { headers }).then(response => {
+        if (!response || response.status < 200 || response.status >= 300) {
+          context.commit('SET_STATS_LOADING', Constants.LoadingStatus.ERROR)
+        }
+        context.commit('SET_STATS_LOADING', Constants.LoadingStatus.SUCCESS)
+      })
+    },
+    sendContactData(context) {
+      context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(response => {
+        if (!response || response.status < 200 || response.status >= 300) {
+          context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
+        }
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       })
     },
     addMiaFormData(context, { fieldId, fieldValue }) {
@@ -104,10 +132,6 @@ export default new Vuex.Store({
       this.dispatch('fetchSuggestions')
     },
     sendImplementation(context, { practice }) {
-      const headers = {
-        'X-CSRFToken': window.CSRF_TOKEN || '',
-        'Content-Type': 'application/json',
-      }
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
       let payload = this.getters.implementationPayload
       payload.practice_id = practice.id
@@ -143,6 +167,22 @@ export default new Vuex.Store({
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
         problem: state.miaFormData ? state.miaFormData.problem : '',
         
+      }
+    },
+    statsPayload(state) {
+      return {
+        groups: state.statsFormData ? state.statsFormData.groups : [],
+        referers: state.statsFormData ? state.statsFormData.referers : [],
+      }
+    },
+    contactPayload(state) {
+      return {
+        email: state.contactFormData ? state.contactFormData.email : '',
+        name: state.contactFormData ? state.contactFormData.name : '',
+        phone_number: state.contactFormData ? state.contactFormData.phone : '',
+        answers: state.miaFormData,
+        reason: 'A répondu depuis l\'application Web',
+        practice_id: '',
       }
     }
   }

@@ -40,7 +40,11 @@ export default {
     loading() {
       return (
         this.$store.state.suggestionsLoadingStatus ===
-        Constants.LoadingStatus.LOADING
+          Constants.LoadingStatus.LOADING ||
+        this.$store.state.statsLoadingStatus ===
+          Constants.LoadingStatus.LOADING ||
+        this.$store.state.contactLoadingStatus ===
+          Constants.LoadingStatus.LOADING
       )
     },
     suggestions() {
