@@ -80,6 +80,13 @@ export default new Vuex.Store({
       const index = blacklisted_ids.indexOf(practice.id)
       if (index !== -1)
         state.blacklist.splice(index, 1)
+    },
+    RESET_LOADERS(state) {
+      state.formDefinitionsLoadingStatus = Constants.LoadingStatus.IDLE
+      state.suggestionsLoadingStatus = Constants.LoadingStatus.IDLE
+      state.statsLoadingStatus = Constants.LoadingStatus.IDLE
+      state.contactLoadingStatus = Constants.LoadingStatus.IDLE
+      state.implementationLoadingStatus = Constants.LoadingStatus.IDLE
     }
   },
   actions: {
@@ -151,8 +158,11 @@ export default new Vuex.Store({
       })
     },
     resetImplementationForm(context) {
-      context.commit('SET_IMPLEMENTATION_FORM_DATA', {fieldId: 'implementationReason', fieldValue: []})
+      context.commit('SET_IMPLEMENTATION_FORM_DATA', { fieldId: 'implementationReason', fieldValue: [] })
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.IDLE)
+    },
+    resetLoaders(context) {
+      context.commit('RESET_LOADERS')
     }
   },
   modules: {
@@ -167,14 +177,14 @@ export default new Vuex.Store({
     suggestionsPayload(state) {
       return { answers: state.miaFormData, practice_blacklist: state.blacklist.map(x => x.id) }
     },
-    implementationPayload(state) {
+    implementationPayload(state, getters) {
+      const reasons = state.implementationFormData ? state.implementationFormData.implementationReason || [] : []
       return {
-        answers: state.miaFormData,
+        answers: getters.humanReadableMiaAnswers,
         email: state.contactFormData ? state.contactFormData.email : '',
         name: state.contactFormData ? state.contactFormData.name : '',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        problem: state.miaFormData ? state.miaFormData.problem : '',
-        
+        problem: reasons.join(', ')
       }
     },
     statsPayload(state) {
@@ -183,15 +193,18 @@ export default new Vuex.Store({
         referers: state.statsFormData ? state.statsFormData.referers : [],
       }
     },
-    contactPayload(state) {
+    contactPayload(state, getters) {
       return {
         email: state.contactFormData ? state.contactFormData.email : '',
         name: state.contactFormData ? state.contactFormData.name : '',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: state.miaFormData,
+        answers: getters.humanReadableMiaAnswers,
         reason: 'A répondu depuis l\'application Web',
         practice_id: '',
       }
+    },
+    humanReadableMiaAnswers(state) {
+      return formutils.getHumanReadableAnswers(state.miaFormDefinition.schema, state.miaFormDefinition.options, state.miaFormData)
     }
   }
 })

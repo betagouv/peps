@@ -23,6 +23,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("fetchFormDefinitions")
+    this.$store.dispatch("resetLoaders")
   },
   computed: {
     loadingComplete() {
