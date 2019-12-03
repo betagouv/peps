@@ -346,7 +346,7 @@ window.peps = {
         }, 2000);
     },
     'showTryModal': function (practice) {
-        let practiceId = practice.id;
+        let practiceId = practice.external_id;
         let addsNewCultures = (practice.types || []).some((x) => x.category && (x.category === 'NOUVELLES_CULTURES' || x.category === 'ALLONGEMENT_ROTATION'));
 
         $('#problem-debouches').parent().parent().toggle(addsNewCultures);
