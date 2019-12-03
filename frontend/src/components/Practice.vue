@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     blacklistPractice() {
-      this.$store.dispatch('blacklistPractice', { practice: this.practice })
+      this.$emit('blacklist', this.practice)
     },
     tryPractice() {
       this.$emit('implement', this.practice)

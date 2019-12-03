@@ -74,6 +74,12 @@ export default new Vuex.Store({
       const blacklisted_ids = state.blacklist.map(x => x.id)
       if (blacklisted_ids.indexOf(practice.id) === -1)
         state.blacklist.push(practice)
+    },
+    REMOVE_FROM_BLACKLIST(state, { practice }) {
+      const blacklisted_ids = state.blacklist.map(x => x.id)
+      const index = blacklisted_ids.indexOf(practice.id)
+      if (index !== -1)
+        state.blacklist.splice(index, 1)
     }
   },
   actions: {
@@ -129,12 +135,14 @@ export default new Vuex.Store({
     },
     blacklistPractice(context, { practice }) {
       context.commit('ADD_TO_BLACKLIST', { practice: practice })
-      this.dispatch('fetchSuggestions')
+    },
+    removeFromBlacklist(context, { practice }) {
+      context.commit('REMOVE_FROM_BLACKLIST', { practice: practice })
     },
     sendImplementation(context, { practice }) {
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
       let payload = this.getters.implementationPayload
-      payload.practice_id = practice.id
+      payload.practice_id = practice.external_id
       Vue.http.post('api/v1/sendTask', payload, { headers }).then(response => {
         if (!response || response.status < 200 || response.status >= 300) {
           context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)

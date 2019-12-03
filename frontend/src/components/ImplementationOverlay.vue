@@ -8,7 +8,7 @@
           <v-icon color="red darken-3">mdi-close</v-icon>
         </v-btn>
         <v-card
-          :style="'max-width: 600px; max-height:' + windowHeight + 'px'"
+          :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height:' + windowHeight + 'px'"
           class="overflow-y-auto"
         >
           <v-card-text style="padding-bottom: 0; color: #333;">
@@ -36,7 +36,7 @@
             storeDataName="contactFormData"
           />
           <div style="padding-right: 10px; text-align: right">
-            <v-btn class="text-none body-1 practice-buttons" @click="close()" rounded>Cancel</v-btn>
+            <v-btn class="text-none body-1 practice-buttons" @click="close()" rounded>Annuler</v-btn>
             <v-btn
               class="text-none body-1 practice-buttons"
               color="primary"
@@ -254,7 +254,7 @@ export default {
 <style>
 .close-overlay {
   position: absolute;
-  right: -20px;
+  right: -10px;
   top: -20px;
   z-index: 5;
 }
