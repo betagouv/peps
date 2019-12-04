@@ -180,7 +180,7 @@ export default new Vuex.Store({
     implementationPayload(state, getters) {
       const reasons = state.implementationFormData ? state.implementationFormData.implementationReason || [] : []
       return {
-        answers: getters.humanReadableMiaAnswers,
+        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
         email: state.contactFormData ? state.contactFormData.email : '',
         name: state.contactFormData ? state.contactFormData.name : '',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
@@ -198,13 +198,16 @@ export default new Vuex.Store({
         email: state.contactFormData ? state.contactFormData.email : '',
         name: state.contactFormData ? state.contactFormData.name : '',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: getters.humanReadableMiaAnswers,
+        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
         reason: 'A répondu depuis l\'application Web',
         practice_id: '',
       }
     },
     humanReadableMiaAnswers(state) {
       return formutils.getHumanReadableAnswers(state.miaFormDefinition.schema, state.miaFormDefinition.options, state.miaFormData)
+    },
+    humanReadableStatsAnswers(state) {
+      return formutils.getHumanReadableAnswers(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
     }
   }
 })
