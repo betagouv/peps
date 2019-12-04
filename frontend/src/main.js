@@ -4,10 +4,17 @@ import vuetify from '@/plugins/vuetify'
 import store from '@/store'
 import router from '@/router'
 import VueResource from 'vue-resource'
+import VueBrowserUpdate from 'vue-browserupdate'
 
 Vue.config.productionTip = false
 
 Vue.use(VueResource)
+Vue.use(VueBrowserUpdate, {
+  options: {
+    required: {i: 11},
+    noclose: true,
+  }
+})
 
 Vue.http.interceptors.push((request) => {
   request.headers['X-CSRFToken'] = window.CSRF_TOKEN

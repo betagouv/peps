@@ -49,4 +49,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
+body .buorg {
+  border-bottom: 1px solid #008763;
+  background-color: #008763;
+  font-family: "Roboto", sans-serif;
+  color: white;
+}
+
+body .buorg .buorg-buttons {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
 </style>
