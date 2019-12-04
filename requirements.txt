@@ -2,7 +2,7 @@ asana==0.9.1
 astroid==2.2.5
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.2.4
+Django==2.2.8
 django-webpack-loader==0.6.0
 djangorestframework==3.10.2
 djangorestframework-api-key==1.4.0
