@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <Header />
+    <ErrorMessage :visible="showErrorMessage" />
     <v-content style="background: #EEE;">
       <v-container style="max-width: 900px;">
         <router-view />
@@ -14,16 +15,18 @@
 import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
+import ErrorMessage from "@/components/ErrorMessage.vue"
 
 export default {
   name: "App",
   components: {
     Header,
-    Footer
+    Footer,
+    ErrorMessage,
   },
   mounted() {
-    this.$store.dispatch("fetchFormDefinitions")
     this.$store.dispatch("resetLoaders")
+    this.$store.dispatch("fetchFormDefinitions")
   },
   computed: {
     loadingComplete() {
@@ -37,8 +40,16 @@ export default {
         this.$store.state.contactLoadingStatus !==
           Constants.LoadingStatus.LOADING
       )
+    },
+    showErrorMessage() {
+      const error = Constants.LoadingStatus.ERROR
+      return (
+        this.$store.state.formDefinitionsLoadingStatus === error ||
+        this.$store.state.suggestionsLoadingStatus === error ||
+        this.$store.state.implementationLoadingStatus === error
+      )
     }
-  }
+  },
 }
 </script>
 

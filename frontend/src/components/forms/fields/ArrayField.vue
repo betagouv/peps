@@ -32,7 +32,7 @@ export default {
   name: "ArrayField",
   data() {
     return {
-      cultures: [],
+      cultures: this.$store.state[this.storeDataName] ? (this.$store.state[this.storeDataName][this.id] || []) : [],
       selected: null
     }
   },

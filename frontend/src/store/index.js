@@ -93,39 +93,35 @@ export default new Vuex.Store({
     fetchFormDefinitions(context) {
       context.commit('SET_FORM_SCHEMAS_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.get('api/v1/formSchema').then(response => {
-        if (!response || response.status < 200 || response.status >= 300) {
-          context.commit('SET_FORM_SCHEMAS_LOADING', Constants.LoadingStatus.ERROR)
-        }
         context.commit('SET_FORM_SCHEMAS_LOADING', Constants.LoadingStatus.SUCCESS)
         context.commit('SET_FORM_SCHEMAS', response.body)
+      }).catch(() => {
+        context.commit('SET_FORM_SCHEMAS_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
     fetchSuggestions(context) {
       context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/calculateRankings', this.getters.suggestionsPayload, { headers }).then(response => {
-        if (!response || response.status < 200 || response.status >= 300) {
-          context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.ERROR)
-        }
         context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.SUCCESS)
         context.commit('SET_SUGGESTIONS', response.body.suggestions)
+      }).catch(() => {
+        context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
     sendStatsData(context) {
       context.commit('SET_STATS_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/stats', this.getters.statsPayload, { headers }).then(response => {
-        if (!response || response.status < 200 || response.status >= 300) {
-          context.commit('SET_STATS_LOADING', Constants.LoadingStatus.ERROR)
-        }
+      Vue.http.post('api/v1/stats', this.getters.statsPayload, { headers }).then(() => {
         context.commit('SET_STATS_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_STATS_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
     sendContactData(context) {
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(response => {
-        if (!response || response.status < 200 || response.status >= 300) {
-          context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
-        }
+      Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
     addMiaFormData(context, { fieldId, fieldValue }) {
@@ -150,11 +146,10 @@ export default new Vuex.Store({
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
       let payload = this.getters.implementationPayload
       payload.practice_id = practice.external_id
-      Vue.http.post('api/v1/sendTask', payload, { headers }).then(response => {
-        if (!response || response.status < 200 || response.status >= 300) {
-          context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
-        }
+      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
         context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
     resetImplementationForm(context) {
