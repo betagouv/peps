@@ -16,7 +16,6 @@
               class="text-none body-1 practice-buttons"
               color="primary"
               @click="onRetry()"
-              :disabled="!selected"
               rounded
             >Ressayer</v-btn>
           </div>
