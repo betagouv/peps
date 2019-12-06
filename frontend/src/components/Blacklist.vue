@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     removeFromBlacklist(practice) {
+      this.$ga.event('Practice', 'blacklist remove', practice.title)
       this.$store.dispatch("removeFromBlacklist", { practice: practice })
     }
   }

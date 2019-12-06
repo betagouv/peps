@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "vuejs: chrome",
-            "url": "http://localhost:8000/vueapp",
+            "url": "http://localhost:8000/",
             "webRoot": "${workspaceFolder}/frontend/src",
             "breakOnLoad": true,
             "sourceMapPathOverrides": {
@@ -19,7 +19,7 @@
             "type": "firefox",
             "request": "launch",
             "name": "vuejs: firefox",
-            "url": "http://localhost:8000/vueapp",
+            "url": "http://localhost:8000/",
             "webRoot": "${workspaceFolder}/frontend/src",
             "pathMappings": [
                 {

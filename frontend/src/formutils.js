@@ -3,7 +3,7 @@ export default {
         const visibleFields = this.getVisibleFields(schema, options, data)
         return visibleFields.every(fieldName => {
             const value = data[fieldName]
-            return !!(value && value !== undefined && value !== null && value !== '' && value !== [])
+            return !!(value && value !== undefined && value !== null && value !== '' && (Array.isArray(value) ? value.length > 0 : true))
         })
     },
     getVisibleFields(schema, options, data) {

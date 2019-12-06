@@ -80,10 +80,12 @@ export default {
   },
   methods: {
     close() {
+      this.$ga.event('Practice', 'blacklist cancel', this.practice.title)
       this.$emit("done")
     },
     discardPractice() {
-      this.close()
+      this.$emit("done")
+      this.$ga.event('Practice', 'blacklist confirm', this.practice.title)
       this.$store.dispatch("blacklistPractice", { practice: this.practice })
       this.sendDiscardAction()
     },

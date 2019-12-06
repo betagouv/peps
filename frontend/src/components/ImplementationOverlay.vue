@@ -4,7 +4,7 @@
 
     <v-overlay :value="visible" :dark="false">
       <div v-if="sendingIdle">
-        <v-btn @click="close()" class="close-overlay" fab dark small color="grey lighten-5">
+        <v-btn @click="cancelImplementation()" class="close-overlay" fab dark small color="grey lighten-5">
           <v-icon color="red darken-3">mdi-close</v-icon>
         </v-btn>
         <v-card
@@ -36,7 +36,7 @@
             storeDataName="contactFormData"
           />
           <div style="padding-right: 10px; text-align: right">
-            <v-btn class="text-none body-1 practice-buttons" @click="close()" rounded>Annuler</v-btn>
+            <v-btn class="text-none body-1 practice-buttons" @click="cancelImplementation()" rounded>Annuler</v-btn>
             <v-btn
               class="text-none body-1 practice-buttons"
               color="primary"
@@ -234,7 +234,13 @@ export default {
       this.$store.dispatch("resetImplementationForm")
       this.$emit("done")
     },
+    cancelImplementation() {
+      this.$ga.event('Practice', 'try cancel', this.practice.title)
+      this.$store.dispatch("resetImplementationForm")
+      this.$emit("done")
+    },
     sendImplementation() {
+      this.$ga.event('Practice', 'try confirm', this.practice.title)
       this.$store.dispatch("sendImplementation", { practice: this.practice })
     },
     onWindowResize() {
