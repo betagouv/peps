@@ -18,7 +18,13 @@ Vue.use(VueBrowserUpdate, {
 })
 
 Vue.use(VueAnalytics, {
-  id: 'UA-154028243-1',
+  id: process.env.VUE_APP_GA_ID,
+  autoTracking: {
+    screenview: true
+  },
+  debug: {
+    enabled: process.env.NODE_ENV !== 'production',
+  },
   router
 })
 
