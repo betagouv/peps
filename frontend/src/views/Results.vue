@@ -28,7 +28,7 @@
       <div style="padding-right: 10px; padding-bottom: 10px; text-align: right">
         <v-btn
           class="text-none body-1 practice-buttons"
-          @click="goToForm(); location.reload()"
+          @click="goToForm(); reloadLocation()"
           rounded
         >🖊️ Répondre au formulaire</v-btn>
       </div>
@@ -87,7 +87,10 @@ export default {
     },
     goToForm() {
       this.$router.push({ name: "FormsContainer" })
-    }
+    },
+    reloadLocation() {
+      window.location.reload()
+    },
   },
   watch: {
     blacklist() {

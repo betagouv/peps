@@ -5,6 +5,7 @@ import store from '@/store'
 import router from '@/router'
 import VueResource from 'vue-resource'
 import VueBrowserUpdate from 'vue-browserupdate'
+import VueAnalytics from 'vue-analytics'
 
 Vue.config.productionTip = false
 
@@ -14,6 +15,11 @@ Vue.use(VueBrowserUpdate, {
     required: {i: 11},
     noclose: true,
   }
+})
+
+Vue.use(VueAnalytics, {
+  id: 'UA-154028243-1',
+  router
 })
 
 Vue.http.interceptors.push((request) => {
