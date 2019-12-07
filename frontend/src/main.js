@@ -24,7 +24,7 @@ Vue.use(VueAnalytics, {
     screenview: true
   },
   debug: {
-    enabled: process.env.NODE_ENV !== 'production',
+    enabled: (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_GA_DEBUG === 'true'),
   },
   router
 })
