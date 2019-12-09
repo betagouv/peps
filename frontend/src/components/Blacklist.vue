@@ -29,7 +29,8 @@ export default {
     removeFromBlacklist(practice) {
       window.gtag('event', 'blacklist remove', {
         event_category: 'Practice',
-        event_label: practice.title
+        event_label: practice.title,
+        anonymize_ip: true
       })
       this.$store.dispatch("removeFromBlacklist", { practice: practice })
     }

@@ -16,7 +16,8 @@
         function sendPageView(route) {
             window.gtag('config', '{% ga_id %}', {
                 page_title: route.name,
-                page_path: route.path
+                page_path: route.path,
+                anonymize_ip: true
             })
         }
     </script>

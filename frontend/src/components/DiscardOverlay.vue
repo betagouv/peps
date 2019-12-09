@@ -82,7 +82,8 @@ export default {
     close() {
       window.gtag('event', 'blacklist cancel', {
         event_category: 'Practice',
-        event_label: this.practice.title
+        event_label: this.practice.title,
+        anonymize_ip: true
       })
       this.$emit("done")
     },
@@ -90,7 +91,8 @@ export default {
       this.$emit("done")
       window.gtag('event', 'blacklist confirm', {
         event_category: 'Practice',
-        event_label: this.practice.title
+        event_label: this.practice.title,
+        anonymize_ip: true
       })
       this.$store.dispatch("blacklistPractice", { practice: this.practice })
       this.sendDiscardAction()

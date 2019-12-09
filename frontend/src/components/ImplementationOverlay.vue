@@ -237,7 +237,8 @@ export default {
     cancelImplementation() {
       window.gtag('event', 'try cancel', {
         event_category: 'Practice',
-        event_label: this.practice.title
+        event_label: this.practice.title,
+        anonymize_ip: true
       })
       this.$store.dispatch("resetImplementationForm")
       this.$emit("done")
@@ -245,7 +246,8 @@ export default {
     sendImplementation() {
       window.gtag('event', 'try confirm', {
         event_category: 'Practice',
-        event_label: this.practice.title
+        event_label: this.practice.title,
+        anonymize_ip: true
       })
       this.$store.dispatch("sendImplementation", { practice: this.practice })
     },

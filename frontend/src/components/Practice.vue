@@ -89,14 +89,16 @@ export default {
     blacklistPractice() {
       window.gtag('event', 'blacklist', {
         event_category: 'Practice',
-        event_label: this.practice.title
+        event_label: this.practice.title,
+        anonymize_ip: true
       })
       this.$emit('blacklist', this.practice)
     },
     tryPractice() {
       window.gtag('event', 'try', {
         event_category: 'Practice',
-        event_label: this.practice.title
+        event_label: this.practice.title,
+        anonymize_ip: true
       })
       this.$emit('implement', this.practice)
     }
