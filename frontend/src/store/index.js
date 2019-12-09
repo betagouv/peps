@@ -164,6 +164,9 @@ export default new Vuex.Store({
   },
   getters: {
     formsAreComplete(state) {
+      if (Object.keys(state.miaFormDefinition).length === 0 && Object.keys(state.statsFormDefinition).length === 0 && Object.keys(state.contactFormDefinition).length === 0) {
+        return false
+      }
       const miaFormIsComplete = formutils.formIsComplete(state.miaFormDefinition.schema, state.miaFormDefinition.options, state.miaFormData)
       const statsFormIsComplete = formutils.formIsComplete(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
       const contactFormIsComplete = formutils.formIsComplete(state.contactFormDefinition.schema, state.contactFormDefinition.options, state.contactFormData)

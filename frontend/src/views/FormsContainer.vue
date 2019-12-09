@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loader v-if="!!loading" :title="loadingTitle" />
-    <div v-else>
+    <div v-else-if="canRenderForms">
       <Form
         style="margin-bottom: 10px;"
         :schema="miaFormDefinition.schema"
@@ -48,7 +48,7 @@
 <script>
 import Loader from "@/components/Loader.vue"
 import Form from "@/components/forms/Form.vue"
-import Constants from '@/constants'
+import Constants from "@/constants"
 
 export default {
   name: "FormsContainer",
@@ -81,6 +81,13 @@ export default {
     },
     contactFormDefinition() {
       return this.$store.state.contactFormDefinition
+    },
+    canRenderForms() {
+      return (
+        Object.keys(this.miaFormDefinition).length > 0 &&
+        Object.keys(this.statsFormDefinition).length > 0 &&
+        Object.keys(this.contactFormDefinition).length > 0
+      )
     },
     disabled() {
       return !this.$store.getters.formsAreComplete
