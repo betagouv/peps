@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-if="!!loading" :title="loadingTitle" />
+    <Loader v-if="loading" :title="loadingTitle" :loading="loading" />
     <div v-else-if="canRenderForms">
       <Form
         style="margin-bottom: 10px;"

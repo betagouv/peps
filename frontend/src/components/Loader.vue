@@ -13,12 +13,11 @@
 <script>
 export default {
   name: "Loader",
-  data() {
-    return {
-      loading: true
-    };
-  },
   props: {
+    loading: {
+      type: Boolean,
+      default: true,
+    },
     title: {
       type: String,
       default: "En cours..."

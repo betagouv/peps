@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader v-if="!!loading" :title="loadingTitle" :text="loadingSubtitle" />
+    <Loader v-if="loading" :title="loadingTitle" :text="loadingSubtitle" :loading="loading" />
     <div v-else-if="suggestions && suggestions.length > 0">
       <v-card class="form-info" color="#fafafa" elevation="0" style="margin-bottom: 15px; margin-top: 5px;">
         <v-card-text>

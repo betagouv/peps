@@ -1,6 +1,6 @@
 <template>
   <div v-if="visible">
-    <Loader v-if="!!sendingInProgress" title="Juste un instant..." />
+    <Loader v-if="sendingInProgress" title="Juste un instant..." :loading="sendingInProgress" />
 
     <v-overlay :value="visible" :dark="false">
       <div v-if="sendingIdle">
