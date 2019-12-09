@@ -19,12 +19,11 @@ Vue.use(VueBrowserUpdate, {
 
 Vue.use(VueAnalytics, {
   id: process.env.VUE_APP_GA_ID,
-  cookieDomain: 'none',
   autoTracking: {
     screenview: true
   },
   debug: {
-    enabled: process.env.NODE_ENV !== 'production',
+    enabled: false
   },
   router
 })
