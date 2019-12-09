@@ -28,4 +28,6 @@ const router = new VueRouter({
   routes
 })
 
+router.afterEach(window.sendPageView)
+
 export default router

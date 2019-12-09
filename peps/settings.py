@@ -92,6 +92,12 @@ TEMPLATES = [
     },
 ]
 
+OPTIONS = {
+    'libraries': {
+        'ga': 'web.templatetags.ga',
+    },
+}
+
 WSGI_APPLICATION = 'peps.wsgi.application'
 
 
@@ -165,3 +171,5 @@ WEBPACK_LOADER = {
         'STATS_FILE': os.path.join(FRONTEND_DIR, 'webpack-stats.json'),
     }
 }
+
+GOOGLE_ANALYTICS_ID = os.getenv('PEPS_GA_ID')

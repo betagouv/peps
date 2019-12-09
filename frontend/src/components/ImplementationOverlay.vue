@@ -235,12 +235,18 @@ export default {
       this.$emit("done")
     },
     cancelImplementation() {
-      this.$ga.event('Practice', 'try cancel', this.practice.title)
+      window.gtag('event', 'try cancel', {
+        event_category: 'Practice',
+        event_label: this.practice.title
+      })
       this.$store.dispatch("resetImplementationForm")
       this.$emit("done")
     },
     sendImplementation() {
-      this.$ga.event('Practice', 'try confirm', this.practice.title)
+      window.gtag('event', 'try confirm', {
+        event_category: 'Practice',
+        event_label: this.practice.title
+      })
       this.$store.dispatch("sendImplementation", { practice: this.practice })
     },
     onWindowResize() {

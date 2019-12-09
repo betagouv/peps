@@ -1,9 +1,26 @@
 {% load static %}
 {% load render_bundle from webpack_loader %}
+{% load ga %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={% ga_id %}"></script>
+    <script>
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        function sendPageView(route) {
+            window.gtag('config', '{% ga_id %}', {
+                page_title: route.name,
+                page_path: route.path
+            })
+        }
+    </script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -11,7 +28,7 @@
     <title>Peps</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         window.CSRF_TOKEN = "{{ csrf_token }}"
     </script>
 </head>

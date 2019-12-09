@@ -87,11 +87,17 @@ export default {
   },
   methods: {
     blacklistPractice() {
-      this.$ga.event('Practice', 'blacklist', this.practice.title)
+      window.gtag('event', 'blacklist', {
+        event_category: 'Practice',
+        event_label: this.practice.title
+      })
       this.$emit('blacklist', this.practice)
     },
     tryPractice() {
-      this.$ga.event('Practice', 'try', this.practice.title)
+      window.gtag('event', 'try', {
+        event_category: 'Practice',
+        event_label: this.practice.title
+      })
       this.$emit('implement', this.practice)
     }
   }
