@@ -166,7 +166,7 @@ def get_form_schema():
         },
         "practices_form": {
             "schema": {
-                "description": "Vos réponses à ces questions vont permettre d'identifier trois pratiques alternatives adaptées à votre problématiques ainsi qu'à votre exploitation ",
+                "description": "Vos réponses à ces questions vont permettre d'identifier trois pratiques alternatives adaptées à votre problématique ainsi qu'à votre exploitation ",
                 "type": "object",
                 "properties": {
                     "problem": {
