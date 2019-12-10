@@ -1,14 +1,21 @@
-import Vue from 'vue'
 import Vuetify from 'vuetify'
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 
-Vue.use(Vuetify)
+const localVue = createLocalVue()
 
 describe('ErrorMessage.vue', () => {
 
+  let vuetify
+
+  beforeEach(() => {
+    vuetify = new Vuetify()
+  })
+
   it('does not render a retry button without an onRetry function', () => {
     const wrapper = mount(ErrorMessage, {
+      localVue,
+      vuetify,
       propsData: {
         visible: true,
         onRetry: null
@@ -20,6 +27,8 @@ describe('ErrorMessage.vue', () => {
   it('renders a retry button that triggers onRetry function', () => {
     const onRetry = jest.fn()
     const wrapper = mount(ErrorMessage, {
+      localVue,
+      vuetify,
       propsData: {
         visible: true,
         onRetry: onRetry
