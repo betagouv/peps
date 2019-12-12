@@ -5,21 +5,48 @@
 <html lang="en">
 
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={% ga_id %}"></script>
-    <script>
-        
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
 
-        function sendPageView(route) {
-            window.gtag('config', '{% ga_id %}', {
-                page_title: route.name,
-                page_path: route.path,
-                anonymize_ip: true
-            })
-        }
+    <script type="text/javascript" src="{% static '/tarteaucitron/tarteaucitron.js' %}"></script>
+
+    <script type="text/javascript">
+        tarteaucitron.init({
+            "privacyUrl": "/#/politique-de-confidentialite", /* Privacy policy url */
+
+            "hashtag": "#pepscookies", /* Open the panel with this hashtag */
+            "cookieName": "pepscookies", /* Cookie name */
+
+            "orientation": "bottom", /* Banner position (top - bottom) */
+            "showAlertSmall": false, /* Show the small banner on bottom right */
+            "cookieslist": true, /* Show the cookie list */
+
+            "adblocker": false, /* Show a Warning if an adblocker is detected */
+            "AcceptAllCta": true, /* Show the accept all button when highPrivacy on */
+            "highPrivacy": false, /* Disable auto consent */
+            "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+
+            "removeCredit": false, /* Remove credit link */
+            "moreInfoLink": true, /* Show more info link */
+            "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
+
+            "readmoreLink": "/#/politique-de-confidentialite" /* Change the default readmore link */
+        });
+    </script>
+
+    <script type="text/javascript">
+        tarteaucitron.user.gtagUa = '{% ga_id %}';
+        tarteaucitron.user.gtagMore = function () {
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            window.sendPageView = function(route) {
+                window.gtag('config', '{% ga_id %}', {
+                    page_title: route.name,
+                    page_path: route.path,
+                    anonymize_ip: true
+                })
+            }
+        };
+        (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
     </script>
 
     <meta charset="utf-8">

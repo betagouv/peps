@@ -9,6 +9,9 @@
       <div class="caption" style="color: #777; text-align: center;">
         {{ new Date().getFullYear() }} — Peps
       </div>
+      <div class="caption" style="color: #777; text-align: center;">
+        <a href="/#/politique-de-confidentialite">Politique de confidentialité</a>
+      </div>
       <v-card-text style="text-align: center;">
         <v-btn icon class="mx-2" href="https://twitter.com/pepsagriculture" target="_blank">
           <v-icon size="24px">mdi-twitter</v-icon>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>Peps</v-toolbar-title>
+      <v-toolbar-title><a href="/#/" style="color:white; text-decoration:none; font-weight: bold; outline: none;">Peps</a></v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-badge

@@ -72,4 +72,13 @@ body .buorg .buorg-buttons {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+body #tarteaucitronPersonalize {
+  background: #008763 !important;
+  border-radius: 15px;
+}
+
+body #tarteaucitronCloseAlert {
+  border-radius: 15px;
+}
 </style>
