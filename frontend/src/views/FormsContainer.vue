@@ -2,6 +2,11 @@
   <div>
     <Loader v-if="loading" :title="loadingTitle" :loading="loading" />
     <div v-else-if="canRenderForms">
+      <v-card class="form-info" color="#fafafa" elevation="0" style="margin-bottom: 15px; margin-top: 5px;">
+        <v-card-text>
+          Peps est en étape d'expérimentation et ne cible pour le moment que les pratiques en grandes cultures et élevage 🌱 🐄
+        </v-card-text>
+      </v-card>
       <Form
         style="margin-bottom: 10px;"
         :schema="miaFormDefinition.schema"
