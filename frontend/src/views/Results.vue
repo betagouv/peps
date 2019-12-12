@@ -72,7 +72,7 @@ export default {
       )
     },
     suggestions() {
-      return this.$store.state.suggestions
+      return this.$store.state.suggestions.slice().reverse()
     },
     blacklist() {
       return this.$store.state.blacklist
