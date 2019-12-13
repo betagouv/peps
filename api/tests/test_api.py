@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import AirtableAdapter
 from data.models import Practice, DiscardAction, RefererCount, GroupCount
-from api.views import SendEmailView, SendTaskView
+from api.views import SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
 # pylint: disable = protected-access
@@ -166,95 +166,6 @@ class TestApi(TestCase):
         body = json.loads(response.content.decode())
         self.assertIn('schema', body)
         self.assertIn('options', body)
-
-
-    def test_email_unauthenticated(self):
-        """
-        Tests the email API endpoint without authentication,
-        which should not work.
-        """
-
-        self.client.logout()
-        original_function = SendEmailView._send_email
-        SendEmailView._send_email = MagicMock(return_value={'test': True})
-        try:
-            response = self.client.post(
-                reverse('send_email'),
-                {
-                    'email': 'fake@email.com',
-                    'first_name': 'Jean',
-                    'problem': 'désherbage',
-                    'practices': ['recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'],
-                },
-                format='json',
-            )
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            SendEmailView._send_email.assert_not_called()
-        finally:
-            SendEmailView._send_email = original_function
-
-
-    def test_email_api_key_auth(self):
-        """
-        Tests the email API using the Api key, meant to identify
-        projects and apps, not users.
-        """
-        self.client.logout()
-        original_function = SendEmailView._send_email
-        SendEmailView._send_email = MagicMock(return_value=MockResponse({'test': True}))
-        try:
-            response = self.client.post(
-                reverse('send_email'),
-                {
-                    'email': 'fake@email.com',
-                    'first_name': 'Jean',
-                    'problem': 'désherbage',
-                    'practices': ['recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'],
-                },
-                format='json',
-                **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
-            )
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
-            SendEmailView._send_email.assert_called_once()
-            body = json.loads(response.content.decode())
-            self.assertIn('test', body)
-
-        finally:
-            SendEmailView._send_email = original_function
-
-
-    def test_email_invalid_practices(self):
-        """
-        Tests the email API endpoint when invalid practices are sent. Only
-        three valid ones can be user at this moment.
-        """
-        self.client.logout()
-        original_function = SendEmailView._send_email
-        SendEmailView._send_email = MagicMock(return_value=MockResponse({'test': True}))
-        practice_sets = [
-            ['recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3'],
-            [],
-            ['recZxlcM61qaDoOkc', 'recZxlcM61qaDoOkc', 'invalid_id'],
-            ['recZxlcM61qaDoOkc', 'recZxlcM61qaDoOkc', 'invalid_id', 'invalid_id_2'],
-        ]
-        try:
-            for practices in practice_sets:
-                response = self.client.post(
-                    reverse('send_email'),
-                    {
-                        'email': 'fake@email.com',
-                        'first_name': 'Jean',
-                        'problem': 'désherbage',
-                        'practices': practices,
-                    },
-                    format='json',
-                    **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
-                )
-                self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-                SendEmailView._send_email.assert_not_called()
-
-        finally:
-            SendEmailView._send_email = original_function
 
 
     def test_task_unauthenticated(self):

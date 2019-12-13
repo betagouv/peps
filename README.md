@@ -88,7 +88,7 @@ There are two different client-side code locations in this repository:
 
 ### 1- ```/web```
 
-These are templates and client-side elements that adhere to Django's standard way of doing things. These are currently used for utility views - such as the one showing the weight of the practices in real time and the email view.
+These are templates and client-side elements that adhere to Django's standard way of doing things. These are currently used for utility views - such as the one showing the weight of the practices in real time.
 
 The views here are not meant to be shown to the final user.
 
