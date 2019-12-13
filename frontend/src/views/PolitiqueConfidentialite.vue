@@ -25,8 +25,7 @@
 
       <div class="subtitle-2">Communication des données personnelles à des tiers</div>
 
-      <p>Vos données ne font l'objet d'aucune communication à des tiers. Vous êtes toutefois informés qu'elles pourront être divulguées en application d'une loi, d'un règlement ou en vertu d'une décision d'une autorité réglementaire ou judiciaire compétente.</p>
-      <p>Dans le cas où nous prendrions part à une opération de fusion, d’acquisition ou à toute autre forme de cession d’actifs, nous nous engageons à garantir la confidentialité de vos données personnelles et à vous informer avant que celles-ci ne soient transférées ou soumises à de nouvelles règles de confidentialité.</p>
+      <p>Nous pouvons mettre certaines données personnelles dans des serveurs des partenaires stratégiques travaillant avec nous, pour la fourniture de services nous aidant à améliorer nos produits auprès des clients (notamment Asana).</p>
 
       <div class="subtitle-2">Finalité de la réutilisation des données personnelles collectées</div>
       <p>
@@ -64,6 +63,8 @@
       - Prendre les mesures nécessaires dans la limite du raisonnable afin d'amoindrir les effets négatifs et préjudices pouvant résulter dudit incident</p>
       <div class="subtitle-2">Limitation de la responsabilité</div>
       <p>En aucun cas les engagements définis au point ci-dessus relatifs à la notification en cas de faille de sécurité ne peuvent être assimilés à une quelconque reconnaissance de faute ou de responsabilité quant à la survenance de l'incident en question.</p>
+      <div class="subtitle-2">Transfert des données personnelles à l'étranger</div>
+      <p>L'Éditeur communique des données à des tiers partenaires, notamment Asana (ayant leurs serveurs aux États-Unis).</p>
       <div class="subtitle-2">Modification des CGU et de la politique de confidentialité</div>
       <p>En cas de modification des présentes CGU, engagement de ne pas baisser le niveau de confidentialité de manière substantielle sans l'information préalable des personnes concernées</p>
       <p>Nous nous engageons à vous informer en cas de modification substantielle des présentes CGU, et à ne pas baisser le niveau de confidentialité de vos données de manière substantielle sans vous en informer et obtenir votre consentement.</p>
