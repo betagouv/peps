@@ -235,20 +235,12 @@ export default {
       this.$emit("done")
     },
     cancelImplementation() {
-      window.gtag('event', 'try cancel', {
-        event_category: 'Practice',
-        event_label: this.practice.title,
-        anonymize_ip: true
-      })
+      window.sendTrackingEvent('Practice', 'try cancel', this.practice.title)
       this.$store.dispatch("resetImplementationForm")
       this.$emit("done")
     },
     sendImplementation() {
-      window.gtag('event', 'try confirm', {
-        event_category: 'Practice',
-        event_label: this.practice.title,
-        anonymize_ip: true
-      })
+      window.sendTrackingEvent('Practice', 'try confirm', this.practice.title)
       this.$store.dispatch("sendImplementation", { practice: this.practice })
     },
     onWindowResize() {

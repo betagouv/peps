@@ -87,19 +87,11 @@ export default {
   },
   methods: {
     blacklistPractice() {
-      window.gtag('event', 'blacklist', {
-        event_category: 'Practice',
-        event_label: this.practice.title,
-        anonymize_ip: true
-      })
+      window.sendTrackingEvent('Practice', 'blacklist', this.practice.title)
       this.$emit('blacklist', this.practice)
     },
     tryPractice() {
-      window.gtag('event', 'try', {
-        event_category: 'Practice',
-        event_label: this.practice.title,
-        anonymize_ip: true
-      })
+      window.sendTrackingEvent('Practice', 'try', this.practice.title)
       this.$emit('implement', this.practice)
     }
   }
