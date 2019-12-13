@@ -27,12 +27,6 @@ class UserDisplayView(LoginRequiredMixin, TemplateView):
         }
         return context
 
-class AppDisplayView(LoginRequiredMixin, TemplateView):
-    """
-    This is the app web version of the client-facing simulator
-    """
-    template_name = 'app.html'
-
 class VueAppDisplayView(TemplateView):
     """
     This is the VUE JS app web version of the client-facing simulator
