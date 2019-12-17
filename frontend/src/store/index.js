@@ -20,6 +20,7 @@ export default new Vuex.Store({
     statsLoadingStatus: Constants.LoadingStatus.IDLE,
     contactLoadingStatus: Constants.LoadingStatus.IDLE,
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
+    categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
     statsFormDefinition: {},
@@ -33,6 +34,8 @@ export default new Vuex.Store({
 
     suggestions: [],
     blacklist: [],
+
+    categories: [],
   },
   mutations: {
     SET_FORM_SCHEMAS_LOADING(state, status) {
@@ -49,6 +52,9 @@ export default new Vuex.Store({
     },
     SET_IMPLEMENTATION_LOADING(state, status) {
       state.implementationLoadingStatus = status
+    },
+    SET_CATEGORIES_LOADING(state, status) {
+      state.categoriesLoadingStatus = status
     },
     SET_FORM_SCHEMAS(state, formDefinitions) {
       state.miaFormDefinition = formDefinitions['practices_form'] || {}
@@ -70,6 +76,9 @@ export default new Vuex.Store({
     SET_SUGGESTIONS(state, suggestions) {
       state.suggestions = suggestions
     },
+    SET_CATEGORIES(state, categories) {
+      state.categories = categories
+    },
     ADD_TO_BLACKLIST(state, { practice }) {
       const blacklisted_ids = state.blacklist.map(x => x.id)
       if (blacklisted_ids.indexOf(practice.id) === -1)
@@ -87,6 +96,7 @@ export default new Vuex.Store({
       state.statsLoadingStatus = Constants.LoadingStatus.IDLE
       state.contactLoadingStatus = Constants.LoadingStatus.IDLE
       state.implementationLoadingStatus = Constants.LoadingStatus.IDLE
+      state.categoriesLoadingStatus = Constants.LoadingStatus.IDLE
     }
   },
   actions: {
@@ -106,6 +116,15 @@ export default new Vuex.Store({
         context.commit('SET_SUGGESTIONS', response.body.suggestions)
       }).catch(() => {
         context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
+    fetchCategories(context) {
+      context.commit('SET_CATEGORIES_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.get('api/v1/categories').then(response => {
+        context.commit('SET_CATEGORIES_LOADING', Constants.LoadingStatus.SUCCESS)
+        context.commit('SET_CATEGORIES', response.body)
+      }).catch(() => {
+        context.commit('SET_CATEGORIES_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
     sendStatsData(context) {
@@ -206,6 +225,22 @@ export default new Vuex.Store({
     },
     humanReadableStatsAnswers(state) {
       return formutils.getHumanReadableAnswers(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
+    },
+    practiceWithId(state) {
+      // TODO: this is only while we have all practices in a state property
+      return (practiceId => {
+        let practice = state.suggestions.find(x => x.id === practiceId)
+        if (practice)
+          return practice
+        
+        for (let i = 0; i < state.categories.length; i++) {
+          const category = state.categories[i]
+          practice = category.practices.find(x => x.id === practiceId)
+          if (practice)
+            return practice
+        }
+        return undefined
+      })
     }
   }
 })

@@ -1,4 +1,5 @@
 import dateutil.parser
+from itertools import chain
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from rest_framework.renderers import JSONRenderer
@@ -8,9 +9,9 @@ from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
 from data.adapters import AirtableAdapter
-from data.models import GroupCount, RefererCount
+from data.models import GroupCount, RefererCount, Practice
 from api.engine import Engine
-from api.serializers import ResponseSerializer, DiscardActionSerializer
+from api.serializers import ResponseSerializer, DiscardActionSerializer, PracticeSerializer
 from api.formschema import get_form_schema
 from api.models import Response
 
@@ -160,6 +161,72 @@ class StatsView(APIView):
         referers = referers if isinstance(referers, list) else referers.split(',')
         for referer in referers:
             RefererCount.create_or_increment(RefererCount.Referer[referer])
+
+
+class CategoriesView(APIView):
+    """
+    This view will return the categories to show on the UI
+    """
+
+    def get(self, request):
+        categories = [
+            {
+                'title': "À faire en ce moment",
+                'id': 'fe9fbf90-27da-443e-910d-47f065efa49c',
+                'image': "https://images.unsplash.com/photo-1557234195-bd9f290f0e4d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+            },
+            {
+                'title': "Tout sur le désherbage",
+                'id': 'fe9fbf90-27da-443e-910d-47f065efa49d',
+                'image': "https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+            },
+            {
+                'title': "Avec une herse étrille",
+                'id': 'fe9fbf90-27da-443e-910d-47f065efa49e',
+                'image': "https://images.unsplash.com/photo-1535379453347-1ffd615e2e08?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
+                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+            },
+            {
+                'title': "Les plantes compagnes",
+                'id': 'fe9fbf90-27da-443e-910d-47f065efa49f',
+                'image': "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
+                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+            },
+            {
+                'title': "Les pratiques de base",
+                'id': '1e9fbf90-27da-443e-910d-47f065efa49c',
+                'image': "https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80",
+                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+            },
+            {
+                'title': "Vu à l'étranger",
+                'id': '2e9fbf90-27da-443e-910d-47f065efa49c',
+                'image': "https://images.unsplash.com/photo-1524486361537-8ad15938e1a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80",
+                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+            }
+        ]
+        response = []
+        all_practice_ids = list(dict.fromkeys(list(chain.from_iterable(map(lambda x: x['practices'], categories)))))
+        all_practices = list(Practice.objects.filter(external_id__in=all_practice_ids))
+
+        for category in categories:
+            practices = list(filter(lambda x: x.external_id in category['practices'], all_practices))
+            response.append({
+                'title': category['title'],
+                'image': category['image'],
+                'id': category['id'],
+                'description': category['description'],
+                'practices': PracticeSerializer(practices, many=True).data,
+            })
+        return JsonResponse(response, status=200, safe=False)
 
 
 class DiscardActionView(CreateAPIView):

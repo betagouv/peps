@@ -4,7 +4,9 @@
     <ErrorMessage :visible="showErrorMessage" />
     <v-content style="background: #EEE;">
       <v-container style="max-width: 900px;">
-        <router-view />
+        <transition name="fade">
+          <router-view />
+        </transition>
       </v-container>
       <Footer v-show="loadingComplete" />
     </v-content>
@@ -27,6 +29,7 @@ export default {
   mounted() {
     this.$store.dispatch("resetLoaders")
     this.$store.dispatch("fetchFormDefinitions")
+    this.$store.dispatch("fetchCategories")
   },
   computed: {
     loadingComplete() {
@@ -38,6 +41,8 @@ export default {
         this.$store.state.statsLoadingStatus !==
           Constants.LoadingStatus.LOADING &&
         this.$store.state.contactLoadingStatus !==
+          Constants.LoadingStatus.LOADING &&
+        this.$store.state.categoriesLoadingStatus !==
           Constants.LoadingStatus.LOADING
       )
     },
@@ -46,6 +51,7 @@ export default {
       return (
         this.$store.state.formDefinitionsLoadingStatus === error ||
         this.$store.state.suggestionsLoadingStatus === error ||
+        this.$store.state.categoriesLoadingStatus === error ||
         this.$store.state.implementationLoadingStatus === error
       )
     }
@@ -71,6 +77,13 @@ body .buorg {
 body .buorg .buorg-buttons {
   margin-top: 15px;
   margin-bottom: 15px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .25s ease-out;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 </style>
