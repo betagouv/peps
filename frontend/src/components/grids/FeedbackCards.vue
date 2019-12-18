@@ -33,7 +33,7 @@ export default {
           buttonText: "Répondre au sondage"
         },
         {
-          title: "Toutes les informations sur les pratiques, au même endroit",
+          title: "J'ai un retour précis sur le service",
           body: "Par mail ou par téléphone, nous sommes tout ouïe",
           buttonUrl: "mailto:peps@beta.gouv.fr",
           buttonText: "Contacter l'équipe"
