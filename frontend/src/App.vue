@@ -86,4 +86,8 @@ body .buorg .buorg-buttons {
   opacity: 0;
 }
 
+.v-card__text, .v-card__title {
+  word-break: normal !important;
+}
+
 </style>

@@ -3,7 +3,7 @@
     <v-card class="pa-5">
       <div
         class="display-1 primary--text"
-      >Les partiques économes en produits pythosanitaires à portée de clic</div>
+      >Les pratiques économes en produits phytosanitaires à portée de clic</div>
       <v-divider class="ma-5" />
 
       <div class="title">Des suggestions de pratiques adaptées à votre situation</div>
@@ -18,9 +18,7 @@
         color="primary"
         style="margin-top: 10px;"
       >{{formButtonText}}</v-btn>
-    </v-card>
-
-    <v-card class="pa-5" style="margin-top: 10px;">
+    <v-divider class="ma-5" />
       <div class="title">Découvrez les pratiques par vous même</div>
       <CategoriesCards />
     </v-card>
