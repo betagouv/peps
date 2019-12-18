@@ -39,8 +39,6 @@ export default {
   data: () => {
     return {
       implementationPractice: null,
-      defaultImageUrl:
-        "https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
     }
   },
   props: {
@@ -50,6 +48,9 @@ export default {
     }
   },
   computed: {
+    defaultImageUrl() {
+      return this.$store.state.defaultImageUrl
+    },
     infoBoxItems() {
       let boxItems = []
       const boxItemsDescriptors = [

@@ -36,6 +36,7 @@ export default new Vuex.Store({
     blacklist: [],
 
     categories: [],
+    defaultPracticeImageUrl: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
   },
   mutations: {
     SET_FORM_SCHEMAS_LOADING(state, status) {
