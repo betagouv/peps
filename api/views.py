@@ -175,42 +175,76 @@ class CategoriesView(APIView):
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49c',
                 'image': "https://images.unsplash.com/photo-1557234195-bd9f290f0e4d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+                'practices': [
+                    'recplecMZuFr1VHAA',
+                    'recv3EGEPhu0meZkB',
+                    'recyMe1cHBaIrm58o',
+                    'recpS7kDIMsZNngR0'
+                ],
             },
             {
                 'title': "Tout sur le désherbage",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49d',
                 'image': "https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+                'practices': [
+                    'recx8ErM9GlGA6BD2',
+                    'rec0ZC79AGBk0vuTv',
+                    'recfhdTh4CvU7nDUO',
+                    'recxMxAyRaV44GIdT',
+                    'recBI8l5kt5iw2whP',
+                    'recZxlcM61qaDoOkc',
+                    'recsfFchGtjnBQ2NQ',
+                    'recrD49Ih5S54FOhq',
+                    'recvSDrARAcmKogbD'
+                ],
             },
             {
                 'title': "Avec une herse étrille",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49e',
                 'image': "https://images.unsplash.com/photo-1535379453347-1ffd615e2e08?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+                'practices': [
+                    'recx8ErM9GlGA6BD2',
+                    'recplecMZuFr1VHAA',
+                    'recxDViQ7ZEcVTCJa',
+                    'recfZ5QS7cr7sQR2G'
+                ],
             },
             {
                 'title': "Les plantes compagnes",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49f',
                 'image': "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+                'practices': [
+                    'recKs8PER2AqemNs1',
+                    'reckSRYZHVC6QDxe3',
+                    'recze8GDGOm8i4ul9'
+                ],
             },
             {
                 'title': "Les pratiques de base",
                 'id': '1e9fbf90-27da-443e-910d-47f065efa49c',
                 'image': "https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+                'practices': [
+                    'recplecMZuFr1VHAA',
+                    'recv3EGEPhu0meZkB',
+                    'recyMe1cHBaIrm58o',
+                    'recpS7kDIMsZNngR0'
+                ],
             },
             {
                 'title': "Vu à l'étranger",
                 'id': '2e9fbf90-27da-443e-910d-47f065efa49c',
                 'image': "https://images.unsplash.com/photo-1524486361537-8ad15938e1a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': ['recplecMZuFr1VHAA', 'recv3EGEPhu0meZkB', 'recyMe1cHBaIrm58o', 'recpS7kDIMsZNngR0'],
+                'practices': [
+                    'recplecMZuFr1VHAA',
+                    'recv3EGEPhu0meZkB',
+                    'recyMe1cHBaIrm58o',
+                    'recpS7kDIMsZNngR0'
+                ],
             }
         ]
         response = []
