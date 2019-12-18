@@ -30,6 +30,10 @@ def validate_practices(airtable_practices):
             message = 'Pratique "%s" (ID %s) manque la description (colonne Description)' % (practice_title, practice_id)
             errors.append(AirtableError(message, url=url))
 
+        if not fields.get('Types'):
+            message = 'Pratique "%s" (ID %s) n\'a pas de type (colonne Types)' % (practice_title, practice_id)
+            errors.append(AirtableError(message, url=url))
+
         if not fields.get('CTA lien'):
             message = 'Pratique "%s" (ID %s) n\'a pas de lien CTA (colonne CTA lien)' % (practice_title, practice_id)
             errors.append(AirtableError(message, url=url))
@@ -49,10 +53,6 @@ def validate_practices(airtable_practices):
         if fields.get('Difficulté') and (fields.get('Difficulté') > 1 or fields.get('Difficulté') < 0):
             message = 'Pratique "%s" (ID %s) a une difficulté incorrecte (ça doit être entre 0 et 1)' % (practice_title, practice_id)
             errors.append(AirtableError(message, url=url))
-
-        if not fields.get('Types'):
-            message = 'Pratique "%s" (ID %s) n\'a pas de type (colonne Types)' % (practice_title, practice_id)
-            errors.append(AirtableError(message, fatal=False, url=url))
 
         for json_problem in fields.get('Problèmes adressés', []):
             try:
