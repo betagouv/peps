@@ -171,32 +171,25 @@ class CategoriesView(APIView):
     def get(self, request):
         categories = [
             {
-                'title': "À faire en ce moment",
+                'title': "À faire cet hiver",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49c',
                 'image': "https://images.unsplash.com/photo-1557234195-bd9f290f0e4d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
-                    'recplecMZuFr1VHAA',
-                    'recv3EGEPhu0meZkB',
-                    'recyMe1cHBaIrm58o',
-                    'recpS7kDIMsZNngR0'
+                    'rec5RshLKLcZfQ2t9',
+                    'recD7QrzTgOBT5OHl',
+                    'receGroWCXTPC5kat',
                 ],
             },
             {
-                'title': "Tout sur le désherbage",
+                'title': "Les plantes compagnes",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49d',
                 'image': "https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
-                    'recx8ErM9GlGA6BD2',
-                    'rec0ZC79AGBk0vuTv',
-                    'recfhdTh4CvU7nDUO',
-                    'recxMxAyRaV44GIdT',
-                    'recBI8l5kt5iw2whP',
-                    'recZxlcM61qaDoOkc',
-                    'recsfFchGtjnBQ2NQ',
-                    'recrD49Ih5S54FOhq',
-                    'recvSDrARAcmKogbD'
+                    'recKs8PER2AqemNs1',
+                    'recze8GDGOm8i4ul9',
+                    'reckSRYZHVC6QDxe3',
                 ],
             },
             {
@@ -212,38 +205,43 @@ class CategoriesView(APIView):
                 ],
             },
             {
-                'title': "Les plantes compagnes",
+                'title': "Optimisation des doses",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49f',
                 'image': "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
-                    'recKs8PER2AqemNs1',
-                    'reckSRYZHVC6QDxe3',
-                    'recze8GDGOm8i4ul9'
+                    'recpS7kDIMsZNngR0',
+                    'recKYJpnfeneTJgBc',
+                    'recWQRthF3exmoOzb'
                 ],
             },
             {
-                'title': "Les pratiques de base",
+                'title': "Allongement de la rotation",
                 'id': '1e9fbf90-27da-443e-910d-47f065efa49c',
                 'image': "https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
-                    'recplecMZuFr1VHAA',
+                    'recYK5ljTyL3b18J3',
+                    'rec7A1YdAYPgyRLWM',
+                    'reckya3SPQEUPEnH1',
+                    'reccdlRtfXVIVKrvx',
+                    'recPHhsiuCrUxgQ9P',
                     'recv3EGEPhu0meZkB',
-                    'recyMe1cHBaIrm58o',
-                    'recpS7kDIMsZNngR0'
+                    'rec0ZC79AGBk0vuTv',
+                    'recRxwOf6OQtk70Nl',
                 ],
             },
             {
-                'title': "Vu à l'étranger",
+                'title': "Les couverts végétaux",
                 'id': '2e9fbf90-27da-443e-910d-47f065efa49c',
                 'image': "https://images.unsplash.com/photo-1524486361537-8ad15938e1a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
-                    'recplecMZuFr1VHAA',
-                    'recv3EGEPhu0meZkB',
-                    'recyMe1cHBaIrm58o',
-                    'recpS7kDIMsZNngR0'
+                    'recWr7fObtkAZW0X8',
+                    'recsfFchGtjnBQ2NQ',
+                    'recrD49Ih5S54FOhq',
+                    'recKs8PER2AqemNs1',
+                    'recze8GDGOm8i4ul9',
                 ],
             }
         ]

@@ -4,14 +4,15 @@
       <v-col v-for="(item, index) in descriptionItems" :key="index" cols="12" sm="6" md="4">
         <v-card class="pa-0 fill-height" outlined>
           <v-card-title class="subtitle-2">{{ item.title }}</v-card-title>
-          <v-card-text>{{ item.body }}</v-card-text>
+          <v-card-text style="margin-bottom: 40px;">{{ item.body }}</v-card-text>
           <v-btn
-            class="text-none ma-3"
+            class="text-none ma-3 fill-height"
             :href="item.buttonUrl"
             target="_blank"
             rounded
             small
             color="primary"
+            style="position: absolute; bottom: 0;"
           >{{item.buttonText}}</v-btn>
         </v-card>
       </v-col>

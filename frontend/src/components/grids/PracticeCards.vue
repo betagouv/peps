@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     defaultImageUrl() {
-      return this.$store.state.defaultImageUrl
+      return this.$store.state.defaultPracticeImageUrl
     }
   },
   methods: {
