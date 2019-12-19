@@ -5,10 +5,6 @@
     >{{ category.title }}</div>
     <v-divider class="ma-5" />
 
-    <div class="title">Fonctionnement</div>
-    <v-card-text>
-      {{ category.description }}
-    </v-card-text>
     <PracticeCards :practices="category.practices" />
   </v-card>
 </template>
