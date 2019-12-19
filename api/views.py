@@ -212,7 +212,8 @@ class CategoriesView(APIView):
                 'practices': [
                     'recpS7kDIMsZNngR0',
                     'recKYJpnfeneTJgBc',
-                    'recWQRthF3exmoOzb'
+                    'recWQRthF3exmoOzb',
+                    'recW3L91a8BN1gwaH',
                 ],
             },
             {
