@@ -173,7 +173,7 @@ class CategoriesView(APIView):
             {
                 'title': "À faire cet hiver",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49c',
-                'image': "https://images.unsplash.com/photo-1557234195-bd9f290f0e4d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+                'image': "/static/images/a-faire-cet-hiver.jpg",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
                     'rec5RshLKLcZfQ2t9',
@@ -184,7 +184,7 @@ class CategoriesView(APIView):
             {
                 'title': "Les plantes compagnes",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49d',
-                'image': "https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                'image': "/static/images/les-plantes-compagnes.jpg",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
                     'recKs8PER2AqemNs1',
@@ -195,7 +195,7 @@ class CategoriesView(APIView):
             {
                 'title': "Avec une herse étrille",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49e',
-                'image': "https://images.unsplash.com/photo-1535379453347-1ffd615e2e08?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
+                'image': "/static/images/avec-herse-etrille.jpg",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
                     'recx8ErM9GlGA6BD2',
@@ -207,7 +207,7 @@ class CategoriesView(APIView):
             {
                 'title': "Optimisation des doses",
                 'id': 'fe9fbf90-27da-443e-910d-47f065efa49f',
-                'image': "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80",
+                'image': "/static/images/optimisation-doses.jpg",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
                     'recpS7kDIMsZNngR0',
@@ -219,7 +219,7 @@ class CategoriesView(APIView):
             {
                 'title': "Allongement de la rotation",
                 'id': '1e9fbf90-27da-443e-910d-47f065efa49c',
-                'image': "https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80",
+                'image': "/static/images/allongement-rotation.jpg",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
                     'recYK5ljTyL3b18J3',
@@ -235,7 +235,7 @@ class CategoriesView(APIView):
             {
                 'title': "Les couverts végétaux",
                 'id': '2e9fbf90-27da-443e-910d-47f065efa49c',
-                'image': "https://images.unsplash.com/photo-1524486361537-8ad15938e1a3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80",
+                'image': "/static/images/couverts-vegetaux.jpg",
                 'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
                 'practices': [
                     'recWr7fObtkAZW0X8',
