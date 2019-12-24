@@ -24,7 +24,7 @@
         <v-icon>mdi-email</v-icon>
       </v-btn>
 
-      <v-btn icon href="/#/qui-sommes-nous">
+      <v-btn icon href="https://www.peps.beta.gouv.fr/qui-sommes-nous">
         <v-icon>mdi-information</v-icon>
       </v-btn>
     </v-app-bar>
