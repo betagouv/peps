@@ -43,7 +43,7 @@ export default {
           title: "Un service public numérique.",
           body:
             "Gratuit et pour tous.",
-          buttonUrl: "https://beta.gouv.fr/apropos/",
+          buttonUrl: "https://www.beta.gouv.fr/apropos/",
           buttonText: "En savoir plus"
         }
       ]
