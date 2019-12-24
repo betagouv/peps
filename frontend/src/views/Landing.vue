@@ -6,10 +6,11 @@
       >Les pratiques économes en produits phytosanitaires à portée de clic</div>
       <v-divider class="ma-5" />
 
-      <div class="title">Des suggestions de pratiques adaptées à votre situation</div>
+      <div class="title">Des suggestions de pratiques pour mon exploitation</div>
       <v-card-text>
         3 minutes pour décrire votre exploitation
-        <br />3 pratiques qui répondent à votre problématique
+        <br />
+        3 pratiques qui me correspondent
       </v-card-text>
       <v-btn
         class="text-none body-1"
