@@ -2,10 +2,10 @@
   <div>
     <v-divider style="margin-bottom: 25px;" />
 
-    <div>
-      <div style="text-align: center; margin-bottom: 12px;">
+    <div style="text-align:center;">
+      <a href="https://www.beta.gouv.fr/apropos/" target="_blank" style="text-align: center; margin-bottom: 12px;">
         <img src="/static/images/betagouv.png" style="height:35px; opacity:0.5;" />
-      </div>
+      </a>
 
       <div
         class="d-flex flex-no-wrap justify-space-between"
@@ -16,7 +16,7 @@
           class="caption fill-height ma-3"
           style="text-align: left;"
         >Peps est un service proposé par le Ministère de l'Agriculture et de l'Alimentation dans le cadre du plan Ecophyto
-        <br /> <a href="https://www.peps.beta.gouv.fr/qui-sommes-nous" target="_blank">En savoir plus</a>
+        <br /> <a href="/#/qui-sommes-nous" target="_blank">En savoir plus</a>
         </div>
       </div>
 

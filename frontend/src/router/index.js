@@ -7,6 +7,7 @@ import PolitiqueConfidentialite from '@/views/PolitiqueConfidentialite.vue'
 import Landing from '@/views/Landing.vue'
 import Category from '@/views/Category.vue'
 import PracticeView from '@/views/PracticeView.vue'
+import About from '@/views/About.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,7 @@ const routes = [
     component: FormsContainer,
   },
   {
-    path: '/category/:categoryId',
+    path: '/categorie/:categoryId',
     name: 'Category',
     component: Category,
     props: (route) => ({
@@ -35,7 +36,7 @@ const routes = [
     })
   },
   {
-    path: '/practice/:practiceId',
+    path: '/pratique/:practiceId',
     name: 'Practice',
     component: PracticeView,
     props: (route) => ({
@@ -48,9 +49,14 @@ const routes = [
     component: PolitiqueConfidentialite,
   },
   {
+    path: '/qui-sommes-nous',
+    name: 'QuiSommesNous',
+    component: About,
+  },
+  {
     path: '*',
     redirect: {
-      name: 'FormsContainer'
+      name: 'Landing'
     },
   },
 ]
@@ -58,7 +64,7 @@ const routes = [
 const router = new VueRouter({
   routes,
   scrollBehavior (to, from, savedPosition) {
-    if (to.name === 'PolitiqueConfidentialite')
+    if (to.name === 'PolitiqueConfidentialite' || to.name === 'QuiSommesNous')
       return { x: 0, y: 0 }
     return savedPosition
   }
