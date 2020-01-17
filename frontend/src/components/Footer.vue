@@ -1,46 +1,141 @@
 <template>
   <div>
-    <v-divider style="margin-bottom: 25px;" />
+    <v-divider style="margin-bottom: 10px; margin-top: 25px;" />
 
     <div style="text-align:center;">
-      <a href="https://www.beta.gouv.fr/apropos/" target="_blank" style="text-align: center; margin-bottom: 12px;">
-        <img src="/static/images/betagouv.png" style="height:35px; opacity:0.5;" />
-      </a>
+      <v-container style="max-width: 900px;">
+        <v-row align="start">
+          <v-col cols="6" sm="1" :style="'padding:' + minAgriPadding + ';'">
+            <v-img
+              class="white--text align-start"
+              position="top"
+              contain
+              :max-height="imageMaxHeight"
+              src="/static/images/minagri.png"
+            />
+          </v-col>
 
-      <div
-        class="d-flex flex-no-wrap justify-space-between"
-        style="color: #777; text-align: center; max-width: 450px; margin-left: auto; margin-right: auto;"
-      >
-        <img src="/static/images/minagri.png" class="ma-3" height='70px' style="opacity:0.5;" />
-        <div
-          class="caption fill-height ma-3"
-          style="text-align: left;"
-        >Peps est un service proposé par le Ministère de l'Agriculture et de l'Alimentation dans le cadre du plan Ecophyto
-        <br /> <a href="/#/qui-sommes-nous" target="_blank">En savoir plus</a>
-        </div>
+          <v-col cols="6" sm="2" :style="'padding:' + minEcoPadding + ';'">
+            <v-img
+              class="white--text align-start"
+              position="top"
+              contain
+              :max-height="imageMaxHeight"
+              src="/static/images/mineco.png"
+            />
+          </v-col>
+
+          <v-col cols="12" sm="3">
+            <p class="text-left caption">
+              Peps est un service proposé par le Ministère de l’Agriculture et de l’Alimentation
+              et le Ministère de la Transiton Écologique et Solidaire dans le cadre du plan Ecophyto
+            </p>
+          </v-col>
+
+          <v-col cols="12" sm="2" :style="'padding: ' + listPadding + ';'">
+            <ul class="text-left caption">
+              <li class="font-weight-bold">Peps</li>
+              <li>
+                <a href="/#/formulaire">Simulateur</a>
+              </li>
+              <li>
+                <a href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
+              </li>
+              <li>
+                <a href="/#/qui-sommes-nous">En savoir plus</a>
+              </li>
+              <li>
+                <a href="/#/politique-de-confidentialite">Politique de confidentialité</a>
+              </li>
+            </ul>
+          </v-col>
+
+          <v-col cols="12" sm="2" :style="'padding: ' + listPadding + ';'">
+            <ul class="text-left caption">
+              <li class="font-weight-bold">Les pratiques</li>
+              <li v-for="(category, index) in categories" :key="index">
+                <a :href="'/#/categorie/' + category.id">{{category.title}}</a>
+              </li>
+            </ul>
+          </v-col>
+
+          <v-col cols="12" sm="2" :style="'padding: ' + listPadding + ';'">
+            <ul class="text-left caption">
+              <li class="font-weight-bold">Reseaux sociaux</li>
+              <li>
+                <a target="_blank" href="https://www.facebook.com/pepsagriculture/">Facebook</a>
+              </li>
+              <li>
+                <a target="_blank" href="https://twitter.com/pepsagriculture">Twitter</a>
+              </li>
+            </ul>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <div style="padding-top:20px;">
+        <a href="https://www.beta.gouv.fr/apropos/" target="_blank" style="text-align: center;">
+          <img src="/static/images/betagouv.png" style="height:35px; opacity:0.5;" />
+        </a>
       </div>
 
       <div
         class="caption ma-2"
-        style="color: #777; text-align: center;"
+        style="color: #777; text-align: center; padding-bottom: 20px;"
       >{{ new Date().getFullYear() }} — Peps</div>
-      <div class="caption" style="color: #777; text-align: center;">
-        <a href="/#/politique-de-confidentialite">Politique de confidentialité</a>
-      </div>
-      <div style="text-align: center; margin-bottom: 20px;">
-        <v-btn icon class="mx-2" href="https://twitter.com/pepsagriculture" target="_blank">
-          <v-icon size="24px">mdi-twitter</v-icon>
-        </v-btn>
-        <v-btn icon class="mx-2" href="https://www.facebook.com/pepsagriculture/" target="_blank">
-          <v-icon size="24px">mdi-facebook-box</v-icon>
-        </v-btn>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Footer"
+  name: "Footer",
+  computed: {
+    categories() {
+      return this.$store.state.categories
+    },
+    listPadding() {
+      if (this.$vuetify.breakpoint.name === 'xs') {
+        return '10px'
+      }
+      return '10px 0 0 0'
+    },
+    imageMaxHeight() {
+      if (this.$vuetify.breakpoint.name === 'xs') {
+        return '120px'
+      }
+      return undefined
+    },
+    minAgriPadding() {
+      if (this.$vuetify.breakpoint.name === 'xs') {
+        return '12px'
+      }
+      return '12px 0px 12px 12px'
+    },
+    minEcoPadding() {
+      if (this.$vuetify.breakpoint.name === 'xs') {
+        return '12px 12px 12px 0'
+      }
+      return '12px'
+    },
+  }
 }
 </script> 
+
+<style scoped>
+.v-application ul {
+  list-style: outside none none;
+  padding-left: 0;
+}
+.v-application .caption {
+  font-size: 0.65rem !important;
+}
+li a {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+li a:hover {
+  text-decoration: underline;
+}
+</style>
