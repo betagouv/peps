@@ -39,7 +39,7 @@
                 <a href="/#/formulaire">Simulateur</a>
               </li>
               <li>
-                <a href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
+                <a target="_blank" href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
               </li>
               <li>
                 <a href="/#/qui-sommes-nous">En savoir plus</a>
