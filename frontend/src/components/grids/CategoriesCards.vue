@@ -8,7 +8,7 @@
             outlined
             @click="goToCategory(category)"
             slot-scope="{ hover }"
-            :elevation="hover ? 4 : 0"
+            :elevation="hover ? 4 : 1"
           >
             <v-img class="white--text align-end" height="100px" :src="category.image" />
             <v-card-text>{{ category.title }}</v-card-text>

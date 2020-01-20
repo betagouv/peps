@@ -23,6 +23,7 @@
             :options="reasonsOptions"
             updateActionName="addImplementationFormData"
             storeDataName="implementationFormData"
+            class="pa-3"
           />
           <v-card-text
             style="padding-top: 0; padding-bottom: 0; color: #333;"
@@ -34,6 +35,7 @@
             :options="contactOptions"
             updateActionName="addContactFormData"
             storeDataName="contactFormData"
+            class="pa-3"
           />
           <div style="padding-right: 10px; text-align: right">
             <v-btn class="text-none body-1 practice-buttons" @click="cancelImplementation()" rounded>Annuler</v-btn>

@@ -63,13 +63,17 @@ const routes = [
 
 const router = new VueRouter({
   routes,
+  previousRoute: null,
   scrollBehavior (to, from, savedPosition) {
     if (to.name === 'PolitiqueConfidentialite' || to.name === 'QuiSommesNous')
       return { x: 0, y: 0 }
     return savedPosition
   }
 })
-
+router.beforeEach((to, from, next) => {
+  router.previousRoute = from
+  next()
+})
 router.afterEach((route) => window.sendPageView ? window.sendPageView(route) : undefined)
 
 export default router

@@ -2,7 +2,7 @@
   <v-container class="ma-0 pa-0">
     <v-row>
       <v-col v-for="(item, index) in descriptionItems" :key="index" cols="12" sm="6">
-        <v-card class="pa-0 fill-height" outlined>
+        <v-card class="pa-0 fill-height">
           <v-card-title class="subtitle-2">{{ item.title }}</v-card-title>
           <v-card-text style="margin-bottom: 40px;">{{ item.body }}</v-card-text>
           <v-btn

@@ -2,12 +2,10 @@
   <v-app>
     <Header />
     <ErrorMessage :visible="showErrorMessage" />
-    <v-content style="background: #EEE;">
-      <v-container style="max-width: 900px;">
-        <transition name="fade">
-          <router-view />
-        </transition>
-      </v-container>
+    <v-content>
+      <transition name="fade">
+        <router-view />
+      </transition>
       <Footer v-show="loadingComplete" />
     </v-content>
   </v-app>
@@ -24,7 +22,7 @@ export default {
   components: {
     Header,
     Footer,
-    ErrorMessage,
+    ErrorMessage
   },
   mounted() {
     this.$store.dispatch("resetLoaders")
@@ -55,7 +53,7 @@ export default {
         this.$store.state.implementationLoadingStatus === error
       )
     }
-  },
+  }
 }
 </script>
 
@@ -65,6 +63,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+
+body {
+  background: #fff;
 }
 
 body .buorg {
@@ -79,15 +81,25 @@ body .buorg .buorg-buttons {
   margin-bottom: 15px;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .25s ease-out;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease-out;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
-.v-card__text, .v-card__title {
+.v-card__text,
+.v-card__title {
   word-break: normal !important;
 }
 
+.theme--light.v-application {
+  background: transparent !important;
+}
+
+.constrained {
+  max-width: 900px;
+}
 </style>

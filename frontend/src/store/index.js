@@ -233,7 +233,7 @@ export default new Vuex.Store({
         let practice = state.suggestions.find(x => x.id === practiceId)
         if (practice)
           return practice
-        
+
         for (let i = 0; i < state.categories.length; i++) {
           const category = state.categories[i]
           practice = category.practices.find(x => x.id === practiceId)

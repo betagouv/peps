@@ -1,6 +1,6 @@
 <template>
-  <v-card :elevation="elevation">
-    <v-container>
+  <div>
+    <v-container class="pa-0">
       <InfoWell
         v-if="!!schema.description"
         :description="schema.description"
@@ -50,7 +50,7 @@
         />
       </div>
     </v-container>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -87,9 +87,6 @@ export default {
     },
     updateActionName: {
       type: String
-    },
-    elevation: {
-      default: undefined
     }
   },
   computed: {

@@ -1,38 +1,49 @@
 <template>
   <div>
-    <Loader v-if="loading" :title="loadingTitle" :text="loadingSubtitle" :loading="loading" />
-    <div v-else-if="suggestions && suggestions.length > 0">
-      <v-card class="form-info" color="#fafafa" elevation="0" style="margin-bottom: 15px; margin-top: 5px;">
-        <v-card-text>
-          {{ description }}
-          <span style="text-decoration: underline; cursor: pointer;" @click="goToForm()">Revenir au formulaire</span>.
-        </v-card-text>
+    <Title :title="title" :breadcrumbs="breadcrumbs" />
+    <v-container class="constrained">
+      <Loader v-if="loading" :title="loadingTitle" :text="loadingSubtitle" :loading="loading" />
+      <div v-else-if="suggestions && suggestions.length > 0">
+        <v-card
+          class="form-info"
+          color="#fafafa"
+          elevation="0"
+          style="margin-bottom: 15px; margin-top: 5px;"
+        >
+          <v-card-text>
+            {{ description }}
+            <span
+              style="text-decoration: underline; cursor: pointer;"
+              @click="goToForm()"
+            >Revenir au formulaire</span>.
+          </v-card-text>
+        </v-card>
+        <div v-for="suggestion in suggestions" :key="suggestion.id">
+          <Practice
+            :practice="suggestion.practice"
+            style="margin-bottom: 15px;"
+            @implement="tryPractice(suggestion.practice)"
+            @blacklist="blacklistPractice(suggestion.practice)"
+          />
+        </div>
+      </div>
+      <ImplementationOverlay
+        :practice="implementationPractice"
+        @done="implementationPractice = null"
+      />
+      <DiscardOverlay :practice="discardPractice" @done="discardPractice = null" />
+      <v-card v-if="!loading && suggestions.length === 0">
+        <v-card-title>Vous cherchez des pratiques alternatives ?</v-card-title>
+        <v-card-text>Pour vous proposer des pratiques alternatives nous avons besoin de quelques informations. C'est par ici pour répondre aux questions :</v-card-text>
+        <div style="padding-right: 10px; padding-bottom: 10px; text-align: right">
+          <v-btn
+            class="text-none body-1 practice-buttons"
+            @click="goToForm(); reloadLocation()"
+            rounded
+          >🖊️ Répondre au formulaire</v-btn>
+        </div>
       </v-card>
-      <div v-for="suggestion in suggestions" :key="suggestion.id">
-        <Practice
-          :practice="suggestion.practice"
-          style="margin-bottom: 15px;"
-          @implement="tryPractice(suggestion.practice)"
-          @blacklist="blacklistPractice(suggestion.practice)"
-        />
-      </div>
-    </div>
-    <ImplementationOverlay
-      :practice="implementationPractice"
-      @done="implementationPractice = null"
-    />
-    <DiscardOverlay :practice="discardPractice" @done="discardPractice = null" />
-    <v-card v-if="!loading && suggestions.length === 0">
-      <v-card-title>Vous cherchez des pratiques alternatives ?</v-card-title>
-      <v-card-text>Pour vous proposer des pratiques alternatives nous avons besoin de quelques informations. C'est par ici pour répondre aux questions :</v-card-text>
-      <div style="padding-right: 10px; padding-bottom: 10px; text-align: right">
-        <v-btn
-          class="text-none body-1 practice-buttons"
-          @click="goToForm(); reloadLocation()"
-          rounded
-        >🖊️ Répondre au formulaire</v-btn>
-      </div>
-    </v-card>
+    </v-container>
   </div>
 </template>
 
@@ -42,6 +53,7 @@ import Constants from "@/constants"
 import Practice from "@/components/Practice.vue"
 import ImplementationOverlay from "@/components/ImplementationOverlay"
 import DiscardOverlay from "@/components/DiscardOverlay"
+import Title from "@/components/Title.vue"
 
 export default {
   name: "results",
@@ -49,9 +61,27 @@ export default {
     Loader,
     Practice,
     ImplementationOverlay,
-    DiscardOverlay
+    DiscardOverlay,
+    Title
   },
   data: () => ({
+    title: "Résultats",
+    breadcrumbs: [
+      {
+        text: "Accueil",
+        disabled: false,
+        href: "/#/"
+      },
+      {
+        text: "Simulateur",
+        disabled: false,
+        href: "/#/formulaire"
+      },
+      {
+        text: 'Résultats',
+        disabled: true
+      }
+    ],
     loadingTitle: "⌛️ Nous cherchons des pratiques alternatives",
     loadingSubtitle:
       "Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation",
@@ -90,7 +120,7 @@ export default {
     },
     reloadLocation() {
       window.location.reload()
-    },
+    }
   },
   watch: {
     blacklist() {

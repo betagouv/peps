@@ -7,7 +7,7 @@
             class="pa-0 fill-height"
             outlined
             slot-scope="{ hover }"
-            :elevation="hover ? 4 : 0"
+            :elevation="hover ? 4 : 1"
             @click="goToPractice(practice)"
           >
             <v-img

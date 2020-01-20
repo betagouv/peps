@@ -1,24 +1,41 @@
 <template>
-  <v-card class="pa-5">
-    <div
-      class="display-1 primary--text"
-    >{{ category.title }}</div>
-    <v-divider class="ma-5" />
+  <div>
+    <Title :title="category.title" :breadcrumbs="breadcrumbs" />
 
-    <PracticeCards :practices="category.practices" />
-  </v-card>
+    <v-container class="constrained">
+      <!-- <div class="body-2" style="margin-top: 10px; margin-bottom: 10px;">{{ category.description }}</div> -->
+
+      <PracticeCards :practices="category.practices" />
+    </v-container>
+  </div>
 </template>
 
 <script>
-import PracticeCards from '@/components/grids/PracticeCards.vue'
+import PracticeCards from "@/components/grids/PracticeCards.vue"
+import Title from "@/components/Title.vue"
 
 export default {
   name: "Category",
-  components: { PracticeCards },
+  components: { PracticeCards, Title },
   props: {
     category: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    breadcrumbs() {
+      return [
+        {
+          text: "Accueil",
+          disabled: false,
+          href: "/#/"
+        },
+        {
+          text: this.category.title,
+          disabled: true
+        }
+      ]
     }
   }
 }

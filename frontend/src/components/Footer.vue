@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background: #EEE;">
     <v-divider style="margin-bottom: 10px; margin-top: 25px;" />
 
     <div style="text-align:center;">
