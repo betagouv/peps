@@ -10,7 +10,7 @@ urlpatterns = {
     url(r'^sendTask/?$', SendTaskView.as_view(), name='send_task'),
     url(r'^discardAction/?$', DiscardActionView.as_view(), name='discard_action'),
     url(r'^stats/?$', StatsView.as_view(), name='register_stats'),
-    url(r'^categories/?$', CategoriesView.as_view(), name='register_stats'),
+    url(r'^categories/?$', CategoriesView.as_view(), name='register_categories'),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)
