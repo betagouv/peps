@@ -17,6 +17,7 @@ class Practice(models.Model):
     external_id = models.CharField(max_length=100)
     modification_date = models.DateTimeField()
     creation_date = models.DateTimeField(default=timezone.now)
+    image = models.ImageField(null=True)
 
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True, blank=True)
@@ -32,7 +33,7 @@ class Practice(models.Model):
     additional_benefits = models.TextField(null=True, blank=True)
     success_factors = models.TextField(null=True, blank=True)
 
-    image_url = models.TextField(null=True, blank=True)
+    airtable_image_url = models.TextField(null=True, blank=True)
 
     needs_shallow_tillage = models.BooleanField(blank=True, null=True)
     needs_deep_tillage = models.BooleanField(blank=True, null=True)

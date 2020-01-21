@@ -3,6 +3,8 @@ import json
 import requests
 from django.conf import settings
 from django.utils import timezone
+from django.core.files.images import ImageFile
+from django.core.files.base import ContentFile
 from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType, GlyphosateUses
 from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
@@ -119,7 +121,7 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
                             resources, json_practice_types, json_weeds, json_weed_practices, json_pests, json_pest_practices):
     practices = []
     for json_practice in json_practices:
-        practices.append(Practice(
+        practice = Practice(
             external_id=json_practice.get('id'),
             mechanism=_get_mechanism(json_practice, mechanisms),
             main_resource=_get_main_resource(json_practice, resources),
@@ -143,7 +145,7 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             added_cultures=_get_added_cultures(json_practice),
             culture_whitelist=_get_culture_whitelist(json_practice),
             problems_addressed=_get_problems_addressed(json_practice),
-            image_url=_get_image_url(json_practice),
+            airtable_image_url=_get_image_url(json_practice),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
             glyphosate_multipliers=_get_glyphosate_multipliers(json_practice, json_glyphosate, json_glyphosate_practices),
             culture_multipliers=_get_culture_multipliers(json_practice, json_culture_practices),
@@ -154,7 +156,12 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             weed_whitelist_external_ids=json_practice['fields'].get('Adventices whitelist', []),
             pest_whitelist_external_ids=json_practice['fields'].get('Ravageurs whitelist', []),
             modification_date=timezone.now(),
-        ))
+        )
+        image_name = _get_image_name(json_practice)
+        image_content_file = _get_image_content_file(json_practice)
+        if image_name and image_content_file:
+            practice.image.save(image_name, image_content_file, save=True)
+        practices.append(practice)
 
     return practices
 
@@ -445,6 +452,23 @@ def _get_image_url(json_practice):
         return None
     return json_practice['fields'].get('Image principale')[0].get('url')
 
+def _get_image_name(json_practice):
+    if not json_practice['fields'].get('Image principale'):
+        return None
+    image_id = json_practice['fields'].get('Image principale')[0].get('id') or ''
+    filename = json_practice['fields'].get('Image principale')[0].get('filename') or ''
+    extension = filename.split('.')[-1]
+    return image_id + '.' + extension if image_id and filename else None
+
+def _get_image_content_file(json_practice):
+    image_url = _get_image_url(json_practice)
+    if not image_url:
+        return None
+    try:
+        image_content = requests.get(image_url)
+        return ContentFile(image_content.content)
+    except Exception as _:
+        return None
 
 def _fetch_mechanisms(json_mechanisms):
     mechanisms = []

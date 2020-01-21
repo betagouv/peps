@@ -48,7 +48,7 @@ class PracticeSerializer(serializers.ModelSerializer):
     main_resource = ResourceSerializer()
     secondary_resources = ResourceSerializer(many=True)
     types = PracticeTypeSerializer(many=True)
-
+    image_url = serializers.ImageField(source='image', use_url=True)
     class Meta:
         model = Practice
         fields = (

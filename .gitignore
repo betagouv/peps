@@ -64,6 +64,11 @@ local_settings.py
 static/*
 !static/.keep
 
+# Ignore our destination of media files
+# except the .keep to keep it in git
+media/*
+!media/.keep
+
 # Flask stuff:
 instance/
 .webassets-cache

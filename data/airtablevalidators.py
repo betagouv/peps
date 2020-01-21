@@ -54,6 +54,11 @@ def validate_practices(airtable_practices):
             message = 'Pratique "%s" (ID %s) a une difficulté incorrecte (ça doit être entre 0 et 1)' % (practice_title, practice_id)
             errors.append(AirtableError(message, url=url))
 
+        if fields.get('Image principale') and fields.get('Image principale')[0].get('size') > 400000:
+            size = fields.get('Image principale')[0].get('size') / 1000
+            message = 'Pratique "%s" (ID %s) a une image trop lourde (ça pèse %s ko)' % (practice_title, practice_id, str(size))
+            errors.append(AirtableError(message, fatal=False, url=url))
+
         for json_problem in fields.get('Problèmes adressés', []):
             try:
                 Problem[json_problem]
