@@ -50,6 +50,12 @@ PEPS_MJ_APIKEY_PUBLIC=xxxxxxxx
 PEPS_MJ_APIKEY_PRIVATE=xxxxxxxx
 PEPS_ASANA_PERSONAL_TOKEN=xxxxxxxx
 PEPS_ASANA_PROJECT=xxxxxxxx
+PEPS_STATICFILES_STORAGE='django.contrib.staticfiles.storage.StaticFilesStorage'
+PEPS_DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage'
+PEPS_CELLAR_HOST=''
+PEPS_CELLAR_KEY=''
+PEPS_CELLAR_SECRET=''
+PEPS_CELLAR_BUCKET_NAME=''
 ```
 
 ### Make initial migration and create super user
