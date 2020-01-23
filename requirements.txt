@@ -4,7 +4,7 @@ boto3==1.11.5
 botocore==1.14.5
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.2.8
+Django==2.2.9
 django-storages==1.8
 django-webpack-loader==0.6.0
 djangorestframework==3.10.2
