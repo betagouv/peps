@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import AirtableAdapter
-from data.models import Practice, DiscardAction, RefererCount, GroupCount
+from data.models import Practice, DiscardAction, RefererCount, GroupCount, Category
 from api.views import SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -384,12 +384,32 @@ class TestApi(TestCase):
         self.assertEqual(cooperative_ou_negoce.first().counter, 1)
 
 
+    def test_get_categories(self):
+        """
+        Tests the categories API endpoint.
+        """
+
+        self.client.logout()
+        response = self.client.get(reverse('get_categories'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # There must be three categories
+        body = json.loads(response.content.decode())
+        self.assertEqual(len(body), 3)
+
+
 def _populate_database():
     User.objects.create_user(username='testuser', password='12345')
     for external_id in ('recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'):
         Practice(
             external_id=external_id,
             modification_date=timezone.now(),
+        ).save()
+    for category_id in ('rec82929kfas9i', 'rec0098afaooka', 'recppasf09aii'):
+        Category(
+            external_id=category_id,
+            modification_date=timezone.now(),
+            practice_external_ids=[]
         ).save()
 
 

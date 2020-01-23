@@ -4,14 +4,14 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
 from data.adapters import AirtableAdapter
-from data.models import GroupCount, RefererCount, Practice
+from data.models import GroupCount, RefererCount, Category
 from api.engine import Engine
-from api.serializers import ResponseSerializer, DiscardActionSerializer, PracticeSerializer
+from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
 from api.formschema import get_form_schema
 from api.models import Response
 
@@ -163,103 +163,9 @@ class StatsView(APIView):
             RefererCount.create_or_increment(RefererCount.Referer[referer])
 
 
-class CategoriesView(APIView):
-    """
-    This view will return the categories to show on the UI
-    """
-
-    def get(self, request):
-        categories = [
-            {
-                'title': "À faire cet hiver",
-                'id': 'fe9fbf90-27da-443e-910d-47f065efa49c',
-                'image': "/static/images/a-faire-cet-hiver.jpg",
-                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': [
-                    'rec5RshLKLcZfQ2t9',
-                    'recD7QrzTgOBT5OHl',
-                    'receGroWCXTPC5kat',
-                ],
-            },
-            {
-                'title': "Les plantes compagnes",
-                'id': 'fe9fbf90-27da-443e-910d-47f065efa49d',
-                'image': "/static/images/les-plantes-compagnes.jpg",
-                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': [
-                    'recKs8PER2AqemNs1',
-                    'recze8GDGOm8i4ul9',
-                    'reckSRYZHVC6QDxe3',
-                ],
-            },
-            {
-                'title': "Avec une herse étrille",
-                'id': 'fe9fbf90-27da-443e-910d-47f065efa49e',
-                'image': "/static/images/avec-herse-etrille.jpg",
-                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': [
-                    'recx8ErM9GlGA6BD2',
-                    'recplecMZuFr1VHAA',
-                    'recxDViQ7ZEcVTCJa',
-                    'recfZ5QS7cr7sQR2G'
-                ],
-            },
-            {
-                'title': "Optimisation des doses",
-                'id': 'fe9fbf90-27da-443e-910d-47f065efa49f',
-                'image': "/static/images/optimisation-doses.jpg",
-                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': [
-                    'recpS7kDIMsZNngR0',
-                    'recKYJpnfeneTJgBc',
-                    'recWQRthF3exmoOzb',
-                    'recW3L91a8BN1gwaH',
-                ],
-            },
-            {
-                'title': "Allongement de la rotation",
-                'id': '1e9fbf90-27da-443e-910d-47f065efa49c',
-                'image': "/static/images/allongement-rotation.jpg",
-                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': [
-                    'recYK5ljTyL3b18J3',
-                    'rec7A1YdAYPgyRLWM',
-                    'reckya3SPQEUPEnH1',
-                    'reccdlRtfXVIVKrvx',
-                    'recPHhsiuCrUxgQ9P',
-                    'recv3EGEPhu0meZkB',
-                    'rec0ZC79AGBk0vuTv',
-                    'recRxwOf6OQtk70Nl',
-                ],
-            },
-            {
-                'title': "Les couverts végétaux",
-                'id': '2e9fbf90-27da-443e-910d-47f065efa49c',
-                'image': "/static/images/couverts-vegetaux.jpg",
-                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                'practices': [
-                    'recWr7fObtkAZW0X8',
-                    'recsfFchGtjnBQ2NQ',
-                    'recrD49Ih5S54FOhq',
-                    'recKs8PER2AqemNs1',
-                    'recze8GDGOm8i4ul9',
-                ],
-            }
-        ]
-        response = []
-        all_practice_ids = list(dict.fromkeys(list(chain.from_iterable(map(lambda x: x['practices'], categories)))))
-        all_practices = list(Practice.objects.filter(external_id__in=all_practice_ids))
-
-        for category in categories:
-            practices = list(filter(lambda x: x.external_id in category['practices'], all_practices))
-            response.append({
-                'title': category['title'],
-                'image': category['image'],
-                'id': category['id'],
-                'description': category['description'],
-                'practices': PracticeSerializer(practices, many=True).data,
-            })
-        return JsonResponse(response, status=200, safe=False)
+class CategoriesView(ListAPIView):
+    queryset = Category.objects
+    serializer_class = CategorySerializer
 
 
 class DiscardActionView(CreateAPIView):

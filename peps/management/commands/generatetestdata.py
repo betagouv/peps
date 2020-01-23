@@ -26,6 +26,7 @@ MOCK_PATHS = {
     'Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
     'Pratiques%2FGlyphosate?view=Grid%20view': '/testdata/practices_glyphosate.json',
     'Glyphosate?view=Grid%20view': '/testdata/glyphosate.json',
+    'Categories?view=Grid%20view': '/testdata/categories.json',
 }
 
 class Command(BaseCommand):
