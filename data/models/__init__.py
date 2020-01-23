@@ -13,4 +13,3 @@ from .glyphosateuses import GlyphosateUses
 from .discardaction import DiscardAction
 from .groupcount import GroupCount
 from .referercount import RefererCount
-from .category import Category

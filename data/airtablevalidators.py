@@ -223,8 +223,8 @@ def validate_cultures(airtable_cultures):
 
         return errors
 
-    for culture in airtable_cultures:
-        errors += get_culture_errors(culture)
+    for pest in airtable_cultures:
+        errors += get_culture_errors(pest)
 
     return errors
 
@@ -259,8 +259,8 @@ def validate_glyphosate_uses(airtable_glyphosate):
 
         return errors
 
-    for usage in airtable_glyphosate:
-        errors += get_glyphosate_errors(usage)
+    for pest in airtable_glyphosate:
+        errors += get_glyphosate_errors(pest)
 
     return errors
 
@@ -296,45 +296,7 @@ def validate_resources(airtable_resources):
 
         return errors
 
-    for resource in airtable_resources:
-        errors += get_resource_errors(resource)
+    for pest in airtable_resources:
+        errors += get_resource_errors(pest)
 
     return errors
-
-def validate_categories(airtable_categories):
-    """
-    Returns an array of errors from categories
-    """
-    errors = []
-
-    def get_category_errors(category):
-        errors = []
-        fields = category['fields']
-        category_id = category['id']
-        category_title = fields.get('Title')
-        category_image = fields.get('Image')
-        url = 'https://airtable.com/tblJ8W5fjnatj4hki/viwtrkk3q5twjupNn/recoU540M3R2rEN8U/%s' % category_id
-
-        if not category_title:
-            message = 'La categorie ID %s n\'a pas de title (colonne Title)' % category_id
-            errors.append(AirtableError(message, url=url))
-
-        if not category_image:
-            message = 'La categorie "%s" (ID %s) n\'a pas d\'image (colonne Image)' % (category_title, category_id)
-            errors.append(AirtableError(message, url=url))
-
-        if not fields.get('Practices'):
-            message = 'La categorie "%s" (ID %s) n\'a pas de pratiques assignées (colonne Practices)' % (category_title, category_id)
-            errors.append(AirtableError(message, url=url))
-
-        if not fields.get('Description'):
-            message = 'La categorie "%s" (ID %s) n\'a pas de description (colonne Description)' % (category_title, category_id)
-            errors.append(AirtableError(message, fatal=False, url=url))
-
-        return errors
-
-    for category in airtable_categories:
-        errors += get_category_errors(category)
-
-    return errors
-

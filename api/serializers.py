@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from data.models import Practice, Mechanism, Resource, PracticeType
-from data.models import DiscardAction, Category
+from data.models import Practice, Mechanism, Resource, PracticeType, DiscardAction
 
 
 class MechanismSerializer(serializers.ModelSerializer):
@@ -102,16 +101,4 @@ class DiscardActionSerializer(serializers.ModelSerializer):
         fields = (
             'practice_airtable_id',
             'reason',
-        )
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = (
-            'id',
-            'image',
-            'airtable_url',
-            'title',
-            'description',
-            'practices',
         )
