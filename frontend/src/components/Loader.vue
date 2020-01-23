@@ -1,6 +1,6 @@
 <template>
   <v-overlay :value="loading" :dark="false">
-    <v-card style="width: 500px">
+    <v-card style="width: 500px; max-height: 80vh;" class="overflow-y-auto">
     <v-card-title>{{title}}</v-card-title>
     <v-card-text v-if="text != ''">{{text}}</v-card-text>
       <v-card-text>

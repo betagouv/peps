@@ -2,7 +2,7 @@
   <div v-if="visible">
     <v-overlay :value="visible" :dark="false">
       <v-card
-        style="margin-left: 10px; margin-right: 10px; max-width: 600px;"
+        style="margin-left: 10px; margin-right: 10px; max-width: 600px; max-height: 80vh;"
         class="overflow-y-auto"
       >
         <v-card-title>{{ title }}</v-card-title>

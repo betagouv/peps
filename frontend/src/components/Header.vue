@@ -32,7 +32,7 @@
       <v-btn @click="blacklistDialog = false" class="close-overlay" fab dark small color="grey lighten-5">
         <v-icon color="red darken-3">mdi-close</v-icon>
       </v-btn>
-      <Blacklist></Blacklist>
+      <Blacklist style="max-height: 80vh;" class="overflow-y-auto"></Blacklist>
     </v-overlay>
   </div>
 </template>
