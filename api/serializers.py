@@ -105,6 +105,8 @@ class DiscardActionSerializer(serializers.ModelSerializer):
         )
 
 class CategorySerializer(serializers.ModelSerializer):
+    practices = PracticeSerializer(many=True)
+
     class Meta:
         model = Category
         fields = (
