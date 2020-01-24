@@ -20,12 +20,20 @@
         </v-btn>
       </v-badge>
 
-      <v-btn icon href="/#/contact">
-        <v-icon>mdi-email</v-icon>
+      <v-btn
+        text
+        elevation=0
+        href="/#/qui-sommes-nous"
+      >
+        <v-icon class="d-flex d-sm-none">mdi-information</v-icon><span class="caption text-none d-none d-sm-flex">En savoir plus</span>
       </v-btn>
 
-      <v-btn icon href="/#/qui-sommes-nous">
-        <v-icon>mdi-information</v-icon>
+      <v-btn
+        text
+        elevation=0
+        href="/#/contact"
+      >
+        <v-icon class="d-flex d-sm-none">mdi-email</v-icon><span class="caption text-none d-none d-sm-flex">Contact</span>
       </v-btn>
     </v-app-bar>
     <v-overlay :value="blacklistDialog" :dark="false">
