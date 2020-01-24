@@ -24,18 +24,19 @@ describe('ErrorMessage.vue', () => {
     expect(wrapper.findAll('button').length).toBe(1)
   })
 
-  it('renders a retry button that triggers onRetry function', () => {
-    const onRetry = jest.fn()
+  it('renders a cta that triggers the ctaAction function', () => {
+    const ctaAction = jest.fn()
     const wrapper = mount(ErrorMessage, {
       localVue,
       vuetify,
       propsData: {
         visible: true,
-        onRetry: onRetry
+        ctaText: 'Click me',
+        ctaAction: ctaAction
       }
     })
-    const retryButton = wrapper.findAll('button').wrappers.find(x => x.text() === 'Ressayer')
-    retryButton.trigger('click')
-    expect(onRetry).toHaveBeenCalledTimes(1)
+    const ctaButton = wrapper.findAll('button').wrappers.find(x => x.text() === 'Click me')
+    ctaButton.trigger('click')
+    expect(ctaAction).toHaveBeenCalledTimes(1)
   })
 })

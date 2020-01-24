@@ -20,7 +20,7 @@
         </v-btn>
       </v-badge>
 
-      <v-btn icon href="mailto:peps@beta.gouv.fr" target="_blank">
+      <v-btn icon href="/#/contact">
         <v-icon>mdi-email</v-icon>
       </v-btn>
 

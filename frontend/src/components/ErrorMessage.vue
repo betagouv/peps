@@ -1,6 +1,17 @@
 <template>
   <div v-if="visible">
     <v-overlay :value="visible" :dark="false">
+      <v-btn 
+        @click="close()"
+        class="close-overlay"
+        fab
+        dark
+        small
+        color="grey lighten-5"
+        v-if="this.showCloseButton"
+      >
+        <v-icon color="red darken-3">mdi-close</v-icon>
+      </v-btn>
       <v-card
         style="margin-left: 10px; margin-right: 10px; max-width: 600px; max-height: 80vh;"
         class="overflow-y-auto"
@@ -9,8 +20,8 @@
         <v-card-text>
           {{ body }}
 
-          <div style="margin-top: 20px; padding-right: 10px; text-align: right">
-            <v-btn class="text-none body-1 practice-buttons" @click="reload()" rounded>Recharger la page</v-btn>
+          <div style="margin-top: 20px; padding-right: 10px; text-align: right" v-if="this.ctaText && this.ctaAction">
+            <v-btn class="text-none body-1 practice-buttons" @click="ctaAction()" rounded>{{ this.ctaText }}</v-btn>
             <v-btn
               v-if="onRetry"
               class="text-none body-1 practice-buttons"
@@ -43,12 +54,22 @@ export default {
     visible: {
       type: Boolean,
       required: true,
+    },
+    ctaText: {
+      type: String,
+    },
+    ctaAction: {
+      type: Function,
+    },
+    showCloseButton: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
-    reload() {
-      location.reload()
-    }
+    close() {
+      this.$emit("done")
+    },
   }
 }
 </script>

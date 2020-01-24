@@ -8,6 +8,7 @@ import Landing from '@/views/Landing.vue'
 import Category from '@/views/Category.vue'
 import PracticeView from '@/views/PracticeView.vue'
 import About from '@/views/About.vue'
+import Contact from '@/views/Contact.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ const routes = [
     path: '/qui-sommes-nous',
     name: 'QuiSommesNous',
     component: About,
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact,
   },
   {
     path: '*',

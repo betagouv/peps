@@ -45,6 +45,9 @@
                 <a href="/#/qui-sommes-nous">En savoir plus</a>
               </li>
               <li>
+                <a href="/#/contact">Contact</a>
+              </li>
+              <li>
                 <a href="/#/politique-de-confidentialite">Politique de confidentialité</a>
               </li>
             </ul>
