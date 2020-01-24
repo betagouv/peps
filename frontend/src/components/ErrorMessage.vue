@@ -22,13 +22,6 @@
 
           <div style="margin-top: 20px; padding-right: 10px; text-align: right" v-if="this.ctaText && this.ctaAction">
             <v-btn class="text-none body-1 practice-buttons" @click="ctaAction()" rounded>{{ this.ctaText }}</v-btn>
-            <v-btn
-              v-if="onRetry"
-              class="text-none body-1 practice-buttons"
-              color="primary"
-              @click="onRetry()"
-              rounded
-            >Ressayer</v-btn>
           </div>
         </v-card-text>
       </v-card>
@@ -40,9 +33,6 @@
 export default {
   name: "ErrorMessage",
   props: {
-    onRetry: {
-      type: Function
-    },
     title: {
       type: String,
       default: "Oups ! Une erreur est survenue"
