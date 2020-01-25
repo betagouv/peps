@@ -1,7 +1,7 @@
 from django.test import TestCase
 from data.airtablevalidators import validate_cultures, validate_glyphosate_uses, validate_pests
 from data.airtablevalidators import validate_practice_types, validate_practices, validate_weeds
-from data.airtablevalidators import validate_categories
+from data.airtablevalidators import validate_categories, validate_weed_practices, validate_pest_practices
 
 class TestValidators(TestCase):
     """
@@ -315,3 +315,65 @@ class TestValidators(TestCase):
         self.assertEqual(len(errors), 1)
         message = 'La categorie "À faire cet hiver" (ID recTr8uZvM2uLu9Mo) n\'a pas de description (colonne Description)'
         self.assertTrue(errors[0].message == message)
+
+
+    def test_weed_practice_validation(self):
+        # This is an example of a complete weed-practice relation, there should be no errors
+        json = [{
+            "id": "recQWS46mDL7nD8xS",
+            "fields": {
+                "Adventice": ["recjzIBqwGkton9Ed"],
+                "Multiplicateur": 1.05,
+                "Pratique": ["recswKhe3JNRErR0L"],
+                "Name": "Ray-grass - Collecter les menues pailles"
+            },
+        }]
+        errors = validate_weed_practices(json)
+        self.assertEqual(len(errors), 0)
+
+        # If the weed array or the practice array is empty, or a missing multiplier, we should get errors
+        json = [{
+            "id": "recQWS46mDL7nD8xS",
+            "fields": {
+                "Adventice": [],
+                "Pratique": [],
+                "Name": "Ray-grass - Collecter les menues pailles"
+            }
+        }]
+        errors = validate_weed_practices(json)
+        self.assertEqual(len(errors), 3)
+        self.assertTrue(any(x.message == 'La relation adventice-pratique ID recQWS46mDL7nD8xS n\'a pas d\'adventice (colonne Adventice)' for x in errors))
+        self.assertTrue(any(x.message == 'La relation adventice-pratique ID recQWS46mDL7nD8xS n\'a pas de pratique (colonne Pratique)' for x in errors))
+        self.assertTrue(any(x.message == 'La relation adventice-pratique ID recQWS46mDL7nD8xS n\'a pas de multiplicateur (colonne Multiplicateur)' for x in errors))
+
+
+    def test_pest_practice_validation(self):
+        # This is an example of a complete pest-practice relation, there should be no errors
+        json = [{
+            "id": "recGjZXNbp00qNxfp",
+            "fields": {
+                "Ravageur": ["recEbpaMFaFY4mtG6"],
+                "Multiplicateur": 1.1,
+                "Pratique": ["recX4K4zviP1C1fG7"],
+                "Name": "Altises - Faire paturer les couverts et les repousses"
+            },
+            "createdTime": "2019-09-10T14:06:23.000Z"
+        }]
+        errors = validate_pest_practices(json)
+        self.assertEqual(len(errors), 0)
+
+        # If the pest array or the practice array is empty, or a missing multiplier, we should get errors
+        json = [{
+            "id": "recGjZXNbp00qNxfp",
+            "fields": {
+                "Ravageur": [],
+                "Pratique": [],
+                "Name": "Altises - Faire paturer les couverts et les repousses"
+            },
+            "createdTime": "2019-09-10T14:06:23.000Z"
+        }]
+        errors = validate_pest_practices(json)
+        self.assertEqual(len(errors), 3)
+        self.assertTrue(any(x.message == 'La relation ravageur-pratique ID recGjZXNbp00qNxfp n\'a pas de ravageur (colonne Ravageur)' for x in errors))
+        self.assertTrue(any(x.message == 'La relation ravageur-pratique ID recGjZXNbp00qNxfp n\'a pas de pratique (colonne Pratique)' for x in errors))
+        self.assertTrue(any(x.message == 'La relation ravageur-pratique ID recGjZXNbp00qNxfp n\'a pas de multiplicateur (colonne Multiplicateur)' for x in errors))
