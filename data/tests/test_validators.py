@@ -1,6 +1,7 @@
 from django.test import TestCase
 from data.airtablevalidators import validate_cultures, validate_glyphosate_uses, validate_pests
 from data.airtablevalidators import validate_practice_types, validate_practices, validate_weeds
+from data.airtablevalidators import validate_categories
 
 class TestValidators(TestCase):
     """
@@ -259,4 +260,58 @@ class TestValidators(TestCase):
         errors = validate_practices(json)
         self.assertEqual(len(errors), 1)
         message = 'La pratique "[vigne] Désherber mécanique le cavaillon" (ID recopQwOR1Bxr4m5S) n\'a aucune information additionelle. Il faut au moins une parmi : matériel, période de travail, impact, bénéfices supplémentaires, ou facteur clé de succès'
+        self.assertTrue(errors[0].message == message)
+
+
+    def test_category_validation(self):
+        # This is an example of a complete category, there should be no errors
+        json = [{
+            "id": "recTr8uZvM2uLu9Mo",
+            "fields": {
+                "Title": "À faire cet hiver",
+                "Description": "Lorem Ipsum",
+                "Image": [{
+                    "id": "attb4AWbDRteZVVks",
+                    "url": "https://dl.airtable.com/.attachments/b477ef6bacc441b1368f6bdfdab3935f/270d62dc/a-faire-cet-hiver.jpg",
+                    "filename": "a-faire-cet-hiver.jpg",
+                    "size": 157238,
+                    "type": "image/jpeg",
+                }],
+                "Practices": ["rec5RshLKLcZfQ2t9", "recD7QrzTgOBT5OHl", "receGroWCXTPC5kat"]
+            }
+        }]
+        errors = validate_categories(json)
+        self.assertEqual(len(errors), 0)
+
+        # If there is no title, image or practices we should get an error
+        json = [{
+            "id": "recTr8uZvM2uLu9Mo",
+            "fields": {
+                "Description": "Lorem Ipsum",
+            }
+        }]
+        errors = validate_categories(json)
+        self.assertEqual(len(errors), 3)
+        self.assertTrue(any(x.message == 'La categorie ID recTr8uZvM2uLu9Mo n\'a pas de title (colonne Title)' for x in errors))
+        self.assertTrue(any(x.message == 'La categorie "None" (ID recTr8uZvM2uLu9Mo) n\'a pas d\'image (colonne Image)' for x in errors))
+        self.assertTrue(any(x.message == 'La categorie "None" (ID recTr8uZvM2uLu9Mo) n\'a pas de pratiques assignées (colonne Practices)' for x in errors))
+
+        # If there is no description we should get a non-fatal error
+        json = [{
+            "id": "recTr8uZvM2uLu9Mo",
+            "fields": {
+                "Title": "À faire cet hiver",
+                "Image": [{
+                    "id": "attb4AWbDRteZVVks",
+                    "url": "https://dl.airtable.com/.attachments/b477ef6bacc441b1368f6bdfdab3935f/270d62dc/a-faire-cet-hiver.jpg",
+                    "filename": "a-faire-cet-hiver.jpg",
+                    "size": 157238,
+                    "type": "image/jpeg",
+                }],
+                "Practices": ["rec5RshLKLcZfQ2t9", "recD7QrzTgOBT5OHl", "receGroWCXTPC5kat"]
+            }
+        }]
+        errors = validate_categories(json)
+        self.assertEqual(len(errors), 1)
+        message = 'La categorie "À faire cet hiver" (ID recTr8uZvM2uLu9Mo) n\'a pas de description (colonne Description)'
         self.assertTrue(errors[0].message == message)

@@ -7,8 +7,9 @@ from data.models import Problem, Weed, Pest, Culture
 from data.adapters import AirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
 
-@override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
+@override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0, MEDIA_ROOT=os.path.join(BASE_DIR, 'media/test'))
 class TestEngine(TestCase):
     def setUp(self):
         _populate_database()
@@ -22,10 +23,10 @@ class TestEngine(TestCase):
         practices = engine.calculate_results()
         suggestions = engine.get_suggestions(practices)
 
-        # There should be three practices with weight 1.5
+        # There should be two practices with weight 1.5
         self.assertEqual(len(suggestions), 3)
         weights = list(map(lambda x: x.weight, suggestions))
-        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 3)
+        self.assertEqual(len(list(filter(lambda x: x == 1.5, weights))), 2)
 
 
     def test_cultures_weight(self):
@@ -286,11 +287,11 @@ class TestEngine(TestCase):
         """
         A practice can be more (or less) useful to address certain pests, this
         is specified in the pest_multipliers field of the practice model.
-        The practice "Associer un colza avec un couvert de légumineuses"
+        The practice "Associer un colza avec un couvert de légumineuses compagnes"
         has a multiplier for the pest Charançon, here we check that said multiplier
         is taken into account by the engine.
         """
-        practice_title = "Associer un colza avec un couvert de légumineuses"
+        practice_title = "Associer un colza avec un couvert de légumineuses compagnes"
         charancon = Pest.objects.filter(display_text='Charançons').first()
         colza = Culture.objects.filter(display_text='Colza').first()
         charancon_multiplier = 1.21
@@ -801,6 +802,7 @@ def _get_mock_airtable(*args, **_):
     if not args:
         return None
     request_url = args[0]
+
     mock_paths = {
         'Pratiques?view=Grid%20view': '/testdata/practices.json',
         'Types%20de%20sol?view=Grid%20view': '/testdata/soil_types.json',
@@ -819,11 +821,20 @@ def _get_mock_airtable(*args, **_):
         'Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',
         'Liens?view=Grid%20view': '/testdata/resources.json',
         'Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
+        'Categories?view=Grid%20view': '/testdata/categories.json',
     }
     for url, path in mock_paths.items():
         if url in request_url:
             with open(CURRENT_DIR + path, 'r') as file:
                 return MockResponse(file.read(), 200)
+
+    if '.jpg' in request_url or '.JPG' in request_url or '.jpeg' in request_url or '.JPEG' in request_url:
+        with open(CURRENT_DIR + '/test-image.jpg', 'rb') as image:
+            return MockResponse(image.read(), 200)
+
+    if '.png' in request_url or '.PNG' in request_url:
+        with open(CURRENT_DIR + '/test-image.png', 'rb') as image:
+            return MockResponse(image.read(), 200)
 
 class MockResponse:
     def __init__(self, content, status_code):

@@ -6,10 +6,10 @@ from django.utils import timezone
 from django.core.files.images import ImageFile
 from django.core.files.base import ContentFile
 from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType, GlyphosateUses
-from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory
+from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory, Category
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
 from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
-from data.airtablevalidators import validate_resources
+from data.airtablevalidators import validate_resources, validate_categories
 
 
 class AirtableAdapter:
@@ -50,6 +50,9 @@ class AirtableAdapter:
         json_resources = _get_airtable_data('Liens?view=Grid%20view')
         errors += validate_resources(json_resources)
 
+        json_categories = _get_airtable_data('Categories?view=Grid%20view')
+        errors += validate_categories(json_categories)
+
         json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
         json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
         json_departments = _get_airtable_data('Departements?view=Grid%20view')
@@ -63,13 +66,17 @@ class AirtableAdapter:
         if has_fatal_errors:
             return errors
 
-        mechanisms = _fetch_mechanisms(json_mechanisms)
-
+        mechanisms = _create_mechanism_objects(json_mechanisms)
         Mechanism.objects.all().delete()
         for mechanism in mechanisms:
             mechanism.save()
 
-        resources = _fetch_resources(json_resources)
+        categories = _create_category_objects(json_categories)
+        Category.objects.all().delete()
+        for category in categories:
+            category.save()
+
+        resources = _create_resource_objects(json_resources)
         Resource.objects.all().delete()
         for resource in resources:
             resource.save()
@@ -112,6 +119,7 @@ class AirtableAdapter:
         _link_practices_with_groups(practices, practice_groups)
         _link_practices_with_resources(practices, resources)
         _link_practices_with_types(practices, practice_types)
+        _link_practices_with_categories(practices, categories)
 
         return errors
 
@@ -145,7 +153,7 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             added_cultures=_get_added_cultures(json_practice),
             culture_whitelist=_get_culture_whitelist(json_practice),
             problems_addressed=_get_problems_addressed(json_practice),
-            airtable_image_url=_get_image_url(json_practice),
+            airtable_image_url=_get_image_url(json_practice, 'Image principale'),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
             glyphosate_multipliers=_get_glyphosate_multipliers(json_practice, json_glyphosate, json_glyphosate_practices),
             culture_multipliers=_get_culture_multipliers(json_practice, json_culture_practices),
@@ -157,8 +165,8 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             pest_whitelist_external_ids=json_practice['fields'].get('Ravageurs whitelist', []),
             modification_date=timezone.now(),
         )
-        image_name = _get_image_name(json_practice)
-        image_content_file = _get_image_content_file(json_practice)
+        image_name = _get_image_name(json_practice, 'Image principale')
+        image_content_file = _get_image_content_file(json_practice, 'Image principale')
         if image_name and image_content_file:
             practice.image.save(image_name, image_content_file, save=True)
         practices.append(practice)
@@ -282,6 +290,10 @@ def _link_practices_with_types(practices, types):
         if practice.airtable_json:
             types_ids = practice.airtable_json['fields'].get('Types', [])
             practice.types.set(list(x for x in types if x.external_id in types_ids))
+
+def _link_practices_with_categories(practices, categories):
+    for category in categories:
+        category.practices.set(list(x for x in practices if x.external_id in category.practice_external_ids))
 
 def _get_weed_multipliers(json_practice, json_weeds, json_weed_practices):
     concerned_weed_practices = list(filter(lambda x: json_practice['id'] in (x['fields'].get('Pratique') or []), json_weed_practices))
@@ -446,22 +458,21 @@ def get_deep_tillage_need(json_practice, json_practice_types):
             return True
     return False
 
-
-def _get_image_url(json_practice):
-    if not json_practice['fields'].get('Image principale'):
+def _get_image_url(json_payload, field_name):
+    if not json_payload['fields'].get(field_name):
         return None
-    return json_practice['fields'].get('Image principale')[0].get('url')
+    return json_payload['fields'].get(field_name)[0].get('url')
 
-def _get_image_name(json_practice):
-    if not json_practice['fields'].get('Image principale'):
+def _get_image_name(json_payload, field_name):
+    if not json_payload['fields'].get(field_name):
         return None
-    image_id = json_practice['fields'].get('Image principale')[0].get('id') or ''
-    filename = json_practice['fields'].get('Image principale')[0].get('filename') or ''
+    image_id = json_payload['fields'].get(field_name)[0].get('id') or ''
+    filename = json_payload['fields'].get(field_name)[0].get('filename') or ''
     extension = filename.split('.')[-1]
     return image_id + '.' + extension if image_id and filename else None
 
-def _get_image_content_file(json_practice):
-    image_url = _get_image_url(json_practice)
+def _get_image_content_file(json_practice, field_name):
+    image_url = _get_image_url(json_practice, field_name)
     if not image_url:
         return None
     try:
@@ -470,7 +481,7 @@ def _get_image_content_file(json_practice):
     except Exception as _:
         return None
 
-def _fetch_mechanisms(json_mechanisms):
+def _create_mechanism_objects(json_mechanisms):
     mechanisms = []
     for json_mechanism in json_mechanisms:
         mechanisms.append(Mechanism(
@@ -484,7 +495,27 @@ def _fetch_mechanisms(json_mechanisms):
     return mechanisms
 
 
-def _fetch_resources(json_resources):
+def _create_category_objects(json_categories):
+    categories = []
+    for json_category in json_categories:
+        category = Category(
+            external_id=json_category.get('id'),
+            modification_date=timezone.now(),
+            airtable_json=json_category,
+            airtable_url='https://airtable.com/tblJ8W5fjnatj4hki/' + json_category.get('id') + '/',
+            title=json_category['fields'].get('Title'),
+            description=json_category['fields'].get('Description'),
+            practice_external_ids=json_category['fields'].get('Practices'),
+        )
+        image_name = _get_image_name(json_category, 'Image')
+        image_content_file = _get_image_content_file(json_category, 'Image')
+        if image_name and image_content_file:
+            category.image.save(image_name, image_content_file, save=True)
+        categories.append(category)
+    return categories
+
+
+def _create_resource_objects(json_resources):
     resources = []
 
     for json_resource in json_resources:
