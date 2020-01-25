@@ -301,6 +301,7 @@ def validate_resources(airtable_resources):
 
     return errors
 
+
 def validate_categories(airtable_categories):
     """
     Returns an array of errors from categories
@@ -313,7 +314,7 @@ def validate_categories(airtable_categories):
         category_id = category['id']
         category_title = fields.get('Title')
         category_image = fields.get('Image')
-        url = 'https://airtable.com/tblJ8W5fjnatj4hki/viwtrkk3q5twjupNn/recoU540M3R2rEN8U/%s' % category_id
+        url = 'https://airtable.com/tblJ8W5fjnatj4hki/%s' % category_id
 
         if not category_title:
             message = 'La categorie ID %s n\'a pas de title (colonne Title)' % category_id
@@ -338,3 +339,66 @@ def validate_categories(airtable_categories):
 
     return errors
 
+
+def validate_weed_practices(airtable_weed_practices):
+    """
+    Returns an array of errors from weed_practices
+    """
+    errors = []
+
+    def get_weed_practice_errors(weed_practice):
+        errors = []
+        fields = weed_practice['fields']
+        weed_practice_id = weed_practice['id']
+        url = 'https://airtable.com/tbl0RJ5WcrI0SsxvZ/%s' % weed_practice_id
+
+        if not fields.get('Adventice'):
+            message = 'La relation adventice-pratique ID %s n\'a pas d\'adventice (colonne Adventice)' % weed_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Pratique'):
+            message = 'La relation adventice-pratique ID %s n\'a pas de pratique (colonne Pratique)' % weed_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Multiplicateur'):
+            message = 'La relation adventice-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % weed_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        return errors
+
+    for weed_practice in airtable_weed_practices:
+        errors += get_weed_practice_errors(weed_practice)
+
+    return errors
+
+
+def validate_pest_practices(airtable_pest_practices):
+    """
+    Returns an array of errors from pest_practices
+    """
+    errors = []
+
+    def get_pest_practice_errors(pest_practice):
+        errors = []
+        fields = pest_practice['fields']
+        pest_practice_id = pest_practice['id']
+        url = 'https://airtable.com/tblt8SSfxOGH8XEQC/%s' % pest_practice_id
+
+        if not fields.get('Ravageur'):
+            message = 'La relation ravageur-pratique ID %s n\'a pas de ravageur (colonne Ravageur)' % pest_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Pratique'):
+            message = 'La relation ravageur-pratique ID %s n\'a pas de pratique (colonne Pratique)' % pest_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Multiplicateur'):
+            message = 'La relation ravageur-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % pest_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        return errors
+
+    for pest_practice in airtable_pest_practices:
+        errors += get_pest_practice_errors(pest_practice)
+
+    return errors

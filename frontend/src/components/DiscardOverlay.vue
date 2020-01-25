@@ -5,7 +5,7 @@
         <v-icon color="red darken-3">mdi-close</v-icon>
       </v-btn>
       <v-card
-        :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height:' + windowHeight + 'px'"
+        :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height: 80vh;'"
         class="overflow-y-auto"
       >
         <v-card-title>Cette pratique n'est pas pertinente ?</v-card-title>
@@ -40,7 +40,6 @@
 export default {
   name: "DiscardOverlay",
   data: () => ({
-    windowHeight: window.innerHeight - 30,
     radioItems: [
       {
         value: "J'ai déjà prévu de mettre en place cette pratique",
@@ -72,12 +71,6 @@ export default {
       return !!this.practice && Object.keys(this.practice).length > 0
     }
   },
-  created() {
-    window.addEventListener("resize", this.onWindowResize)
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.onWindowResize)
-  },
   methods: {
     close() {
       window.sendTrackingEvent('Practice', 'blacklist cancel', this.practice.title)
@@ -88,9 +81,6 @@ export default {
       this.$emit("done")
       this.$store.dispatch("blacklistPractice", { practice: this.practice })
       this.sendDiscardAction()
-    },
-    onWindowResize() {
-      this.windowHeight = window.innerHeight - 30
     },
     sendDiscardAction() {
       if (!this.practice)

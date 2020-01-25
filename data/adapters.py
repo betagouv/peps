@@ -3,13 +3,13 @@ import json
 import requests
 from django.conf import settings
 from django.utils import timezone
-from django.core.files.images import ImageFile
 from django.core.files.base import ContentFile
 from data.models import Problem, PracticeType, Weed, Pest, Resource, ResourceType, GlyphosateUses
 from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTypeCategory, Category
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
 from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
-from data.airtablevalidators import validate_resources, validate_categories
+from data.airtablevalidators import validate_resources, validate_categories, validate_weed_practices
+from data.airtablevalidators import validate_pest_practices
 
 
 class AirtableAdapter:
@@ -53,11 +53,15 @@ class AirtableAdapter:
         json_categories = _get_airtable_data('Categories?view=Grid%20view')
         errors += validate_categories(json_categories)
 
+        json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
+        errors += validate_weed_practices(json_weed_practices)
+
+        json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
+        errors += validate_pest_practices(json_pest_practices)
+
         json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
         json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
         json_departments = _get_airtable_data('Departements?view=Grid%20view')
-        json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view') # TODO: add validation
-        json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view') # TODO: add validation
         json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
         json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
         json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')

@@ -1,12 +1,17 @@
 <template>
   <v-app>
     <Header />
-    <ErrorMessage :visible="showErrorMessage" />
+    <ErrorMessage 
+      :visible="showErrorMessage"
+      ctaText="Recharger la page"
+      :ctaAction="this.reload"
+      :showCloseButton="false"
+    />
     <v-content>
       <transition name="fade">
         <router-view />
       </transition>
-      <Footer v-show="loadingComplete" />
+      <Footer />
     </v-content>
   </v-app>
 </template>
@@ -30,20 +35,6 @@ export default {
     this.$store.dispatch("fetchCategories")
   },
   computed: {
-    loadingComplete() {
-      return (
-        this.$store.state.formDefinitionsLoadingStatus !==
-          Constants.LoadingStatus.LOADING &&
-        this.$store.state.suggestionsLoadingStatus !==
-          Constants.LoadingStatus.LOADING &&
-        this.$store.state.statsLoadingStatus !==
-          Constants.LoadingStatus.LOADING &&
-        this.$store.state.contactLoadingStatus !==
-          Constants.LoadingStatus.LOADING &&
-        this.$store.state.categoriesLoadingStatus !==
-          Constants.LoadingStatus.LOADING
-      )
-    },
     showErrorMessage() {
       const error = Constants.LoadingStatus.ERROR
       return (
@@ -52,6 +43,11 @@ export default {
         this.$store.state.categoriesLoadingStatus === error ||
         this.$store.state.implementationLoadingStatus === error
       )
+    }
+  },
+  methods: {
+    reload() {
+      location.reload()
     }
   }
 }

@@ -91,6 +91,9 @@ export default new Vuex.Store({
       if (index !== -1)
         state.blacklist.splice(index, 1)
     },
+    RESET_CONTACT_LOADING_STATUS(state) {
+      state.contactLoadingStatus = Constants.LoadingStatus.IDLE
+    },
     RESET_LOADERS(state) {
       state.formDefinitionsLoadingStatus = Constants.LoadingStatus.IDLE
       state.suggestionsLoadingStatus = Constants.LoadingStatus.IDLE
@@ -136,9 +139,12 @@ export default new Vuex.Store({
         context.commit('SET_STATS_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
-    sendContactData(context) {
+    sendContactData(context, overrideReason = null) {
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
+      let payload = this.getters.contactPayload
+      if (overrideReason)
+        payload.reason = overrideReason
+      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -175,6 +181,9 @@ export default new Vuex.Store({
     resetImplementationForm(context) {
       context.commit('SET_IMPLEMENTATION_FORM_DATA', { fieldId: 'implementationReason', fieldValue: [] })
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.IDLE)
+    },
+    resetContactLoadingStatus(context) {
+      context.commit('RESET_CONTACT_LOADING_STATUS')
     },
     resetLoaders(context) {
       context.commit('RESET_LOADERS')
@@ -217,7 +226,7 @@ export default new Vuex.Store({
         name: state.contactFormData ? state.contactFormData.name : '',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
         answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
-        reason: 'A répondu depuis l\'application Web',
+        reason: 'A partagé ses coordonnées pour être contacté',
         practice_id: '',
       }
     },

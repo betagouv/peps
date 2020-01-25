@@ -1,5 +1,4 @@
 import dateutil.parser
-from itertools import chain
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from rest_framework.renderers import JSONRenderer

@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField, ArrayField
-from peps.pepsfilestorage import PepsFileStorage
 from .practicegroup import PracticeGroup
 from .practicetype import PracticeType
 from .mechanism import Mechanism
@@ -18,7 +17,7 @@ class Practice(models.Model):
     external_id = models.CharField(max_length=100)
     modification_date = models.DateTimeField()
     creation_date = models.DateTimeField(default=timezone.now)
-    image = models.ImageField(null=True, storage=PepsFileStorage())
+    image = models.ImageField(null=True)
 
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True, blank=True)
