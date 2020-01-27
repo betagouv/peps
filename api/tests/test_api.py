@@ -1,4 +1,5 @@
 import json
+import os
 from unittest.mock import MagicMock
 import datetime
 import dateutil
@@ -15,6 +16,8 @@ from api.views import SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
 # pylint: disable = protected-access
+
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 @override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
 class TestApi(TestCase):
@@ -55,6 +58,9 @@ class TestApi(TestCase):
         body = json.loads(response.content.decode())
         self.assertIn('practices', body)
         self.assertIn('suggestions', body)
+
+        # We verify that the image url is in the practice
+        self.assertEqual(body['practices'][0]['practice']['image'], '/media/test-image.jpg')
 
 
     def test_rankings_api_key_auth(self):
@@ -397,20 +403,33 @@ class TestApi(TestCase):
         body = json.loads(response.content.decode())
         self.assertEqual(len(body), 3)
 
+        # The image URL for the categories must be present
+        self.assertEqual(body[0]['image'], 'http://testserver/media/test-image.jpg')
+
 
 def _populate_database():
     User.objects.create_user(username='testuser', password='12345')
+    image_name = 'test-image.jpg'
+    image_bytes = None
+
+    with open(CURRENT_DIR + '/' + image_name, 'rb') as image:
+        image_bytes = image.read()
+
     for external_id in ('recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'):
-        Practice(
+        practice = Practice(
             external_id=external_id,
             modification_date=timezone.now(),
-        ).save()
+        )
+        practice.image.save(image_name, image_bytes, save=True)
+        practice.save()
     for category_id in ('rec82929kfas9i', 'rec0098afaooka', 'recppasf09aii'):
-        Category(
+        category = Category(
             external_id=category_id,
             modification_date=timezone.now(),
             practice_external_ids=[]
-        ).save()
+        )
+        category.image.save(image_name, image_bytes, save=True)
+        category.save()
 
 
 class MockResponse:

@@ -5,7 +5,7 @@
       <v-img
         class="white--text align-end"
         height="110px"
-        :src="practice.image_url || defaultImageUrl"
+        :src="practice.image || defaultImageUrl"
       />
       <InfoBox v-if="infoBoxItems.length > 0" :infoItems="infoBoxItems" style="margin-top: 10px; margin-bottom: 10px;" />
       <div>

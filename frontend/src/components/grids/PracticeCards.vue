@@ -13,7 +13,7 @@
             <v-img
               class="white--text align-end"
               height="100px"
-              :src="practice.image_url || defaultImageUrl"
+              :src="practice.image || defaultImageUrl"
             />
             <v-card-title class="caption grey--text">{{ practice.mechanism.name }}</v-card-title>
             <v-card-subtitle class="subtitle-2 black--text">{{ practice.title }}</v-card-subtitle>

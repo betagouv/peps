@@ -67,6 +67,7 @@ class PracticeSerializer(serializers.ModelSerializer):
             'needs_tillage',
             'precision',
             'difficulty',
+            'image',
             'image_url',
             'airtable_url',
             'main_resource',
@@ -111,6 +112,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = (
             'id',
+            'external_id',
             'image',
             'airtable_url',
             'title',
