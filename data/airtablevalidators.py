@@ -26,6 +26,10 @@ def validate_practices(airtable_practices):
             message = 'Pratique ID %s n\'a pas de titre (colonne Nom)' % practice_id
             errors.append(AirtableError(message, url=url))
 
+        if not fields.get('Nom court'):
+            message = 'Pratique "%s" (ID %s) manque le nom court (colonne Nom court)' % (practice_title, practice_id)
+            errors.append(AirtableError(message, url=url))
+
         if not fields.get('Description'):
             message = 'Pratique "%s" (ID %s) manque la description (colonne Description)' % (practice_title, practice_id)
             errors.append(AirtableError(message, url=url))

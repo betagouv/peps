@@ -236,16 +236,17 @@ export default new Vuex.Store({
     humanReadableStatsAnswers(state) {
       return formutils.getHumanReadableAnswers(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
     },
-    practiceWithId(state) {
+    practiceWithShortTitle(state) {
       // TODO: this is only while we have all practices in a state property
-      return (practiceId => {
-        let practice = state.suggestions.find(x => x.id === practiceId)
+      // TODO: we should fetch the practice if we don't have it
+      return (practiceShortTitle => {
+        let practice = state.suggestions.find(x => x.short_title === practiceShortTitle)
         if (practice)
           return practice
 
         for (let i = 0; i < state.categories.length; i++) {
           const category = state.categories[i]
-          practice = category.practices.find(x => x.id === practiceId)
+          practice = category.practices.find(x => x.short_title === practiceShortTitle)
           if (practice)
             return practice
         }

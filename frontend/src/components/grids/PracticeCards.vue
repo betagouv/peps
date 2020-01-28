@@ -52,8 +52,11 @@ export default {
   },
   methods: {
     goToPractice(practice) {
-      window.sendTrackingEvent('Category', 'practice', practice.title)
-      this.$router.push({ name: "Practice", params: { practiceId: practice.id } })
+      window.sendTrackingEvent("Category", "practice", practice.title)
+      this.$router.push({
+        name: "Practice",
+        params: { practiceShortTitle: practice.short_title }
+      })
     },
     infoItems(practice) {
       let infoItems = []

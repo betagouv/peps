@@ -141,6 +141,7 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             airtable_json=json_practice,
             airtable_url='https://airtable.com/tblobpdQDxkzcllWo/' + json_practice.get('id') + '/',
             title=json_practice['fields'].get('Nom'),
+            short_title=json_practice['fields'].get('Nom court'),
             description=json_practice['fields'].get('Description'),
             equipment=json_practice['fields'].get('Matériel'),
             schedule=json_practice['fields'].get('Période de travail'),

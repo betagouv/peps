@@ -120,7 +120,7 @@ export default {
       ]
       if (provenance && provenance.name === 'Category') {
         breadcrumbs.push({
-          text: this.$store.state.categories.find(x => x.id === provenance.params.categoryId).title,
+          text: provenance.params.categoryTitle,
           disabled: false,
           href: "/#" + provenance.path
         })

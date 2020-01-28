@@ -395,9 +395,9 @@ class TestEngine(TestCase):
         If a user chooses glyphosate as their problem, the practices
         that target glyphosate should have a higher score. An exemple of
         these practices is:
-        "Défanner les pomme des terre avec un produit de biocontrôle"
+        "Défanner les pommes des terre avec un produit de biocontrôle"
         """
-        practice_title = 'Défanner les pomme des terre avec un produit de biocontrôle'
+        practice_title = 'Défanner les pommes des terre avec un produit de biocontrôle'
         pomme_de_terre = Culture.objects.filter(display_text='Pomme de terre').first()
 
         # First we make a request without specifying glyphosate as the main problem

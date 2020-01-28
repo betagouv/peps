@@ -58,6 +58,7 @@ class PracticeSerializer(serializers.ModelSerializer):
             'mechanism',
             'modification_date',
             'title',
+            'short_title',
             'description',
             'equipment',
             'schedule',

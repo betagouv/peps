@@ -23,6 +23,7 @@ class Practice(models.Model):
     airtable_url = models.TextField(null=True, blank=True)
 
     title = models.TextField(null=True, blank=True)
+    short_title = models.TextField()
     description = models.TextField(null=True, blank=True)
 
     mechanism = models.ForeignKey(Mechanism, null=True, blank=True, on_delete=models.SET_NULL)

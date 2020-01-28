@@ -30,11 +30,10 @@ export default {
   },
   methods: {
     goToCategory(category) {
-      const categoryId = category.id
       window.sendTrackingEvent("Landing", "category", category.title)
       this.$router.push({
         name: "Category",
-        params: { categoryId: categoryId }
+        params: { categoryTitle: category.title }
       })
     }
   }

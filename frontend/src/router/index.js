@@ -29,19 +29,19 @@ const routes = [
     component: FormsContainer,
   },
   {
-    path: '/categorie/:categoryId',
+    path: '/categorie/:categoryTitle',
     name: 'Category',
     component: Category,
     props: (route) => ({
-      category: store.state.categories.find(x => x.id === route.params.categoryId)
+      category: store.state.categories.find(x => x.title === route.params.categoryTitle)
     })
   },
   {
-    path: '/pratique/:practiceId',
+    path: '/pratique/:practiceShortTitle',
     name: 'Practice',
     component: PracticeView,
     props: (route) => ({
-      practice: store.getters.practiceWithId(route.params.practiceId)
+      practice: store.getters.practiceWithShortTitle(route.params.practiceShortTitle)
     })
   },
   {

@@ -193,6 +193,7 @@ class TestValidators(TestCase):
             "id": "recopQwOR1Bxr4m5S",
             "fields": {
                 "Nom": "[vigne] Désherber mécanique le cavaillon",
+                "Nom court": "Désherber mécanique cavaillon",
                 "Description": "Il existe divers outils pour désherber le pied des vignes.",
                 "CTA lien": ["recPIJIM77lSOEwfR"],
                 "Matériel": "Scalpeurs, houes rotatives, ",
@@ -213,7 +214,7 @@ class TestValidators(TestCase):
         errors = validate_practices(json)
         self.assertEqual(len(errors), 0)
 
-        # If there is no name, description, CTA link, CTA label, difficulty or types we should get an error
+        # If there is no name, short name, description, CTA link, CTA label, difficulty or types we should get an error
         json = [{
             "id": "recopQwOR1Bxr4m5S",
             "fields": {
@@ -230,9 +231,10 @@ class TestValidators(TestCase):
             },
         }]
         errors = validate_practices(json)
-        self.assertEqual(len(errors), 6)
+        self.assertEqual(len(errors), 7)
         self.assertTrue(any(x.message == 'Pratique ID recopQwOR1Bxr4m5S n\'a pas de titre (colonne Nom)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) manque la description (colonne Description)' for x in errors))
+        self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) manque le nom court (colonne Nom court)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de lien CTA (colonne CTA lien)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de titre CTA (colonne CTA title)' for x in errors))
         self.assertTrue(any(x.message == 'Pratique "None" (ID recopQwOR1Bxr4m5S) n\'a pas de type (colonne Types)' for x in errors))
@@ -244,6 +246,7 @@ class TestValidators(TestCase):
             "id": "recopQwOR1Bxr4m5S",
             "fields": {
                 "Nom": "[vigne] Désherber mécanique le cavaillon",
+                "Nom court": "Désherber mécanique cavaillon",
                 "Description": "Il existe divers outils pour désherber le pied des vignes.",
                 "CTA lien": ["recPIJIM77lSOEwfR"],
                 "CTA title": "Comparez les outils",
