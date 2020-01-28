@@ -56,6 +56,7 @@ PEPS_CELLAR_HOST=''
 PEPS_CELLAR_KEY=''
 PEPS_CELLAR_SECRET=''
 PEPS_CELLAR_BUCKET_NAME=''
+PEPS_FORCE_HTTPS='False'
 ```
 
 ### Make initial migration and create super user

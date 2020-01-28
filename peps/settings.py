@@ -188,3 +188,5 @@ AWS_QUERYSTRING_AUTH = False
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+SECURE_SSL_REDIRECT = os.getenv('PEPS_FORCE_HTTPS') == 'True'
