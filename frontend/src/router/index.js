@@ -34,7 +34,13 @@ const routes = [
     component: Category,
     props: (route) => ({
       category: store.state.categories.find(x => x.title === route.params.categoryTitle)
-    })
+    }),
+    beforeEnter: (route, _, next) => {
+      if (!store.state.categories.find(x => x.title === route.params.categoryTitle))
+        next({name: 'Landing'})
+      else
+        next()
+    }
   },
   {
     path: '/pratique/:practiceShortTitle',
@@ -42,7 +48,13 @@ const routes = [
     component: PracticeView,
     props: (route) => ({
       practice: store.getters.practiceWithShortTitle(route.params.practiceShortTitle)
-    })
+    }),
+    beforeEnter: (route, _, next) => {
+      if (!store.getters.practiceWithShortTitle(route.params.practiceShortTitle))
+        next({name: 'Landing'})
+      else
+        next()
+    }
   },
   {
     path: '/politique-de-confidentialite',
