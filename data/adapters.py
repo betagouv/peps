@@ -9,7 +9,9 @@ from data.models import Culture, Practice, PracticeGroup, Mechanism, PracticeTyp
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
 from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
 from data.airtablevalidators import validate_resources, validate_categories, validate_weed_practices
-from data.airtablevalidators import validate_pest_practices
+from data.airtablevalidators import validate_pest_practices, validate_culture_practices, validate_department_practices
+from data.airtablevalidators import validate_departments, validate_glyphosate_practices, validate_practice_groups
+from data.airtablevalidators import validate_mechanisms
 
 
 class AirtableAdapter:
@@ -28,7 +30,6 @@ class AirtableAdapter:
         """
         errors = []
 
-        # Fetch Airtable data and validate it if needed
         json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
         errors += validate_practices(json_practices)
 
@@ -60,11 +61,22 @@ class AirtableAdapter:
         errors += validate_pest_practices(json_pest_practices)
 
         json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
+        errors += validate_culture_practices(json_culture_practices)
+
         json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
+        errors += validate_department_practices(json_departments_practices)
+
         json_departments = _get_airtable_data('Departements?view=Grid%20view')
+        errors += validate_departments(json_departments)
+
         json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
+        errors += validate_glyphosate_practices(json_glyphosate_practices)
+
         json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
+        errors += validate_practice_groups(json_practice_groups)
+
         json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')
+        errors += validate_mechanisms(json_mechanisms)
 
         has_fatal_errors = any(x.fatal for x in errors)
         if has_fatal_errors:

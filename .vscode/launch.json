@@ -37,7 +37,7 @@
             "cwd": "${workspaceRoot}",
             "args": [
                 "runserver",
-                "--noreload"
+                "--noreload",
             ],
             "django": true,
             "justMyCode": false
@@ -52,7 +52,7 @@
             "cwd": "${workspaceRoot}",
             "args": [
                 "test",
-                "--noinput"
+                "--noinput",
             ],
             "justMyCode": false,
             "django": true

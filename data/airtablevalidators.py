@@ -364,7 +364,7 @@ def validate_weed_practices(airtable_weed_practices):
             message = 'La relation adventice-pratique ID %s n\'a pas de pratique (colonne Pratique)' % weed_practice_id
             errors.append(AirtableError(message, url=url))
 
-        if not fields.get('Multiplicateur'):
+        if fields.get('Multiplicateur') != 0 and not fields.get('Multiplicateur'):
             message = 'La relation adventice-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % weed_practice_id
             errors.append(AirtableError(message, url=url))
 
@@ -396,7 +396,7 @@ def validate_pest_practices(airtable_pest_practices):
             message = 'La relation ravageur-pratique ID %s n\'a pas de pratique (colonne Pratique)' % pest_practice_id
             errors.append(AirtableError(message, url=url))
 
-        if not fields.get('Multiplicateur'):
+        if fields.get('Multiplicateur') != 0 and not fields.get('Multiplicateur'):
             message = 'La relation ravageur-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % pest_practice_id
             errors.append(AirtableError(message, url=url))
 
@@ -404,5 +404,195 @@ def validate_pest_practices(airtable_pest_practices):
 
     for pest_practice in airtable_pest_practices:
         errors += get_pest_practice_errors(pest_practice)
+
+    return errors
+
+
+def validate_culture_practices(airtable_culture_practices):
+    """
+    Returns an array of errors from culture_practices
+    """
+    errors = []
+
+    def get_culture_practice_errors(culture_practice):
+        errors = []
+        fields = culture_practice['fields']
+        culture_practice_id = culture_practice['id']
+        url = 'https://airtable.com/tblw6bJT2yuubwVcD/%s' % culture_practice_id
+
+        if not fields.get('Culture'):
+            message = 'La relation culture-pratique ID %s n\'a pas de culture (colonne Culture)' % culture_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Pratique'):
+            message = 'La relation culture-pratique ID %s n\'a pas de pratique (colonne Pratique)' % culture_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if fields.get('Multiplicateur') != 0 and not fields.get('Multiplicateur'):
+            message = 'La relation culture-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % culture_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        return errors
+
+    for culture_practice in airtable_culture_practices:
+        errors += get_culture_practice_errors(culture_practice)
+
+    return errors
+
+
+def validate_department_practices(airtable_department_practices):
+    """
+    Returns an array of errors from department_practices
+    """
+    errors = []
+
+    def get_department_practice_errors(department_practice):
+        errors = []
+        fields = department_practice['fields']
+        department_practice_id = department_practice['id']
+        url = 'https://airtable.com/tblvPvX53ywyv4hSd/%s' % department_practice_id
+
+        if not fields.get('Departement'):
+            message = 'La relation departement-pratique ID %s n\'a pas de departement (colonne Departement)' % department_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Pratique'):
+            message = 'La relation departement-pratique ID %s n\'a pas de pratique (colonne Pratique)' % department_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if fields.get('Multiplicateur') != 0 and not fields.get('Multiplicateur'):
+            message = 'La relation departement-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % department_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        return errors
+
+    for department_practice in airtable_department_practices:
+        errors += get_department_practice_errors(department_practice)
+
+    return errors
+
+
+def validate_glyphosate_practices(airtable_glyphosate_practices):
+    """
+    Returns an array of errors from glyphosate_practices
+    """
+    errors = []
+
+    def get_glyphosate_practice_errors(glyphosate_practice):
+        errors = []
+        fields = glyphosate_practice['fields']
+        glyphosate_practice_id = glyphosate_practice['id']
+        url = 'https://airtable.com/tblOOxxMTQS785Vmd/%s' % glyphosate_practice_id
+
+        if not fields.get('Glyphosate'):
+            message = 'La relation glyphosate-pratique ID %s n\'a pas de glyphosate (colonne Glyphosate)' % glyphosate_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Pratique'):
+            message = 'La relation glyphosate-pratique ID %s n\'a pas de pratique (colonne Pratique)' % glyphosate_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        if fields.get('Multiplicateur') != 0 and not fields.get('Multiplicateur'):
+            message = 'La relation glyphosate-pratique ID %s n\'a pas de multiplicateur (colonne Multiplicateur)' % glyphosate_practice_id
+            errors.append(AirtableError(message, url=url))
+
+        return errors
+
+    for glyphosate_practice in airtable_glyphosate_practices:
+        errors += get_glyphosate_practice_errors(glyphosate_practice)
+
+    return errors
+
+
+def validate_departments(airtable_departments):
+    """
+    Returns an array of errors from department objects
+    """
+    errors = []
+
+    def get_department_errors(department):
+        errors = []
+        fields = department['fields']
+        department_id = department['id']
+        url = 'https://airtable.com/tblIlOOrHgCPGBKpI/%s' % department_id
+
+        if not fields.get('Numéro'):
+            message = 'Le departement ID %s n\'a pas de numéro (colonne Numéro)' % department_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Nom'):
+            message = 'Le departement ID %s n\'a pas de nom (colonne Nom)' % department_id
+            errors.append(AirtableError(message, url=url))
+
+        return errors
+
+    for department in airtable_departments:
+        errors += get_department_errors(department)
+
+    return errors
+
+
+def validate_practice_groups(airtable_practice_groups):
+    """
+    Returns an array of errors from practice group objects
+    """
+    errors = []
+
+    def get_practice_group_errors(practice_group):
+        errors = []
+        fields = practice_group['fields']
+        name = fields.get('Nom')
+        practice_group_id = practice_group['id']
+        url = 'https://airtable.com/tblN8TqSSncgOJewG/%s' % practice_group_id
+
+        if not name:
+            message = 'La famille ID %s n\'a pas de nom (colonne Nom)' % practice_group_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Pratiques'):
+            message = 'La famille %s (ID %s) n\'a pas de pratiques (colonne Pratiques)' % (name, practice_group_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
+        if not fields.get('Description'):
+            message = 'La famille %s (ID %s) n\'a pas de description (colonne Description)' % (name, practice_group_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
+        return errors
+
+    for practice_group in airtable_practice_groups:
+        errors += get_practice_group_errors(practice_group)
+
+    return errors
+
+
+def validate_mechanisms(airtable_mechanisms):
+    """
+    Returns an array of errors from mechanism objects
+    """
+    errors = []
+
+    def get_mechanism_errors(mechanism):
+        errors = []
+        fields = mechanism['fields']
+        name = fields.get('Name')
+        mechanism_id = mechanism['id']
+        url = 'https://airtable.com/tbliz8fD7ZaoqIugz/%s' % mechanism_id
+
+        if not name:
+            message = 'La marge de manoeuvre ID %s n\'a pas de nom (colonne Name)' % mechanism_id
+            errors.append(AirtableError(message, url=url))
+
+        if not fields.get('Description'):
+            message = 'La marge de manoeuvre %s (ID %s) n\'a pas de description (colonne Description)' % (name, mechanism_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
+        if not fields.get('Pratiques'):
+            message = 'La marge de manoeuvre %s (ID %s) n\'a pas de pratiques (colonne Pratiques)' % (name, mechanism_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
+        return errors
+
+    for mechanism in airtable_mechanisms:
+        errors += get_mechanism_errors(mechanism)
 
     return errors

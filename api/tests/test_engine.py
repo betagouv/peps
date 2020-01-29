@@ -670,7 +670,7 @@ class TestEngine(TestCase):
         colza = 'recZj4cTO0dwcYhbe'
 
         # This practice balances the sowing period and should be proposed when having an unbalanced rotation
-        practice_name = 'Favoriser l\'alternance de cultures à semis de printemps et d\'automne'
+        practice_name = "Favoriser l'alternance de cultures à semis de printemps et d'automne"
 
         # In this example, all cultures are spring cultures, so it should be unbalanced
         answers = {
