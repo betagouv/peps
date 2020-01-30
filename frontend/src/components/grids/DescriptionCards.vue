@@ -1,5 +1,5 @@
 <template>
-      <v-container class="ma-0 pa-0">
+      <v-container class="constrained ma-0 pa-0">
         <v-row>
           <v-col v-for="(item, index) in descriptionItems" :key="index" cols="12" sm="6" md="4">
             <v-card class="pa-0 fill-height">

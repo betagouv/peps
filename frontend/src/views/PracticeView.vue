@@ -7,13 +7,14 @@
         height="110px"
         :src="practice.image || defaultImageUrl"
       />
-      <InfoBox v-if="infoBoxItems.length > 0" :infoItems="infoBoxItems" style="margin-top: 10px; margin-bottom: 10px;" />
-      <div>
+      <div style="background: #E0F4EE; border: solid 1px rgb(179, 219, 207)">
+        <InfoBox v-if="infoBoxItems.length > 0" :infoItems="infoBoxItems" style="margin-bottom: 20px;" />
+
         <v-btn
           class="text-none body-1 practice-buttons"
           color="primary"
           @click="tryPractice()"
-          style="margin-bottom: 10px;"
+          style="margin: 0 16px 20px 16px;"
           rounded
         >Cette pratique m'interesse</v-btn>
         <v-btn
@@ -21,10 +22,10 @@
           href="mailto:peps@beta.gouv.fr"
           target="_blank"
           rounded
-          style="margin-bottom: 10px;"
+          style="margin-bottom: 20px;"
         >Faire un retour</v-btn>
       </div>
-      <v-divider />
+
       <div v-if="practice.mechanism && practice.mechanism.description" class="subtitle-2" style="margin-top: 20px;">Marge de manœuvre</div>
       <div v-if="practice.mechanism && practice.mechanism.description" class="body-2" style="margin-top: 20px;">{{ practice.mechanism.description }}</div>
       <div class="subtitle-2" style="margin-top: 20px;">Description de la pratique</div>

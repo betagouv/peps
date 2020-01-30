@@ -18,14 +18,13 @@
             >Revenir au formulaire</span>.
           </v-card-text>
         </v-card>
-        <div v-for="suggestion in suggestions" :key="suggestion.id">
-          <Practice
-            :practice="suggestion.practice"
-            style="margin-bottom: 15px;"
-            @implement="tryPractice(suggestion.practice)"
-            @blacklist="blacklistPractice(suggestion.practice)"
-          />
-        </div>
+
+        <PracticeCards
+          v-if="suggestions"
+          :displayDiscardButton="true"
+          :practices="suggestions.map(x => x.practice)"
+          @blacklist="(practice) => blacklistPractice(practice)"
+        />
       </div>
       <ImplementationOverlay
         :practice="implementationPractice"
@@ -50,19 +49,19 @@
 <script>
 import Loader from "@/components/Loader.vue"
 import Constants from "@/constants"
-import Practice from "@/components/Practice.vue"
 import ImplementationOverlay from "@/components/ImplementationOverlay"
 import DiscardOverlay from "@/components/DiscardOverlay"
 import Title from "@/components/Title.vue"
+import PracticeCards from "@/components/grids/PracticeCards.vue"
 
 export default {
   name: "results",
   components: {
     Loader,
-    Practice,
     ImplementationOverlay,
     DiscardOverlay,
-    Title
+    Title,
+    PracticeCards
   },
   data: () => ({
     title: "Résultats",
@@ -78,7 +77,7 @@ export default {
         href: "/#/formulaire"
       },
       {
-        text: 'Résultats',
+        text: "Résultats",
         disabled: true
       }
     ],
@@ -86,7 +85,7 @@ export default {
     loadingSubtitle:
       "Nous vous proposerons 3 pratiques alternatives de gestion des adventices, des maladies et des ravageurs qui sont adaptées à votre exploitation",
     description:
-      "🌱 Vous trouverez ci-dessous les trois pratiques que nous avons sélectionnées pour votre problématique.",
+      "🌱 Vous trouverez ci-dessous les pratiques que nous avons sélectionnées pour votre problématique.",
     implementationPractice: null,
     discardPractice: null
   }),

@@ -25,6 +25,7 @@
             <v-btn
               class="text-none body-1 practice-buttons"
               color="primary"
+              style="margin-left: 10px;"
               @click="discardPractice()"
               :disabled="!selected"
               rounded

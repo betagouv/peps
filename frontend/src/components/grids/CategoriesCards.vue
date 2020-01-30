@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ma-0 pa-0">
+  <v-container class="constrained ma-0 pa-0">
     <v-row>
       <v-col v-for="(category, index) in categories" :key="index" cols="12" sm="6" md="4">
         <v-hover>
@@ -10,7 +10,7 @@
             slot-scope="{ hover }"
             :elevation="hover ? 4 : 1"
           >
-            <v-img class="white--text align-end" height="100px" :src="category.image" />
+            <v-img class="white--text align-end" height="120px" :src="category.image" />
             <v-card-text>{{ category.title }}</v-card-text>
           </v-card>
         </v-hover>

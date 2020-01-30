@@ -1,5 +1,5 @@
 <template>
-    <v-card class="form-info" color="#fafafa" elevation="0">
+    <v-card tile color="#E0F4EE" elevation="0" style="border-color: #E0F4EE !important;">
       <v-card-text>
         <v-container v-for="(item, index) in infoItems" :key="index" class="pa-0">
         <v-row no-gutters v-if="infoItems && infoItems.length > 0" class="caption" style="margin-bottom: 7px;">

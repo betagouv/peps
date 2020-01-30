@@ -240,13 +240,13 @@ export default new Vuex.Store({
       // TODO: this is only while we have all practices in a state property
       // TODO: we should fetch the practice if we don't have it
       return (practiceShortTitle => {
-        let practice = state.suggestions.find(x => x.short_title === practiceShortTitle)
-        if (practice)
-          return practice
+        let suggestion = state.suggestions.find(x => x.practice.short_title === practiceShortTitle)
+        if (suggestion)
+          return suggestion.practice
 
         for (let i = 0; i < state.categories.length; i++) {
           const category = state.categories[i]
-          practice = category.practices.find(x => x.short_title === practiceShortTitle)
+          let practice = category.practices.find(x => x.short_title === practiceShortTitle)
           if (practice)
             return practice
         }

@@ -3,7 +3,7 @@
     <v-divider style="margin-bottom: 10px; margin-top: 25px;" />
 
     <div style="text-align:center;">
-      <v-container style="max-width: 900px;">
+      <v-container class="constrained">
         <v-row align="start">
           <v-col cols="6" sm="1" :style="'padding:' + minAgriPadding + ';'">
             <v-img

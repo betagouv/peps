@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container class="pa-0">
+    <v-container class="constrained pa-0">
       <InfoWell
         v-if="!!schema.description"
         :description="schema.description"

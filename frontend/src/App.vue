@@ -96,6 +96,6 @@ body .buorg .buorg-buttons {
 }
 
 .constrained {
-  max-width: 900px;
+  max-width: 1000px;
 }
 </style>
