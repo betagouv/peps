@@ -3,7 +3,8 @@
     <Title :title="category.title" :breadcrumbs="breadcrumbs" />
 
     <v-container class="constrained">
-      <!-- <div class="body-2" style="margin-top: 10px; margin-bottom: 10px;">{{ category.description }}</div> -->
+      <div class="subtitle-2" v-if="category.description" style="margin-top: 10px; margin-bottom: 10px;">Description</div>
+      <div class="body-2" v-if="category.description" style="margin-top: 10px; margin-bottom: 20px;">{{ category.description }}</div>
 
       <PracticeCards :practices="category.practices" />
     </v-container>
