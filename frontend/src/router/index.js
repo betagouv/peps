@@ -6,7 +6,7 @@ import Results from '@/views/Results.vue'
 import PolitiqueConfidentialite from '@/views/PolitiqueConfidentialite.vue'
 import Landing from '@/views/Landing.vue'
 import Category from '@/views/Category.vue'
-import PracticeView from '@/views/PracticeView.vue'
+import Practice from '@/views/Practice.vue'
 import About from '@/views/About.vue'
 import Contact from '@/views/Contact.vue'
 
@@ -45,7 +45,7 @@ const routes = [
   {
     path: '/pratique/:practiceShortTitle',
     name: 'Practice',
-    component: PracticeView,
+    component: Practice,
     props: (route) => ({
       practice: store.getters.practiceWithShortTitle(route.params.practiceShortTitle)
     }),

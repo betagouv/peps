@@ -51,7 +51,7 @@ import ImplementationOverlay from "@/components/ImplementationOverlay"
 import Title from "@/components/Title.vue"
 
 export default {
-  name: "PracticeView",
+  name: "Practice",
   components: { InfoBox, Resource, ImplementationOverlay, Title },
   data: () => {
     return {
