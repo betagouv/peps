@@ -8,7 +8,7 @@
       :showCloseButton="false"
     />
     <v-content>
-      <transition name="fade">
+      <transition name="fade" mode="out-in">
         <router-view />
       </transition>
       <Footer />
@@ -83,7 +83,7 @@ body .buorg .buorg-buttons {
 }
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+  opacity: 0.0;
 }
 
 .v-card__text,

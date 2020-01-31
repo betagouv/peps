@@ -87,7 +87,7 @@ const router = new VueRouter({
       const fadeTransitionTime = 250
       setTimeout(() => {
         resolve({ x: 0, y: 0 })
-      }, fadeTransitionTime)
+      }, fadeTransitionTime / 2)
     })
   }
 })
