@@ -32,8 +32,8 @@
         window.sendPageView = function (route, previousRoute) {
 
             if (previousRoute)
-                _paq.push(['setReferrerUrl', previousRoute.path])
-            _paq.push(['setCustomUrl', route.path])
+                _paq.push(['setReferrerUrl', '/#/' + previousRoute.path])
+            _paq.push(['setCustomUrl', '/#/' + route.path])
             _paq.push(['setDocumentTitle', route.name])
 
             // remove all previously assigned custom variables, requires Matomo (formerly Piwik) 3.0.2
