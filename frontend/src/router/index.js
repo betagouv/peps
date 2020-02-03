@@ -95,8 +95,8 @@ router.beforeEach((to, from, next) => {
   router.previousRoute = from
   next()
 })
-router.afterEach((route) => {
-  window.sendPageView ? window.sendPageView(route) : undefined
+router.afterEach((route, previousRoute) => {
+  window.sendPageView ? window.sendPageView(route, previousRoute) : undefined
 })
 
 export default router
