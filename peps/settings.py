@@ -94,7 +94,7 @@ TEMPLATES = [
 
 OPTIONS = {
     'libraries': {
-        'ga': 'web.templatetags.ga',
+        'analytics': 'web.templatetags.analytics',
     },
 }
 
@@ -173,7 +173,8 @@ WEBPACK_LOADER = {
     }
 }
 
-GOOGLE_ANALYTICS_ID = os.getenv('PEPS_GA_ID')
+ANALYTICS_ID = os.getenv('PEPS_ANALYTICS_ID')
+ANALYTICS_COOKIE_DOMAINS = [x.strip() for x in os.getenv('PEPS_ANALYTICS_COOKIE_DOMAINS').split(',')]
 
 DEFAULT_FILE_STORAGE = os.getenv('PEPS_DEFAULT_FILE_STORAGE')
 STATICFILES_STORAGE = os.getenv('PEPS_STATICFILES_STORAGE')

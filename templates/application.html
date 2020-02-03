@@ -1,6 +1,6 @@
 {% load static %}
 {% load render_bundle from webpack_loader %}
-{% load ga %}
+{% load analytics %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,14 +16,20 @@
         window.CSRF_TOKEN = "{{ csrf_token }}"
     </script>
     <!-- Matomo -->
+    {% analytics_cookie_domains as cookie_domains %}
+    {% for domain in cookie_domains %}
+    <script type="text/javascript">
+        (window._paq || []).push(['setCookieDomain', '{{ domain }}']); 
+    </script>
+    {% endfor %}
+    
     <script type="text/javascript">
         var _paq = window._paq || [];
-        _paq.push(['setCookieDomain', '*.peps.beta.gouv.fr']); 
         _paq.push(['enableLinkTracking']);
         (function () {
             var u = "//stats.data.gouv.fr/";
             _paq.push(['setTrackerUrl', u + 'piwik.php']);
-            _paq.push(['setSiteId', '107']);
+            _paq.push(['setSiteId', "{% analytics_id %}"]);
             var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
             g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
         })();
