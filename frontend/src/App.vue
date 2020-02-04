@@ -54,11 +54,39 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+$source-sans-pro: 'Source Sans Pro', 'Roboto', sans-serif;
+$cursive: 'Caveat', cursive;
+
+#app.v-application {
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+
+  .display-1,
+  .display-2,
+  .display-3,
+  .display-4,
+  .headline,
+  .subtitle-1,
+  .subtitle-2,
+  .title {
+    font-family: $source-sans-pro !important;
+  }
+
+  .cursive {
+    font-family: $cursive !important;
+  }
+
+  .display-1,
+  .subtitle-2,
+  .title {
+    font-weight: bold !important;
+  }
+
+  .subtitle-2 {
+    font-size: 16px !important;
+  }
 }
 
 body {

@@ -41,6 +41,7 @@
             rounded
             :disabled="disabled"
             color="primary"
+            class="text-none"
             @click="submitForm()"
           >Trouver des pratiques alternatives</v-btn>
           <p

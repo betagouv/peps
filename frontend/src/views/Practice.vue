@@ -27,9 +27,9 @@
       </div>
 
       <div v-if="practice.mechanism && practice.mechanism.description" class="subtitle-2" style="margin-top: 20px;">Marge de manœuvre</div>
-      <div v-if="practice.mechanism && practice.mechanism.description" class="body-2" style="margin-top: 20px;">{{ practice.mechanism.description }}</div>
+      <div v-if="practice.mechanism && practice.mechanism.description" class="body-2" style="margin-top: 5px;">{{ practice.mechanism.description }}</div>
       <div class="subtitle-2" style="margin-top: 20px;">Description de la pratique</div>
-      <div class="body-2" style="margin-top: 20px;">{{ practice.description }}</div>
+      <div class="body-2" style="margin-top: 5px;">{{ practice.description }}</div>
       <div class="subtitle-2" style="margin-top: 20px;">Ressources</div>
       <Resource
         v-for="resource in resources"

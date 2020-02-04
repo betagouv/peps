@@ -11,7 +11,7 @@
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-      <div class="title font-weight-black">{{ title }}</div>
+      <div class="title font-weight-black" style="margin-top: 6px;">{{ title }}</div>
     </v-container>
   </div>
 </template>
@@ -71,7 +71,7 @@ export default {
 .title-container {
   background: #008763;
   padding-top: 7px;
-  padding-bottom: 5px;
+  padding-bottom: 3px;
   color: white;
   box-shadow: inset 0px -11px 10px -15px #333;
 }

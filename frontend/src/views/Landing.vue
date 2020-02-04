@@ -3,10 +3,14 @@
     <div id="landing-image">
       <v-container class="constrained">
         <v-card id="landing-main" class="pa-5" style="margin-top: 10px; max-width: 650px;">
-          <div
-            class="display-1 primary--text"
-          >Les pratiques économes en produits phytosanitaires à portée de clic</div>
-          <v-card-text>
+          <div class="display-1">
+            Les pratiques économes en produits phytosanitaires
+            <span
+              class="cursive"
+              style="font-size: 38px; letter-spacing: 0em;"
+            >à portée de clic</span>
+          </div>
+          <v-card-text style="padding: 16px 16px 16px 0;">
             3 minutes pour décrire votre exploitation
             <br />3 pratiques qui me correspondent
           </v-card-text>
