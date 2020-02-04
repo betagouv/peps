@@ -57,7 +57,7 @@
             <ul class="text-left caption">
               <li class="font-weight-bold">Les pratiques</li>
               <li v-for="(category, index) in categories" :key="index">
-                <a :href="'/#/categorie/' + category.id">{{category.title}}</a>
+                <a :href="'/#/categorie/' + category.title">{{category.title}}</a>
               </li>
             </ul>
           </v-col>
