@@ -6,6 +6,10 @@
           <v-card
             class="pa-0 fill-height"
             outlined
+            slot-scope="{ hover }"
+            :ripple="false"
+            :elevation="hover ? 4 : 1"
+            @click="goToPractice(practice)"
           >
             <v-img
               class="white--text align-end"
@@ -13,7 +17,7 @@
               :src="practice.image || defaultImageUrl"
             />
             <v-card-title class="caption grey--text">{{ practice.mechanism.name }}</v-card-title>
-            <v-card-subtitle class="practice-title subtitle-2 black--text" @click="goToPractice(practice)">{{ practice.title }}</v-card-subtitle>
+            <v-card-subtitle class="subtitle-2 black--text">{{ practice.title }}</v-card-subtitle>
             <v-card-text :style="'margin-bottom:' + textBottomMargin + ';'">
               <div
                 v-for="(infoItem, index) in infoItems(practice)"
@@ -123,10 +127,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.practice-title {
-  text-decoration: underline;
-  cursor: pointer;
-}
-</style>
