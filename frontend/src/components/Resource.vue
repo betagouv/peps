@@ -6,11 +6,27 @@
     target="_blank"
     style="border-color: #FFF; margin: 10px 0 0 0;"
   >
-    <v-card-title class="body-1" style="padding: 5px 0 5px 0;">
-      <v-icon color="primary" style="margin-right:10px;">{{iconName}}</v-icon>
-      <span class="resource-name">{{ resource.name }}</span>
-    </v-card-title>
-    <v-card-text class="pa-0">{{ resource.description }}</v-card-text>
+    <div class="resource-image">
+      <v-img
+        class="align-start"
+        position="center"
+        v-if="resource.image"
+        contain
+        max-width="70"
+        max-height="50"
+        :src="resource.image"
+      />
+      <v-icon
+        v-else
+        size="35"
+        color="primary"
+        style="width: 70px; margin-left: auto; margin-right: auto;"
+      >{{iconName}}</v-icon>
+    </div>
+    <div class="resource-text">
+      <v-card-title class="body-1 resource-name pa-0">{{ resource.name }}</v-card-title>
+      <v-card-text class="pa-0 resource-description caption">{{ resource.description }}</v-card-text>
+    </div>
   </v-card>
 </template>
 
@@ -39,8 +55,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .resource-card:hover .resource-name {
   text-decoration: underline;
+}
+.resource-image {
+  float: left;
+}
+.resource-text {
+  margin-left: 80px;
 }
 </style>

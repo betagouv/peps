@@ -11,7 +11,7 @@ from data.airtablevalidators import validate_pests, validate_cultures, validate_
 from data.airtablevalidators import validate_resources, validate_categories, validate_weed_practices
 from data.airtablevalidators import validate_pest_practices, validate_culture_practices, validate_department_practices
 from data.airtablevalidators import validate_departments, validate_glyphosate_practices, validate_practice_groups
-from data.airtablevalidators import validate_mechanisms
+from data.airtablevalidators import validate_mechanisms, validate_resource_images
 
 
 class AirtableAdapter:
@@ -50,6 +50,9 @@ class AirtableAdapter:
 
         json_resources = _get_airtable_data('Liens?view=Grid%20view')
         errors += validate_resources(json_resources)
+
+        json_resource_images = _get_airtable_data('logos?view=Grid%20view')
+        errors += validate_resource_images(json_resource_images)
 
         json_categories = _get_airtable_data('Categories?view=Grid%20view')
         errors += validate_categories(json_categories)
@@ -92,7 +95,7 @@ class AirtableAdapter:
         for category in categories:
             category.save()
 
-        resources = _create_resource_objects(json_resources)
+        resources = _create_resource_objects(json_resources, json_resource_images)
         Resource.objects.all().delete()
         for resource in resources:
             resource.save()
@@ -488,8 +491,8 @@ def _get_image_name(json_payload, field_name):
     extension = filename.split('.')[-1]
     return image_id + '.' + extension if image_id and filename else None
 
-def _get_image_content_file(json_practice, field_name):
-    image_url = _get_image_url(json_practice, field_name)
+def _get_image_content_file(json_payload, field_name):
+    image_url = _get_image_url(json_payload, field_name)
     if not image_url:
         return None
     try:
@@ -532,11 +535,13 @@ def _create_category_objects(json_categories):
     return categories
 
 
-def _create_resource_objects(json_resources):
+def _create_resource_objects(json_resources, json_resource_images):
+    json_resource_images.sort(key=lambda x: len(x['fields'].get('URL_principal')), reverse=True)
     resources = []
 
     for json_resource in json_resources:
-        resources.append(Resource(
+        url = json_resource['fields'].get('Url')
+        resource = Resource(
             external_id=json_resource.get('id'),
             modification_date=timezone.now(),
             airtable_json=json_resource,
@@ -544,8 +549,16 @@ def _create_resource_objects(json_resources):
             name=json_resource['fields'].get('Nom'),
             description=json_resource['fields'].get('Description'),
             resource_type=_get_resource_type(json_resource),
-            url=json_resource['fields'].get('Url'),
-        ))
+            url=url,
+        )
+        resource_image = next((x for x in json_resource_images if x['fields'].get('URL_principal') in url), None)
+        if resource_image:
+            image_name = _get_image_name(resource_image, 'logo')
+            image_content_file = _get_image_content_file(resource_image, 'logo')
+            if image_name and image_content_file:
+                resource.image.save(image_name, image_content_file, save=True)
+        resources.append(resource)
+
     return resources
 
 def _get_resource_type(json_resource):

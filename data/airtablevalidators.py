@@ -596,3 +596,36 @@ def validate_mechanisms(airtable_mechanisms):
         errors += get_mechanism_errors(mechanism)
 
     return errors
+
+def validate_resource_images(airtable_resource_images):
+    """
+    Returns an array of errors from resource-images objects
+    """
+    errors = []
+
+    def get_resource_image_errors(resource_images):
+        errors = []
+        fields = resource_images['fields']
+        structure = fields.get('Structure')
+        url = fields.get('URL_principal')
+        resource_image_id = resource_images['id']
+        airtable_url = 'https://airtable.com/tbltygkXhxF6bBKXY/%s' % resource_image_id
+
+        if not structure:
+            message = 'Le logo ID %s n\'a pas de structure (colonne Structure)' % resource_image_id
+            errors.append(AirtableError(message, url=airtable_url))
+
+        if not url:
+            message = 'Le logo %s (ID %s) n\'a pas d\'URL (colonne URL_principal)' % (structure, resource_image_id)
+            errors.append(AirtableError(message, url=airtable_url))
+
+        if not fields.get('logo'):
+            message = 'Le logo %s (ID %s) n\'a pas d\'image (colonne logo)' % (structure, resource_image_id)
+            errors.append(AirtableError(message, url=airtable_url))
+
+        return errors
+
+    for resource_images in airtable_resource_images:
+        errors += get_resource_image_errors(resource_images)
+
+    return errors

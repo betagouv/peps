@@ -4,7 +4,7 @@ from data.airtablevalidators import validate_practice_types, validate_practices,
 from data.airtablevalidators import validate_categories, validate_weed_practices, validate_pest_practices
 from data.airtablevalidators import validate_culture_practices, validate_department_practices
 from data.airtablevalidators import validate_departments, validate_glyphosate_practices, validate_practice_groups
-from data.airtablevalidators import validate_mechanisms
+from data.airtablevalidators import validate_mechanisms, validate_resource_images
 
 # Here we test error messages that can be longer than Pylint limit.
 # pylint: disable=line-too-long
@@ -617,7 +617,7 @@ class TestValidators(TestCase):
         errors = validate_mechanisms(json)
         self.assertEqual(len(errors), 0)
 
-        # If the name is missing we should a fatal error
+        # If the name is missing we should have a fatal error
         json = [{
             "id": "recTNvJsPzzqEZS3q",
             "fields": {
@@ -632,7 +632,7 @@ class TestValidators(TestCase):
         self.assertTrue(any(x.message == 'La marge de manoeuvre ID recTNvJsPzzqEZS3q n\'a pas de nom (colonne Name)' for x in errors))
         self.assertTrue(all(x.fatal for x in errors))
 
-        # If the description or practices is missing we should non-fatal errors
+        # If the description or practices is missing we should have non-fatal errors
         json = [{
             "id": "recTNvJsPzzqEZS3q",
             "fields": {
@@ -647,3 +647,35 @@ class TestValidators(TestCase):
         self.assertTrue(any(x.message == 'La marge de manoeuvre Attirer le bioagresseur sur d\'autres plantes (ID recTNvJsPzzqEZS3q) n\'a pas de description (colonne Description)' for x in errors))
         self.assertTrue(any(x.message == 'La marge de manoeuvre Attirer le bioagresseur sur d\'autres plantes (ID recTNvJsPzzqEZS3q) n\'a pas de pratiques (colonne Pratiques)' for x in errors))
         self.assertTrue(all(not x.fatal for x in errors))
+
+
+    def test_resource_images_validation(self):
+        # This is an example of a complete resource/image, there should be no errors
+        json = [{
+            "id": "recoIOxEliadYaS9p",
+            "fields": {
+                "Structure": "Agro-transfert Ressources et territoires",
+                "URL_principal": "agro-transfert-rt.org",
+                "logo": [{
+                    "id": "att4UnyB7ssCR7874",
+                    "url": "https://dl.airtable.com/.attachments/5ca40ccf7238e22122580170c698091f/0ad213c8/AGRO_TRANSFERT_RESSOURCES_ET_TERRITOIRES_342083.jpg",
+                    "filename": "AGRO_TRANSFERT_RESSOURCES_ET_TERRITOIRES_342083.jpg",
+                    "size": 35897,
+                }]
+            },
+        }]
+        errors = validate_resource_images(json)
+        self.assertEqual(len(errors), 0)
+
+        # If the structure, url or image is missing we should have errors
+        json = [{
+            "id": "recoIOxEliadYaS9p",
+            "fields": {
+            },
+        }]
+        errors = validate_resource_images(json)
+        self.assertEqual(len(errors), 3)
+        self.assertTrue(any(x.message == 'Le logo ID recoIOxEliadYaS9p n\'a pas de structure (colonne Structure)' for x in errors))
+        self.assertTrue(any(x.message == 'Le logo None (ID recoIOxEliadYaS9p) n\'a pas d\'URL (colonne URL_principal)' for x in errors))
+        self.assertTrue(any(x.message == 'Le logo None (ID recoIOxEliadYaS9p) n\'a pas d\'image (colonne logo)' for x in errors))
+        self.assertTrue(all(x.fatal for x in errors))

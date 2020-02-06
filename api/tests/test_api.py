@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import AirtableAdapter
-from data.models import Practice, DiscardAction, RefererCount, GroupCount, Category
+from data.models import Practice, DiscardAction, RefererCount, GroupCount, Category, Resource
 from api.views import SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -407,6 +407,22 @@ class TestApi(TestCase):
         self.assertEqual(body[0]['image'], 'http://testserver/media/test-image.jpg')
 
 
+    def test_resource_image(self):
+        """
+        Tests that the resources have the correct image URL.
+        """
+
+        self.client.logout()
+        response = self.client.get(reverse('get_categories'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+        resource = body[0].get('practices')[0].get('main_resource')
+
+        self.assertIsNotNone(resource)
+        self.assertEqual(resource['image'], 'http://testserver/media/test-image.jpg')
+
+
 def _populate_database():
     User.objects.create_user(username='testuser', password='12345')
     image_name = 'test-image.jpg'
@@ -415,21 +431,32 @@ def _populate_database():
     with open(CURRENT_DIR + '/' + image_name, 'rb') as image:
         image_bytes = image.read()
 
+    resource = Resource(
+        external_id='recpbs29kfas9i',
+        modification_date=timezone.now(),
+        url='https://test.test/resource.pdf'
+    )
+    resource.image.save(image_name, image_bytes, save=True)
+    resource.save()
+
     for external_id in ('recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'):
         practice = Practice(
             external_id=external_id,
             modification_date=timezone.now(),
+            main_resource=resource,
         )
         practice.image.save(image_name, image_bytes, save=True)
         practice.save()
+
     for category_id in ('rec82929kfas9i', 'rec0098afaooka', 'recppasf09aii'):
         category = Category(
             external_id=category_id,
             modification_date=timezone.now(),
-            practice_external_ids=[]
+            practice_external_ids=['recZxlcM61qaDoOkc']
         )
         category.image.save(image_name, image_bytes, save=True)
         category.save()
+        category.practices.add(Practice.objects.filter(external_id='recZxlcM61qaDoOkc').first())
 
 
 class MockResponse:

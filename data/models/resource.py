@@ -22,6 +22,7 @@ class Resource(models.Model):
 
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True, blank=True)
+    image = models.ImageField(null=True)
 
     name = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)

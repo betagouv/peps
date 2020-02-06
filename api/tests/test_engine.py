@@ -820,6 +820,7 @@ def _get_mock_airtable(*args, **_):
         'Familles?view=Grid%20view': '/testdata/practice_groups.json',
         'Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',
         'Liens?view=Grid%20view': '/testdata/resources.json',
+        'logos?view=Grid%20view': '/testdata/resource_images.json',
         'Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
         'Categories?view=Grid%20view': '/testdata/categories.json',
     }

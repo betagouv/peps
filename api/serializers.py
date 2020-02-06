@@ -26,6 +26,7 @@ class ResourceSerializer(serializers.ModelSerializer):
             'name',
             'description',
             'resource_type',
+            'image',
             'url',
         )
 
