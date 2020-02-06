@@ -160,8 +160,8 @@ window.pepsRenderer = {
             let airtableUrl = practice.airtable_url;
             let description = practice.description.substring(0, 120) + '...'
             let image = 'https://cdn.pixabay.com/photo/2017/05/19/15/16/countryside-2326787_960_720.jpg'
-            if (practice.image_url) {
-                image = practice.image_url;
+            if (practice.image) {
+                image = practice.image;
             } else {
                 image = 'https://cdn.pixabay.com/photo/2017/05/19/15/16/countryside-2326787_960_720.jpg'
             }
@@ -191,8 +191,8 @@ window.pepsRenderer = {
             let weight = suggestions[i].weight.toFixed(6);
             let airtableUrl = practice.airtable_url;
             let image = 'https://cdn.pixabay.com/photo/2017/05/19/15/16/countryside-2326787_960_720.jpg'
-            if (practice.image_url) {
-                image = practice.image_url;
+            if (practice.image) {
+                image = practice.image;
             } else {
                 image = 'https://cdn.pixabay.com/photo/2017/05/19/15/16/countryside-2326787_960_720.jpg'
             }

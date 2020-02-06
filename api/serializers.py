@@ -50,7 +50,6 @@ class PracticeSerializer(serializers.ModelSerializer):
     main_resource = ResourceSerializer()
     secondary_resources = ResourceSerializer(many=True)
     types = PracticeTypeSerializer(many=True)
-    image_url = serializers.ImageField(source='image', use_url=True)
     class Meta:
         model = Practice
         fields = (
@@ -70,7 +69,6 @@ class PracticeSerializer(serializers.ModelSerializer):
             'precision',
             'difficulty',
             'image',
-            'image_url',
             'airtable_url',
             'main_resource',
             'main_resource_label',

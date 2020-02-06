@@ -34,8 +34,6 @@ class Practice(models.Model):
     additional_benefits = models.TextField(null=True, blank=True)
     success_factors = models.TextField(null=True, blank=True)
 
-    airtable_image_url = models.TextField(null=True, blank=True)
-
     needs_shallow_tillage = models.BooleanField(blank=True, null=True)
     needs_deep_tillage = models.BooleanField(blank=True, null=True)
     weed_whitelist_external_ids = ArrayField(models.TextField(), default=list)

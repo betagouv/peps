@@ -173,7 +173,6 @@ def _create_practice_models(json_practices, json_culture_practices, json_departm
             added_cultures=_get_added_cultures(json_practice),
             culture_whitelist=_get_culture_whitelist(json_practice),
             problems_addressed=_get_problems_addressed(json_practice),
-            airtable_image_url=_get_image_url(json_practice, 'Image principale'),
             department_multipliers=_get_department_multipliers(json_practice, json_departments_practices, json_departments),
             glyphosate_multipliers=_get_glyphosate_multipliers(json_practice, json_glyphosate, json_glyphosate_practices),
             culture_multipliers=_get_culture_multipliers(json_practice, json_culture_practices),
