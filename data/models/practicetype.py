@@ -53,3 +53,23 @@ class PracticeType(models.Model):
         if not self.category:
             return None
         return PracticeTypeCategory(self.category).name
+
+    @staticmethod
+    def create_from_airtable(airtable_json):
+        return PracticeType(
+            external_id=airtable_json.get('id'),
+            airtable_json=airtable_json,
+            airtable_url='https://airtable.com/tblTwpbVXTqbQAYfB/' + airtable_json.get('id') + '/',
+            modification_date=timezone.now(),
+            display_text=airtable_json['fields'].get('Name'),
+            penalty=airtable_json['fields'].get('Malus'),
+            category=PracticeType._get_practice_type_category(airtable_json),
+        )
+
+
+    @staticmethod
+    def _get_practice_type_category(airtable_json):
+        try:
+            return PracticeTypeCategory[airtable_json['fields'].get('Enum code')].value
+        except Exception as _:
+            return None

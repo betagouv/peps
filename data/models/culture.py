@@ -41,3 +41,32 @@ class Culture(models.Model):
 
     # Must be part of the CulturePeriod enum
     sowing_period = models.IntegerField(null=True, blank=True)
+
+    @staticmethod
+    def create_from_airtable(airtable_json):
+        sowing_period = None
+        periodes_de_semis = airtable_json['fields'].get('période de semis')
+        if periodes_de_semis:
+            try:
+                sowing_period = Culture.CulturesSowingPeriod[periodes_de_semis[0]].value
+            except KeyError as _:
+                pass
+
+        sowing_months = None
+        mois_semis = airtable_json['fields'].get('mois semis')
+        if mois_semis:
+            sowing_months = []
+            for mois in mois_semis:
+                try:
+                    sowing_months.append(Culture.CulturesSowingMonth[mois].value)
+                except KeyError as _:
+                    pass
+
+        return Culture(
+            external_id=airtable_json.get('id'),
+            airtable_json=airtable_json,
+            modification_date=timezone.now(),
+            display_text=airtable_json['fields'].get('Name'),
+            sowing_period=sowing_period,
+            sowing_months=sowing_months
+        )

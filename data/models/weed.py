@@ -24,3 +24,19 @@ class Weed(models.Model):
 
     # Must be part of the WeedNature enum
     nature = models.IntegerField(null=True, blank=True)
+
+    @staticmethod
+    def create_from_airtable(airtable_json):
+        try:
+            nature = Weed.WeedNature[airtable_json['fields'].get('type')]
+        except KeyError as _:
+            nature = None
+
+        return Weed(
+            external_id=airtable_json.get('id'),
+            airtable_json=airtable_json,
+            modification_date=timezone.now(),
+            display_text=airtable_json['fields'].get('Name'),
+            description=airtable_json['fields'].get('Description'),
+            nature=nature.value,
+        )

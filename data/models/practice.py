@@ -2,10 +2,13 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField, ArrayField
+from data.utils import get_airtable_image_name, get_airtable_image_content_file
 from .practicegroup import PracticeGroup
-from .practicetype import PracticeType
+from .practicetype import PracticeType, PracticeTypeCategory
 from .mechanism import Mechanism
 from .resource import Resource
+from .problem import Problem
+from .glyphosateuses import GlyphosateUses
 
 class Practice(models.Model):
     """
@@ -125,3 +128,171 @@ class Practice(models.Model):
 
     # E.g., [{'recjzIAuvEkton9Ed': 1.003}, {'recjzIArvEkton9Ds': 0.7329}]
     culture_multipliers = ArrayField(JSONField(), blank=True, null=True)
+
+
+    @staticmethod
+    def create_from_airtable(airtable_json, json_culture_practices, json_departments_practices,
+                             json_departments, json_glyphosate, json_glyphosate_practices, mechanisms,
+                             resources, json_practice_types, json_weeds, json_weed_practices, json_pests, json_pest_practices):
+        fields = airtable_json['fields']
+        mechanism_external_ids = fields.get('Marges de manoeuvre', [])
+        resource_external_ids = fields.get('CTA lien', [])
+        practice_types = [x for x in json_practice_types if x['id'] in fields.get('Types')]
+
+        needs_shallow_tillage = any([x for x in practice_types if x['fields'].get('Enum code') == PracticeTypeCategory.TRAVAIL_DU_SOL.name])
+        needs_deep_tillage = any([x for x in practice_types if x['fields'].get('Enum code') == PracticeTypeCategory.TRAVAIL_PROFOND.name])
+
+        practice = Practice(
+            external_id=airtable_json.get('id'),
+            mechanism=next((x for x in mechanisms if x.external_id in mechanism_external_ids), None),
+            main_resource=next((x for x in resources if x.external_id in resource_external_ids), None),
+            main_resource_label=fields.get('CTA title'),
+            airtable_json=airtable_json,
+            airtable_url='https://airtable.com/tblobpdQDxkzcllWo/' + airtable_json.get('id') + '/',
+            title=fields.get('Nom').strip(),
+            short_title=fields.get('Nom court').strip(),
+            description=fields.get('Description'),
+            equipment=fields.get('Matériel'),
+            schedule=fields.get('Période de travail'),
+            impact=fields.get('Impact'),
+            additional_benefits=fields.get('Bénéfices supplémentaires'),
+            success_factors=fields.get('Facteur clé de succès'),
+            needs_tillage=fields.get('Nécessite travail du sol', False),
+            livestock_multiplier=fields.get('Élevage multiplicateur'),
+            needs_livestock=fields.get('Élevage nécessaire', False),
+            balances_sowing_period=fields.get('Équilibre période semis', False),
+            direct_sale_multiplier=fields.get('Vente directe multiplicateur'),
+            precision=fields.get('Précision'),
+            difficulty=fields.get('Difficulté'),
+            added_cultures=fields.get('Ajout dans la rotation cultures'),
+            culture_whitelist=fields.get('Cultures whitelist'),
+            problems_addressed=Practice._get_problems_addressed(airtable_json),
+            department_multipliers=Practice._get_department_multipliers(airtable_json, json_departments_practices, json_departments),
+            glyphosate_multipliers=Practice._get_glyphosate_multipliers(airtable_json, json_glyphosate, json_glyphosate_practices),
+            culture_multipliers=Practice._get_culture_multipliers(airtable_json, json_culture_practices),
+            needs_shallow_tillage=needs_shallow_tillage,
+            needs_deep_tillage=needs_deep_tillage,
+            weed_multipliers=Practice._get_weed_multipliers(airtable_json, json_weeds, json_weed_practices),
+            pest_multipliers=Practice._get_pest_multipliers(airtable_json, json_pests, json_pest_practices),
+            weed_whitelist_external_ids=fields.get('Adventices whitelist', []),
+            pest_whitelist_external_ids=fields.get('Ravageurs whitelist', []),
+            modification_date=timezone.now(),
+        )
+        image_name = get_airtable_image_name(airtable_json, 'Image principale')
+        image_content_file = get_airtable_image_content_file(airtable_json, 'Image principale')
+        if image_name and image_content_file:
+            practice.image.save(image_name, image_content_file, save=True)
+        return practice
+
+
+    @staticmethod
+    def _get_problems_addressed(airtable_json):
+        fields = airtable_json['fields']
+        airtable_adressed_problems = fields.get('Problèmes adressés', [])
+        problems = []
+        for airtable_problem in airtable_adressed_problems:
+            try:
+                problems.append(Problem[airtable_problem].value)
+            except KeyError as _:
+                continue
+        return problems
+
+
+    @staticmethod
+    def _get_department_multipliers(airtable_json, json_departments_practices, json_departments):
+        departments = json_departments
+        departments_practices = json_departments_practices
+        practice = airtable_json
+
+        concerned_department_practices = list(filter(lambda x: practice['id'] in (x['fields'].get('Pratique') or []), departments_practices))
+        department_multipliers = []
+        for item in concerned_department_practices:
+            if not item['fields'].get('Departement'):
+                continue
+
+            department_airtable_id = item['fields'].get('Departement')[0]
+            airtable_department_entry = next(filter(lambda x: x['id'] == department_airtable_id, departments), None)
+            if not airtable_department_entry or not airtable_department_entry['fields'].get('Numéro'):
+                continue
+
+            department_number = airtable_department_entry['fields'].get('Numéro')
+            multiplier = item['fields'].get('Multiplicateur') or 1
+
+            department_multipliers.append({
+                department_number: multiplier
+            })
+
+        return department_multipliers
+
+    @staticmethod
+    def _get_glyphosate_multipliers(airtable_json, json_glyphosate, json_glyphosate_practices):
+        concerned_glyphosate_practices = list(filter(lambda x: airtable_json['id'] in (x['fields'].get('Pratique') or []), json_glyphosate_practices))
+        glyphosate_multipliers = []
+        for item in concerned_glyphosate_practices:
+            if not item['fields'].get('Glyphosate'):
+                continue
+
+            glyphosate_airtable_id = item['fields'].get('Glyphosate')[0]
+            airtable_glyphosate_entry = next(filter(lambda x: x['id'] == glyphosate_airtable_id, json_glyphosate), None)
+            if not airtable_glyphosate_entry or not airtable_glyphosate_entry['fields'].get('Enum code'):
+                continue
+
+            try:
+                glyphosate_enum_number = GlyphosateUses[airtable_glyphosate_entry['fields'].get('Enum code')].value
+                multiplier = item['fields'].get('Multiplicateur') or 1
+
+                glyphosate_multipliers.append({
+                    glyphosate_enum_number: multiplier
+                })
+            except KeyError as _:
+                continue
+
+        return glyphosate_multipliers
+
+    @staticmethod
+    def _get_culture_multipliers(airtable_json, json_culture_practices):
+        concerned_culture_practices = list(filter(lambda x: airtable_json['id'] in (x['fields'].get('Pratique') or []), json_culture_practices))
+        culture_multipliers = []
+        for item in concerned_culture_practices:
+            if not item['fields'].get('Culture'):
+                continue
+
+            culture_airtable_id = item['fields'].get('Culture')[0]
+            multiplier = item['fields'].get('Multiplicateur') or 1
+            culture_multipliers.append({
+                culture_airtable_id: multiplier
+            })
+
+        return culture_multipliers
+
+
+    @staticmethod
+    def _get_weed_multipliers(airtable_json, json_weeds, json_weed_practices):
+        concerned_weed_practices = list(filter(lambda x: airtable_json['id'] in (x['fields'].get('Pratique') or []), json_weed_practices))
+        weed_multipliers = []
+        for weed_practice in concerned_weed_practices:
+            if not weed_practice['fields'].get('Adventice') or not weed_practice['fields'].get('Multiplicateur'):
+                continue
+            weed_airtable_id = weed_practice['fields'].get('Adventice')[0]
+            weed = next(filter(lambda x: x['id'] == weed_airtable_id, json_weeds), None)
+            weed_multipliers.append({
+                weed['id']: weed_practice['fields'].get('Multiplicateur') or 1
+            })
+
+        return weed_multipliers
+
+
+    @staticmethod
+    def _get_pest_multipliers(airtable_json, json_pests, json_pest_practices):
+        concerned_pest_practices = list(filter(lambda x: airtable_json['id'] in (x['fields'].get('Pratique') or []), json_pest_practices))
+        pest_multipliers = []
+        for pest_practice in concerned_pest_practices:
+            if not pest_practice['fields'].get('Ravageur') or not pest_practice['fields'].get('Multiplicateur'):
+                continue
+            pest_airtable_id = pest_practice['fields'].get('Ravageur')[0]
+            pest = next(filter(lambda x: x['id'] == pest_airtable_id, json_pests), None)
+            pest_multipliers.append({
+                pest['id']: pest_practice['fields'].get('Multiplicateur') or 1
+            })
+
+        return pest_multipliers

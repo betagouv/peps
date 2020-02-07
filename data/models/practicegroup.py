@@ -21,3 +21,13 @@ class PracticeGroup(models.Model):
 
     name = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+    @staticmethod
+    def create_from_airtable(airtable_json):
+        return PracticeGroup(
+            external_id=airtable_json.get('id'),
+            airtable_json=airtable_json,
+            modification_date=timezone.now(),
+            name=airtable_json['fields'].get('Nom'),
+            description=airtable_json['fields'].get('Description'),
+        )

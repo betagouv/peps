@@ -3,6 +3,7 @@ from enum import Enum
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField
+from data.utils import get_airtable_image_name, get_airtable_image_content_file
 
 class ResourceType(Enum):
     SITE_WEB = 1
@@ -33,3 +34,35 @@ class Resource(models.Model):
         if not self.resource_type:
             return None
         return ResourceType(self.resource_type).name
+
+    @staticmethod
+    def create_from_airtable(airtable_json, airtable_resource_images):
+        url = airtable_json['fields'].get('Url')
+        resource = Resource(
+            external_id=airtable_json.get('id'),
+            modification_date=timezone.now(),
+            airtable_json=airtable_json,
+            airtable_url='https://airtable.com/tblVb2GDuCPGUrt35/' + airtable_json.get('id') + '/',
+            name=airtable_json['fields'].get('Nom'),
+            description=airtable_json['fields'].get('Description'),
+            resource_type=Resource._get_resource_type_from_airtable(airtable_json),
+            url=url,
+        )
+        resource_image = next((x for x in airtable_resource_images if x['fields'].get('URL_principal') in url), None)
+        if resource_image:
+            image_name = get_airtable_image_name(resource_image, 'logo')
+            image_content_file = get_airtable_image_content_file(resource_image, 'logo')
+            if image_name and image_content_file:
+                resource.image.save(image_name, image_content_file, save=True)
+        return resource
+
+    @staticmethod
+    def _get_resource_type_from_airtable(airtable_json):
+        resource_type = airtable_json['fields'].get('Type')
+        if resource_type == 'PDF':
+            return ResourceType.PDF.value
+        if resource_type == 'Site web':
+            return ResourceType.SITE_WEB.value
+        if resource_type == 'Vidéo':
+            return ResourceType.VIDEO.value
+        return None

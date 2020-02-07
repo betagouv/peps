@@ -21,3 +21,14 @@ class Mechanism(models.Model):
 
     name = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+    @staticmethod
+    def create_from_airtable(airtable_json):
+        return Mechanism(
+            external_id=airtable_json.get('id'),
+            modification_date=timezone.now(),
+            airtable_json=airtable_json,
+            airtable_url='https://airtable.com/tbliz8fD7ZaoqIugz/' + airtable_json.get('id') + '/',
+            name=airtable_json['fields'].get('Name'),
+            description=airtable_json['fields'].get('Description'),
+        )
