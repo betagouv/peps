@@ -71,9 +71,9 @@
           class="overflow-y-auto"
         >
           <v-card-text
-            style="padding-top: 30px; color: #333;"
+            style="padding: 30px; color: #333;"
           >Merci ! Notre équipe vous contactera bientôt</v-card-text>
-          <div style="padding-right: 10px; text-align: right">
+          <div style="padding: 10px; text-align: right">
             <v-btn
               class="text-none body-1 practice-buttons"
               color="primary"
