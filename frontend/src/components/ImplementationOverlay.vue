@@ -4,7 +4,14 @@
 
     <v-overlay :value="visible" :dark="false">
       <div v-if="sendingIdle">
-        <v-btn @click="cancelImplementation()" class="close-overlay" fab dark small color="grey lighten-5">
+        <v-btn
+          @click="cancelImplementation()"
+          class="close-overlay"
+          fab
+          dark
+          small
+          color="grey lighten-5"
+        >
           <v-icon color="red darken-3">mdi-close</v-icon>
         </v-btn>
         <v-card
@@ -37,8 +44,13 @@
             storeDataName="contactFormData"
             class="pa-3"
           />
-          <div style="padding-right: 10px; text-align: right">
-            <v-btn class="text-none body-1 practice-buttons" @click="cancelImplementation()" rounded>Annuler</v-btn>
+          <div style="padding: 10px; text-align: right">
+            <v-btn
+              class="text-none body-1 practice-buttons"
+              style="margin-right: 10px;"
+              @click="cancelImplementation()"
+              rounded
+            >Annuler</v-btn>
             <v-btn
               class="text-none body-1 practice-buttons"
               color="primary"
@@ -58,9 +70,9 @@
           :style="'max-width: 600px; max-height:' + windowHeight + 'px'"
           class="overflow-y-auto"
         >
-          <v-card-text style="padding-top: 30px; color: #333;">
-            Merci ! Notre équipe vous contactera bientôt
-          </v-card-text>
+          <v-card-text
+            style="padding-top: 30px; color: #333;"
+          >Merci ! Notre équipe vous contactera bientôt</v-card-text>
           <div style="padding-right: 10px; text-align: right">
             <v-btn
               class="text-none body-1 practice-buttons"
@@ -71,7 +83,6 @@
           </div>
         </v-card>
       </div>
-
     </v-overlay>
   </div>
 </template>
@@ -79,8 +90,8 @@
 <script>
 import Form from "@/components/forms/Form.vue"
 import formutils from "@/formutils"
-import Constants from '@/constants'
-import Loader from "@/components/Loader.vue";
+import Constants from "@/constants"
+import Loader from "@/components/Loader.vue"
 
 export default {
   name: "ImplementationOverlay",
@@ -184,7 +195,7 @@ export default {
           mdiIcon: "mdi-cellphone-android"
         }
       }
-    },
+    }
   }),
   props: {
     practice: {
@@ -196,20 +207,28 @@ export default {
       return !!this.practice && Object.keys(this.practice).length > 0
     },
     sendingIdle() {
-      return this.$store.state.implementationLoadingStatus ===
+      return (
+        this.$store.state.implementationLoadingStatus ===
         Constants.LoadingStatus.IDLE
+      )
     },
     sendingInProgress() {
-      return this.$store.state.implementationLoadingStatus ===
+      return (
+        this.$store.state.implementationLoadingStatus ===
         Constants.LoadingStatus.LOADING
+      )
     },
     sendingSucceeded() {
-      return this.$store.state.implementationLoadingStatus ===
+      return (
+        this.$store.state.implementationLoadingStatus ===
         Constants.LoadingStatus.SUCCESS
+      )
     },
     sendingError() {
-      return this.$store.state.implementationLoadingStatus ===
+      return (
+        this.$store.state.implementationLoadingStatus ===
         Constants.LoadingStatus.ERROR
+      )
     },
     complete() {
       const reasonComplete = formutils.formIsComplete(
@@ -237,12 +256,12 @@ export default {
       this.$emit("done")
     },
     cancelImplementation() {
-      window.sendTrackingEvent('Practice', 'try cancel', this.practice.title)
+      window.sendTrackingEvent("Practice", "try cancel", this.practice.title)
       this.$store.dispatch("resetImplementationForm")
       this.$emit("done")
     },
     sendImplementation() {
-      window.sendTrackingEvent('Practice', 'try confirm', this.practice.title)
+      window.sendTrackingEvent("Practice", "try confirm", this.practice.title)
       this.$store.dispatch("sendImplementation", { practice: this.practice })
     },
     onWindowResize() {
