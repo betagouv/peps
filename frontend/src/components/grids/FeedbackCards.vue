@@ -7,7 +7,7 @@
           <v-card-text style="margin-bottom: 40px;">{{ item.body }}</v-card-text>
           <v-btn
             class="text-none ma-3 fill-height"
-            :href="item.buttonUrl"
+            @click="item.onClick()"
             target="_blank"
             rounded
             small
@@ -28,19 +28,34 @@ export default {
       descriptionItems: [
         {
           title: "Je donne mon avis",
+          onClick: () => this.feedbackCallback ? this.feedbackCallback() : this.goToContact(),
           body:
             "Prenez 2 minutes pour nous faire vos retours et vos suggestions sur le service",
-          buttonUrl: "https://alejandromg.typeform.com/to/bltLaz",
-          buttonText: "Répondre au sondage"
+          buttonText: "Faire un retour"
         },
         {
           title: "Je contribue au projet",
+          onClick: () => this.contributionCallback ? this.contributionCallback() : this.goToContact(),
           body:
             "Lors d'un entretien, de test de nouvelles interfaces, un tour de plaine...",
-          buttonUrl: "https://alejandromg.typeform.com/to/gGE3LM",
-          buttonText: "Je m'inscris !"
+          buttonText: "Je contribue !"
         }
       ]
+    }
+  },
+  methods: {
+    goToContact: function() {
+      this.$router.push({
+        name: "Contact"
+      })
+    }
+  },
+  props: {
+    feedbackCallback: {
+      type: Function,
+    },
+    contributionCallback: {
+      type: Function,
     }
   }
 }

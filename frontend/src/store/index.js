@@ -22,6 +22,8 @@ export default new Vuex.Store({
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
 
+    hasContributed: false,
+
     miaFormDefinition: {},
     statsFormDefinition: {},
     contactFormDefinition: {},
@@ -70,6 +72,9 @@ export default new Vuex.Store({
     },
     SET_CONTACT_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.contactFormData, fieldId, fieldValue)
+    },
+    SET_HAS_CONTRIBUTED(state, { hasContributed }) {
+      state.hasContributed = hasContributed
     },
     SET_IMPLEMENTATION_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.implementationFormData, fieldId, fieldValue)
@@ -149,6 +154,10 @@ export default new Vuex.Store({
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
+    },
+    sendContributionInfo(context) {
+      context.dispatch('sendContactData', 'Je veux contribuer au projet !')
+      context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
     },
     addMiaFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_MIA_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
