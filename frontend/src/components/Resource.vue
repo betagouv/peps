@@ -47,7 +47,7 @@ export default {
         PDF: "mdi-pdf-box",
         VIDEO: "mdi-youtube"
       }
-      return icons.hasOwnProperty(type)
+      return Object.prototype.hasOwnProperty.call(icons, type)
         ? icons[type]
         : "mdi-file-document-outline"
     }

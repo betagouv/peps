@@ -66,10 +66,11 @@ export default {
         return readableAnswers
     },
     getFieldType(schema, options, fieldName) {
-        if (schema && schema.properties.hasOwnProperty(fieldName) && schema.properties[fieldName].hasOwnProperty('type')) {
+        const hasOwnProperty = Object.prototype.hasOwnProperty
+        if (schema && hasOwnProperty.call(schema.properties, fieldName) && hasOwnProperty.call(schema.properties[fieldName], 'type')) {
             return schema.properties[fieldName].type
         }
-        if (options && options.fields.hasOwnProperty(fieldName) && options.fields[fieldName].hasOwnProperty('type')) {
+        if (options && hasOwnProperty.call(options.fields, fieldName) && hasOwnProperty.call(options.fields[fieldName],'type')) {
             return options.fields[fieldName].type
         }
     },
