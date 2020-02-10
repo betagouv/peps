@@ -280,13 +280,14 @@ def validate_resources(airtable_resources):
         fields = resource['fields']
         resource_id = resource['id']
         resource_title = fields.get('Nom')
+        resource_url = fields.get('Url')
         url = 'https://airtable.com/tblVb2GDuCPGUrt35/viwRtOVqMHzJtgvNn/%s' % resource_id
 
         if not resource_title:
             message = 'Lien ID %s n\'a pas de nom (colonne Nom)' % resource_id
             errors.append(AirtableError(message, url=url))
 
-        if not fields.get('Url'):
+        if not resource_url:
             message = 'Lien "%s" (ID %s) manque l\'URL (colonne Url)' % (resource_title, resource_id)
             errors.append(AirtableError(message, url=url))
 
@@ -296,6 +297,10 @@ def validate_resources(airtable_resources):
 
         if not fields.get('Description'):
             message = 'Lien "%s" (ID %s) manque la description (colonne Description)' % (resource_title, resource_id)
+            errors.append(AirtableError(message, fatal=False, url=url))
+
+        if resource_url and 'youtube' in resource_url and ('?t=' in resource_url or '&t=' in resource_url):
+            message = 'Lien Youtube "%s" (ID %s) contient le temps de démarrage dans l\'url' % (resource_title, resource_id)
             errors.append(AirtableError(message, fatal=False, url=url))
 
         return errors

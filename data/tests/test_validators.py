@@ -4,7 +4,7 @@ from data.airtablevalidators import validate_practice_types, validate_practices,
 from data.airtablevalidators import validate_categories, validate_weed_practices, validate_pest_practices
 from data.airtablevalidators import validate_culture_practices, validate_department_practices
 from data.airtablevalidators import validate_departments, validate_glyphosate_practices, validate_practice_groups
-from data.airtablevalidators import validate_mechanisms, validate_resource_images
+from data.airtablevalidators import validate_mechanisms, validate_resource_images, validate_resources
 
 # Here we test error messages that can be longer than Pylint limit.
 # pylint: disable=line-too-long
@@ -646,6 +646,53 @@ class TestValidators(TestCase):
         self.assertEqual(len(errors), 2)
         self.assertTrue(any(x.message == 'La marge de manoeuvre Attirer le bioagresseur sur d\'autres plantes (ID recTNvJsPzzqEZS3q) n\'a pas de description (colonne Description)' for x in errors))
         self.assertTrue(any(x.message == 'La marge de manoeuvre Attirer le bioagresseur sur d\'autres plantes (ID recTNvJsPzzqEZS3q) n\'a pas de pratiques (colonne Pratiques)' for x in errors))
+        self.assertTrue(all(not x.fatal for x in errors))
+
+
+    def test_resource_validation(self):
+        # This is an example of a complete resource, there should be no errors
+        json = [{
+            "id": "recxUdYsIkPYOK4AB",
+            "fields": {
+                "Nom": "Vidéo sur le désherbage mécanique avec herse étrille",
+                "Description": "Contient des informations sur les réglages et mode d'utilisation.",
+                "Url": "https://www.youtube.com/watch?v=1nUsvLsW7_E",
+                "Pratiques": ["recplecMZuFr1VHAA"],
+                "Type": "Vidéo"
+            }
+        }]
+        errors = validate_resources(json)
+        self.assertEqual(len(errors), 0)
+
+        # If the title, url or type is missing we should have fatal errors
+        json = [{
+            "id": "recxUdYsIkPYOK4AB",
+            "fields": {
+                "Description": "Contient des informations sur les réglages et mode d'utilisation.",
+                "Pratiques": ["recplecMZuFr1VHAA"],
+            },
+        }]
+        errors = validate_resources(json)
+        self.assertEqual(len(errors), 3)
+        self.assertTrue(any(x.message == 'Lien ID recxUdYsIkPYOK4AB n\'a pas de nom (colonne Nom)' for x in errors))
+        self.assertTrue(any(x.message == 'Lien "None" (ID recxUdYsIkPYOK4AB) manque l\'URL (colonne Url)' for x in errors))
+        self.assertTrue(any(x.message == 'Lien "None" (ID recxUdYsIkPYOK4AB) manque le type (colonne Type)' for x in errors))
+        self.assertTrue(all(x.fatal for x in errors))
+
+        # If the description is missing, or if the Youtube url has a time parameter in the url, we get warnings
+        json = [{
+            "id": "recxUdYsIkPYOK4AB",
+            "fields": {
+                "Nom": "Vidéo sur le désherbage mécanique avec herse étrille",
+                "Url": "https://www.youtube.com/watch?v=1nUsvLsW7_E&t=2",
+                "Pratiques": ["recplecMZuFr1VHAA"],
+                "Type": "Vidéo"
+            },
+        }]
+        errors = validate_resources(json)
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(any(x.message == 'Lien "Vidéo sur le désherbage mécanique avec herse étrille" (ID recxUdYsIkPYOK4AB) manque la description (colonne Description)' for x in errors))
+        self.assertTrue(any(x.message == 'Lien Youtube "Vidéo sur le désherbage mécanique avec herse étrille" (ID recxUdYsIkPYOK4AB) contient le temps de démarrage dans l\'url' for x in errors))
         self.assertTrue(all(not x.fatal for x in errors))
 
 
