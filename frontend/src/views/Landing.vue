@@ -2,6 +2,20 @@
   <div>
     <div id="landing-image">
       <v-container class="constrained">
+        <v-alert
+          border="top"
+          colored-border
+          color="primary"
+          type="info"
+          elevation="2"
+          v-if="!hasContributed"
+        >
+          Nous avons besoin de vous !
+          <span
+            style="text-decoration: underline; cursor: pointer;"
+            @click="contribute()"
+          >Contribuez au projet</span> lors d'un entretien, des tests de nouvelles interfaces, un tour de plaine...
+        </v-alert>
         <v-card id="landing-main" class="pa-5" style="margin-top: 10px; max-width: 650px;">
           <div class="display-1">
             Les pratiques économes en produits phytosanitaires
