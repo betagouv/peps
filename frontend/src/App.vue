@@ -1,18 +1,21 @@
 <template>
-  <v-app>
-    <Header />
-    <ErrorMessage 
-      :visible="showErrorMessage"
-      ctaText="Recharger la page"
-      :ctaAction="this.reload"
-      :showCloseButton="false"
-    />
-    <v-content>
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
-      <Footer />
-    </v-content>
+  <v-app :class="{ 'banner-visible': !hasContributed }">
+    <ContributionBanner id="contribution-banner" v-if="!hasContributed" />
+    <div id="app-wrapper">
+      <Header />
+      <ErrorMessage
+        :visible="showErrorMessage"
+        ctaText="Recharger la page"
+        :ctaAction="this.reload"
+        :showCloseButton="false"
+      />
+      <v-content>
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
+        <Footer />
+      </v-content>
+    </div>
   </v-app>
 </template>
 
@@ -21,18 +24,26 @@ import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
 import ErrorMessage from "@/components/ErrorMessage.vue"
+import ContributionBanner from "@/components/ContributionBanner.vue"
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
-    ErrorMessage
+    ErrorMessage,
+    ContributionBanner
   },
   mounted() {
     this.$store.dispatch("resetLoaders")
     this.$store.dispatch("fetchFormDefinitions")
     this.$store.dispatch("fetchCategories")
+  },
+  created() {
+    window.addEventListener("resize", this.onWindowResize)
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.onWindowResize)
   },
   computed: {
     showErrorMessage() {
@@ -43,19 +54,26 @@ export default {
         this.$store.state.categoriesLoadingStatus === error ||
         this.$store.state.implementationLoadingStatus === error
       )
+    },
+    hasContributed: function() {
+      return this.$store.state.hasContributed
     }
   },
   methods: {
     reload() {
       location.reload()
+    },
+    onWindowResize() {
+      const height = this.hasContributed ? 0 : this.$el.querySelector('#contribution-banner').height
+      this.$el.querySelector('#app-wrapper').style.marginTop = height
     }
   }
 }
 </script>
 
 <style lang="scss">
-$source-sans-pro: 'Source Sans Pro', 'Roboto', sans-serif;
-$cursive: 'Caveat', cursive;
+$source-sans-pro: "Source Sans Pro", "Roboto", sans-serif;
+$cursive: "Caveat", cursive;
 
 #app.v-application {
   font-family: "Roboto", sans-serif;
@@ -89,6 +107,10 @@ $cursive: 'Caveat', cursive;
   }
 }
 
+// #app.banner-visible #app-wrapper {
+//   margin-top: 40px;
+// }
+
 body {
   background: #fff;
 }
@@ -111,7 +133,7 @@ body .buorg .buorg-buttons {
 }
 .fade-enter,
 .fade-leave-to {
-  opacity: 0.0;
+  opacity: 0;
 }
 
 .v-card__text,

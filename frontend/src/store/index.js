@@ -159,6 +159,9 @@ export default new Vuex.Store({
       context.dispatch('sendContactData', 'Je veux contribuer au projet !')
       context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
     },
+    discardContributionPrompt(context) {
+      context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
+    },
     addMiaFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_MIA_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
     },

@@ -1,7 +1,13 @@
 <template>
-  <div>
-    <v-app-bar app color="primary" dark>
-      <v-toolbar-title><a href="/#/" style="color:white; text-decoration:none; font-weight: bold; outline: none;">Peps</a></v-toolbar-title>
+  <div style="position: absolute; width:100%;">
+    <ContributionBanner />
+    <v-app-bar app absolute color="primary" dark>
+      <v-toolbar-title>
+        <a
+          href="/#/"
+          style="color:white; text-decoration:none; font-weight: bold; outline: none;"
+        >Peps</a>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-badge
@@ -20,24 +26,25 @@
         </v-btn>
       </v-badge>
 
-      <v-btn
-        text
-        elevation=0
-        href="/#/qui-sommes-nous"
-      >
-        <v-icon class="d-flex d-sm-none">mdi-information</v-icon><span class="caption text-none d-none d-sm-flex">En savoir plus</span>
+      <v-btn text elevation="0" href="/#/qui-sommes-nous">
+        <v-icon class="d-flex d-sm-none">mdi-information</v-icon>
+        <span class="caption text-none d-none d-sm-flex">En savoir plus</span>
       </v-btn>
 
-      <v-btn
-        text
-        elevation=0
-        href="/#/contact"
-      >
-        <v-icon class="d-flex d-sm-none">mdi-email</v-icon><span class="caption text-none d-none d-sm-flex">Contact</span>
+      <v-btn text elevation="0" href="/#/contact">
+        <v-icon class="d-flex d-sm-none">mdi-email</v-icon>
+        <span class="caption text-none d-none d-sm-flex">Contact</span>
       </v-btn>
     </v-app-bar>
     <v-overlay :value="blacklistDialog" :dark="false">
-      <v-btn @click="blacklistDialog = false" class="close-overlay" fab dark small color="grey lighten-5">
+      <v-btn
+        @click="blacklistDialog = false"
+        class="close-overlay"
+        fab
+        dark
+        small
+        color="grey lighten-5"
+      >
         <v-icon color="red darken-3">mdi-close</v-icon>
       </v-btn>
       <Blacklist style="max-height: 80vh;" class="overflow-y-auto"></Blacklist>
@@ -47,11 +54,12 @@
 
 <script>
 import Blacklist from "@/components/Blacklist.vue"
+import ContributionBanner from "@/components/ContributionBanner.vue"
 
 export default {
-  name: "Header",
-  components: { Blacklist },
-  data() {
+  name: "z",
+  components: { Blacklist, ContributionBanner },
+  data: () => {
     return { blacklistDialog: false }
   },
   computed: {
@@ -66,3 +74,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  /* #app.banner-visible .v-app-bar {
+    top: 40px;
+  } */
+</style>
