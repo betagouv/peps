@@ -162,6 +162,9 @@ export default {
   },
   methods: {
     close() {
+      if (this.sendingSucceeded)
+        this.$store.dispatch("registerUserContribution")
+      this.$store.dispatch("resetContactLoadingStatus")
       this.$emit("done")
     },
     cancelImplementation() {

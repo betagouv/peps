@@ -125,7 +125,7 @@ export default {
         this.$store.dispatch("sendStatsData")
       }
       if (this.$options.shouldShowContactForm) {
-        this.$store.dispatch("sendContactData", 'A répondu depuis l\'application Web')
+        this.$store.dispatch("sendUsageData")
       }
       this.$store.dispatch("fetchSuggestions")
     }

@@ -74,7 +74,7 @@ class SendTaskView(APIView):
     implementation of a certain practice.
     """
     def post(self, request):
-        name = request.data.get('name')
+        task_name = request.data.get('name')
         email = request.data.get('email')
         phone_number = request.data.get('phone_number')
         practice_id = request.data.get('practice_id')
@@ -83,7 +83,7 @@ class SendTaskView(APIView):
         date = request.data.get('datetime')
 
         # We need at least name and phone number
-        if not name or not phone_number:
+        if not task_name or not phone_number:
             return JsonResponse({'error': 'Missing information'}, status=400)
 
         # If we have a date, it needs to be a valid one
@@ -97,9 +97,9 @@ class SendTaskView(APIView):
 
         if practice_id:
             practice_url = 'https://airtable.com/tblobpdQDxkzcllWo/{0}'.format(practice_id)
-            notes += '{0} a besoin d\'aide pour implémenter la pratique {1}.\n\n'.format(name, practice_url)
+            notes += '{0} a besoin d\'aide pour implémenter la pratique {1}.\n\n'.format(task_name, practice_url)
         else:
-            notes += '{0} a partagé son information de contact.\n\n'.format(name)
+            notes += '{0} a partagé son information de contact.\n\n'.format(task_name)
 
         notes += 'Num tel : {0}\n\n'.format(phone_number)
 
@@ -110,7 +110,7 @@ class SendTaskView(APIView):
             notes += 'Réponses :\n{0}'.format(answers)
 
         try:
-            SendTaskView._send_task(settings.ASANA_PROJECT, name, notes, date)
+            SendTaskView._send_task(settings.ASANA_PROJECT, task_name, notes, date)
             return JsonResponse({}, status=200)
         except asana.error.InvalidRequestError as _:
             return JsonResponse({'error': 'Invalid request'}, status=400)

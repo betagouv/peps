@@ -144,20 +144,42 @@ export default new Vuex.Store({
         context.commit('SET_STATS_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
-    sendContactData(context, overrideReason = null) {
+    sendContactData(context) { // From contact page
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      let payload = this.getters.contactPayload
-      if (overrideReason)
-        payload.reason = overrideReason
-      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+      Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
-    sendContributionInfo(context) {
-      context.dispatch('sendContactData', 'Je veux contribuer au projet !')
+    sendUsageData(context) { // From form usage
+      context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/sendTask', this.getters.usagePayload, { headers }).then(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
+    sendContributionInfo(context) { // From contribute prompt
+      context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/sendTask', this.getters.contributionPayload, { headers }).then(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
+    registerUserContribution(context) {
       context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
+    },
+    sendImplementation(context, { practice }) { // From implement a practice
+      context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
+      let payload = this.getters.implementationPayload
+      payload.practice_id = practice.external_id
+      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+        context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
+      })
     },
     discardContributionPrompt(context) {
       context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
@@ -179,16 +201,6 @@ export default new Vuex.Store({
     },
     removeFromBlacklist(context, { practice }) {
       context.commit('REMOVE_FROM_BLACKLIST', { practice: practice })
-    },
-    sendImplementation(context, { practice }) {
-      context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
-      let payload = this.getters.implementationPayload
-      payload.practice_id = practice.external_id
-      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
-        context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.SUCCESS)
-      }).catch(() => {
-        context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
-      })
     },
     resetImplementationForm(context) {
       context.commit('SET_IMPLEMENTATION_FORM_DATA', { fieldId: 'implementationReason', fieldValue: [] })
@@ -221,25 +233,45 @@ export default new Vuex.Store({
       return {
         answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
         email: state.contactFormData ? state.contactFormData.email : '',
-        name: state.contactFormData ? state.contactFormData.name : '',
+        name: (state.contactFormData ? state.contactFormData.name : '') + ' [IMPLEMENTATION PRATIQUE]',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
         problem: reasons.join(', ')
+      }
+    },
+    contactPayload(state, getters) {
+      return {
+        email: state.contactFormData ? state.contactFormData.email : '',
+        name: (state.contactFormData ? state.contactFormData.name : '') + ' [PARTAGE CONTACT]',
+        phone_number: state.contactFormData ? state.contactFormData.phone : '',
+        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        reason: 'A partagé ses coordonnées pour être contacté',
+        practice_id: '',
+      }
+    },
+    usagePayload(state, getters) {
+      return {
+        email: state.contactFormData ? state.contactFormData.email : '',
+        name: (state.contactFormData ? state.contactFormData.name : '') + ' [UTILISATION FORMULAIRE]',
+        phone_number: state.contactFormData ? state.contactFormData.phone : '',
+        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        reason: 'A répondu au formulaire depuis l\'application web',
+        practice_id: '',
+      }
+    },
+    contributionPayload(state, getters) {
+      return {
+        email: state.contactFormData ? state.contactFormData.email : '',
+        name: (state.contactFormData ? state.contactFormData.name : '') + ' [CONTRIBUTION]',
+        phone_number: state.contactFormData ? state.contactFormData.phone : '',
+        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        reason: 'A partagé ses coordonnées pour être contacté',
+        practice_id: '',
       }
     },
     statsPayload(state) {
       return {
         groups: state.statsFormData ? state.statsFormData.groups : [],
         referers: state.statsFormData ? state.statsFormData.referers : [],
-      }
-    },
-    contactPayload(state, getters) {
-      return {
-        email: state.contactFormData ? state.contactFormData.email : '',
-        name: state.contactFormData ? state.contactFormData.name : '',
-        phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
-        reason: 'A partagé ses coordonnées pour être contacté',
-        practice_id: '',
       }
     },
     humanReadableMiaAnswers(state) {
