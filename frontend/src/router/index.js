@@ -9,6 +9,8 @@ import Category from '@/views/Category.vue'
 import Practice from '@/views/Practice.vue'
 import About from '@/views/About.vue'
 import Contact from '@/views/Contact.vue'
+import Map from '@/views/Map.vue'
+import Farmer from '@/views/Farmer.vue'
 
 Vue.use(VueRouter)
 
@@ -57,6 +59,20 @@ const routes = [
     }
   },
   {
+    path: '/agriculteur/:farmerName',
+    name: 'Farmer',
+    component: Farmer,
+    props: (route) => ({
+      farmer: store.getters.farmerWithName(route.params.farmerName)
+    }),
+    beforeEnter: (route, _, next) => {
+      if (!store.getters.farmerWithName(route.params.farmerName))
+        next({name: 'Landing'})
+      else
+        next()
+    }
+  },
+  {
     path: '/politique-de-confidentialite',
     name: 'PolitiqueConfidentialite',
     component: PolitiqueConfidentialite,
@@ -70,6 +86,11 @@ const routes = [
     path: '/contact',
     name: 'Contact',
     component: Contact,
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: Map,
   },
   {
     path: '*',

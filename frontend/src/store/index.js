@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import Constants from '@/constants'
 import formutils from '@/formutils'
+import jsonCases from "../resources/cases.json"
 
 Vue.use(Vuex)
 
@@ -15,6 +16,10 @@ const headers = {
 export default new Vuex.Store({
   plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
   state: {
+    cases: jsonCases,
+    selectedFarmer: null,
+    selectedDepartment: null,
+
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
     statsLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -106,6 +111,12 @@ export default new Vuex.Store({
       state.contactLoadingStatus = Constants.LoadingStatus.IDLE
       state.implementationLoadingStatus = Constants.LoadingStatus.IDLE
       state.categoriesLoadingStatus = Constants.LoadingStatus.IDLE
+    },
+    SET_SELECTED_FARMER(state, { selectedFarmer }) {
+      state.selectedFarmer = selectedFarmer
+    },
+    SET_SELECTED_DEPARTMENT(state, { selectedDepartment }) {
+      state.selectedDepartment = selectedDepartment
     }
   },
   actions: {
@@ -211,6 +222,12 @@ export default new Vuex.Store({
     },
     resetLoaders(context) {
       context.commit('RESET_LOADERS')
+    },
+    setSelectedFarmer(context, { farmer }) {
+      context.commit('SET_SELECTED_FARMER', { selectedFarmer: farmer })
+    },
+    setSelectedDepartment(context, { department }) {
+      context.commit('SET_SELECTED_DEPARTMENT', { selectedDepartment: department })
     }
   },
   modules: {
@@ -296,6 +313,9 @@ export default new Vuex.Store({
         }
         return undefined
       })
+    },
+    farmerWithName(state) {
+      return (farmerName => state.cases.find(x => x.name === farmerName))
     }
   }
 })
