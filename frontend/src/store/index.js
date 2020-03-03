@@ -223,8 +223,8 @@ export default new Vuex.Store({
     resetLoaders(context) {
       context.commit('RESET_LOADERS')
     },
-    setSelectedFarmer(context, { farmer }) {
-      context.commit('SET_SELECTED_FARMER', { selectedFarmer: farmer })
+    setSelectedFarmer(context, { farmerName }) {
+      context.commit('SET_SELECTED_FARMER', { selectedFarmer: this.getters.farmerWithName(farmerName) })
     },
     setSelectedDepartment(context, { department }) {
       context.commit('SET_SELECTED_DEPARTMENT', { selectedDepartment: department })

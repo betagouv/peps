@@ -22,15 +22,18 @@
         <v-list-item-subtitle>GAEC Les Champs</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding-bottom: 4px;">Son histoire</v-card-subtitle>
-    <v-card-text class="background flex-shrink-item">
-      {{ farmer.background }}
-      <div class="gradient" v-if="true"></div>
-    </v-card-text>
-    <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding-bottom: 4px;">Son exploitation</v-card-subtitle>
+    <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Son exploitation</v-card-subtitle>
     <v-card-text class="description flex-shrink-item">
       {{ farmer.description }}
       <div class="gradient" v-if="true"></div>
+    </v-card-text>
+    <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Expérimentations</v-card-subtitle>
+    <v-card-text class="description flex-fix-item">
+      <ul>
+        <li v-for="(item, index) in farmer.tests" :key="index">
+          {{ item.title }}
+        </li>
+      </ul>
     </v-card-text>
     <div class="pa-5 flex-fix-item">
       <v-btn
@@ -57,10 +60,6 @@ export default {
     return {}
   },
   computed: {
-    showBackgroundGradient() {
-      const domElement = this.$el.querySelector(".background")
-      return domElement.scrollHeight > domElement.offsetHeight
-    },
     showDescriptionGradient() {
       const domElement = this.$el.querySelector(".description")
       return domElement.scrollHeight > domElement.offsetHeight

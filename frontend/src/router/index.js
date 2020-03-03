@@ -11,6 +11,7 @@ import About from '@/views/About.vue'
 import Contact from '@/views/Contact.vue'
 import Map from '@/views/Map.vue'
 import Farmer from '@/views/Farmer.vue'
+import Experiment from '@/views/Experiment.vue'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,25 @@ const routes = [
     props: (route) => ({
       farmer: store.getters.farmerWithName(route.params.farmerName)
     }),
+    beforeEnter: (route, _, next) => {
+      if (!store.getters.farmerWithName(route.params.farmerName))
+        next({name: 'Landing'})
+      else
+        next()
+    }
+  },
+  {
+    path: '/agriculteur/:farmerName/experimentation/:expName',
+    name: 'Experiment',
+    component: Experiment,
+    props: (route) => {
+      const farmer = store.getters.farmerWithName(route.params.farmerName)
+      const experiment = farmer.tests.find(x => x.title === route.params.expName)
+      return {
+        farmer: farmer,
+        experiment: experiment
+      }
+    },
     beforeEnter: (route, _, next) => {
       if (!store.getters.farmerWithName(route.params.farmerName))
         next({name: 'Landing'})

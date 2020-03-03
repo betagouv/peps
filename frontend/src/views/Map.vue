@@ -43,11 +43,11 @@
           >
             <l-geo-json :geojson="geojson" :options="options" :options-style="styleOptions" />
             <l-marker
-              v-for="(c, index) in cases"
+              v-for="(farmer, index) in markersInfo"
               :key="index"
-              :lat-lng="toLatLon(c.location.lat, c.location.lon)"
-              :icon="c === selectedFarmer ? selectedMarkerIcon : markerIcon"
-              @click="selectFarmer(c)"
+              :lat-lng="toLatLon(farmer.location.lat, farmer.location.lon)"
+              :icon="selectedFarmer && farmer.name === selectedFarmer.name ? selectedMarkerIcon : markerIcon"
+              @click="selectFarmer(farmer.name)"
             ></l-marker>
           </l-map>
         </v-col>
@@ -135,6 +135,7 @@ export default {
   components: { LMap, LMarker, LGeoJson, FarmerCard },
   data() {
     return {
+      markersInfo: [],
       showParagraph: false,
       zoom: 5.6,
       center: latLng(46.61322, 2.7),
@@ -213,8 +214,8 @@ export default {
         this.$store.dispatch("setSelectedDepartment", { department })
       }
     },
-    selectFarmer(farmer) {
-      this.$store.dispatch("setSelectedFarmer", { farmer })
+    selectFarmer(farmerName) {
+      this.$store.dispatch("setSelectedFarmer", { farmerName })
     },
     toLatLon(latitude, longitude) {
       return latLng(latitude, longitude)
@@ -222,6 +223,15 @@ export default {
     onAutocompleteChange(department) {
       this.$store.dispatch("setSelectedDepartment", { department })
     }
+  },
+  created: function() {
+    this.markersInfo = []
+    for(const farmer of this.$store.state.cases) {
+      this.markersInfo.push(Object.assign({}, {
+        location: farmer.location,
+        name: farmer.name
+      }))
+    }    
   },
   watch: {
     selectedDeparment(newValue) {
