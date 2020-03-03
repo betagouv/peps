@@ -1,7 +1,12 @@
 <template>
-  <v-card>
-    <v-img :src="farmer.backgroundPhoto" height="100px" style="background: #CCC;"></v-img>
-    <v-list-item style="margin: 10px 0 0 0;">
+  <v-card class="flex-container">
+    <v-img
+      class="flex-fix-item"
+      :src="farmer.backgroundPhoto"
+      height="100px"
+      style="background: #CCC;"
+    ></v-img>
+    <v-list-item class="flex-fix-item" style="margin: 10px 0 0 0;">
       <v-list-item-avatar color="grey">
         <v-img :src="farmer.profilePhoto"></v-img>
       </v-list-item-avatar>
@@ -17,19 +22,25 @@
         <v-list-item-subtitle>GAEC Les Champs</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-card-subtitle class="subtitle-2" style="padding-bottom: 4px;">Son histoire</v-card-subtitle>
-    <v-card-text>{{ farmer.background | truncate(115, '...') }}</v-card-text>
-    <v-card-subtitle class="subtitle-2" style="padding-bottom: 4px;">Son exploitation</v-card-subtitle>
-    <v-card-text>{{ farmer.description | truncate(115, '...') }}</v-card-text>
-    <div class="pa-5">
-    <v-btn
-      block
-      rounded
-      class="text-none"
-      color="primary"
-      max-width=50
-      @click="goToFarmer(farmer)"
-    >En savoir plus</v-btn>
+    <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding-bottom: 4px;">Son histoire</v-card-subtitle>
+    <v-card-text class="background flex-shrink-item">
+      {{ farmer.background }}
+      <div class="gradient" v-if="true"></div>
+    </v-card-text>
+    <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding-bottom: 4px;">Son exploitation</v-card-subtitle>
+    <v-card-text class="description flex-shrink-item">
+      {{ farmer.description }}
+      <div class="gradient" v-if="true"></div>
+    </v-card-text>
+    <div class="pa-5 flex-fix-item">
+      <v-btn
+        block
+        rounded
+        class="text-none"
+        color="primary"
+        max-width="50"
+        @click="goToFarmer(farmer)"
+      >En savoir plus</v-btn>
     </div>
   </v-card>
 </template>
@@ -46,6 +57,16 @@ export default {
   data() {
     return {}
   },
+  computed: {
+    showBackgroundGradient() {
+      const domElement = this.$el.querySelector(".background")
+      return domElement.scrollHeight > domElement.offsetHeight
+    },
+    showDescriptionGradient() {
+      const domElement = this.$el.querySelector(".description")
+      return domElement.scrollHeight > domElement.offsetHeight
+    }
+  },
   methods: {
     goToFarmer(farmer) {
       this.$router.push({
@@ -56,3 +77,27 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.flex-shrink-item {
+  flex: 0 1 auto;
+  overflow: hidden;
+  position: relative;
+}
+.flex-fix-item {
+  flex: 0 0 auto;
+}
+.flex-shrink-item .gradient {
+  position: absolute;
+  background-image: linear-gradient(transparent, white);
+  height: 40px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+</style>
