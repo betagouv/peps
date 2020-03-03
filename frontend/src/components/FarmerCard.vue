@@ -35,7 +35,6 @@
     <div class="pa-5 flex-fix-item">
       <v-btn
         block
-        rounded
         class="text-none"
         color="primary"
         max-width="50"

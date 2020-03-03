@@ -9,7 +9,7 @@
             style="font-size: 38px; letter-spacing: 0em;"
           >entre agriculteurs</span>
         </div>
-        <v-card-text style="padding: 16px 16px 0px 0;">Trouvez des exemples près de chez vous</v-card-text>
+        <v-card-text class="title" style="padding: 16px 16px 0px 0;">Trouvez des exemples près de chez vous</v-card-text>
         <v-row style="padding: 0 16px 0 16px;">
           <v-autocomplete
             v-on:change="onAutocompleteChange"
@@ -57,6 +57,67 @@
             v-if="selectedFarmer != null"
             style="max-height: 520px; overflow: hidden;"
           />
+        </v-col>
+      </v-row>
+
+      <div
+        class="title"
+        style="margin: 30px 0 0px 0;"
+      >Vous cherchez une expérimentation en particulier ?</div>
+      <v-row style="padding: 0 16px 0 16px;">
+        <v-text-field prepend-icon="mdi-file-search" />
+        <v-btn outlined color="primary" style="margin: 10px 0 0 10px;">
+          <v-icon small style="margin: 0 5px 0 0;">mdi-magnify</v-icon>Chercher
+        </v-btn>
+        <v-spacer class="hidden-sm-and-down" />
+      </v-row>
+      <v-row style="padding: 0 16px 0 16px;">
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-sprout</v-icon>Adventices
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-ladybug</v-icon>Insectes
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-bottle-tonic-plus</v-icon>Maladies
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-chart-bell-curve-cumulative</v-icon>Productivité
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-bee</v-icon>Biodiversité
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-image-filter-hdr</v-icon>Sol
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-cow</v-icon>Fourrages
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-corn</v-icon>Nouvelles cultures
+        </v-chip>
+        <v-chip class="ma-2" color="#999" outlined>
+          <v-icon left>mdi-cellphone-information</v-icon>OAD
+        </v-chip>
+      </v-row>
+      <v-row>
+        <v-col v-for="n in 9" :key="n" cols="12" sm="6" md="4">
+          <v-hover>
+            <v-card
+              class="pa-0 fill-height"
+              outlined
+              slot-scope="{ hover }"
+              :elevation="hover ? 4 : 0"
+            >
+              <v-img
+                class="white--text align-end"
+                height="120px"
+                style="background: #DDD;"
+              />
+              <v-card-title>Expérimentation {{n}}</v-card-title>
+              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</v-card-text>
+            </v-card>
+          </v-hover>
         </v-col>
       </v-row>
     </v-container>
@@ -131,7 +192,11 @@ export default {
             click: this.onMapDepartmentClick(feature),
             mouseover: () => currentLayer.setStyle({ fillColor: "#d8f3ec" }),
             mouseout: () => {
-              const color = this.selectedDeparment && currentLayer.id === this.selectedDeparment.code ? "#A6E4D3" : "#FFF"
+              const color =
+                this.selectedDeparment &&
+                currentLayer.id === this.selectedDeparment.code
+                  ? "#A6E4D3"
+                  : "#FFF"
               currentLayer.setStyle({ fillColor: color })
             }
           })
@@ -145,17 +210,17 @@ export default {
         const department = this.departments.find(
           x => x.code === feature.properties.code
         )
-        this.$store.dispatch('setSelectedDepartment', { department })
+        this.$store.dispatch("setSelectedDepartment", { department })
       }
     },
     selectFarmer(farmer) {
-      this.$store.dispatch('setSelectedFarmer', { farmer })
+      this.$store.dispatch("setSelectedFarmer", { farmer })
     },
     toLatLon(latitude, longitude) {
       return latLng(latitude, longitude)
     },
     onAutocompleteChange(department) {
-      this.$store.dispatch('setSelectedDepartment', { department })
+      this.$store.dispatch("setSelectedDepartment", { department })
     }
   },
   watch: {
