@@ -38,6 +38,7 @@ export default {
     this.$store.dispatch("resetLoaders")
     this.$store.dispatch("fetchFormDefinitions")
     this.$store.dispatch("fetchCategories")
+    this.$store.dispatch("fetchFarmersAndExperiments")
   },
   created() {
     window.addEventListener("resize", this.onWindowResize)
@@ -52,6 +53,7 @@ export default {
         this.$store.state.formDefinitionsLoadingStatus === error ||
         this.$store.state.suggestionsLoadingStatus === error ||
         this.$store.state.categoriesLoadingStatus === error ||
+        this.$store.state.farmersLoadingStatus === error ||
         this.$store.state.implementationLoadingStatus === error
       )
     },

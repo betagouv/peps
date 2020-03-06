@@ -25,34 +25,8 @@
 
       <div class="subtitle-2" style="margin-top: 20px;">Ses expérimentations</div>
       <v-row>
-        <v-col v-for="(test, index) in farmer.tests" :key="index" cols="12" sm="6" md="4">
-          <v-hover>
-            <v-card
-              class="pa-0 fill-height"
-              outlined
-              slot-scope="{ hover }"
-              :elevation="hover ? 4 : 0"
-            >
-              <v-img
-                class="white--text align-end"
-                height="120px"
-                style="background: #CCC;"
-                :src="test.image"
-              />
-              <v-card-title>{{ test.title }}</v-card-title>
-              <v-card-text style="margin-bottom: 40px;">{{ test.description }}</v-card-text>
-
-              <v-btn
-                class="text-none ma-3 fill-height"
-                target="_blank"
-                outlined
-                small
-                color="primary"
-                style="position: absolute; bottom: 0;"
-                @click="goToExperiment(test)"
-              >En savoir plus</v-btn>
-            </v-card>
-          </v-hover>
+        <v-col v-for="(experiment, index) in farmer.tests" :key="index" cols="12" sm="6" md="4">
+          <ExperimentCard :experiment="experiment" />
         </v-col>
       </v-row>
     </v-container>
@@ -60,23 +34,16 @@
 </template>
 
 <script>
+import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
 
 export default {
   name: "Farmer",
-  components: { Title },
+  components: { Title, ExperimentCard },
   props: {
     farmer: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    goToExperiment(experiment) {
-      this.$router.push({
-        name: "Experiment",
-        params: { farmerName: this.farmer.name, expName: experiment.title }
-      })
     }
   },
   computed: {

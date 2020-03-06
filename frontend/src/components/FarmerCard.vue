@@ -25,7 +25,7 @@
     <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Son exploitation</v-card-subtitle>
     <v-card-text class="description flex-shrink-item">
       {{ farmer.description }}
-      <div class="gradient" v-if="true"></div>
+      <div class="gradient" v-if="showDescriptionGradient"></div>
     </v-card-text>
     <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Expérimentations</v-card-subtitle>
     <v-card-text class="description flex-fix-item">
@@ -57,12 +57,8 @@ export default {
     }
   },
   data() {
-    return {}
-  },
-  computed: {
-    showDescriptionGradient() {
-      const domElement = this.$el.querySelector(".description")
-      return domElement.scrollHeight > domElement.offsetHeight
+    return {
+      showDescriptionGradient: false
     }
   },
   methods: {
@@ -71,6 +67,12 @@ export default {
         name: "Farmer",
         params: { farmerName: farmer.name }
       })
+    }
+  },
+  mounted() {
+    if (this.$el) {
+      const domElement = this.$el.querySelector(".description")
+      this.showDescriptionGradient = domElement.scrollHeight > domElement.offsetHeight
     }
   }
 }

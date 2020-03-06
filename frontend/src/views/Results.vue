@@ -97,6 +97,8 @@ export default {
         this.$store.state.statsLoadingStatus ===
           Constants.LoadingStatus.LOADING ||
         this.$store.state.contactLoadingStatus ===
+          Constants.LoadingStatus.LOADING ||
+        this.$store.state.farmersLoadingStatus ===
           Constants.LoadingStatus.LOADING
       )
     },

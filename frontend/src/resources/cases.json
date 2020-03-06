@@ -11,7 +11,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Montirat11DSC00624.JPG",
     "tests": [
       {
+        "id": "1",
         "title": "Ajout du lin dans la rotation",
+        "image": "https://farm5.staticflickr.com/4359/36520019560_655cfd90fd_b.jpg",
+        "tags": ["adventices", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -28,7 +31,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "2",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["insectes"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -57,7 +62,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Montirat11DSC00624.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "3",
+        "image": "https://farm5.staticflickr.com/4532/37882461235_83c897871a_b.jpg",
+        "title": "Lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -73,8 +81,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "title": "Utiliser un produit anti-limaces de biocontrôle",
+        "id": "4",
+        "image": "https://live.staticflickr.com/65535/48802326483_38e157d130_b.jpg",
+        "tags": ["productivite", "biodiversite", "sol", "fourrages", "nouvelles-cultures"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -103,7 +113,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Montirat11DSC00624.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "5",
+        "title": "Ecimer les adventices avant floraison",
+        "image": "https://live.staticflickr.com/65535/48994800006_ab1ec2429b_b.jpg",
+        "tags": ["maladies", "productivite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -119,8 +132,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Détruire le couvert par broyage",
+        "id": "6",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["sol", "fourrages"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -149,7 +164,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Wheat_close-up.JPG/1200px-Wheat_close-up.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "7",
+        "image": "https://live.staticflickr.com/6048/6219854029_d79cdb5ca8_b.jpg",
+        "title": "Profiter de l'action des auxiliaires sur le puceron de l'épi",
+        "tags": ["adventices", "insectes", "maladies", "productivite", "biodiversite", "sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -166,7 +184,9 @@
       },
       {
         "title": "Le semis direct",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "id": "8",
+        "image": "https://live.staticflickr.com/3386/3478845058_08142c978b_b.jpg",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -195,7 +215,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Wheat_close-up.JPG/1200px-Wheat_close-up.JPG",
     "tests": [
       {
+        "id": "9",
+        "image": "https://live.staticflickr.com/2476/3745180348_5480dc18f1_b.jpg",
         "title": "Ajout du lin dans la rotation",
+        "tags": ["productivite", "biodiversite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -211,8 +234,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "title": "Mobiliser les seuils de nuisibilité (piège au sol)",
+        "id": "10",
+        "image": "https://live.staticflickr.com/3402/3478850408_31eb67bfef_b.jpg",
+        "tags": ["adventices"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -241,7 +266,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Wheat_close-up.JPG/1200px-Wheat_close-up.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "11",
+        "image": "https://live.staticflickr.com/2636/3945153463_2378dede8b_b.jpg",
+        "title": "Raisonner la largeur des parcelles",
+        "tags": ["maladies", "productivite", "biodiversite", "sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -257,8 +285,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "title": "Favoriser l'alternance de cultures à semis de printemps et d'automne",
+        "id": "12",
+        "image": "http://s0.geograph.org.uk/photos/13/98/139814_bed1afda.jpg",
+        "tags": ["adventices", "insectes", "maladies", "productivite", "biodiversite", "sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -287,7 +317,10 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Unload_wheat_by_the_combine_Claas_Lexion_584.jpg/480px-Unload_wheat_by_the_combine_Claas_Lexion_584.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "13",
+        "image": "https://live.staticflickr.com/8381/8634721666_2834868838_b.jpg",
+        "title": "Décaler la date de semis du blé",
+        "tags": ["sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -303,8 +336,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "title": "Faux semis d'automne",
+        "id": "14",
+        "image": "https://live.staticflickr.com/4142/4786641317_89774bbdd1_b.jpg",
+        "tags": ["adventices", "insectes", "maladies"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -320,8 +355,10 @@
         ]
       },
       {
-        "title": "Le décalage de la date de semis",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "title": "Choisir une variété faux-hôte",
+        "id": "15",
+        "image": "https://live.staticflickr.com/4795/39858863034_9edd62d7fc_b.jpg",
+        "tags": ["productivite"],
         "description": "Le décalage de la date de semis permet de limiter la concurrence et esquiver la période de levée préférentielle des adventices. Cela permet aussi souvent de faire un faux-semis supplémentaire. ",
         "stages": [
           {
@@ -338,7 +375,9 @@
       },
       {
         "title": "Expérience 4",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "id": "16",
+        "image": "https://live.staticflickr.com/4622/39693806195_fb19c329c2_b.jpg",
+        "tags": ["sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "Le décalage de la date de semis permet de limiter la concurrence et esquiver la période de levée préférentielle des adventices. Cela permet aussi souvent de faire un faux-semis supplémentaire. ",
         "stages": [
           {
@@ -355,7 +394,9 @@
       },
       {
         "title": "Expérience 5",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "id": "17",
+        "image": "https://farm5.staticflickr.com/4772/38883744930_5360613f99_b.jpg",
+        "tags": ["adventices", "oad"],
         "description": "Le décalage de la date de semis permet de limiter la concurrence et esquiver la période de levée préférentielle des adventices. Cela permet aussi souvent de faire un faux-semis supplémentaire. ",
         "stages": [
           {
@@ -373,7 +414,9 @@
       ,
       {
         "title": "Expérience 6",
+        "id": "18",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["maladies", "biodiversite"],
         "description": "Le décalage de la date de semis permet de limiter la concurrence et esquiver la période de levée préférentielle des adventices. Cela permet aussi souvent de faire un faux-semis supplémentaire. ",
         "stages": [
           {
@@ -403,7 +446,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Unload_wheat_by_the_combine_Claas_Lexion_584.jpg/480px-Unload_wheat_by_the_combine_Claas_Lexion_584.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "19",
+        "title": "Détruire le couvert par broyage",
+        "tags": ["productivite", "biodiversite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -419,8 +464,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Allonger la période avant le retour d'une culture",
+        "id": "20",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["biodiversite", "sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -449,7 +496,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Unload_wheat_by_the_combine_Claas_Lexion_584.jpg/480px-Unload_wheat_by_the_combine_Claas_Lexion_584.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "21",
+        "title": "Profiter de l'action des auxiliaires sur le puceron de l'épi",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -465,8 +514,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Ajouter 5% de semences de colza à floraison précoce",
+        "id": "22",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -495,7 +546,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Farm_in_Hainan_01.jpg/220px-Farm_in_Hainan_01.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "23",
+        "title": "Optimiser les traitements grâce à un outil d'aide à la décision",
+        "tags": ["insectes"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -511,8 +564,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Moduler la densité de semis",
+        "id": "24",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["productivite"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -541,7 +596,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Farm_in_Hainan_01.jpg/220px-Farm_in_Hainan_01.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "25",
+        "title": "Allonger la période avant le retour du blé",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -557,8 +614,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Utiliser le micro-organisme contre les chenilles",
+        "id": "26",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["sol"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -587,7 +646,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Farm_in_Hainan_01.jpg/220px-Farm_in_Hainan_01.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "27",
+        "title": "Associer un colza avec un couvert de légumineuses compagnes",
+        "tags": ["insectes", "maladies"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -603,8 +664,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Profiter de l'action des auxiliaires sur le puceron de l'épi",
+        "id": "28",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["biodiversite"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -633,7 +696,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Montirat11DSC00624.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "29",
+        "title": "Avoir une parcelle en agro-foresterie",
+        "tags": ["productivite", "biodiversite", "sol", "fourrages"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -649,8 +714,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Raisonner la largeur des parcelles",
+        "id": "30",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "insectes"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -679,7 +746,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/4/46/NRCSMD83008_-_Maryland_%284535%29%28NRCS_Photo_Gallery%29.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "31",
+        "title": "Favoriser l'alternance de cultures à semis de printemps et d'automne",
+        "tags": ["maladies", "biodiversite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -695,8 +764,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Faucher les refus de prairie",
+        "id": "32",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -725,7 +796,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/4/46/NRCSMD83008_-_Maryland_%284535%29%28NRCS_Photo_Gallery%29.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "33",
+        "title": "Semer l'inter-rang pour réduire la place disponible aux adventices",
+        "tags": ["maladies", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -741,8 +814,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Introduire une culture étouffant les adventices",
+        "id": "34",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "productivite"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -771,7 +846,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/4/46/NRCSMD83008_-_Maryland_%284535%29%28NRCS_Photo_Gallery%29.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "35",
+        "title": "Mise en place d'un couvert d'inter-culture compétitif",
+        "tags": ["oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -787,8 +864,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Valorisation des menues pailles",
+        "id": "36",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["sol"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -817,7 +896,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tractors_in_Potato_Field.jpg/220px-Tractors_in_Potato_Field.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "37",
+        "title": "Déchaumages à la charrue déchaumeuse",
+        "tags": ["insectes"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -833,8 +914,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Déchaumages répétés",
+        "id": "38",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["productivite", "fourrages"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -863,7 +946,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tractors_in_Potato_Field.jpg/220px-Tractors_in_Potato_Field.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "39",
+        "title": "Détruire les résidus de cannes de maïs",
+        "tags": ["nouvelles-cultures"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -879,8 +964,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Introduire le sarrasin en interculture longue",
+        "id": "40",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["nouvelles-cultures"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -909,7 +996,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Tractors_in_Potato_Field.jpg/220px-Tractors_in_Potato_Field.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "41",
+        "title": "Implanter une luzerne",
+        "tags": ["productivite", "biodiversite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -925,8 +1014,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Compostage des fumiers",
+        "id": "42",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["sol", "fourrages"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -955,7 +1046,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Moisson.JPG/300px-Moisson.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "43",
+        "title": "Faucher une culture fourragère",
+        "tags": ["adventices"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -971,8 +1064,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Faire pâturer les couverts et les repousses",
+        "id": "44",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["productivite"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1001,7 +1096,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Moisson.JPG/300px-Moisson.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "45",
+        "title": "Détruire localement une adventice avec un produit de biocontrôle",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1017,8 +1114,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Utiliser un produit de biocontrôle contre les maladies fongiques",
+        "id": "46",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1047,7 +1146,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Moisson.JPG/300px-Moisson.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "47",
+        "title": "Allonger la période avant le retour d'une pomme de terre à 5 ans minimum",
+        "tags": ["insectes"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1063,8 +1164,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Allonger la période avant le retour du colza",
+        "id": "48",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1093,7 +1196,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Wheat_fields_at_N%C3%B6bbel%C3%B6v%2C_Lund_-_panoramio_%281%29.jpg/1200px-Wheat_fields_at_N%C3%B6bbel%C3%B6v%2C_Lund_-_panoramio_%281%29.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "49",
+        "title": "Associer un colza avec un couvert de luzerne",
+        "tags": ["sol", "fourrages"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1109,8 +1214,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Utiliser une légumineuse en culture associée",
+        "id": "50",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1139,7 +1246,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Wheat_fields_at_N%C3%B6bbel%C3%B6v%2C_Lund_-_panoramio_%281%29.jpg/1200px-Wheat_fields_at_N%C3%B6bbel%C3%B6v%2C_Lund_-_panoramio_%281%29.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "51",
+        "title": "Utiliser une substance de base perturbant la reconnance de la plante",
+        "tags": ["adventices", "insectes", "maladies"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1155,8 +1264,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Associer un blé avec un couvert de légumineuses compagnes",
+        "id": "52",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1185,7 +1296,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Wheat_fields_at_N%C3%B6bbel%C3%B6v%2C_Lund_-_panoramio_%281%29.jpg/1200px-Wheat_fields_at_N%C3%B6bbel%C3%B6v%2C_Lund_-_panoramio_%281%29.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "53",
+        "title": "Moduler la densité de semis",
+        "tags": ["insectes", "maladies", "productivite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1201,8 +1314,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Introduire le chanvre dans la rotation",
+        "id": "54",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["insectes", "maladies"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1231,7 +1346,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Dizy-Vignoble.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "55",
+        "title": "Faux semis combiné au décalage de la date de semis",
+        "tags": ["biodiversite", "sol", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1247,8 +1364,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Désherbage mécanique en plein en début de saison pour cultures de printemps",
+        "id": "56",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "insectes"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1277,7 +1396,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Dizy-Vignoble.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "57",
+        "title": "Introduire une culture à semis décalé dans la rotation",
+        "tags": ["productivite", "biodiversite", "sol"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1293,8 +1414,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Ajouter 5% de semences de colza à floraison précoce",
+        "id": "58",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1323,7 +1446,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Dizy-Vignoble.JPG",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "59",
+        "title": "Optimiser les traitements grâce à un outil d'aide à la décision",
+        "tags": ["adventices", "insectes", "maladies", "productivite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1339,8 +1464,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Positionner un labour stratégiquement",
+        "id": "60",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1369,7 +1496,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Veranotrigo.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "61",
+        "title": "Choisir sa variété de blé selon le critère de résistance aux maladies ou aux cécidomyies",
+        "tags": ["sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1385,8 +1514,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Favoriser l'implantation du colza",
+        "id": "62",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["fourrages", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1415,7 +1546,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Veranotrigo.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "63",
+        "title": "Buttage mécanique des pommes de terre",
+        "tags": ["adventices", "fourrages"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1431,8 +1564,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes",
+        "id": "64",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["fourrages", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1461,7 +1596,9 @@
     "backgroundPhoto": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Veranotrigo.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "65",
+        "title": "Utiliser un produit anti-limaces de biocontrôle",
+        "tags": ["adventices", "insectes"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1477,8 +1614,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Réduire les doses d'herbicides en localisant l'application sur le rang",
+        "id": "66",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["maladies", "productivite"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1507,7 +1646,9 @@
     "backgroundPhoto": "https://cdn.futura-sciences.com/buildsv6/images/wide1920/4/1/5/4155948695_117015_paille-tigesjpg.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "67",
+        "title": "Décaler la date de semis du blé",
+        "tags": ["productivite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1523,8 +1664,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Opter pour une variété de pomme de terre résistante au mildiou ",
+        "id": "68",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["productivite", "biodiversite", "sol", "fourrages"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1553,7 +1696,9 @@
     "backgroundPhoto": "https://cdn.futura-sciences.com/buildsv6/images/wide1920/4/1/5/4155948695_117015_paille-tigesjpg.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "69",
+        "title": "Utiliser une variété de betteraves résistantes",
+        "tags": ["adventices", "insectes", "maladies", "productivite", "biodiversite", "sol", "fourrages", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1569,8 +1714,10 @@
         ]
       },
       {
-        "title": "Le semis direct",
+        "title": "Biner les cultures en rang",
+        "id": "70",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["productivite", "biodiversite", "sol"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1599,7 +1746,9 @@
     "backgroundPhoto": "https://cdn.futura-sciences.com/buildsv6/images/wide1920/4/1/5/4155948695_117015_paille-tigesjpg.jpg",
     "tests": [
       {
-        "title": "Ajout du lin dans la rotation",
+        "id": "71",
+        "title": "Faux semis d'automne",
+        "tags": ["adventices", "insectes"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1616,7 +1765,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "72",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["maladies", "productivite"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1645,7 +1796,9 @@
     "backgroundPhoto": "https://live.staticflickr.com/62/156443046_ef2c09da51_b.jpg",
     "tests": [
       {
+        "id": "73",
         "title": "Ajout du lin dans la rotation",
+        "tags": ["sol"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1662,7 +1815,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "74",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["adventices", "insectes", "maladies"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1691,7 +1846,9 @@
     "backgroundPhoto": "https://live.staticflickr.com/62/156443046_ef2c09da51_b.jpg",
     "tests": [
       {
+        "id": "75",
         "title": "Ajout du lin dans la rotation",
+        "tags": ["productivite", "fourrages", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1708,7 +1865,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "76",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["insectes"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1737,7 +1896,9 @@
     "backgroundPhoto": "https://live.staticflickr.com/62/156443046_ef2c09da51_b.jpg",
     "tests": [
       {
+        "id": "77",
         "title": "Ajout du lin dans la rotation",
+        "tags": ["adventices", "nouvelles-cultures", "oad"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1754,7 +1915,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "78",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["biodiversite", "sol", "fourrages"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1783,7 +1946,9 @@
     "backgroundPhoto": "https://blogs.futura-sciences.com/gioda/wp-content/uploads/sites/6/2020/02/St-Pons-Mauchiens_vue_generale-WIKI-450x323.jpg",
     "tests": [
       {
+        "id": "79",
         "title": "Ajout du lin dans la rotation",
+        "tags": ["productivite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1800,7 +1965,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "80",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["fourrages", "nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {
@@ -1829,7 +1996,9 @@
     "backgroundPhoto": "https://blogs.futura-sciences.com/gioda/wp-content/uploads/sites/6/2020/02/St-Pons-Mauchiens_vue_generale-WIKI-450x323.jpg",
     "tests": [
       {
+        "id": "81",
         "title": "Ajout du lin dans la rotation",
+        "tags": ["adventices", "insectes", "maladies", "productivite", "biodiversite"],
         "description": "En sols argilo-calcaires de Champagne berrichonne notamment, la rotation colza-blé-orge se heurte à des difficultés, voire des impasses, de gestion des adventices. ARVALIS – Institut du végétal a testé plusieurs scénarios de gestion des cultures afin d’identifier les alternatives possibles. Édouard Baranger, ingénieur régional, nous en présente les principaux enseignements.",
         "stages": [
           {
@@ -1846,7 +2015,9 @@
       },
       {
         "title": "Le semis direct",
+        "id": "82",
         "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Trifolium_Alpinum_-_Alpine_Flora.jpg/1920px-Trifolium_Alpinum_-_Alpine_Flora.jpg",
+        "tags": ["nouvelles-cultures", "oad"],
         "description": "Le semis direct se définit par une absence totale de travail du sol (ni retournement, ni décompac-tage, ni préparation de lit de semence). Les caractéristiques physiques du sol favorables au développement des cultures sont obtenues uniquement par l’action du climat et de l’activité biologique du sol (racines, animaux, micro-or-ganismes) et préservées par un couvert perma-nent.",
         "stages": [
           {

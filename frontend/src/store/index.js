@@ -16,7 +16,8 @@ const headers = {
 export default new Vuex.Store({
   plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
   state: {
-    cases: jsonCases,
+    farmers: [],
+    experiments: [],
     selectedFarmer: null,
     selectedDepartment: null,
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     contactLoadingStatus: Constants.LoadingStatus.IDLE,
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
+    farmersLoadingStatus: Constants.LoadingStatus.IDLE,
 
     hasContributed: false,
 
@@ -63,6 +65,15 @@ export default new Vuex.Store({
     },
     SET_CATEGORIES_LOADING(state, status) {
       state.categoriesLoadingStatus = status
+    },
+    SET_FARMERS_LOADING(state, status) {
+      state.categoriesLoadingStatus = status
+    },
+    SET_FARMERS(state, farmers) {
+      state.farmers = farmers
+    },
+    SET_EXPERIMENTS(state, experiments) {
+      state.experiments = experiments
     },
     SET_FORM_SCHEMAS(state, formDefinitions) {
       state.miaFormDefinition = formDefinitions['practices_form'] || {}
@@ -111,6 +122,7 @@ export default new Vuex.Store({
       state.contactLoadingStatus = Constants.LoadingStatus.IDLE
       state.implementationLoadingStatus = Constants.LoadingStatus.IDLE
       state.categoriesLoadingStatus = Constants.LoadingStatus.IDLE
+      state.farmersLoadingStatus = Constants.LoadingStatus.IDLE
     },
     SET_SELECTED_FARMER(state, { selectedFarmer }) {
       state.selectedFarmer = selectedFarmer
@@ -147,6 +159,13 @@ export default new Vuex.Store({
         context.commit('SET_CATEGORIES_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
+    fetchFarmersAndExperiments(context) {
+      context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
+      context.commit('SET_FARMERS', jsonCases)
+      context.commit('SET_EXPERIMENTS', jsonCases.flatMap(x => x['tests']))
+      context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
+    },
+    
     sendStatsData(context) {
       context.commit('SET_STATS_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/stats', this.getters.statsPayload, { headers }).then(() => {
@@ -315,7 +334,7 @@ export default new Vuex.Store({
       })
     },
     farmerWithName(state) {
-      return (farmerName => state.cases.find(x => x.name === farmerName))
+      return (farmerName => state.farmers.find(x => x.name === farmerName))
     }
   }
 })

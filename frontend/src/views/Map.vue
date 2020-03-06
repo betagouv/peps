@@ -100,26 +100,7 @@
           <v-icon left>mdi-cellphone-information</v-icon>OAD
         </v-chip>
       </v-row>
-      <v-row>
-        <v-col v-for="n in 9" :key="n" cols="12" sm="6" md="4">
-          <v-hover>
-            <v-card
-              class="pa-0 fill-height"
-              outlined
-              slot-scope="{ hover }"
-              :elevation="hover ? 4 : 0"
-            >
-              <v-img
-                class="white--text align-end"
-                height="120px"
-                style="background: #DDD;"
-              />
-              <v-card-title>Expérimentation {{n}}</v-card-title>
-              <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</v-card-text>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
+      <ExperimentsCards />
     </v-container>
   </div>
 </template>
@@ -128,11 +109,12 @@
 import { LMap, LGeoJson, LMarker } from "vue2-leaflet"
 import { latLng, latLngBounds, polygon, icon } from "leaflet"
 import FarmerCard from "@/components/FarmerCard.vue"
+import ExperimentsCards from "@/components/grids/ExperimentsCards"
 import geojson from "../resources/departments.json"
 
 export default {
   name: "Map",
-  components: { LMap, LMarker, LGeoJson, FarmerCard },
+  components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentsCards },
   data() {
     return {
       markersInfo: [],
@@ -179,7 +161,7 @@ export default {
       return this.$store.state.selectedDepartment
     },
     cases() {
-      return this.$store.state.cases
+      return this.$store.state.farmers
     },
     departments() {
       return this.geojson.features.map(x => x.properties)
@@ -226,12 +208,12 @@ export default {
   },
   created: function() {
     this.markersInfo = []
-    for(const farmer of this.$store.state.cases) {
+    for(const farmer of this.$store.state.farmers) {
       this.markersInfo.push(Object.assign({}, {
         location: farmer.location,
         name: farmer.name
       }))
-    }    
+    }
   },
   watch: {
     selectedDeparment(newValue) {
