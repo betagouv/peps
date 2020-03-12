@@ -61,7 +61,7 @@ export default {
     goToExperiment(experiment) {
       this.$router.push({
         name: "Experiment",
-        params: { expName: experiment.title }
+        params: { farmerName: experiment.farmer, expName: experiment.title }
       })
     }
   },

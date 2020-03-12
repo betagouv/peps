@@ -162,10 +162,14 @@ export default new Vuex.Store({
     fetchFarmersAndExperiments(context) {
       context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
       context.commit('SET_FARMERS', jsonCases)
-      context.commit('SET_EXPERIMENTS', jsonCases.flatMap(x => x['tests']))
+      context.commit('SET_EXPERIMENTS', jsonCases.flatMap(x => {
+        let tests = x['tests']
+        tests.forEach(y => y.farmer = x['name'])
+        return tests
+      }))
       context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
     },
-    
+
     sendStatsData(context) {
       context.commit('SET_STATS_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/stats', this.getters.statsPayload, { headers }).then(() => {

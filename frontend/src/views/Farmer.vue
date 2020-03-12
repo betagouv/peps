@@ -7,17 +7,8 @@
         height="110px"
         :src="farmer.backgroundPhoto || defaultImageUrl"
       />
-
-      <v-list-item style="margin: 10px 0 0 0;">
-        <v-list-item-avatar color="grey">
-          <v-img :src="farmer.profilePhoto"></v-img>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>{{ farmer.name }}</v-list-item-title>
-          <v-list-item-subtitle>GAEC Les Champs</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
+      <FarmerListItem :farmer="farmer" />
+      <v-divider style="margin-top: 10px;" />
       <div class="subtitle-2" style="margin-top: 20px;">Son histoire</div>
       <div class="body-2" style="margin-top: 5px;">{{ farmer.background }}</div>
       <div class="subtitle-2" style="margin-top: 20px;">Son exploitation</div>
@@ -35,11 +26,12 @@
 
 <script>
 import ExperimentCard from "@/components/ExperimentCard"
+import FarmerListItem from "@/components/FarmerListItem"
 import Title from "@/components/Title.vue"
 
 export default {
   name: "Farmer",
-  components: { Title, ExperimentCard },
+  components: { Title, ExperimentCard, FarmerListItem },
   props: {
     farmer: {
       type: Object,

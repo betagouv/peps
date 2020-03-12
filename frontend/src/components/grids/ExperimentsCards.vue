@@ -1,12 +1,12 @@
 <template>
   <v-container :class="{'constrained': true, 'transition-backwards': lastTransitionBackwards}">
-    <v-pagination v-model="page" :length="pages"></v-pagination>
+    <v-pagination v-model="page" :length="pages" color="#333"></v-pagination>
     <transition-group name="list" tag="div" class="row" mode="out-in">
-      <v-col v-for="experiment in experiments" :key="experiment.id" cols="12" sm="6" md="4">
+      <v-col v-for="experiment in paginatedExperiments" :key="experiment.id" cols="12" sm="6" md="4">
         <ExperimentCard :experiment="experiment" />
       </v-col>
     </transition-group>
-    <v-pagination v-model="page" :length="pages"></v-pagination>
+    <v-pagination v-model="page" :length="pages" color="#333"></v-pagination>
   </v-container>
 </template>
 
@@ -23,21 +23,30 @@ export default {
       lastTransitionBackwards: false,
     }
   },
+  props: {
+    experiments: {
+      type: Array,
+      required: true
+    }
+  },
   computed: {
-    experiments() {
+    paginatedExperiments() {
       const startingIndex = (this.page - 1) * this.cardsPerPage
-      return this.$store.state.experiments.slice(
+      return this.experiments.slice(
         startingIndex,
         startingIndex + this.cardsPerPage
       )
     },
     pages() {
-      return Math.ceil(this.$store.state.experiments.length / this.cardsPerPage)
+      return Math.ceil(this.experiments.length / this.cardsPerPage)
     }
   },
   watch: {
     page(newPage, oldPage) {
       this.lastTransitionBackwards = newPage < oldPage
+    },
+    experiments() {
+      this.page = 1
     }
   }
 }

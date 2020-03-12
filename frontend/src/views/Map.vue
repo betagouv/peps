@@ -9,7 +9,10 @@
             style="font-size: 38px; letter-spacing: 0em;"
           >entre agriculteurs</span>
         </div>
-        <v-card-text class="title" style="padding: 16px 16px 0px 0;">Trouvez des exemples près de chez vous</v-card-text>
+        <v-card-text
+          class="title"
+          style="padding: 16px 16px 0px 0;"
+        >Trouvez des exemples près de chez vous</v-card-text>
         <v-row style="padding: 0 16px 0 16px;">
           <v-autocomplete
             v-on:change="onAutocompleteChange"
@@ -72,35 +75,20 @@
         <v-spacer class="hidden-sm-and-down" />
       </v-row>
       <v-row style="padding: 0 16px 0 16px;">
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-sprout</v-icon>Adventices
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-ladybug</v-icon>Insectes
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-bottle-tonic-plus</v-icon>Maladies
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-chart-bell-curve-cumulative</v-icon>Productivité
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-bee</v-icon>Biodiversité
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-image-filter-hdr</v-icon>Sol
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-cow</v-icon>Fourrages
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-corn</v-icon>Nouvelles cultures
-        </v-chip>
-        <v-chip class="ma-2" color="#999" outlined>
-          <v-icon left>mdi-cellphone-information</v-icon>OAD
+        <v-chip
+          @click="toggleFilter(filter)"
+          class="ma-2"
+          v-for="(filter, index) in filters"
+          :key="index"
+          :outlined="selectedFilters.indexOf(filter) === -1"
+          :dark="selectedFilters.indexOf(filter) > -1"
+          :color="selectedFilters.indexOf(filter) > -1 ? 'primary' : '#999'"
+        >
+          <v-icon left>{{filter.icon}}</v-icon>
+          {{filter.text}}
         </v-chip>
       </v-row>
-      <ExperimentsCards />
+      <ExperimentsCards :experiments="filteredExperiments" />
     </v-container>
   </div>
 </template>
@@ -117,6 +105,54 @@ export default {
   components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentsCards },
   data() {
     return {
+      filters: [
+        {
+          icon: "mdi-sprout",
+          filter: "adventices",
+          text: "Adventices"
+        },
+        {
+          icon: "mdi-ladybug",
+          filter: "insectes",
+          text: "Insectes"
+        },
+        {
+          icon: "mdi-bottle-tonic-plus",
+          filter: "maladies",
+          text: "Maladies"
+        },
+        {
+          icon: "mdi-chart-bell-curve-cumulative",
+          filter: "productivite",
+          text: "Productivité"
+        },
+        {
+          icon: "mdi-bee",
+          filter: "biodiversite",
+          text: "Biodiversité"
+        },
+        {
+          icon: "mdi-image-filter-hdr",
+          filter: "sol",
+          text: "Sol"
+        },
+        {
+          icon: "mdi-cow",
+          filter: "Fourrages",
+          text: "Fourrages"
+        },
+        {
+          icon: "mdi-corn",
+          filter: "nouvelles-cultures",
+          text: "Nouvelles cultures"
+        },
+        {
+          icon: "mdi-cellphone-information",
+          filter: "oad",
+          text: "OAD"
+        }
+      ],
+      selectedFilters: [],
       markersInfo: [],
       showParagraph: false,
       zoom: 5.6,
@@ -185,6 +221,12 @@ export default {
           })
         }
       }
+    },
+    filteredExperiments() {
+      if (this.selectedFilters.length === 0)
+        return this.$store.state.experiments
+      const filterValues = this.selectedFilters.map(x => x.filter)
+      return this.$store.state.experiments.filter(x => x.tags.some(y => filterValues.indexOf(y) > -1))
     }
   },
   methods: {
@@ -194,6 +236,15 @@ export default {
           x => x.code === feature.properties.code
         )
         this.$store.dispatch("setSelectedDepartment", { department })
+      }
+    },
+    toggleFilter(filter) {
+      const index = this.selectedFilters.indexOf(filter)
+      const itemIsSelected = index > -1
+      if (itemIsSelected) {
+        this.selectedFilters.splice(index, 1)
+      } else {
+        this.selectedFilters.push(filter)
       }
     },
     selectFarmer(farmerName) {
@@ -208,11 +259,16 @@ export default {
   },
   created: function() {
     this.markersInfo = []
-    for(const farmer of this.$store.state.farmers) {
-      this.markersInfo.push(Object.assign({}, {
-        location: farmer.location,
-        name: farmer.name
-      }))
+    for (const farmer of this.$store.state.farmers) {
+      this.markersInfo.push(
+        Object.assign(
+          {},
+          {
+            location: farmer.location,
+            name: farmer.name
+          }
+        )
+      )
     }
   },
   watch: {
@@ -232,7 +288,7 @@ export default {
         // If we wanted animation we would have to use flyToBounds but there is the render lag problem
         this.$refs.map.mapObject.fitBounds(leafletBounds, {
           padding: [70, 70],
-          animate: false
+          animate: false,
         })
       }
       Object.values(this.$refs.map.mapObject._layers).forEach(x => {
