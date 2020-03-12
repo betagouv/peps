@@ -1,9 +1,7 @@
-import time
-import json
-import requests
 from django.conf import settings
 from data.models import PracticeType, Weed, Pest, Resource
 from data.models import Culture, Practice, PracticeGroup, Mechanism, Category
+from data.utils import _get_airtable_data
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
 from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
 from data.airtablevalidators import validate_resources, validate_categories, validate_weed_practices
@@ -12,13 +10,13 @@ from data.airtablevalidators import validate_departments, validate_glyphosate_pr
 from data.airtablevalidators import validate_mechanisms, validate_resource_images
 
 
-class AirtableAdapter:
+class PracticesAirtableAdapter:
     """
-    Updates the database from Airtable records.
+    Updates the database from Airtable records linked to the practices.
     """
 
     @staticmethod
-    def update_practices():
+    def update():
         """
         We completely replace whatever we have in the DB for
         the new information. Eventually we may want to only replace
@@ -27,56 +25,57 @@ class AirtableAdapter:
         If there are errors, an array of them will be returned.
         """
         errors = []
+        practices_base = settings.AIRTABLE_PRACTICES_BASE
 
-        json_practices = _get_airtable_data('Pratiques?view=Grid%20view')
+        json_practices = _get_airtable_data('Pratiques?view=Grid%20view', practices_base)
         errors += validate_practices(json_practices)
 
-        json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view')
+        json_practice_types = _get_airtable_data('Types%20de%20pratique?view=Grid%20view', practices_base)
         errors += validate_practice_types(json_practice_types)
 
-        json_weeds = _get_airtable_data('Adventices?view=Grid%20view')
+        json_weeds = _get_airtable_data('Adventices?view=Grid%20view', practices_base)
         errors += validate_weeds(json_weeds)
 
-        json_pests = _get_airtable_data('Ravageurs?view=Grid%20view')
+        json_pests = _get_airtable_data('Ravageurs?view=Grid%20view', practices_base)
         errors += validate_pests(json_pests)
 
-        json_cultures = _get_airtable_data('Cultures?view=Grid%20view')
+        json_cultures = _get_airtable_data('Cultures?view=Grid%20view', practices_base)
         errors += validate_cultures(json_cultures)
 
-        json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view')
+        json_glyphosate = _get_airtable_data('Glyphosate?view=Grid%20view', practices_base)
         errors += validate_glyphosate_uses(json_glyphosate)
 
-        json_resources = _get_airtable_data('Liens?view=Grid%20view')
+        json_resources = _get_airtable_data('Liens?view=Grid%20view', practices_base)
         errors += validate_resources(json_resources)
 
-        json_resource_images = _get_airtable_data('logos?view=Grid%20view')
+        json_resource_images = _get_airtable_data('logos?view=Grid%20view', practices_base)
         errors += validate_resource_images(json_resource_images)
 
-        json_categories = _get_airtable_data('Categories?view=Grid%20view')
+        json_categories = _get_airtable_data('Categories?view=Grid%20view', practices_base)
         errors += validate_categories(json_categories)
 
-        json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view')
+        json_weed_practices = _get_airtable_data('Pratiques%2FAdventices?view=Grid%20view', practices_base)
         errors += validate_weed_practices(json_weed_practices)
 
-        json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view')
+        json_pest_practices = _get_airtable_data('Pratiques%2FRavageurs?view=Grid%20view', practices_base)
         errors += validate_pest_practices(json_pest_practices)
 
-        json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view')
+        json_culture_practices = _get_airtable_data('Pratiques%2FCultures?view=Grid%20view', practices_base)
         errors += validate_culture_practices(json_culture_practices)
 
-        json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view')
+        json_departments_practices = _get_airtable_data('Pratiques%2FDepartements?view=Grid%20view', practices_base)
         errors += validate_department_practices(json_departments_practices)
 
-        json_departments = _get_airtable_data('Departements?view=Grid%20view')
+        json_departments = _get_airtable_data('Departements?view=Grid%20view', practices_base)
         errors += validate_departments(json_departments)
 
-        json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view')
+        json_glyphosate_practices = _get_airtable_data('Pratiques%2FGlyphosate?view=Grid%20view', practices_base)
         errors += validate_glyphosate_practices(json_glyphosate_practices)
 
-        json_practice_groups = _get_airtable_data('Familles?view=Grid%20view')
+        json_practice_groups = _get_airtable_data('Familles?view=Grid%20view', practices_base)
         errors += validate_practice_groups(json_practice_groups)
 
-        json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view')
+        json_mechanisms = _get_airtable_data('Marges%20de%20manoeuvre?view=Grid%20view', practices_base)
         errors += validate_mechanisms(json_mechanisms)
 
         has_fatal_errors = any(x.fatal for x in errors)
@@ -161,27 +160,3 @@ def _link_practices_with_types(practices, types):
 def _link_practices_with_categories(practices, categories):
     for category in categories:
         category.practices.set(list(x for x in practices if x.external_id in category.practice_external_ids))
-
-def _get_airtable_data(url, offset=None):
-    time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
-    base_url = 'https://api.airtable.com/v0/appqlHvlvvxHDkQNY/'
-    headers = {
-        'Authorization': 'Bearer ' + settings.AIRTABLE_API_KEY,
-        'Accept': 'application/json',
-    }
-
-    url_params = ''
-    if offset:
-        divider = '&' if '?' in url else '?'
-        url_params = '%soffset=%s' % (divider, offset)
-
-    response = requests.get(base_url + url + url_params, headers=headers)
-    if not response.status_code == 200:
-        print('Terrible error while fetching: ' + url)
-        return {}
-    json_response = json.loads(response.text)
-    records = json_response['records']
-    offset = json_response.get('offset')
-    if offset:
-        return records + _get_airtable_data(url, offset)
-    return records

@@ -634,3 +634,9 @@ def validate_resource_images(airtable_resource_images):
         errors += get_resource_image_errors(resource_images)
 
     return errors
+
+def validate_farmers(airtable_farmers):
+    return []
+
+def validate_experiments(airtable_experiments):
+    return []

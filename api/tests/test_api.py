@@ -10,7 +10,7 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
-from data.adapters import AirtableAdapter
+from data.adapters import PracticesAirtableAdapter
 from data.models import Practice, DiscardAction, RefererCount, GroupCount, Category, Resource
 from api.views import SendTaskView
 
@@ -88,14 +88,14 @@ class TestApi(TestCase):
         to carry this test out.
         """
         self.client.logout()
-        original_function = AirtableAdapter.update_practices
-        AirtableAdapter.update_practices = MagicMock()
+        original_function = PracticesAirtableAdapter.update
+        PracticesAirtableAdapter.update = MagicMock()
         try:
             response = self.client.post(reverse('refresh_data'), {}, format='json')
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            AirtableAdapter.update_practices.assert_not_called()
+            PracticesAirtableAdapter.update.assert_not_called()
         finally:
-            AirtableAdapter.update_practices = original_function
+            PracticesAirtableAdapter.update = original_function
 
 
     def test_refresh_airtable_session_auth(self):
@@ -104,14 +104,14 @@ class TestApi(TestCase):
         authentication. We mock Airtable's API to carry this test out.
         """
         self.client.login(username='testuser', password='12345')
-        original_function = AirtableAdapter.update_practices
-        AirtableAdapter.update_practices = MagicMock()
+        original_function = PracticesAirtableAdapter.update
+        PracticesAirtableAdapter.update = MagicMock()
         try:
             response = self.client.post(reverse('refresh_data'), {}, format='json')
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            AirtableAdapter.update_practices.assert_called_once()
+            PracticesAirtableAdapter.update.assert_called_once()
         finally:
-            AirtableAdapter.update_practices = original_function
+            PracticesAirtableAdapter.update = original_function
 
 
     def test_refresh_airtable_api_key_auth(self):
@@ -121,8 +121,8 @@ class TestApi(TestCase):
         this test out.
         """
         self.client.logout()
-        original_function = AirtableAdapter.update_practices
-        AirtableAdapter.update_practices = MagicMock()
+        original_function = PracticesAirtableAdapter.update
+        PracticesAirtableAdapter.update = MagicMock()
         try:
             response = self.client.post(
                 reverse('refresh_data'),
@@ -130,9 +130,9 @@ class TestApi(TestCase):
                 **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
             )
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            AirtableAdapter.update_practices.assert_called_once()
+            PracticesAirtableAdapter.update.assert_called_once()
         finally:
-            AirtableAdapter.update_practices = original_function
+            PracticesAirtableAdapter.update = original_function
 
 
     def test_form_schema_unauthenticated(self):

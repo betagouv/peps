@@ -7,7 +7,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
-from data.adapters import AirtableAdapter
+from data.adapters import PracticesAirtableAdapter
 from data.models import GroupCount, RefererCount, Category
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
@@ -51,7 +51,7 @@ class RefreshDataApiView(APIView):
     permission_classes = [permissions.IsAuthenticated | HasAPIKey]
 
     def post(self, request):
-        errors = AirtableAdapter.update_practices()
+        errors = PracticesAirtableAdapter.update()
         has_fatal_errors = any(x.fatal for x in errors)
 
         json_errors = [{'message': x.message, 'fatal': x.fatal, 'url': x.url} for x in errors]

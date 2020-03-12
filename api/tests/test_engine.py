@@ -4,7 +4,7 @@ import requests
 from django.test import TestCase, override_settings
 from api.engine import Engine
 from data.models import Problem, Weed, Pest, Culture
-from data.adapters import AirtableAdapter
+from data.adapters import PracticesAirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
@@ -789,7 +789,7 @@ def _populate_database():
     requests.get = get_request_mock
 
     # We can now call the function that will populate the DB for us
-    AirtableAdapter.update_practices()
+    PracticesAirtableAdapter.update()
 
     # We restore the mocks back to their original value
     requests.get = original_get
