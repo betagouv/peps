@@ -38,7 +38,7 @@ $(document).ready(function () {
         modal.html(`<div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Fetching Airtable data</h5>
+                <h5 class="modal-title">Fetching Airtable practices</h5>
             </div>
             <div class="modal-body">
                 <div class="spinner-border" role="status">
@@ -74,6 +74,82 @@ $(document).ready(function () {
                 }
 
                 let message = response.success ? '✔ Données mises à jour' : '✖ La mise à jour des données a échoué';
+                let messageClasslist = response.success ? 'title success' : 'title fail'
+                $('.modal-title').text('');
+                $('.modal-title').append(`<div class="${messageClasslist}">${message}</div>`);
+                $('.modal-title').append(`<button onclick="$('#airtableModal').modal('hide')">Fermer</button>`);
+
+                response.errors.sort((a, b) => {
+                    if (a.fatal && !b.fatal)
+                        return -1;
+                    if (b.fatal && !a.fatal)
+                        return 1;
+                    return 0
+                })
+
+                for (let i = 0; i < response.errors.length; i++) {
+                    let error = response.errors[i];
+                    let classlist = error.fatal ? 'error fatal' : 'error warning'
+                    $('.modal-body').append(`
+                     <div class="${classlist}">
+                        <div class="dot">⬤</div>
+                        <div class="message">${error.message}</div>
+                        <a class="url-error" href="${error.url}">Link Airtable</div>
+                     <div>
+                    `)
+                }
+            },
+            error: () => {
+                clearInterval(progressBarInterval);
+                $('.progress-bar').remove();
+                $('.modal-title').text('An error has occurred');
+            }
+        });
+    });
+
+
+    $("#airtable-xp-refresh").click(() => {
+        let modal = $('#airtableModal');
+        let modalIsVisible = modal.hasClass('in');
+        if (modalIsVisible) {
+            return;
+        }
+        modal.html(`<div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fetching Airtable XPs</h5>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-animated bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="transition-duration:300ms;"></div>
+                </div>
+            </div>
+            </div>
+        </div>`)
+        modal.modal('show');
+        let progress = 0;
+        let width = 0
+        let progressBarInterval = setInterval(() => {
+            progress++;
+            width += 15 / progress;
+            $('.progress-bar').css('width', width + '%');
+        }, 100);
+        $.ajax({
+            type: "POST",
+            url: '/api/v1/refreshXPData',
+            data: {},
+            success: (response) => {
+                clearInterval(progressBarInterval);
+                $('.progress-bar').remove();
+
+                if (response.errors.length == 0) {
+                    modal.modal('hide');
+                }
+
+                let message = response.success ? '✔ Données XP mises à jour' : '✖ La mise à jour des données XP a échoué';
                 let messageClasslist = response.success ? 'title success' : 'title fail'
                 $('.modal-title').text('');
                 $('.modal-title').append(`<div class="${messageClasslist}">${message}</div>`);

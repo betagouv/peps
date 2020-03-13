@@ -11,7 +11,8 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from data.adapters import PracticesAirtableAdapter
-from data.models import Practice, DiscardAction, RefererCount, GroupCount, Category, Resource
+from data.models import Practice, DiscardAction, RefererCount, GroupCount
+from data.models import Category, Resource, Farmer, Experiment
 from api.views import SendTaskView
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -423,6 +424,38 @@ class TestApi(TestCase):
         self.assertEqual(resource['image'], 'http://testserver/media/test-image.jpg')
 
 
+    def test_farmer_list(self):
+        """
+        Tests the endpoint for the farmer list.
+        """
+
+        self.client.logout()
+        response = self.client.get(reverse('get_farmers'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+        self.assertEqual(len(body), 3)
+
+        for farmer_id in ('rec66629kfas9i', 'rec0098666ooka', 'rec666sf09aii'):
+            self.assertEqual(len(list(filter(lambda x: x['id'] == farmer_id, body))), 1)
+
+
+    def test_experiment_list(self):
+        """
+        Tests the endpoint for the experiment list.
+        """
+
+        self.client.logout()
+        response = self.client.get(reverse('get_experiments'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+        self.assertEqual(len(body), 3)
+
+        for experiment_id in ('rec33329kfas9i', 'rec0098333ooka', 'rec3333f09aii'):
+            self.assertEqual(len(list(filter(lambda x: x['id'] == experiment_id, body))), 1)
+
+
 def _populate_database():
     User.objects.create_user(username='testuser', password='12345')
     image_name = 'test-image.jpg'
@@ -457,6 +490,22 @@ def _populate_database():
         category.image.save(image_name, image_bytes, save=True)
         category.save()
         category.practices.add(Practice.objects.filter(external_id='recZxlcM61qaDoOkc').first())
+
+    for farmer_id in ('rec66629kfas9i', 'rec0098666ooka', 'rec666sf09aii'):
+        farmer = Farmer(
+            external_id=farmer_id,
+            modification_date=timezone.now(),
+            airtable_json={ 'id': farmer_id }
+        )
+        farmer.save()
+
+    for experiment_id in ('rec33329kfas9i', 'rec0098333ooka', 'rec3333f09aii'):
+        experiment = Experiment(
+            external_id=experiment_id,
+            modification_date=timezone.now(),
+            airtable_json={ 'id': experiment_id }
+        )
+        experiment.save()
 
 
 class MockResponse:
