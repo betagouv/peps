@@ -2,7 +2,7 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from api.views import RankingsApiView, RefreshDataApiView, FormSchemaView
 from api.views import SendTaskView, DiscardActionView, StatsView, CategoriesView
-from api.views import RefreshXPDataApiView, FarmersView, ExperimentsView
+from api.views import RefreshXPDataApiView, FarmersView
 
 urlpatterns = {
     url(r'^calculateRankings/?$', RankingsApiView.as_view(), name='calculate_rankings'),
@@ -14,7 +14,6 @@ urlpatterns = {
     url(r'^stats/?$', StatsView.as_view(), name='register_stats'),
     url(r'^categories/?$', CategoriesView.as_view(), name='get_categories'),
     url(r'^farmers/?$', FarmersView.as_view(), name='get_farmers'),
-    url(r'^experiments/?$', ExperimentsView.as_view(), name='get_experiments'),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

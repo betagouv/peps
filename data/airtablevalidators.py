@@ -636,7 +636,57 @@ def validate_resource_images(airtable_resource_images):
     return errors
 
 def validate_farmers(airtable_farmers):
-    return []
+    """
+    Returns an array of errors from farmer objects
+    """
+    errors = []
+
+    def get_farmer_errors(farmer):
+        errors = []
+        fields = farmer['fields']
+        name = fields.get('Prénom et Nom')
+        farmer_id = farmer['id']
+        airtable_url = 'https://airtable.com/tblwbHvoVKo0o9C38/%s' % farmer_id
+
+        if not name:
+            message = 'L\'agriculteur %s n\'a pas de nom/prénon (colonne Prénom et Nom)' % farmer_id
+            errors.append(AirtableError(message, url=airtable_url))
+
+        if not fields.get('Latitude') or not fields.get('Longitude'):
+            message = 'L\'agriculteur %s (ID %s) n\'a pas des données de geoloc (colonnes Latitude et Longitude)' % (name, farmer_id)
+            errors.append(AirtableError(message, url=airtable_url))
+
+        return errors
+
+    for farmer in airtable_farmers:
+        errors += get_farmer_errors(farmer)
+
+    return errors
 
 def validate_experiments(airtable_experiments):
-    return []
+    """
+    Returns an array of errors from experiment objects
+    """
+    errors = []
+
+    def get_experiment_errors(experiment):
+        errors = []
+        fields = experiment['fields']
+        name = fields.get('Titre de l\'XP')
+        experiment_id = experiment['id']
+        airtable_url = 'https://airtable.com/tbl7jwg9D5NhH8LSH/%s' % experiment_id
+
+        if not name:
+            message = 'L\'exploitation %s n\'a pas de titre (colonne Titre de l\'XP)' % experiment_id
+            errors.append(AirtableError(message, url=airtable_url))
+
+        if not fields.get('Agriculteur'):
+            message = 'L\'exploitation %s (ID %s) n\'est pas liée à un agriculteur (colonne Agriculteur)' % (name, experiment_id)
+            errors.append(AirtableError(message, url=airtable_url))
+
+        return errors
+
+    for experiment in airtable_experiments:
+        errors += get_experiment_errors(experiment)
+
+    return errors

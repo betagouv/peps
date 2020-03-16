@@ -9,9 +9,9 @@
     <v-card-text style="padding-bottom: 0; padding-top: 10px;">
       <v-icon left small v-for="(iconName, index) in icons" :key="index">{{ iconName }}</v-icon>
     </v-card-text>
-    <v-card-title class="flex-fix-item" style="padding-top: 5px; padding-bottom: 5px;">{{experiment.title}}</v-card-title>
+    <v-card-title class="flex-fix-item" style="padding-top: 5px; padding-bottom: 5px;">{{experiment.name}}</v-card-title>
     <v-card-text class="description flex-shrink-item">
-      {{experiment.description}}
+      {{experiment.objectives}}
       <div class="gradient" v-if="showDescriptionGradient"></div>
     </v-card-text>
     <div class="pa-5 flex-fix-item">
@@ -54,6 +54,8 @@ export default {
         "nouvelles-cultures": "mdi-corn",
         "oad": "mdi-cellphone-information"
       }
+      if (!this.experiment.tags)
+        return []
       return this.experiment.tags.map(x => x in icons ? icons[x] : null).filter(x => x != null)
     }
   },
@@ -61,7 +63,7 @@ export default {
     goToExperiment(experiment) {
       this.$router.push({
         name: "Experiment",
-        params: { farmerName: experiment.farmer, expName: experiment.title }
+        params: { farmerName: experiment.farmer, expName: experiment.name }
       })
     }
   },

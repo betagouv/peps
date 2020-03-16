@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import Constants from '@/constants'
 import formutils from '@/formutils'
-import jsonCases from "../resources/cases.json"
 
 Vue.use(Vuex)
 
@@ -161,13 +160,17 @@ export default new Vuex.Store({
     },
     fetchFarmersAndExperiments(context) {
       context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
-      context.commit('SET_FARMERS', jsonCases)
-      context.commit('SET_EXPERIMENTS', jsonCases.flatMap(x => {
-        let tests = x['tests']
-        tests.forEach(y => y.farmer = x['name'])
-        return tests
-      }))
-      context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
+      Vue.http.get('api/v1/farmers').then(response => {
+        context.commit('SET_FARMERS', response.body)
+        context.commit('SET_EXPERIMENTS', response.body.flatMap(x => {
+          let tests = x['experiments']
+          tests.forEach(y => y.farmer = x['name'])
+          return tests
+        }))
+        context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.ERROR)
+      })
     },
 
     sendStatsData(context) {

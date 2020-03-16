@@ -15,18 +15,24 @@
         >Trouvez des exemples près de chez vous</v-card-text>
         <v-row style="padding: 0 16px 0 16px;">
           <v-autocomplete
-            v-on:change="onAutocompleteChange"
             style="z-index: 9999;"
             :items="departments"
             hide-no-data
             hide-selected
             item-text="nom"
             item-value="code"
+            v-model="selectedDepartment"
             placeholder="Trouvez votre département"
             prepend-icon="mdi-map-search-outline"
             return-object
           ></v-autocomplete>
-          <v-btn outlined color="primary" style="margin: 10px 0 0 10px;">
+          <v-btn
+            v-if="showGeolocation"
+            outlined
+            @click="geolocate()"
+            color="primary"
+            style="margin: 10px 0 0 10px;"
+          >
             <v-icon small style="margin: 0 5px 0 0;">mdi-crosshairs-gps</v-icon>Me localiser
           </v-btn>
           <v-spacer class="hidden-sm-and-down" />
@@ -48,7 +54,7 @@
             <l-marker
               v-for="(farmer, index) in markersInfo"
               :key="index"
-              :lat-lng="toLatLon(farmer.location.lat, farmer.location.lon)"
+              :lat-lng="toLatLon(farmer.lat, farmer.lon)"
               :icon="selectedFarmer && farmer.name === selectedFarmer.name ? selectedMarkerIcon : markerIcon"
               @click="selectFarmer(farmer.name)"
             ></l-marker>
@@ -67,28 +73,7 @@
         class="title"
         style="margin: 30px 0 0px 0;"
       >Vous cherchez une expérimentation en particulier ?</div>
-      <v-row style="padding: 0 16px 0 16px;">
-        <v-text-field prepend-icon="mdi-file-search" />
-        <v-btn outlined color="primary" style="margin: 10px 0 0 10px;">
-          <v-icon small style="margin: 0 5px 0 0;">mdi-magnify</v-icon>Chercher
-        </v-btn>
-        <v-spacer class="hidden-sm-and-down" />
-      </v-row>
-      <v-row style="padding: 0 16px 0 16px;">
-        <v-chip
-          @click="toggleFilter(filter)"
-          class="ma-2"
-          v-for="(filter, index) in filters"
-          :key="index"
-          :outlined="selectedFilters.indexOf(filter) === -1"
-          :dark="selectedFilters.indexOf(filter) > -1"
-          :color="selectedFilters.indexOf(filter) > -1 ? 'primary' : '#999'"
-        >
-          <v-icon left>{{filter.icon}}</v-icon>
-          {{filter.text}}
-        </v-chip>
-      </v-row>
-      <ExperimentsCards :experiments="filteredExperiments" />
+      <ExperimentFilter />
     </v-container>
   </div>
 </template>
@@ -96,64 +81,18 @@
 <script>
 import { LMap, LGeoJson, LMarker } from "vue2-leaflet"
 import { latLng, latLngBounds, polygon, icon } from "leaflet"
+import L from "leaflet"
 import FarmerCard from "@/components/FarmerCard.vue"
-import ExperimentsCards from "@/components/grids/ExperimentsCards"
+import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import geojson from "../resources/departments.json"
 
 export default {
   name: "Map",
-  components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentsCards },
+  components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentFilter },
   data() {
     return {
-      filters: [
-        {
-          icon: "mdi-sprout",
-          filter: "adventices",
-          text: "Adventices"
-        },
-        {
-          icon: "mdi-ladybug",
-          filter: "insectes",
-          text: "Insectes"
-        },
-        {
-          icon: "mdi-bottle-tonic-plus",
-          filter: "maladies",
-          text: "Maladies"
-        },
-        {
-          icon: "mdi-chart-bell-curve-cumulative",
-          filter: "productivite",
-          text: "Productivité"
-        },
-        {
-          icon: "mdi-bee",
-          filter: "biodiversite",
-          text: "Biodiversité"
-        },
-        {
-          icon: "mdi-image-filter-hdr",
-          filter: "sol",
-          text: "Sol"
-        },
-        {
-          icon: "mdi-cow",
-          filter: "Fourrages",
-          text: "Fourrages"
-        },
-        {
-          icon: "mdi-corn",
-          filter: "nouvelles-cultures",
-          text: "Nouvelles cultures"
-        },
-        {
-          icon: "mdi-cellphone-information",
-          filter: "oad",
-          text: "OAD"
-        }
-      ],
-      selectedFilters: [],
       markersInfo: [],
+      showGeolocation: !!window.navigator.geolocation,
       showParagraph: false,
       zoom: 5.6,
       center: latLng(46.61322, 2.7),
@@ -193,8 +132,13 @@ export default {
     selectedFarmer() {
       return this.$store.state.selectedFarmer
     },
-    selectedDeparment() {
-      return this.$store.state.selectedDepartment
+    selectedDepartment: {
+      get() {
+        return this.$store.state.selectedDepartment
+      },
+      set(department) {
+        this.$store.dispatch("setSelectedDepartment", { department })
+      }
     },
     cases() {
       return this.$store.state.farmers
@@ -212,8 +156,8 @@ export default {
             mouseover: () => currentLayer.setStyle({ fillColor: "#d8f3ec" }),
             mouseout: () => {
               const color =
-                this.selectedDeparment &&
-                currentLayer.id === this.selectedDeparment.code
+                this.selectedDepartment &&
+                currentLayer.id === this.selectedDepartment.code
                   ? "#A6E4D3"
                   : "#FFF"
               currentLayer.setStyle({ fillColor: color })
@@ -221,12 +165,6 @@ export default {
           })
         }
       }
-    },
-    filteredExperiments() {
-      if (this.selectedFilters.length === 0)
-        return this.$store.state.experiments
-      const filterValues = this.selectedFilters.map(x => x.filter)
-      return this.$store.state.experiments.filter(x => x.tags.some(y => filterValues.indexOf(y) > -1))
     }
   },
   methods: {
@@ -235,16 +173,7 @@ export default {
         const department = this.departments.find(
           x => x.code === feature.properties.code
         )
-        this.$store.dispatch("setSelectedDepartment", { department })
-      }
-    },
-    toggleFilter(filter) {
-      const index = this.selectedFilters.indexOf(filter)
-      const itemIsSelected = index > -1
-      if (itemIsSelected) {
-        this.selectedFilters.splice(index, 1)
-      } else {
-        this.selectedFilters.push(filter)
+        this.selectedDepartment = department
       }
     },
     selectFarmer(farmerName) {
@@ -253,8 +182,28 @@ export default {
     toLatLon(latitude, longitude) {
       return latLng(latitude, longitude)
     },
-    onAutocompleteChange(department) {
-      this.$store.dispatch("setSelectedDepartment", { department })
+    geolocate() {
+      const self = this
+      function showPosition(position) {
+        const lng = position.coords.longitude
+        const lat = position.coords.latitude
+        console.log(`longitude: ${lng} | latitude: ${lat}`)
+
+        const geojsonFeature = self.geojson.features.find(x => {
+          // Note we reverse lat and lon in the L.latLng object because of
+          // https://stackoverflow.com/questions/43549199/leaflet-how-to-swap-coordinates-received-from-an-ajax-call/43549799
+          return L.polygon(x.geometry.coordinates).contains(L.latLng(lng, lat))
+        })
+        console.log(`geojson Feature: ${geojsonFeature}`)
+        const department = self.departments.find(
+          x => x.code === geojsonFeature.properties.code
+        )
+        self.selectedDepartment = department
+      }
+      function handleError(error) {
+        console.log(error)
+      }
+      window.navigator.geolocation.getCurrentPosition(showPosition, handleError)
     }
   },
   created: function() {
@@ -264,7 +213,8 @@ export default {
         Object.assign(
           {},
           {
-            location: farmer.location,
+            lat: farmer.lat,
+            lon: farmer.lon,
             name: farmer.name
           }
         )
@@ -272,7 +222,7 @@ export default {
     }
   },
   watch: {
-    selectedDeparment(newValue) {
+    selectedDepartment(newValue) {
       if (!newValue) return
       const geojsonFeature = this.geojson.features.find(
         x => x.properties.code == newValue.code
@@ -288,12 +238,12 @@ export default {
         // If we wanted animation we would have to use flyToBounds but there is the render lag problem
         this.$refs.map.mapObject.fitBounds(leafletBounds, {
           padding: [70, 70],
-          animate: false,
+          animate: false
         })
       }
       Object.values(this.$refs.map.mapObject._layers).forEach(x => {
         if (!x.setStyle) return
-        x.id === this.selectedDeparment.code
+        x.id === this.selectedDepartment.code
           ? x.setStyle({ fillColor: "#A6E4D3" })
           : x.setStyle({ fillColor: "#fff" })
       })

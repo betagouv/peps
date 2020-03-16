@@ -437,23 +437,7 @@ class TestApi(TestCase):
         self.assertEqual(len(body), 3)
 
         for farmer_id in ('rec66629kfas9i', 'rec0098666ooka', 'rec666sf09aii'):
-            self.assertEqual(len(list(filter(lambda x: x['id'] == farmer_id, body))), 1)
-
-
-    def test_experiment_list(self):
-        """
-        Tests the endpoint for the experiment list.
-        """
-
-        self.client.logout()
-        response = self.client.get(reverse('get_experiments'))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        body = json.loads(response.content.decode())
-        self.assertEqual(len(body), 3)
-
-        for experiment_id in ('rec33329kfas9i', 'rec0098333ooka', 'rec3333f09aii'):
-            self.assertEqual(len(list(filter(lambda x: x['id'] == experiment_id, body))), 1)
+            self.assertEqual(len(list(filter(lambda x: x['external_id'] == farmer_id, body))), 1)
 
 
 def _populate_database():
@@ -495,7 +479,9 @@ def _populate_database():
         farmer = Farmer(
             external_id=farmer_id,
             modification_date=timezone.now(),
-            airtable_json={ 'id': farmer_id }
+            airtable_json={'id': farmer_id},
+            lat=45.1808,
+            lon=1.893,
         )
         farmer.save()
 
@@ -503,7 +489,9 @@ def _populate_database():
         experiment = Experiment(
             external_id=experiment_id,
             modification_date=timezone.now(),
-            airtable_json={ 'id': experiment_id }
+            airtable_json={'id': experiment_id},
+            name="Test experiment",
+            farmer=Farmer.objects.filter(external_id='rec66629kfas9i').first()
         )
         experiment.save()
 

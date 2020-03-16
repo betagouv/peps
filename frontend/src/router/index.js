@@ -79,7 +79,7 @@ const routes = [
     component: Experiment,
     props: (route) => {
       const farmer = store.getters.farmerWithName(route.params.farmerName)
-      const experiment = farmer.tests.find(x => x.title === route.params.expName)
+      const experiment = farmer.experiments.find(x => x.name === route.params.expName)
       return {
         farmer: farmer,
         experiment: experiment

@@ -1,14 +1,15 @@
 <template>
   <div>
-    <Title :title="experiment.title" :breadcrumbs="breadcrumbs" />
+    <Title :title="experiment.name" :breadcrumbs="breadcrumbs" />
     <v-container class="constrained" style="padding-top: 0px;">
       <v-img
         class="white--text align-end"
         height="110px"
-        :src="farmer.backgroundPhoto || defaultImageUrl"
+        style="background: #CCC;"
+        :src="farmer.backgroundPhoto"
       />
 
-      <div class="display-1" style="margin-top: 20px;">{{ experiment.title }}</div>
+      <div class="display-1" style="margin-top: 20px;">{{ experiment.name }}</div>
       <div style="padding: 0 16px 0 16px;">
         <div class="ma-2" v-for="(iconInfo, index) in icons" :key="index">
           <v-icon left>{{iconInfo.icon}}</v-icon>
@@ -18,14 +19,14 @@
       <v-divider style="margin-top: 10px; margin-bottom: -10px;" />
       <FarmerListItem :farmer="farmer" />
       <v-divider style="margin-top: 10px;" />
-      <div class="subtitle-2" style="margin-top: 20px;">Description</div>
-      <div class="body-2" style="margin-top: 5px;">{{ experiment.description }}</div>
+      <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
+      <div class="body-2" style="margin-top: 5px;">{{ experiment.objectives }}</div>
       <div class="body-2 practice-description" style="margin-top: 15px;">
         <div
           class="pa-0 fill-height"
           style="margin-bottom: 5px;"
           outlined
-          v-for="(step, index) in experiment.stages"
+          v-for="(step, index) in (experiment.stages || [])"
           :key="index"
         >
           <div class="subtitle-2">{{ index + 1 }}. {{ step.title }} ({{ step.schedule }})</div>
@@ -90,14 +91,13 @@ export default {
         "nouvelles-cultures": "mdi-corn",
         oad: "mdi-cellphone-information"
       }
+      if (!this.experiment.tags)
+        return []
       return this.experiment.tags
         .map(x =>
           x in icons ? { icon: icons[x], text: x.replace("-", " ") } : null
         )
         .filter(x => x != null)
-    },
-    defaultImageUrl() {
-      return this.$store.state.defaultPracticeImageUrl
     },
     breadcrumbs() {
       return [

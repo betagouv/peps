@@ -8,7 +8,7 @@
     ></v-img>
     <v-list-item class="flex-fix-item" style="margin: 10px 0 0 0;">
       <v-list-item-avatar color="grey">
-        <v-img :src="farmer.profilePhoto"></v-img>
+        <v-img :src="farmer.profile_image ? farmer.profile_image : '/static/images/user.png'"></v-img>
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
@@ -19,7 +19,7 @@
           />
           {{ farmer.name }}
         </v-list-item-title>
-        <v-list-item-subtitle>GAEC Les Champs</v-list-item-subtitle>
+        <v-list-item-subtitle>{{ farmer.profession }}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Son exploitation</v-card-subtitle>
@@ -30,8 +30,8 @@
     <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Expérimentations</v-card-subtitle>
     <v-card-text class="description flex-fix-item">
       <ul>
-        <li v-for="(item, index) in farmer.tests" :key="index">
-          {{ item.title }}
+        <li v-for="(item, index) in farmer.experiments" :key="index">
+          {{ item.name }}
         </li>
       </ul>
     </v-card-text>

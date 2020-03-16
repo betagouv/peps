@@ -5,18 +5,17 @@
       <v-img
         class="white--text align-end"
         height="110px"
-        :src="farmer.backgroundPhoto || defaultImageUrl"
+        :src="farmer.backgroundPhoto"
+        style="background: #CCC;"
       />
       <FarmerListItem :farmer="farmer" />
       <v-divider style="margin-top: 10px;" />
-      <div class="subtitle-2" style="margin-top: 20px;">Son histoire</div>
-      <div class="body-2" style="margin-top: 5px;">{{ farmer.background }}</div>
       <div class="subtitle-2" style="margin-top: 20px;">Son exploitation</div>
       <div class="body-2 practice-description" style="margin-top: 5px;">{{ farmer.description }}</div>
 
       <div class="subtitle-2" style="margin-top: 20px;">Ses expérimentations</div>
       <v-row>
-        <v-col v-for="(experiment, index) in farmer.tests" :key="index" cols="12" sm="6" md="4">
+        <v-col v-for="(experiment, index) in farmer.experiments" :key="index" cols="12" sm="6" md="4">
           <ExperimentCard :experiment="experiment" />
         </v-col>
       </v-row>
@@ -39,9 +38,6 @@ export default {
     }
   },
   computed: {
-    defaultImageUrl() {
-      return this.$store.state.defaultPracticeImageUrl
-    },
     breadcrumbs() {
       return [
         {

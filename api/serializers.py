@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from data.models import Practice, Mechanism, Resource, PracticeType
-from data.models import DiscardAction, Category
+from data.models import DiscardAction, Category, Farmer, Experiment
 
 
 class MechanismSerializer(serializers.ModelSerializer):
@@ -118,4 +118,50 @@ class CategorySerializer(serializers.ModelSerializer):
             'title',
             'description',
             'practices',
+        )
+
+class ExperimentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experiment
+        fields = (
+            'id',
+            'external_id',
+            'name',
+            'objectives',
+            'photos',
+            'method',
+            'temporality',
+            'equipment',
+            'execution',
+            'control_presence',
+            'ongoing',
+            'results',
+            'results_details',
+            'links',
+        )
+
+class FarmerSerializer(serializers.ModelSerializer):
+    experiments = ExperimentSerializer(many=True)
+
+    class Meta:
+        model = Farmer
+        fields = (
+            'id',
+            'external_id',
+            'name',
+            'profession',
+            'profile_image',
+            'postal_code',
+            'experiments',
+            'lat',
+            'lon',
+            'installation_date',
+            'personnel',
+            'livestock_type',
+            'livestock_number',
+            'cultures',
+            'soil_type',
+            'description',
+            'specificities',
+            'contact_possible',
         )

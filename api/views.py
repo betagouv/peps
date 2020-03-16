@@ -11,6 +11,7 @@ from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
 from data.models import GroupCount, RefererCount, Category, Farmer, Experiment
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
+from api.serializers import FarmerSerializer, ExperimentSerializer
 from api.formschema import get_form_schema
 from api.models import Response
 
@@ -185,19 +186,6 @@ class DiscardActionView(CreateAPIView):
     serializer_class = DiscardActionSerializer
 
 
-class FarmersView(APIView):
-    def get(self, request):
-        try:
-            content = [x.airtable_json for x in Farmer.objects.all()]
-            return JsonResponse(content, status=200, safe=False)
-        except Exception as _:
-            return JsonResponse({}, status=400)
-
-
-class ExperimentsView(APIView):
-    def get(self, request):
-        try:
-            content = [x.airtable_json for x in Experiment.objects.all()]
-            return JsonResponse(content, status=200, safe=False)
-        except Exception as _:
-            return JsonResponse({}, status=400)
+class FarmersView(ListAPIView):
+    queryset = Farmer.objects
+    serializer_class = FarmerSerializer

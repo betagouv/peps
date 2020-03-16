@@ -39,4 +39,13 @@ class ExperimentsAirtableAdapter:
         for experiment in experiments:
             experiment.save()
 
+        _link_experiments_with_farmers(experiments)
+
         return errors
+
+def _link_experiments_with_farmers(experiments):
+    for experiment in experiments:
+        if experiment.airtable_json:
+            farmer_external_id = experiment.airtable_json['fields'].get('Agriculteur')[0]
+            experiment.farmer = Farmer.objects.filter(external_id=farmer_external_id).first()
+            experiment.save()
