@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from data.models import Farmer
+from data.utils import get_airtable_image_name, get_airtable_image_content_file
 
 class Experiment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -27,13 +28,17 @@ class Experiment(models.Model):
     results = models.TextField(null=True)
     results_details = models.TextField(null=True)
     links = models.TextField(null=True)
+    description = models.TextField(null=True)
+    investment = models.TextField(null=True)
+    xp_type = models.TextField(null=True)
 
     surface = models.TextField(null=True)
+    surface_type = models.TextField(null=True)
 
     @staticmethod
     def create_from_airtable(airtable_json):
         fields = airtable_json['fields']
-        return Experiment(
+        experiment = Experiment(
             external_id=airtable_json.get('id'),
             airtable_json=airtable_json,
             modification_date=timezone.now(),
@@ -52,4 +57,27 @@ class Experiment(models.Model):
             results_details=fields.get('Info résultats'),
             links=fields.get('Liens'),
             surface=str(fields.get('Surface')) if fields.get('Surface') else None,
+            surface_type=' ,'.join(fields.get('Type surface')) if fields.get('Type surface') else None,
+            description=fields.get('Description'),
+            investment=fields.get('Investissement'),
+            xp_type=fields.get('Type d\'XP'),
         )
+
+        return experiment
+
+
+    def assign_images_from_airtable(self):
+        fields = self.airtable_json['fields']
+        for image in fields.get('Photos / vidéo', []):
+            image_name = get_airtable_image_name(image)
+            image_content_file = get_airtable_image_content_file(image)
+            if image_name and image_content_file:
+                experiment_image = ExperimentImage()
+                experiment_image.experiment = self
+                experiment_image.image.save(image_name, image_content_file, save=True)
+
+# This is sadly necessary because we can't use an ArrayField of ImageFields
+# https://code.djangoproject.com/ticket/25756#no1
+class ExperimentImage(models.Model):
+    experiment = models.ForeignKey(Experiment, related_name='images', on_delete=models.CASCADE, null=True)
+    image = models.ImageField()

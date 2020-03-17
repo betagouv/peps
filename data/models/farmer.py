@@ -2,7 +2,7 @@ import uuid
 from decimal import Decimal
 from django.utils import timezone
 from django.db import models
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField, ArrayField
 from data.utils import get_airtable_image_name, get_airtable_image_content_file
 
 class Farmer(models.Model):
@@ -14,7 +14,7 @@ class Farmer(models.Model):
     airtable_url = models.TextField(null=True)
 
     name = models.TextField(null=True)
-    profession = models.CharField(max_length=100, null=True)
+    profession = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     profile_image = models.ImageField(null=True)
     postal_code = models.CharField(max_length=20, null=True)
     lat = models.DecimalField(max_digits=9, decimal_places=6)
@@ -45,7 +45,7 @@ class Farmer(models.Model):
             airtable_json=airtable_json,
             modification_date=timezone.now(),
             name=fields.get('Prénom et Nom'),
-            profession=' ,'.join(fields.get('Métier')) if fields.get('Métier') else None,
+            profession=fields.get('Métier'),
             postal_code=fields.get('Code postal'),
             lat=Decimal(fields.get('Latitude')),
             lon=Decimal(fields.get('Longitude')),

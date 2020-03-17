@@ -1,14 +1,15 @@
 <template>
   <v-card class="flex-container">
-    <v-img
+    <!-- <v-img
       class="flex-fix-item"
       :src="farmer.backgroundPhoto"
       height="100px"
       style="background: #CCC;"
-    ></v-img>
+    ></v-img> -->
     <v-list-item class="flex-fix-item" style="margin: 10px 0 0 0;">
       <v-list-item-avatar color="grey">
-        <v-img :src="farmer.profile_image ? farmer.profile_image : '/static/images/user.png'"></v-img>
+        <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
+        <v-icon v-else>mdi-account</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
@@ -19,7 +20,11 @@
           />
           {{ farmer.name }}
         </v-list-item-title>
-        <v-list-item-subtitle>{{ farmer.profession }}</v-list-item-subtitle>
+        <v-list-item-subtitle>
+          <span v-for="(title, index) in (farmer.profession || [])" :key="index">
+          {{ title }}<span v-if="farmer.profession.length > 1 && index < farmer.profession.length - 1">, </span>
+          </span>
+        </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
     <v-card-subtitle class="subtitle-2 flex-fix-item" style="padding: 4px 16px 4px 16px;">Son exploitation</v-card-subtitle>

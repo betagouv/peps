@@ -1,29 +1,41 @@
 <template>
-  <v-card class="pa-0 fill-height flex-container" style="max-height: 450px;" outlined>
-    <v-img
-      class="white--text align-end flex-fix-item"
-      height="120px"
-      style="background: #DDD;"
-      :src="experiment.image"
-    />
-    <v-card-text style="padding-bottom: 0; padding-top: 10px;">
-      <v-icon left small v-for="(iconName, index) in icons" :key="index">{{ iconName }}</v-icon>
-    </v-card-text>
-    <v-card-title class="flex-fix-item" style="padding-top: 5px; padding-bottom: 5px;">{{experiment.name}}</v-card-title>
-    <v-card-text class="description flex-shrink-item">
-      {{experiment.objectives}}
-      <div class="gradient" v-if="showDescriptionGradient"></div>
-    </v-card-text>
-    <div class="pa-5 flex-fix-item">
-      <v-btn
-        block
-        class="text-none"
-        color="primary"
-        max-width="50"
-        @click="goToExperiment(experiment)"
-      >En savoir plus</v-btn>
-    </div>
-  </v-card>
+  <v-hover>
+    <v-card
+      class="pa-0 fill-height"
+      style="max-height: 150px; overflow: hidden;"
+      outlined
+      slot-scope="{ hover }"
+      :elevation="hover ? 1 : 0"
+      @click="goToExperiment()"
+    >
+      <div class="d-flex justify-space-between" style="height: 100%">
+        <v-img
+          class="white--text align-end flex-fix-item"
+          height="100%"
+          width="80px"
+          style="background: #DDD;"
+          :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
+        />
+        <div class="flex-container">
+          <v-card-text class="flex-fix-item" style="padding-bottom: 0; padding-top: 10px;">
+            <v-icon left small v-for="(iconName, index) in icons" :key="index">{{ iconName }}</v-icon>
+          </v-card-text>
+          <v-card-title
+            class="flex-fix-item subtitle-2"
+            style="padding-top: 5px; padding-bottom: 5px;"
+          >{{experiment.name}}</v-card-title>
+          <v-card-text class="caption flex-fix-item" style="padding-bottom: 0; padding-top: 0px;">
+            <v-icon small left style="padding-bottom: 2px;">mdi-account</v-icon>
+            {{experiment.farmer}}
+          </v-card-text>
+          <v-card-text class="description caption flex-shrink-item">
+            {{experiment.objectives}}
+            <div class="gradient" v-if="showDescriptionGradient"></div>
+          </v-card-text>
+        </div>
+      </div>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -33,7 +45,7 @@ export default {
   props: {
     experiment: {
       type: Object,
-      required: true,
+      required: true
     }
   },
   data() {
@@ -44,26 +56,30 @@ export default {
   computed: {
     icons() {
       const icons = {
-        "adventices": "mdi-sprout",
-        "insectes": "mdi-ladybug",
-        "maladies": "mdi-bottle-tonic-plus",
-        "productivite": "mdi-chart-bell-curve-cumulative",
-        "biodiversite": "mdi-bee",
-        "sol": "mdi-image-filter-hdr",
-        "fourrages": "mdi-cow",
+        adventices: "mdi-sprout",
+        insectes: "mdi-ladybug",
+        maladies: "mdi-bottle-tonic-plus",
+        productivite: "mdi-chart-bell-curve-cumulative",
+        biodiversite: "mdi-bee",
+        sol: "mdi-image-filter-hdr",
+        fourrages: "mdi-cow",
         "nouvelles-cultures": "mdi-corn",
-        "oad": "mdi-cellphone-information"
+        oad: "mdi-cellphone-information"
       }
-      if (!this.experiment.tags)
-        return []
-      return this.experiment.tags.map(x => x in icons ? icons[x] : null).filter(x => x != null)
+      if (!this.experiment.tags) return []
+      return this.experiment.tags
+        .map(x => (x in icons ? icons[x] : null))
+        .filter(x => x != null)
     }
   },
   methods: {
-    goToExperiment(experiment) {
+    goToExperiment() {
       this.$router.push({
         name: "Experiment",
-        params: { farmerName: experiment.farmer, expName: experiment.name }
+        params: {
+          farmerName: this.experiment.farmer,
+          expName: this.experiment.name
+        }
       })
     }
   },
@@ -98,5 +114,9 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
+}
+.description {
+  padding-top: 5px;
+  color: #999;
 }
 </style>

@@ -25,6 +25,12 @@ class TestXP(TestCase):
         """
         self.assertTrue(Experiment.objects.count() > 0)
 
+    def test_experiments_have_images(self):
+        """
+        We check that experiments have been correctly serialized
+        """
+        self.assertTrue(Experiment.objects.first().images.all().count() > 0)
+
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
     # data instead of the real deal.

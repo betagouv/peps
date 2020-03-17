@@ -15,4 +15,4 @@ from .groupcount import GroupCount
 from .referercount import RefererCount
 from .category import Category
 from .farmer import Farmer
-from .experiment import Experiment
+from .experiment import Experiment, ExperimentImage

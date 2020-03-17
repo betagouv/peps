@@ -38,6 +38,7 @@ class ExperimentsAirtableAdapter:
         Experiment.objects.all().delete()
         for experiment in experiments:
             experiment.save()
+            experiment.assign_images_from_airtable()
 
         _link_experiments_with_farmers(experiments)
 
