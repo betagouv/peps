@@ -66,7 +66,7 @@ export default new Vuex.Store({
       state.categoriesLoadingStatus = status
     },
     SET_FARMERS_LOADING(state, status) {
-      state.categoriesLoadingStatus = status
+      state.farmersLoadingStatus = status
     },
     SET_FARMERS(state, farmers) {
       state.farmers = farmers

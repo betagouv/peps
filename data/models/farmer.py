@@ -57,7 +57,7 @@ class Farmer(models.Model):
             soil_type=fields.get('Types sols'),
             description=fields.get('Description exploitation'),
             specificities=fields.get('Spécificités'),
-            contact_possible=fields.get('Contact') == 'Oui',
+            contact_possible=fields.get('Contact possible') == 'Oui',
             surface=str(fields.get('Surface')),
             surface_cultures=str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None,
             surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,

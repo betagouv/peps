@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row style="padding: 0 16px 0 16px;">
+    <!-- <v-row style="padding: 0 16px 0 16px;">
       <v-text-field prepend-icon="mdi-file-search" />
       <v-btn outlined color="primary" style="margin: 10px 0 0 10px;">
         <v-icon small style="margin: 0 5px 0 0;">mdi-magnify</v-icon>Chercher
@@ -20,7 +20,7 @@
         <v-icon left>{{filter.icon}}</v-icon>
         {{filter.text}}
       </v-chip>
-    </v-row>
+    </v-row> -->
     <ExperimentsCards :experiments="filteredExperiments" />
   </div>
 </template>

@@ -1,106 +1,112 @@
 <template>
   <div>
-    <Title :title="experiment.name" :breadcrumbs="breadcrumbs" />
-    <v-container class="constrained" style="padding-top: 10px;">
-      <v-card style="margin-bottom: 20px" outlined shaped>
-        <v-img
-          class="white--text align-end"
-          height="110px"
-          :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
-          style="background: #CCC;"
-        />
+    <div>
+      <Title :title="experiment.name" :breadcrumbs="breadcrumbs" />
+      <v-container class="constrained" style="padding-top: 10px;">
+        <v-card style="margin-bottom: 20px" outlined shaped>
+          <v-img
+            class="white--text align-end"
+            height="110px"
+            :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
+            style="background: #CCC;"
+          />
 
-        <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
-          <div>
-            <div class="title">
-              <v-icon style="margin: -3px 5px 0 0">mdi-beaker-outline</v-icon>
-              {{ experiment.name }}
-            </div>
-            <div style="margin-left: 35px;" class="caption">
-              <v-icon
-                style="margin-right: 3px;"
-                v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
-                color="primary"
-              >mdi-check-decagram</v-icon>
-              {{experiment.results}}
+          <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
+            <div>
+              <div class="title">
+                <v-icon style="margin: -3px 5px 0 0">mdi-beaker-outline</v-icon>
+                {{ experiment.name }}
+              </div>
+              <div style="margin-left: 35px;" class="caption">
+                <v-icon
+                  style="margin-right: 3px;"
+                  v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
+                  color="primary"
+                >mdi-check-decagram</v-icon>
+                {{experiment.results}}
+              </div>
             </div>
           </div>
+        </v-card>
+
+        <div class="body-2" style="margin-bottom: 20px;">
+          <v-avatar style="margin-right: 5px;" size="25" color="grey">
+            <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
+            <v-icon small v-else>mdi-account</v-icon>
+          </v-avatar>Expérimentation faite par
+          <a :href="'/#/agriculteur/' + farmer.name">{{farmer.name}}</a>
         </div>
-      </v-card>
 
-      <div class="body-2" style="margin-bottom: 20px;">
-        <v-avatar style="margin-right: 5px;" size="25" color="grey">
-          <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
-          <v-icon small v-else>mdi-account</v-icon>
-        </v-avatar>Expérimentation faite par
-        <a :href="'/#/agriculteur/' + farmer.name">{{farmer.name}}</a>
-      </div>
+        <div v-if="experiment.xp_type" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-shape-outline</v-icon>
+          {{experiment.xp_type}}
+        </div>
 
-      <div v-if="experiment.xp_type" class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-shape-outline</v-icon>
-        {{experiment.xp_type}}
-      </div>
+        <div v-if="experiment.investment" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-cash-multiple</v-icon>
+          {{experiment.investment}}
+        </div>
 
-      <div v-if="experiment.investment" class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-cash-multiple</v-icon>
-        {{experiment.investment}}
-      </div>
+        <div v-if="experiment.surface || experiment.surface_type" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-texture-box</v-icon>Surface :
+          <span
+            v-if="experiment.surface && !experiment.surface_type"
+          >{{experiment.surface}}</span>
+          <span
+            v-else-if="!experiment.surface && experiment.surface_type"
+          >{{experiment.surface_type}}</span>
+          <span
+            v-else
+            style="text-transform: lowercase;"
+          >{{experiment.surface}} ({{experiment.surface_type}})</span>
+        </div>
 
-      <div v-if="experiment.surface || experiment.surface_type" class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-texture-box</v-icon>Surface :
-        <span v-if="experiment.surface && !experiment.surface_type">{{experiment.surface}}</span>
-        <span v-else-if="!experiment.surface && experiment.surface_type">{{experiment.surface_type}}</span>
-        <span
-          v-else
-          style="text-transform: lowercase;"
-        >{{experiment.surface}} ({{experiment.surface_type}})</span>
-      </div>
+        <div v-if="experiment.ongoing" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-playlist-edit</v-icon>Expérimentation en cours
+        </div>
 
-      <div v-if="experiment.ongoing" class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-playlist-edit</v-icon>Expérimentation en cours
-      </div>
+        <div v-else class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-playlist-check</v-icon>Expérimentation finie
+        </div>
 
-      <div v-else class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-playlist-check</v-icon>Expérimentation finie
-      </div>
+        <div v-if="experiment.control_presence" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-eye-outline</v-icon>Mise en place d'un témoin
+        </div>
 
-      <div v-if="experiment.control_presence" class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-eye-outline</v-icon>Mise en place d'un témoin
-      </div>
+        <div v-else class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-eye-off-outline</v-icon>Pas de témoin mis en place
+        </div>
 
-      <div v-else class="caption info-item">
-        <v-icon small left style="padding-bottom: 3px;">mdi-eye-off-outline</v-icon>Pas de témoin mis en place
-      </div>
+        <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
+        <div class="body-2" style="margin-top: 5px;">{{ experiment.objectives }}</div>
 
-      <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
-      <div class="body-2" style="margin-top: 5px;">{{ experiment.objectives }}</div>
+        <div class="subtitle-2" v-if="experiment.description" style="margin-top: 20px;">Description</div>
+        <div
+          class="body-2"
+          v-if="experiment.description"
+          style="margin-top: 5px;"
+        >{{ experiment.description }}</div>
 
-      <div class="subtitle-2" v-if="experiment.description" style="margin-top: 20px;">Description</div>
-      <div
-        class="body-2"
-        v-if="experiment.description"
-        style="margin-top: 5px;"
-      >{{ experiment.description }}</div>
-
-      <div
-        class="subtitle-2"
-        v-if="experiment.images && experiment.images.length > 0"
-        style="margin-top: 20px;"
-      >Images</div>
-      <v-row>
-        <v-col
-          v-for="(photo, index) in experiment.images.map(x => x.image)"
-          :key="index"
-          class="d-flex child-flex"
-          cols="6"
-          sm="3"
-        >
-          <v-card flat class="d-flex">
-            <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+        <div
+          class="subtitle-2"
+          v-if="experiment.images && experiment.images.length > 0"
+          style="margin-top: 20px;"
+        >Images</div>
+        <v-row>
+          <v-col
+            v-for="(photo, index) in experiment.images.map(x => x.image)"
+            :key="index"
+            class="d-flex child-flex"
+            cols="6"
+            sm="3"
+          >
+            <v-card flat class="d-flex">
+              <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -121,16 +127,24 @@ export default {
     }
   },
   props: {
-    farmer: {
-      type: Object,
+    farmerName: {
+      type: String,
       required: true
     },
-    experiment: {
-      type: Object,
+    experimentName: {
+      type: String,
       required: true
     }
   },
   computed: {
+    farmer() {
+      return this.$store.getters.farmerWithName(this.farmerName)
+    },
+    experiment() {
+      if (!this.farmer)
+        return
+      return this.farmer.experiments.find(x => x.name === this.experimentName)
+    },
     icons() {
       const icons = {
         adventices: "mdi-sprout",

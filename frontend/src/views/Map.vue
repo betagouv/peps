@@ -69,10 +69,11 @@
         </v-col>
       </v-row>
 
-      <div
+      <!-- <div
         class="title"
         style="margin: 30px 0 0px 0;"
-      >Vous cherchez une expérimentation en particulier ?</div>
+      >Vous cherchez une expérimentation en particulier ?</div>-->
+      <v-divider style="margin: 30px 0 0px 0;" />
       <ExperimentFilter />
     </v-container>
   </div>
@@ -85,6 +86,7 @@ import L from "leaflet"
 import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import geojson from "../resources/departments.json"
+import Constants from '@/constants'
 
 export default {
   name: "Map",
@@ -140,6 +142,9 @@ export default {
         this.$store.dispatch("setSelectedDepartment", { department })
       }
     },
+    farmersLoadingStatus() {
+      return this.$store.state.farmersLoadingStatus
+    },
     cases() {
       return this.$store.state.farmers
     },
@@ -176,6 +181,21 @@ export default {
         this.selectedDepartment = department
       }
     },
+    refreshMapMarkers() {
+      this.markersInfo = []
+      for (const farmer of this.$store.state.farmers) {
+        this.markersInfo.push(
+          Object.assign(
+            {},
+            {
+              lat: farmer.lat,
+              lon: farmer.lon,
+              name: farmer.name
+            }
+          )
+        )
+      }
+    },
     selectFarmer(farmerName) {
       this.$store.dispatch("setSelectedFarmer", { farmerName })
     },
@@ -187,14 +207,12 @@ export default {
       function showPosition(position) {
         const lng = position.coords.longitude
         const lat = position.coords.latitude
-        console.log(`longitude: ${lng} | latitude: ${lat}`)
 
         const geojsonFeature = self.geojson.features.find(x => {
           // Note we reverse lat and lon in the L.latLng object because of
           // https://stackoverflow.com/questions/43549199/leaflet-how-to-swap-coordinates-received-from-an-ajax-call/43549799
           return L.polygon(x.geometry.coordinates).contains(L.latLng(lng, lat))
         })
-        console.log(`geojson Feature: ${geojsonFeature}`)
         const department = self.departments.find(
           x => x.code === geojsonFeature.properties.code
         )
@@ -207,19 +225,7 @@ export default {
     }
   },
   created: function() {
-    this.markersInfo = []
-    for (const farmer of this.$store.state.farmers) {
-      this.markersInfo.push(
-        Object.assign(
-          {},
-          {
-            lat: farmer.lat,
-            lon: farmer.lon,
-            name: farmer.name
-          }
-        )
-      )
-    }
+    this.refreshMapMarkers()
   },
   watch: {
     selectedDepartment(newValue) {
@@ -247,6 +253,10 @@ export default {
           ? x.setStyle({ fillColor: "#A6E4D3" })
           : x.setStyle({ fillColor: "#fff" })
       })
+    },
+    farmersLoadingStatus(newValue) {
+      if (newValue === Constants.LoadingStatus.SUCCESS)
+        this.refreshMapMarkers()
     }
   }
 }

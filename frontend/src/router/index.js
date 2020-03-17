@@ -18,8 +18,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    component: Map,
     name: 'Landing',
-    component: Landing,
   },
   {
     path: '/resultats',
@@ -40,7 +40,7 @@ const routes = [
     }),
     beforeEnter: (route, _, next) => {
       if (!store.state.categories.find(x => x.title === route.params.categoryTitle))
-        next({name: 'Landing'})
+        next({ name: 'Landing' })
       else
         next()
     }
@@ -54,7 +54,7 @@ const routes = [
     }),
     beforeEnter: (route, _, next) => {
       if (!store.getters.practiceWithShortTitle(route.params.practiceShortTitle))
-        next({name: 'Landing'})
+        next({ name: 'Landing' })
       else
         next()
     }
@@ -64,32 +64,18 @@ const routes = [
     name: 'Farmer',
     component: Farmer,
     props: (route) => ({
-      farmer: store.getters.farmerWithName(route.params.farmerName)
+      farmerName: route.params.farmerName
     }),
-    beforeEnter: (route, _, next) => {
-      if (!store.getters.farmerWithName(route.params.farmerName))
-        next({name: 'Landing'})
-      else
-        next()
-    }
   },
   {
     path: '/agriculteur/:farmerName/experimentation/:expName',
     name: 'Experiment',
     component: Experiment,
     props: (route) => {
-      const farmer = store.getters.farmerWithName(route.params.farmerName)
-      const experiment = farmer.experiments.find(x => x.name === route.params.expName)
       return {
-        farmer: farmer,
-        experiment: experiment
+        farmerName: route.params.farmerName,
+        experimentName: route.params.expName
       }
-    },
-    beforeEnter: (route, _, next) => {
-      if (!store.getters.farmerWithName(route.params.farmerName))
-        next({name: 'Landing'})
-      else
-        next()
     }
   },
   {
@@ -108,9 +94,15 @@ const routes = [
     component: Contact,
   },
   {
+    path: '/pratiques',
+    name: 'Practices',
+    component: Landing,
+  },
+  {
     path: '/map',
-    name: 'Map',
-    component: Map,
+    redirect: {
+      name: 'Landing'
+    },
   },
   {
     path: '*',
@@ -123,7 +115,7 @@ const routes = [
 const router = new VueRouter({
   routes,
   previousRoute: null,
-  scrollBehavior () {
+  scrollBehavior() {
     return new Promise((resolve) => {
       const fadeTransitionTime = 250
       setTimeout(() => {
