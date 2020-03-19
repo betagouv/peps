@@ -54,7 +54,7 @@ class Experiment(models.Model):
             control_presence=fields.get('Présence d\'un témoin') == 'Oui',
             ongoing=fields.get('XP en cours') == 'Oui',
             results=fields.get('Résultats'),
-            results_details=fields.get('Info résultats'),
+            results_details=fields.get('Plus d\'information résultats'),
             links=fields.get('Liens'),
             surface=str(fields.get('Surface')) if fields.get('Surface') else None,
             surface_type=' ,'.join(fields.get('Type surface')) if fields.get('Type surface') else None,

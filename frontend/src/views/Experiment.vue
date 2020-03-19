@@ -4,12 +4,12 @@
       <Title :title="experiment.name" :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
-          <v-img
+          <!-- <v-img
             class="white--text align-end"
             height="110px"
             :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
             style="background: #CCC;"
-          />
+          /> -->
 
           <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
             <div>
@@ -86,6 +86,20 @@
           v-if="experiment.description"
           style="margin-top: 5px;"
         >{{ experiment.description }}</div>
+
+        <div class="subtitle-2" v-if="experiment.results_details" style="margin-top: 20px;">Information sur les résultats</div>
+        <div
+          class="body-2"
+          v-if="experiment.results_details"
+          style="margin-top: 5px;"
+        >{{ experiment.results_details }}</div>
+
+        <div class="subtitle-2" v-if="experiment.links" style="margin-top: 20px;">Links</div>
+        <div
+          class="body-2"
+          v-if="experiment.links"
+          style="margin-top: 5px;"
+        >{{ experiment.links }}</div>
 
         <div
           class="subtitle-2"

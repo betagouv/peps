@@ -46,11 +46,11 @@
 
         <div v-if="farmer.installation_date" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-calendar-blank-outline</v-icon>
-          Exploitation installée depuis le {{farmer.installation_date}}
+          Exploitation installée depuis {{farmer.installation_date.substring(0, 4)}}
         </div>
         <div v-if="farmer.personnel" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-account-group</v-icon>
-          Effectif : {{farmer.personnel}}
+          <v-icon small left style="padding-bottom: 3px;">mdi-card-account-details-outline</v-icon>
+          Effectif : {{farmer.personnel}} temps plein
         </div>
         <div v-if="farmer.livestock_type" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-cow</v-icon>
@@ -59,9 +59,21 @@
             v-if="farmer.livestock_number"
           >({{ farmer.livestock_number }})</span>
         </div>
+        <div v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-tractor</v-icon>
+          Types d'agriculture : <span v-for="(agricultureType, index) in farmer.agriculture_types" :key="index">
+            {{agricultureType}}<span v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1">,</span>
+          </span>
+        </div>
         <div v-if="farmer.cultures" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-leaf</v-icon>
           Cultures : {{farmer.cultures}}
+        </div>
+        <div v-if="farmer.groups && farmer.groups.length > 0" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-account-group</v-icon>
+          Groupes : <span v-for="(group, index) in farmer.groups" :key="index">
+            {{group}}<span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
+          </span>
         </div>
         <div v-if="farmer.soil_type" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-drag-horizontal</v-icon>
@@ -81,18 +93,25 @@
         </div>
         <div v-if="farmer.output" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-silo</v-icon>
-          Rendement : {{farmer.output}} quintaux / ha
+          Potentiel de rendement en blé : {{farmer.output}} quintaux / ha
         </div>
 
         <div class="subtitle-2" style="margin-top: 20px;">Son exploitation</div>
-        <div class="body-2 practice-description" style="margin-top: 5px;">{{ farmer.description }}</div>
+        <div class="body-2" style="margin-top: 5px;">{{ farmer.description }}</div>
 
         <div class="subtitle-2" style="margin-top: 20px;" v-if="farmer.specificities">Spécifités</div>
         <div
-          class="body-2 practice-description"
+          class="body-2"
           style="margin-top: 5px;"
           v-if="farmer.specificities"
         >{{ farmer.specificities }}</div>
+
+        <div class="subtitle-2" style="margin-top: 20px;" v-if="farmer.text_links">Liens</div>
+        <div
+          class="body-2"
+          style="margin-top: 5px;"
+          v-if="farmer.specificities"
+        >{{ farmer.text_links }}</div>
 
         <div class="subtitle-2" style="margin-top: 20px;">Ses expérimentations</div>
         <v-row>

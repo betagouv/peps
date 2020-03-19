@@ -15,6 +15,8 @@ class Farmer(models.Model):
 
     name = models.TextField(null=True)
     profession = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    groups = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+    agriculture_types = ArrayField(models.TextField(), blank=True, null=True)
     profile_image = models.ImageField(null=True)
     postal_code = models.CharField(max_length=20, null=True)
     lat = models.DecimalField(max_digits=9, decimal_places=6)
@@ -28,6 +30,8 @@ class Farmer(models.Model):
     description = models.TextField(null=True)
     specificities = models.TextField(null=True)
     contact_possible = models.BooleanField(default=False)
+
+    text_links = models.TextField(null=True)
 
     surface = models.TextField(null=True)
     surface_cultures = models.TextField(null=True)
@@ -46,6 +50,8 @@ class Farmer(models.Model):
             modification_date=timezone.now(),
             name=fields.get('Prénom et Nom'),
             profession=fields.get('Métier'),
+            groups=fields.get('Groupes'),
+            agriculture_types=fields.get('Type agriculture'),
             postal_code=fields.get('Code postal'),
             lat=Decimal(fields.get('Latitude')),
             lon=Decimal(fields.get('Longitude')),
@@ -58,6 +64,7 @@ class Farmer(models.Model):
             description=fields.get('Description exploitation'),
             specificities=fields.get('Spécificités'),
             contact_possible=fields.get('Contact possible') == 'Oui',
+            text_links=fields.get('Liens profil'),
             surface=str(fields.get('Surface')),
             surface_cultures=str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None,
             surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,
