@@ -25,8 +25,8 @@
             />
           </v-col>
 
-          <v-col cols="12" sm="3">
-            <p class="text-left caption">
+          <v-col cols="12" sm="4">
+            <p class="text-left caption" style="padding-right: 10px;">
               Peps est un service proposé par le Ministère de l’Agriculture et de l’Alimentation
               et le Ministère de la Transiton Écologique et Solidaire dans le cadre du plan Ecophyto
             </p>
@@ -35,9 +35,6 @@
           <v-col cols="12" sm="2" :style="'padding: ' + listPadding + ';'">
             <ul class="text-left caption">
               <li class="font-weight-bold">Peps</li>
-              <li>
-                <a href="/#/formulaire">Simulateur</a>
-              </li>
               <li>
                 <a target="_blank" href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
               </li>
@@ -49,15 +46,6 @@
               </li>
               <li>
                 <a href="/#/politique-de-confidentialite">Politique de confidentialité</a>
-              </li>
-            </ul>
-          </v-col>
-
-          <v-col cols="12" sm="2" :style="'padding: ' + listPadding + ';'">
-            <ul class="text-left caption">
-              <li class="font-weight-bold">Les pratiques</li>
-              <li v-for="(category, index) in categories" :key="index">
-                <a :href="'/#/categorie/' + category.title">{{category.title}}</a>
               </li>
             </ul>
           </v-col>
@@ -94,9 +82,6 @@
 export default {
   name: "Footer",
   computed: {
-    categories() {
-      return this.$store.state.categories
-    },
     listPadding() {
       if (this.$vuetify.breakpoint.name === 'xs') {
         return '10px'
