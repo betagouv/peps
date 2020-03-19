@@ -34,7 +34,7 @@
             <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
             <v-icon small v-else>mdi-account</v-icon>
           </v-avatar>Expérimentation faite par
-          <a :href="'/#/agriculteur/' + farmer.name">{{farmer.name}}</a>
+          <a @click="goToFarmer(farmer)">{{farmer.name}}</a>
         </div>
 
         <div v-if="experiment.xp_type" class="caption info-item">
@@ -149,6 +149,14 @@ export default {
       type: String,
       required: true
     }
+  },
+  methods: {
+    goToFarmer(farmer) {
+      this.$router.push({
+        name: "Farmer",
+        params: { farmerName: farmer.name }
+      })
+    },
   },
   computed: {
     farmer() {
