@@ -1,6 +1,5 @@
 <template>
-  <v-app :class="{ 'banner-visible': !hasContributed }">
-    <ContributionBanner id="contribution-banner" v-if="!hasContributed" />
+  <v-app>
     <div id="app-wrapper">
       <Header />
       <ErrorMessage
@@ -24,27 +23,19 @@ import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
 import ErrorMessage from "@/components/ErrorMessage.vue"
-import ContributionBanner from "@/components/ContributionBanner.vue"
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
-    ErrorMessage,
-    ContributionBanner
+    ErrorMessage
   },
   mounted() {
     this.$store.dispatch("resetLoaders")
     this.$store.dispatch("fetchFormDefinitions")
     this.$store.dispatch("fetchCategories")
     this.$store.dispatch("fetchFarmersAndExperiments")
-  },
-  created() {
-    window.addEventListener("resize", this.onWindowResize)
-  },
-  destroyed() {
-    window.removeEventListener("resize", this.onWindowResize)
   },
   computed: {
     showErrorMessage() {
@@ -56,18 +47,11 @@ export default {
         this.$store.state.farmersLoadingStatus === error ||
         this.$store.state.implementationLoadingStatus === error
       )
-    },
-    hasContributed: function() {
-      return this.$store.state.hasContributed
     }
   },
   methods: {
     reload() {
       location.reload()
-    },
-    onWindowResize() {
-      const height = this.hasContributed ? 0 : this.$el.querySelector('#contribution-banner').height
-      this.$el.querySelector('#app-wrapper').style.marginTop = height
     }
   }
 }
@@ -108,10 +92,6 @@ $cursive: "Caveat", cursive;
     font-size: 16px !important;
   }
 }
-
-// #app.banner-visible #app-wrapper {
-//   margin-top: 40px;
-// }
 
 body {
   background: #fff;

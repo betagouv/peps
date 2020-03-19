@@ -67,11 +67,6 @@ export default {
       showContributionOverlay: false
     }
   },
-  computed: {
-    hasContributed: function() {
-      return this.$store.state.hasContributed
-    }
-  },
   methods: {
     goToForm() {
       window.sendTrackingEvent("Landing", "simulator", this.formButtonText)

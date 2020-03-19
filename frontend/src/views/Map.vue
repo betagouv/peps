@@ -1,5 +1,9 @@
 <template>
   <div>
+    <ContributionOverlay
+      :visible="showContributionOverlay"
+      @done="showContributionOverlay = false"
+    />
     <v-container class="constrained">
       <div class="pa-0" style="margin-top: 10px;">
         <div class="display-1">
@@ -68,12 +72,10 @@
           />
         </v-col>
       </v-row>
-
-      <!-- <div
-        class="title"
-        style="margin: 30px 0 0px 0;"
-      >Vous cherchez une expérimentation en particulier ?</div>-->
       <v-divider style="margin: 30px 0 0px 0;" />
+      <div
+        style="margin: 20px 0 10px 0;"
+      >Vous souhaitez partager votre expérience ? <a @click="showContributionOverlay = true">Proposer une expérimentation</a></div>
       <ExperimentFilter />
     </v-container>
   </div>
@@ -87,12 +89,14 @@ import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import geojson from "../resources/departments.json"
 import Constants from '@/constants'
+import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "Map",
-  components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentFilter },
+  components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentFilter, ContributionOverlay },
   data() {
     return {
+      showContributionOverlay: false,
       markersInfo: [],
       showGeolocation: !!window.navigator.geolocation,
       showParagraph: false,

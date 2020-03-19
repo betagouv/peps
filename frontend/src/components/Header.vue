@@ -1,6 +1,9 @@
 <template>
   <div style="position: absolute; width:100%;">
-    <ContributionBanner />
+    <ContributionOverlay
+        :visible="showContributionOverlay"
+        @done="showContributionOverlay = false"
+      />
     <v-app-bar app absolute color="primary" dark>
       <v-toolbar-title>
         <a
@@ -9,7 +12,6 @@
         >Peps</a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
       <v-badge
         bottom
         left
@@ -25,6 +27,11 @@
           <v-icon>mdi-cancel</v-icon>
         </v-btn>
       </v-badge>
+
+      <v-btn color="#00744C" dark @click="showContributionOverlay = true">
+        <v-icon class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
+        <span class="caption text-none d-none d-sm-flex">Proposer une expérimentation</span>
+      </v-btn>
 
       <v-btn text elevation="0" href="/#/qui-sommes-nous">
         <v-icon class="d-flex d-sm-none">mdi-information</v-icon>
@@ -54,13 +61,16 @@
 
 <script>
 import Blacklist from "@/components/Blacklist.vue"
-import ContributionBanner from "@/components/ContributionBanner.vue"
+import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "z",
-  components: { Blacklist, ContributionBanner },
+  components: { Blacklist, ContributionOverlay },
   data: () => {
-    return { blacklistDialog: false }
+    return { 
+      blacklistDialog: false,
+      showContributionOverlay: false,
+    }
   },
   computed: {
     blacklist() {
@@ -74,9 +84,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  /* #app.banner-visible .v-app-bar {
-    top: 40px;
-  } */
-</style>

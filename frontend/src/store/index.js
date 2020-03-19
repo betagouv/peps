@@ -28,8 +28,6 @@ export default new Vuex.Store({
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
     farmersLoadingStatus: Constants.LoadingStatus.IDLE,
 
-    hasContributed: false,
-
     miaFormDefinition: {},
     statsFormDefinition: {},
     contactFormDefinition: {},
@@ -87,9 +85,6 @@ export default new Vuex.Store({
     },
     SET_CONTACT_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.contactFormData, fieldId, fieldValue)
-    },
-    SET_HAS_CONTRIBUTED(state, { hasContributed }) {
-      state.hasContributed = hasContributed
     },
     SET_IMPLEMENTATION_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.implementationFormData, fieldId, fieldValue)
@@ -197,16 +192,13 @@ export default new Vuex.Store({
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
-    sendContributionInfo(context) { // From contribute prompt
+    sendContributionInfo(context) { // From share XP prompt
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/sendTask', this.getters.contributionPayload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
-    },
-    registerUserContribution(context) {
-      context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
     },
     sendImplementation(context, { practice }) { // From implement a practice
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
@@ -217,9 +209,6 @@ export default new Vuex.Store({
       }).catch(() => {
         context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
       })
-    },
-    discardContributionPrompt(context) {
-      context.commit('SET_HAS_CONTRIBUTED', { hasContributed: true })
     },
     addMiaFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_MIA_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
@@ -304,10 +293,10 @@ export default new Vuex.Store({
     contributionPayload(state, getters) {
       return {
         email: state.contactFormData ? state.contactFormData.email : '',
-        name: (state.contactFormData ? state.contactFormData.name : '') + ' [CONTRIBUTION]',
+        name: (state.contactFormData ? state.contactFormData.name : '') + ' [PARTAGE XP]',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
         answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
-        reason: 'A partagé ses coordonnées pour être contacté',
+        reason: 'Veut partager une expérimentation',
         practice_id: '',
       }
     },
