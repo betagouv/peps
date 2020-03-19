@@ -200,6 +200,18 @@ export default new Vuex.Store({
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
+    sendFarmerContactRequest(context, { farmer }) { // From farmer contact prompt
+      let payload = this.getters.farmerContactPayload
+      const airtableUrl = 'https://airtable.com/tblwbHvoVKo0o9C38/' + farmer.external_id
+      payload.reason = 'Veut se mettre en contact avec ' + farmer.name + ' (' + airtableUrl + ')'
+
+      context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
     sendImplementation(context, { practice }) { // From implement a practice
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
       let payload = this.getters.implementationPayload
@@ -298,6 +310,13 @@ export default new Vuex.Store({
         answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
         reason: 'Veut partager une expérimentation',
         practice_id: '',
+      }
+    },
+    farmerContactPayload(state) {
+      return {
+        email: state.contactFormData ? state.contactFormData.email : '',
+        name: (state.contactFormData ? state.contactFormData.name : '') + ' [CONTACT AGRI]',
+        phone_number: state.contactFormData ? state.contactFormData.phone : '',
       }
     },
     statsPayload(state) {

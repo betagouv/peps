@@ -1,5 +1,11 @@
 <template>
   <div>
+    <FarmerContactOverlay
+      v-if="!!farmer"
+      :farmer="farmer"
+      :visible="contactOverlayVisible"
+      @done="contactOverlayVisible = false"
+    />
     <div v-if="farmer">
       <Title :title="farmer.name" :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
@@ -39,6 +45,7 @@
                 small
                 outlined
                 color="primary"
+                @click="contactOverlayVisible = true"
               >Contacter {{farmer.name}}</v-btn>
             </div>
           </div>
@@ -59,10 +66,19 @@
             v-if="farmer.livestock_number"
           >({{ farmer.livestock_number }})</span>
         </div>
-        <div v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-tractor</v-icon>
-          Types d'agriculture : <span v-for="(agricultureType, index) in farmer.agriculture_types" :key="index">
-            {{agricultureType}}<span v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1">,</span>
+        <div
+          v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
+          class="caption info-item"
+        >
+          <v-icon small left style="padding-bottom: 3px;">mdi-tractor</v-icon>Types d'agriculture :
+          <span
+            v-for="(agricultureType, index) in farmer.agriculture_types"
+            :key="index"
+          >
+            {{agricultureType}}
+            <span
+              v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1"
+            >,</span>
           </span>
         </div>
         <div v-if="farmer.cultures" class="caption info-item">
@@ -70,9 +86,10 @@
           Cultures : {{farmer.cultures}}
         </div>
         <div v-if="farmer.groups && farmer.groups.length > 0" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-account-group</v-icon>
-          Groupes : <span v-for="(group, index) in farmer.groups" :key="index">
-            {{group}}<span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
+          <v-icon small left style="padding-bottom: 3px;">mdi-account-group</v-icon>Groupes :
+          <span v-for="(group, index) in farmer.groups" :key="index">
+            {{group}}
+            <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
           </span>
         </div>
         <div v-if="farmer.soil_type" class="caption info-item">
@@ -133,10 +150,16 @@
 <script>
 import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
+import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 
 export default {
   name: "Farmer",
-  components: { Title, ExperimentCard },
+  components: { Title, ExperimentCard, FarmerContactOverlay },
+  data() {
+    return {
+      contactOverlayVisible: false
+    }
+  },
   props: {
     farmerName: {
       type: String,
