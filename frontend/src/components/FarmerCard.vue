@@ -43,7 +43,7 @@
     <v-card-text class="description flex-fix-item">
       <ul>
         <li v-for="(item, index) in farmer.experiments" :key="index">
-          <a :href="'/agriculteur/' + farmer.name + '/experimentation/' + item.name">{{ item.name }}</a>
+          <a @click="goToExperiment(farmer, item)">{{ item.name }}</a>
         </li>
       </ul>
     </v-card-text>
@@ -78,6 +78,15 @@ export default {
       this.$router.push({
         name: "Farmer",
         params: { farmerName: farmer.name }
+      })
+    },
+    goToExperiment(farmer, experiment) {
+      this.$router.push({
+        name: "Experiment",
+        params: {
+          farmerName: farmer.name,
+          expName: experiment.name
+        }
       })
     },
     adjustHeight() {
