@@ -28,34 +28,34 @@
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
-    <v-card-subtitle
-      class="subtitle-2 flex-fix-item"
-      style="padding: 4px 16px 4px 16px;"
-    >Son exploitation</v-card-subtitle>
-    <v-card-text class="description flex-shrink-item">
-      {{ farmer.description }}
-      <div class="gradient" v-if="showDescriptionGradient"></div>
-    </v-card-text>
-    <v-card-subtitle
-      class="subtitle-2 flex-fix-item"
-      style="padding: 4px 16px 4px 16px;"
-    >Expérimentations</v-card-subtitle>
-    <v-card-text class="description flex-fix-item">
-      <ul>
-        <li v-for="(item, index) in farmer.experiments" :key="index">
-          <a @click="goToExperiment(farmer, item)">{{ item.name }}</a>
-        </li>
-      </ul>
-    </v-card-text>
-    <div class="pa-5 flex-fix-item">
+    <v-card-text class="flex-fix-item">
       <v-btn
         block
         class="text-none"
         color="primary"
         max-width="50"
         @click="goToFarmer(farmer)"
-      >En savoir plus</v-btn>
-    </div>
+      >Voir le profil</v-btn>
+    </v-card-text>
+    <v-card-subtitle
+      class="subtitle-2 flex-fix-item"
+      style="padding: 4px 16px 0px 16px;"
+    >Expérimentations</v-card-subtitle>
+    <v-card-text class="flex-fix-item">
+      <ul>
+        <li v-for="(item, index) in farmer.experiments" :key="index">
+          <a @click="goToExperiment(farmer, item)">{{ item.name }}</a>
+        </li>
+      </ul>
+    </v-card-text>
+    <v-card-subtitle
+      class="subtitle-2 flex-fix-item"
+      style="padding: 0px 16px 0px 16px;"
+    >Son exploitation</v-card-subtitle>
+    <v-card-text class="description flex-shrink-item" style="margin-bottom: 20px;">
+      {{ farmer.description }}
+      <div class="gradient" v-if="showDescriptionGradient"></div>
+    </v-card-text>
   </v-card>
 </template>
 
