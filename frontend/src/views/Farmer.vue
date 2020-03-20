@@ -53,7 +53,7 @@
 
         <div v-if="farmer.installation_date" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-calendar-blank-outline</v-icon>
-          Exploitation installée depuis {{farmer.installation_date.substring(0, 4)}}
+          Installation : {{farmer.installation_date.substring(0, 4)}}
         </div>
         <div v-if="farmer.personnel" class="caption info-item">
           <v-icon small left style="padding-bottom: 3px;">mdi-card-account-details-outline</v-icon>
