@@ -181,7 +181,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'description',
             'specificities',
             'contact_possible',
-            'text_links',
+            'links',
             'surface',
             'surface_cultures',
             'surface_meadows',

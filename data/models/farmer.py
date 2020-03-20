@@ -31,7 +31,7 @@ class Farmer(models.Model):
     specificities = models.TextField(null=True)
     contact_possible = models.BooleanField(default=False)
 
-    text_links = models.TextField(null=True)
+    links = ArrayField(models.TextField(), blank=True, null=True)
 
     surface = models.TextField(null=True)
     surface_cultures = models.TextField(null=True)
@@ -44,6 +44,7 @@ class Farmer(models.Model):
     @staticmethod
     def create_from_airtable(airtable_json):
         fields = airtable_json['fields']
+        links = [fields.get(x) for x in ('Facebook', 'Twitter', 'Youtube', 'Site') if fields.get(x)]
         farmer = Farmer(
             external_id=airtable_json.get('id'),
             airtable_json=airtable_json,
@@ -64,7 +65,7 @@ class Farmer(models.Model):
             description=fields.get('Description exploitation'),
             specificities=fields.get('Spécificités'),
             contact_possible=fields.get('Contact possible') == 'Oui',
-            text_links=fields.get('Liens profil'),
+            links=links,
             surface=str(fields.get('Surface')),
             surface_cultures=str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None,
             surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,

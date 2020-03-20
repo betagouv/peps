@@ -27,7 +27,7 @@ class Experiment(models.Model):
     ongoing = models.BooleanField(null=True)
     results = models.TextField(null=True)
     results_details = models.TextField(null=True)
-    links = models.TextField(null=True)
+    links = ArrayField(models.TextField(), blank=True, null=True)
     description = models.TextField(null=True)
     investment = models.TextField(null=True)
     xp_type = models.TextField(null=True)
@@ -38,6 +38,7 @@ class Experiment(models.Model):
     @staticmethod
     def create_from_airtable(airtable_json):
         fields = airtable_json['fields']
+        links = [fields.get(x) for x in ('Site', 'Liens contenu') if fields.get(x)]
         experiment = Experiment(
             external_id=airtable_json.get('id'),
             airtable_json=airtable_json,
@@ -55,7 +56,7 @@ class Experiment(models.Model):
             ongoing=fields.get('XP en cours') == 'Oui',
             results=fields.get('Résultats'),
             results_details=fields.get('Plus d\'information résultats'),
-            links=fields.get('Liens'),
+            links=links,
             surface=str(fields.get('Surface')) if fields.get('Surface') else None,
             surface_type=' ,'.join(fields.get('Type surface')) if fields.get('Type surface') else None,
             description=fields.get('Description'),

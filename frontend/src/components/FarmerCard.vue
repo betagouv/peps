@@ -23,7 +23,9 @@
         <v-list-item-subtitle>
           <span v-for="(title, index) in (farmer.profession || [])" :key="index">
             {{ title }}
-            <span v-if="farmer.profession.length > 1 && index < farmer.profession.length - 1">,</span>
+            <span
+              v-if="farmer.profession.length > 1 && index < farmer.profession.length - 1"
+            >,</span>
           </span>
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -38,10 +40,11 @@
       >Voir le profil</v-btn>
     </v-card-text>
     <v-card-subtitle
+      v-if="farmer.experiments && farmer.experiments.length > 0"
       class="subtitle-2 flex-fix-item"
       style="padding: 4px 16px 0px 16px;"
     >Expérimentations</v-card-subtitle>
-    <v-card-text class="flex-fix-item">
+    <v-card-text class="flex-fix-item" v-if="farmer.experiments && farmer.experiments.length > 0">
       <ul>
         <li v-for="(item, index) in farmer.experiments" :key="index">
           <a @click="goToExperiment(farmer, item)">{{ item.name }}</a>

@@ -37,16 +37,32 @@
                 <v-icon small>mdi-map-marker</v-icon>
                 {{ farmer.postal_code }}
               </div>
-
-              <v-btn
-                v-if="farmer.contact_possible"
-                class="text-none"
-                style="margin-top: 10px"
-                small
-                outlined
-                color="primary"
-                @click="contactOverlayVisible = true"
-              >Contacter {{farmer.name}}</v-btn>
+              <div>
+                <v-btn
+                  v-if="farmer.contact_possible"
+                  class="text-none"
+                  style="margin-top: 10px"
+                  small
+                  outlined
+                  color="primary"
+                  @click="contactOverlayVisible = true"
+                >Contacter {{farmer.name}}</v-btn>
+              </div>
+              <div v-if="farmer.links && farmer.links.length > 0" style="margin-top: 10px">
+                <v-btn
+                  v-for="(link, index) in farmer.links"
+                  :key="index"
+                  class="text-none"
+                  style="margin-right: 10px"
+                  icon
+                  outlined
+                  :color="getLinkColor(link)"
+                  :href="link"
+                  target="_blank"
+                >
+                  <v-icon>{{ getLinkIcon(link) }}</v-icon>
+                </v-btn>
+              </div>
             </div>
           </div>
         </v-card>
@@ -130,8 +146,12 @@
           v-if="farmer.specificities"
         >{{ farmer.text_links }}</div>
 
-        <div class="subtitle-2" style="margin-top: 20px;">Ses expérimentations</div>
-        <v-row>
+        <div
+          class="subtitle-2"
+          style="margin-top: 20px;"
+          v-if="farmer.experiments && farmer.experiments.length > 0"
+        >Ses expérimentations</div>
+        <v-row v-if="farmer.experiments && farmer.experiments.length > 0">
           <v-col
             v-for="(experiment, index) in farmer.experiments"
             :key="index"
@@ -178,6 +198,30 @@ export default {
           href: "/#/map"
         }
       ]
+    }
+  },
+  methods: {
+    getLinkIcon(link) {
+      const links = {
+        "facebook.com": "mdi-facebook",
+        "twitter.com": "mdi-twitter",
+        "youtube.com": "mdi-youtube"
+      }
+      for (const key in links) {
+        if (link.includes(key)) return links[key]
+      }
+      return "mdi-web"
+    },
+    getLinkColor(link) {
+      const links = {
+        "facebook.com": "#3b5998",
+        "twitter.com": "#1da1f2",
+        "youtube.com": "#de0000"
+      }
+      for (const key in links) {
+        if (link.includes(key)) return links[key]
+      }
+      return "primary"
     }
   }
 }

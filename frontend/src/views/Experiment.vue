@@ -77,6 +77,10 @@
           <v-icon small left style="padding-bottom: 3px;">mdi-eye-off-outline</v-icon>Pas de témoin mis en place
         </div>
 
+        <div v-if="experiment.equipment" class="caption info-item">
+          <v-icon small left style="padding-bottom: 3px;">mdi-hammer-wrench</v-icon>experiment.equipment 
+        </div>
+
         <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
         <div class="body-2" style="margin-top: 5px;">{{ experiment.objectives }}</div>
 
@@ -94,19 +98,22 @@
           style="margin-top: 5px;"
         >{{ experiment.results_details }}</div>
 
-        <div class="subtitle-2" v-if="experiment.links" style="margin-top: 20px;">Links</div>
-        <div
-          class="body-2"
-          v-if="experiment.links"
-          style="margin-top: 5px;"
-        >{{ experiment.links }}</div>
-
+        <div class="subtitle-2" v-if="experiment.links && experiment.links.length > 0" style="margin-top: 20px;">Links</div>
+        <ul v-if="experiment.links && experiment.links.length > 0">
+          <li
+            class="body-2"
+            
+            v-for="(link, index) in experiment.links"
+            :key="index"
+            style="margin-top: 5px;"
+          ><a href="link">{{ link }}</a></li>
+        </ul>
         <div
           class="subtitle-2"
           v-if="experiment.images && experiment.images.length > 0"
           style="margin-top: 20px;"
         >Images</div>
-        <v-row>
+        <v-row v-if="experiment.images && experiment.images.length > 0">
           <v-col
             v-for="(photo, index) in experiment.images.map(x => x.image)"
             :key="index"
