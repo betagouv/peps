@@ -16,7 +16,6 @@ class Experiment(models.Model):
 
     name = models.TextField()
     objectives = models.TextField(null=True)
-    photos = ArrayField(models.ImageField(), blank=True, null=True)
     method = models.TextField(null=True)
     temporality = models.TextField(null=True)
     equipment = models.TextField(null=True)
@@ -45,7 +44,6 @@ class Experiment(models.Model):
             modification_date=timezone.now(),
             name=fields.get('Titre de l\'XP'),
             objectives=fields.get('Objectifs'),
-            photos=None,
             method=fields.get('Méthode XP'),
             temporality=fields.get('Temporalité'),
             equipment=fields.get('Matériel'),

@@ -17,19 +17,20 @@ class TestXP(TestCase):
         """
         We check that farmers have been correctly serialized
         """
-        self.assertTrue(Farmer.objects.count() > 0)
+        self.assertEqual(Farmer.objects.count(), 2)
 
     def test_experiments_serialized(self):
         """
         We check that experiments have been correctly serialized
         """
-        self.assertTrue(Experiment.objects.count() > 0)
+        self.assertEqual(Experiment.objects.count(), 2)
 
     def test_experiments_have_images(self):
         """
         We check that experiments have been correctly serialized
         """
-        self.assertTrue(Experiment.objects.first().images.all().count() > 0)
+        xp_with_images = Experiment.objects.filter(name='Mise en place d\'un canal de vente directe de foins').first()
+        self.assertTrue(xp_with_images.images.all().count() > 0)
 
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test

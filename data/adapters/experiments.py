@@ -20,9 +20,11 @@ class ExperimentsAirtableAdapter:
         base = settings.AIRTABLE_XP_BASE
 
         json_farmers = _get_airtable_data('Agriculteur?view=Grid%20view', base)
+        json_farmers = list(filter(lambda x: x['fields'].get('Validation'), json_farmers))
         errors += validate_farmers(json_farmers)
 
         json_experiments = _get_airtable_data('XP?view=Grid%20view', base)
+        json_experiments = list(filter(lambda x: x['fields'].get('Validation'), json_experiments))
         errors += validate_experiments(json_experiments)
 
         has_fatal_errors = any(x.fatal for x in errors)

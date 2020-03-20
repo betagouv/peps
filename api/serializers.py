@@ -137,7 +137,6 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'external_id',
             'name',
             'objectives',
-            'photos',
             'method',
             'temporality',
             'equipment',
