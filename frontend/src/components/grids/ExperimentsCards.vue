@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       page: 1,
-      cardsPerPage: 6,
+      cardsPerPage: 12,
       lastTransitionBackwards: false,
     }
   },
