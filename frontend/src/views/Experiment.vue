@@ -1,9 +1,15 @@
 <template>
   <div>
+    <FarmerContactOverlay
+      v-if="!!farmer"
+      :farmer="farmer"
+      :visible="contactOverlayVisible"
+      @done="contactOverlayVisible = false"
+    />
+
     <NotFound v-if="experimentNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="experiment">
-  
       <Title :title="experiment.name" :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
@@ -12,7 +18,7 @@
             height="110px"
             :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
             style="background: #CCC;"
-          /> -->
+          />-->
 
           <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
             <div>
@@ -32,12 +38,21 @@
           </div>
         </v-card>
 
-        <div class="body-2" style="margin-bottom: 20px;">
+        <div class="body-2">
           <v-avatar style="margin-right: 5px;" size="25" color="grey">
             <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
             <v-icon small v-else>mdi-account</v-icon>
           </v-avatar>Expérimentation faite par
           <a @click="goToFarmer(farmer)">{{farmer.name}}</a>
+        </div>
+        <div style="margin-bottom: 20px; margin-left: 30px; margin-top: 5px;">
+          <v-btn
+            class="text-none"
+            small
+            outlined
+            @click="onContactClick"
+            color="primary"
+          >Contacter {{ farmer.name }}</v-btn>
         </div>
 
         <div v-if="experiment.xp_type" class="caption info-item">
@@ -81,7 +96,8 @@
         </div>
 
         <div v-if="experiment.equipment" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-hammer-wrench</v-icon>{{ experiment.equipment }} 
+          <v-icon small left style="padding-bottom: 3px;">mdi-hammer-wrench</v-icon>
+          {{ experiment.equipment }}
         </div>
 
         <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
@@ -94,22 +110,31 @@
           style="margin-top: 5px;"
         >{{ experiment.description }}</div>
 
-        <div class="subtitle-2" v-if="experiment.results_details" style="margin-top: 20px;">Information sur les résultats</div>
+        <div
+          class="subtitle-2"
+          v-if="experiment.results_details"
+          style="margin-top: 20px;"
+        >Information sur les résultats</div>
         <div
           class="body-2"
           v-if="experiment.results_details"
           style="margin-top: 5px;"
         >{{ experiment.results_details }}</div>
 
-        <div class="subtitle-2" v-if="experiment.links && experiment.links.length > 0" style="margin-top: 20px;">Links</div>
+        <div
+          class="subtitle-2"
+          v-if="experiment.links && experiment.links.length > 0"
+          style="margin-top: 20px;"
+        >Links</div>
         <ul v-if="experiment.links && experiment.links.length > 0">
           <li
             class="body-2"
-            
             v-for="(link, index) in experiment.links"
             :key="index"
             style="margin-top: 5px;"
-          ><a href="link">{{ link }}</a></li>
+          >
+            <a href="link">{{ link }}</a>
+          </li>
         </ul>
         <div
           class="subtitle-2"
@@ -137,10 +162,11 @@
 <script>
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
+import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 
 export default {
   name: "Experiment",
-  components: { Title, NotFound },
+  components: { Title, NotFound, FarmerContactOverlay },
   data() {
     return {
       testImages: [
@@ -148,7 +174,8 @@ export default {
         "https://images.unsplash.com/40/yIdlmSvfSZCyGkCkLt0P_lucaslof_2.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMDk0fQ&auto=format&fit=crop&w=500&q=60",
         "https://images.unsplash.com/photo-1464972377689-e7674c48d806?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
         "https://images.unsplash.com/photo-1436462020942-723a9ea097c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-      ]
+      ],
+      contactOverlayVisible: false
     }
   },
   props: {
@@ -169,14 +196,17 @@ export default {
         params: { farmerName: farmer.name }
       })
     },
+    onContactClick() {
+      window.sendTrackingEvent("Experiment", "contact", this.farmerName)
+      this.contactOverlayVisible = true
+    }
   },
   computed: {
     farmer() {
       return this.$store.getters.farmerWithName(this.farmerName)
     },
     experiment() {
-      if (!this.farmer)
-        return
+      if (!this.farmer) return
       return this.farmer.experiments.find(x => x.name === this.experimentName)
     },
     experimentNotFound() {
