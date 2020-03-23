@@ -45,7 +45,7 @@
                   small
                   outlined
                   color="primary"
-                  @click="contactOverlayVisible = true"
+                  @click="onContactClick"
                 >Contacter {{farmer.name}}</v-btn>
               </div>
               <div v-if="farmer.links && farmer.links.length > 0" style="margin-top: 10px">
@@ -222,6 +222,10 @@ export default {
         if (link.includes(key)) return links[key]
       }
       return "primary"
+    },
+    onContactClick() {
+      window.sendTrackingEvent("Farmer", "contact", this.farmerName)
+      this.contactOverlayVisible = true
     }
   }
 }

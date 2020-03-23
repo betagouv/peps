@@ -38,7 +38,7 @@
         <span class="caption text-none d-none d-sm-flex">Contact</span>
       </v-btn>
 
-      <v-btn color="#00744C" dark @click="showContributionOverlay = true">
+      <v-btn color="#00744C" dark @click="onShareXPClick">
         <v-icon class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
         <span class="caption text-none d-none d-sm-flex">Proposer une expérimentation</span>
       </v-btn>
@@ -75,6 +75,12 @@ export default {
   computed: {
     blacklist() {
       return this.$store.state.blacklist
+    }
+  },
+  methods: {
+    onShareXPClick() {
+      window.sendTrackingEvent("Header", "shareXP", "Proposer une expérimentation")
+      this.showContributionOverlay = true
     }
   },
   watch: {

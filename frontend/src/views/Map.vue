@@ -73,9 +73,10 @@
         </v-col>
       </v-row>
       <v-divider style="margin: 30px 0 0px 0;" />
-      <div
-        style="margin: 20px 0 10px 0;"
-      >Vous souhaitez partager votre expérience ? <a @click="showContributionOverlay = true">Proposer une expérimentation</a></div>
+      <div style="margin: 20px 0 10px 0;">
+        Vous souhaitez partager votre expérience ?
+        <a @click="onShareXPClick">Proposer une expérimentation</a>
+      </div>
       <ExperimentFilter />
     </v-container>
   </div>
@@ -88,12 +89,19 @@ import L from "leaflet"
 import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import geojson from "../resources/departments.json"
-import Constants from '@/constants'
+import Constants from "@/constants"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "Map",
-  components: { LMap, LMarker, LGeoJson, FarmerCard, ExperimentFilter, ContributionOverlay },
+  components: {
+    LMap,
+    LMarker,
+    LGeoJson,
+    FarmerCard,
+    ExperimentFilter,
+    ContributionOverlay
+  },
   data() {
     return {
       showContributionOverlay: false,
@@ -185,6 +193,10 @@ export default {
         this.selectedDepartment = department
       }
     },
+    onShareXPClick() {
+      window.sendTrackingEvent("Map", "shareXP", "Proposer une expérimentation")
+      this.showContributionOverlay = true
+    },
     refreshMapMarkers() {
       this.markersInfo = []
       for (const farmer of this.$store.state.farmers) {
@@ -259,8 +271,7 @@ export default {
       })
     },
     farmersLoadingStatus(newValue) {
-      if (newValue === Constants.LoadingStatus.SUCCESS)
-        this.refreshMapMarkers()
+      if (newValue === Constants.LoadingStatus.SUCCESS) this.refreshMapMarkers()
     }
   }
 }

@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     goToExperiment() {
+      window.sendTrackingEvent("ExperimentCard", "seeXP", this.experiment.name)
       this.$router.push({
         name: "Experiment",
         params: {

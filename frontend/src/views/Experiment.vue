@@ -159,6 +159,7 @@ export default {
   },
   methods: {
     goToFarmer(farmer) {
+      window.sendTrackingEvent("Experiment", "seeFarmer", this.farmer.name)
       this.$router.push({
         name: "Farmer",
         params: { farmerName: farmer.name }
