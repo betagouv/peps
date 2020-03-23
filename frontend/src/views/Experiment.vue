@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div>
+    <NotFound v-if="experimentNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
+
+    <div v-else-if="experiment">
+  
       <Title :title="experiment.name" :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
@@ -133,10 +136,11 @@
 
 <script>
 import Title from "@/components/Title.vue"
+import NotFound from "@/components/NotFound.vue"
 
 export default {
   name: "Experiment",
-  components: { Title },
+  components: { Title, NotFound },
   data() {
     return {
       testImages: [
@@ -174,6 +178,9 @@ export default {
       if (!this.farmer)
         return
       return this.farmer.experiments.find(x => x.name === this.experimentName)
+    },
+    experimentNotFound() {
+      return this.$store.state.experiments.length > 0 && !this.experiment
     },
     icons() {
       const icons = {

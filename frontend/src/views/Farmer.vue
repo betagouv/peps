@@ -6,7 +6,10 @@
       :visible="contactOverlayVisible"
       @done="contactOverlayVisible = false"
     />
-    <div v-if="farmer">
+
+    <NotFound v-if="farmerNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
+
+    <div v-else-if="farmer">
       <Title :title="farmer.name" :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
@@ -170,11 +173,12 @@
 <script>
 import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
+import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 
 export default {
   name: "Farmer",
-  components: { Title, ExperimentCard, FarmerContactOverlay },
+  components: { Title, ExperimentCard, FarmerContactOverlay, NotFound },
   data() {
     return {
       contactOverlayVisible: false
@@ -189,6 +193,9 @@ export default {
   computed: {
     farmer() {
       return this.$store.getters.farmerWithName(this.farmerName)
+    },
+    farmerNotFound() {
+      return this.$store.state.farmers.length > 0 && !this.farmer
     },
     breadcrumbs() {
       return [
