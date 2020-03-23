@@ -78,7 +78,7 @@
         </div>
 
         <div v-if="experiment.equipment" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-hammer-wrench</v-icon>experiment.equipment 
+          <v-icon small left style="padding-bottom: 3px;">mdi-hammer-wrench</v-icon>{{ experiment.equipment }} 
         </div>
 
         <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
