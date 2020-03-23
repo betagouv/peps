@@ -6,10 +6,9 @@
       />
     <v-app-bar app absolute color="primary" dark>
       <v-toolbar-title>
-        <a
-          href="/#/"
+        <div
           style="color:white; text-decoration:none; font-weight: bold; outline: none;"
-        >Peps</a>
+        >Peps</div>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-badge
