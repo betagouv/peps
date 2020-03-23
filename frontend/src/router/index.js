@@ -18,7 +18,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: Map,
+    component: Landing,
     name: 'Landing',
   },
   {
@@ -100,9 +100,8 @@ const routes = [
   },
   {
     path: '/map',
-    redirect: {
-      name: 'Landing'
-    },
+    component: Map,
+    name: 'Map',
   },
   {
     path: '*',
