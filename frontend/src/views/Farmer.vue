@@ -26,7 +26,7 @@
               <v-icon v-else large>mdi-account</v-icon>
             </v-avatar>
             <div style="padding-left: 30px;">
-              <div class="title">
+              <div class="headline">
                 {{ farmer.name }}
                 <v-chip
                   small
@@ -36,8 +36,8 @@
                   :key="index"
                 >{{ title }}</v-chip>
               </div>
-              <div v-if="farmer.postal_code" style="margin-top: 3px;" class="caption">
-                <v-icon small>mdi-map-marker</v-icon>
+              <div v-if="farmer.postal_code" style="margin-top: 3px;" class="body-2">
+                <v-icon small style="padding-bottom: 3px;">mdi-map-marker</v-icon>
                 {{ farmer.postal_code }}
               </div>
               <div>
@@ -45,7 +45,6 @@
                   v-if="farmer.contact_possible"
                   class="text-none"
                   style="margin-top: 10px"
-                  small
                   outlined
                   color="primary"
                   @click="onContactClick"
@@ -70,87 +69,95 @@
           </div>
         </v-card>
 
-        <div v-if="farmer.installation_date" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-calendar-blank-outline</v-icon>
-          Installation : {{farmer.installation_date.substring(0, 4)}}
+        <div v-if="farmer.installation_date" class="body-2 info-item">
+          <v-icon small left>mdi-calendar-blank-outline</v-icon>
+          <div>Installation : {{farmer.installation_date.substring(0, 4)}}</div>
         </div>
-        <div v-if="farmer.personnel" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-card-account-details-outline</v-icon>
-          Effectif : {{farmer.personnel}} temps plein
+        <div v-if="farmer.personnel" class="body-2 info-item">
+          <v-icon small left>mdi-card-account-details-outline</v-icon>
+          <div>Effectif : {{farmer.personnel}} temps plein</div>
         </div>
-        <div v-if="farmer.livestock_type" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-cow</v-icon>
-          Élevage : {{farmer.livestock_type}}
-          <span
-            v-if="farmer.livestock_number"
-          >({{ farmer.livestock_number }})</span>
+        <div v-if="farmer.livestock_type" class="body-2 info-item">
+          <v-icon small left>mdi-cow</v-icon>
+          <div>Élevage : {{farmer.livestock_type}}</div>
+          <span v-if="farmer.livestock_number">({{ farmer.livestock_number }})</span>
         </div>
         <div
           v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
-          class="caption info-item"
+          class="body-2 info-item"
         >
-          <v-icon small left style="padding-bottom: 3px;">mdi-tractor</v-icon>Types d'agriculture :
-          <span
-            v-for="(agricultureType, index) in farmer.agriculture_types"
-            :key="index"
-          >
-            {{agricultureType}}
+          <v-icon small left>mdi-tractor</v-icon>
+          <div>
+            Types d'agriculture :
             <span
-              v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1"
-            >,</span>
-          </span>
+              v-for="(agricultureType, index) in farmer.agriculture_types"
+              :key="index"
+            >
+              {{agricultureType}}
+              <span
+                v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1"
+              >,</span>
+            </span>
+          </div>
         </div>
-        <div v-if="farmer.cultures" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-leaf</v-icon>
-          Cultures : {{farmer.cultures}}
+        <div v-if="farmer.cultures" class="body-2 info-item">
+          <v-icon small left>mdi-leaf</v-icon>
+          <div>Cultures : {{farmer.cultures}}</div>
         </div>
-        <div v-if="farmer.groups && farmer.groups.length > 0" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-account-group</v-icon>Groupes :
-          <span v-for="(group, index) in farmer.groups" :key="index">
-            {{group}}
-            <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
-          </span>
+        <div v-if="farmer.groups && farmer.groups.length > 0" class="body-2 info-item">
+          <v-icon small left>mdi-account-group</v-icon>
+          <div>
+            Groupes :
+            <span v-for="(group, index) in farmer.groups" :key="index">
+              {{group}}
+              <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
+            </span>
+          </div>
         </div>
-        <div v-if="farmer.soil_type" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-drag-horizontal</v-icon>
-          Type de sol : {{farmer.soil_type}}
+        <div v-if="farmer.soil_type" class="body-2 info-item">
+          <v-icon small left>mdi-drag-horizontal</v-icon>
+          <div>Type de sol : {{farmer.soil_type}}</div>
         </div>
-        <div v-if="farmer.surface" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-texture-box</v-icon>
-          Surface : {{farmer.surface}}
-          <span
-            v-if="farmer.surface_cultures || farmer.surface_meadows"
-          >
-            dont&nbsp;
-            <span v-if="farmer.surface_cultures">{{farmer.surface_cultures}} en cultures</span>
-            <span v-if="farmer.surface_cultures && farmer.surface_meadows">&nbsp;et&nbsp;</span>
-            <span v-if="farmer.surface_meadows">{{farmer.surface_meadows}} en prairie</span>
-          </span>
+        <div v-if="farmer.surface" class="body-2 info-item">
+          <v-icon small left>mdi-texture-box</v-icon>
+          <div>
+            Surface : {{farmer.surface}}
+            <span
+              v-if="farmer.surface_cultures || farmer.surface_meadows"
+            >
+              dont&nbsp;
+              <span v-if="farmer.surface_cultures">{{farmer.surface_cultures}} en cultures</span>
+              <span v-if="farmer.surface_cultures && farmer.surface_meadows">&nbsp;et&nbsp;</span>
+              <span v-if="farmer.surface_meadows">{{farmer.surface_meadows}} en prairie</span>
+            </span>
+          </div>
         </div>
-        <div v-if="farmer.output" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-silo</v-icon>
-          Potentiel de rendement en blé : {{farmer.output}} quintaux / ha
+        <div v-if="farmer.output" class="body-2 info-item">
+          <v-icon small left>mdi-silo</v-icon>
+          <div>
+            Potentiel de rendement en blé : {{farmer.output}} quintaux / ha
+          </div>
         </div>
 
-        <div class="subtitle-2" style="margin-top: 20px;">Son exploitation</div>
-        <div class="body-2" style="margin-top: 5px;">{{ farmer.description }}</div>
+        <div class="title" style="margin-top: 20px;">Son exploitation</div>
+        <div class="body-1" style="margin-top: 5px;">{{ farmer.description }}</div>
 
-        <div class="subtitle-2" style="margin-top: 20px;" v-if="farmer.specificities">Spécifités</div>
+        <div class="title" style="margin-top: 20px;" v-if="farmer.specificities">Spécifités</div>
         <div
-          class="body-2"
+          class="body-1"
           style="margin-top: 5px;"
           v-if="farmer.specificities"
         >{{ farmer.specificities }}</div>
 
-        <div class="subtitle-2" style="margin-top: 20px;" v-if="farmer.text_links">Liens</div>
+        <div class="title" style="margin-top: 20px;" v-if="farmer.text_links">Liens</div>
         <div
-          class="body-2"
+          class="body-1"
           style="margin-top: 5px;"
           v-if="farmer.specificities"
         >{{ farmer.text_links }}</div>
 
         <div
-          class="subtitle-2"
+          class="title"
           style="margin-top: 20px;"
           v-if="farmer.experiments && farmer.experiments.length > 0"
         >Ses expérimentations</div>
@@ -239,12 +246,16 @@ export default {
 </script>
 
 <style scoped>
-.subtitle-2,
-.body-2 {
-  line-height: 1.375rem;
+.info-item {
+  margin-top: 10px;
 }
 
-.info-item {
-  margin-top: 5px;
+.info-item > div {
+  margin-left: 30px;
+}
+
+.info-item > i {
+  float: left;
+  padding-top: 3px;
 }
 </style>

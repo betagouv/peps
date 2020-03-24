@@ -28,7 +28,7 @@
             <v-icon small left style="padding-bottom: 2px;">mdi-account</v-icon>
             {{experiment.farmer}}
           </v-card-text>
-          <v-card-text class="description caption flex-shrink-item">
+          <v-card-text class="description flex-shrink-item">
             {{experiment.objectives}}
             <div class="gradient" v-if="showDescriptionGradient"></div>
           </v-card-text>

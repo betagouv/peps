@@ -12,7 +12,7 @@
         <v-icon v-else>mdi-account</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title>
+        <v-list-item-title class="title">
           <img
             src="/static/images/marker-icon-2x-red.png"
             height="18px"

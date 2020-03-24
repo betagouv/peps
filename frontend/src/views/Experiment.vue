@@ -22,11 +22,11 @@
 
           <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
             <div>
-              <div class="title">
-                <v-icon style="margin: -3px 5px 0 0">mdi-beaker-outline</v-icon>
+              <div class="headline" style="margin: 0px 0px 5px 0">
+                <v-icon style="margin: 0px 5px 0 0">mdi-beaker-outline</v-icon>
                 {{ experiment.name }}
               </div>
-              <div style="margin-left: 35px;" class="caption">
+              <div style="margin-left: 35px;" class="body-2">
                 <v-icon
                   style="margin-right: 3px;"
                   v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
@@ -38,35 +38,40 @@
           </div>
         </v-card>
 
-        <div class="body-2">
-          <v-avatar style="margin-right: 5px;" size="25" color="grey">
+        <div class="body-1">
+          <v-avatar style="margin-right: 10px;" size="35" color="grey">
             <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
             <v-icon small v-else>mdi-account</v-icon>
           </v-avatar>Expérimentation faite par
           <a @click="goToFarmer(farmer)">{{farmer.name}}</a>
         </div>
-        <div style="margin-bottom: 20px; margin-left: 30px; margin-top: 5px;">
+        <div style="margin-bottom: 20px; margin-left: 45px; margin-top: 0px;">
           <v-btn
             class="text-none"
-            small
             outlined
             @click="onContactClick"
             color="primary"
           >Contacter {{ farmer.name }}</v-btn>
         </div>
 
-        <div v-if="experiment.xp_type" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-shape-outline</v-icon>
-          {{experiment.xp_type}}
+        <div v-if="experiment.xp_type" class="body-2 info-item">
+          <v-icon small left>mdi-shape-outline</v-icon>
+          <div>
+            {{experiment.xp_type}}
+          </div>
         </div>
 
-        <div v-if="experiment.investment" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-cash-multiple</v-icon>
-          {{experiment.investment}}
+        <div v-if="experiment.investment" class="body-2 info-item">
+          <v-icon small left>mdi-cash-multiple</v-icon>
+          <div>
+            {{experiment.investment}}
+          </div>
         </div>
 
-        <div v-if="experiment.surface || experiment.surface_type" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-texture-box</v-icon>Surface :
+        <div v-if="experiment.surface || experiment.surface_type" class="body-2 info-item">
+          <v-icon small left>mdi-texture-box</v-icon>
+          <div>
+          Surface :
           <span
             v-if="experiment.surface && !experiment.surface_type"
           >{{experiment.surface}}</span>
@@ -77,58 +82,73 @@
             v-else
             style="text-transform: lowercase;"
           >{{experiment.surface}} ({{experiment.surface_type}})</span>
+          </div>
         </div>
 
-        <div v-if="experiment.ongoing" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-playlist-edit</v-icon>Expérimentation en cours
+        <div v-if="experiment.ongoing" class="body-2 info-item">
+          <v-icon small left>mdi-playlist-edit</v-icon>
+          <div>
+          Expérimentation en cours
+          </div>
         </div>
 
-        <div v-else class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-playlist-check</v-icon>Expérimentation finie
+        <div v-else class="body-2 info-item">
+          <v-icon small left>mdi-playlist-check</v-icon>
+          <div>
+          Expérimentation finie
+          </div>
         </div>
 
-        <div v-if="experiment.control_presence" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-eye-outline</v-icon>Mise en place d'un témoin
+        <div v-if="experiment.control_presence" class="body-2 info-item">
+          <v-icon small left>mdi-eye-outline</v-icon>
+          <div>
+          Mise en place d'un témoin
+          </div>
         </div>
 
-        <div v-else class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-eye-off-outline</v-icon>Pas de témoin mis en place
+        <div v-else class="body-2 info-item">
+          <v-icon small left>mdi-eye-off-outline</v-icon>
+          <div>
+          Pas de témoin mis en place
+          </div>
         </div>
 
-        <div v-if="experiment.equipment" class="caption info-item">
-          <v-icon small left style="padding-bottom: 3px;">mdi-hammer-wrench</v-icon>
+        <div v-if="experiment.equipment" class="body-2 info-item">
+          <v-icon small left>mdi-hammer-wrench</v-icon>
+          <div>
           {{ experiment.equipment }}
+          </div>
         </div>
 
-        <div class="subtitle-2" style="margin-top: 20px;">Objectifs</div>
-        <div class="body-2" style="margin-top: 5px;">{{ experiment.objectives }}</div>
+        <div class="title" style="margin-top: 20px;">Objectifs</div>
+        <div class="body-1" style="margin-top: 5px;">{{ experiment.objectives }}</div>
 
-        <div class="subtitle-2" v-if="experiment.description" style="margin-top: 20px;">Description</div>
+        <div class="title" v-if="experiment.description" style="margin-top: 20px;">Description</div>
         <div
-          class="body-2"
+          class="body-1"
           v-if="experiment.description"
           style="margin-top: 5px;"
         >{{ experiment.description }}</div>
 
         <div
-          class="subtitle-2"
+          class="title"
           v-if="experiment.results_details"
           style="margin-top: 20px;"
         >Information sur les résultats</div>
         <div
-          class="body-2"
+          class="body-1"
           v-if="experiment.results_details"
           style="margin-top: 5px;"
         >{{ experiment.results_details }}</div>
 
         <div
-          class="subtitle-2"
+          class="title"
           v-if="experiment.links && experiment.links.length > 0"
           style="margin-top: 20px;"
         >Liens</div>
         <ul v-if="experiment.links && experiment.links.length > 0">
           <li
-            class="body-2"
+            class="body-1"
             v-for="(link, index) in experiment.links"
             :key="index"
             style="margin-top: 5px;"
@@ -137,7 +157,7 @@
           </li>
         </ul>
         <div
-          class="subtitle-2"
+          class="title"
           v-if="experiment.images && experiment.images.length > 0"
           style="margin-top: 20px;"
         >Images</div>
@@ -250,16 +270,20 @@ export default {
 </script>
 
 <style scoped>
-.subtitle-2,
-.body-2 {
-  line-height: 1.375rem;
-}
-
 .capitalize {
   text-transform: capitalize;
 }
 
 .info-item {
-  margin-top: 5px;
+  margin-top: 10px;
+}
+
+.info-item > div {
+  margin-left: 30px;
+}
+
+.info-item > i {
+  float: left;
+  padding-top: 3px;
 }
 </style>
