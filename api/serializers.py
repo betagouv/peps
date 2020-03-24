@@ -163,7 +163,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'id',
             'external_id',
             'name',
-            'profession',
+            'production',
             'groups',
             'agriculture_types',
             'profile_image',

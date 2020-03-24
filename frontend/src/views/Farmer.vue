@@ -32,7 +32,7 @@
                   small
                   class
                   style="margin-top:-4px; margin-left: 10px;"
-                  v-for="(title, index) in (farmer.profession || [])"
+                  v-for="(title, index) in (farmer.production || [])"
                   :key="index"
                 >{{ title }}</v-chip>
               </div>

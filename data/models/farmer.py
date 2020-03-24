@@ -14,7 +14,7 @@ class Farmer(models.Model):
     airtable_url = models.TextField(null=True)
 
     name = models.TextField(null=True)
-    profession = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    production = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     groups = ArrayField(models.CharField(max_length=200), blank=True, null=True)
     agriculture_types = ArrayField(models.TextField(), blank=True, null=True)
     profile_image = models.ImageField(null=True)
@@ -50,7 +50,7 @@ class Farmer(models.Model):
             airtable_json=airtable_json,
             modification_date=timezone.now(),
             name=fields.get('Prénom et Nom'),
-            profession=fields.get('Métier'),
+            production=fields.get('Productions'),
             groups=fields.get('Groupes'),
             agriculture_types=fields.get('Type agriculture'),
             postal_code=fields.get('Code postal'),

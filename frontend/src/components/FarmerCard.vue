@@ -21,10 +21,10 @@
           {{ farmer.name }}
         </v-list-item-title>
         <v-list-item-subtitle>
-          <span v-for="(title, index) in (farmer.profession || [])" :key="index">
+          <span v-for="(title, index) in (farmer.production || [])" :key="index">
             {{ title }}
             <span
-              v-if="farmer.profession.length > 1 && index < farmer.profession.length - 1"
+              v-if="farmer.production.length > 1 && index < farmer.production.length - 1"
             >,</span>
           </span>
         </v-list-item-subtitle>
