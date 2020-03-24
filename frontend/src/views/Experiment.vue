@@ -125,7 +125,7 @@
           class="subtitle-2"
           v-if="experiment.links && experiment.links.length > 0"
           style="margin-top: 20px;"
-        >Links</div>
+        >Liens</div>
         <ul v-if="experiment.links && experiment.links.length > 0">
           <li
             class="body-2"
