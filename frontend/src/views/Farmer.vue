@@ -10,7 +10,7 @@
     <NotFound v-if="farmerNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="farmer">
-      <Title :title="farmer.name" :breadcrumbs="breadcrumbs" />
+      <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
           <!-- <v-img
@@ -210,6 +210,10 @@ export default {
           text: "Carte des expérimentations",
           disabled: false,
           href: "/#/map"
+        },
+        {
+          text: this.farmer.name,
+          disabled: true,
         }
       ]
     }

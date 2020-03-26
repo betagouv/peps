@@ -1,17 +1,17 @@
 <template>
   <div class="title-container">
     <v-container class="constrained">
-      <v-breadcrumbs dark v-if="breadcrumbs" :items="breadcrumbs" class="pa-0 d-none d-sm-flex">
+      <v-breadcrumbs dark v-if="breadcrumbs" :items="breadcrumbs" class="body-1 pa-0 d-none d-sm-flex">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-      <v-breadcrumbs dark v-if="breadcrumbs" :items="mobileBreadcrumbs" class="pa-0 d-flex d-sm-none">
+      <v-breadcrumbs dark v-if="breadcrumbs" :items="mobileBreadcrumbs" class="body-1 pa-0 d-flex d-sm-none">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-      <div class="title font-weight-black" style="margin-top: 6px;">{{ title }}</div>
+      <div v-if="title" class="title font-weight-black" style="margin-top: 6px;">{{ title }}</div>
     </v-container>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: false
     },
     breadcrumbs: {
       type: Array
