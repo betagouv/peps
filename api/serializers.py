@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from data.models import Practice, Mechanism, Resource, PracticeType
-from data.models import DiscardAction, Category, Farmer, Experiment, ExperimentImage
+from data.models import DiscardAction, Category, Farmer, Experiment, ExperimentImage, ExperimentVideo
 
 
 class MechanismSerializer(serializers.ModelSerializer):
@@ -127,8 +127,16 @@ class ExperimentImageSerializer(serializers.ModelSerializer):
             'image',
         )
 
+class ExperimentVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExperimentVideo
+        fields = (
+            'video',
+        )
+
 class ExperimentSerializer(serializers.ModelSerializer):
     images = ExperimentImageSerializer(many=True)
+    videos = ExperimentVideoSerializer(many=True)
 
     class Meta:
         model = Experiment
@@ -152,6 +160,7 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'surface_type',
             'xp_type',
             'images',
+            'videos',
         )
 
 class FarmerSerializer(serializers.ModelSerializer):

@@ -56,68 +56,54 @@
 
         <div v-if="experiment.xp_type" class="body-2 info-item">
           <v-icon small left>mdi-shape-outline</v-icon>
-          <div>
-            {{experiment.xp_type}}
-          </div>
+          <div>{{experiment.xp_type}}</div>
         </div>
 
         <div v-if="experiment.investment" class="body-2 info-item">
           <v-icon small left>mdi-cash-multiple</v-icon>
-          <div>
-            {{experiment.investment}}
-          </div>
+          <div>{{experiment.investment}}</div>
         </div>
 
         <div v-if="experiment.surface || experiment.surface_type" class="body-2 info-item">
           <v-icon small left>mdi-texture-box</v-icon>
           <div>
-          Surface :
-          <span
-            v-if="experiment.surface && !experiment.surface_type"
-          >{{experiment.surface}}</span>
-          <span
-            v-else-if="!experiment.surface && experiment.surface_type"
-          >{{experiment.surface_type}}</span>
-          <span
-            v-else
-            style="text-transform: lowercase;"
-          >{{experiment.surface}} ({{experiment.surface_type}})</span>
+            Surface :
+            <span
+              v-if="experiment.surface && !experiment.surface_type"
+            >{{experiment.surface}}</span>
+            <span
+              v-else-if="!experiment.surface && experiment.surface_type"
+            >{{experiment.surface_type}}</span>
+            <span
+              v-else
+              style="text-transform: lowercase;"
+            >{{experiment.surface}} ({{experiment.surface_type}})</span>
           </div>
         </div>
 
         <div v-if="experiment.ongoing" class="body-2 info-item">
           <v-icon small left>mdi-playlist-edit</v-icon>
-          <div>
-          Expérimentation en cours
-          </div>
+          <div>Expérimentation en cours</div>
         </div>
 
         <div v-else class="body-2 info-item">
           <v-icon small left>mdi-playlist-check</v-icon>
-          <div>
-          Expérimentation finie
-          </div>
+          <div>Expérimentation finie</div>
         </div>
 
         <div v-if="experiment.control_presence" class="body-2 info-item">
           <v-icon small left>mdi-eye-outline</v-icon>
-          <div>
-          Mise en place d'un témoin
-          </div>
+          <div>Mise en place d'un témoin</div>
         </div>
 
         <div v-else class="body-2 info-item">
           <v-icon small left>mdi-eye-off-outline</v-icon>
-          <div>
-          Pas de témoin mis en place
-          </div>
+          <div>Pas de témoin mis en place</div>
         </div>
 
         <div v-if="experiment.equipment" class="body-2 info-item">
           <v-icon small left>mdi-hammer-wrench</v-icon>
-          <div>
-          {{ experiment.equipment }}
-          </div>
+          <div>{{ experiment.equipment }}</div>
         </div>
 
         <div class="title" style="margin-top: 20px;">Objectifs</div>
@@ -171,6 +157,27 @@
           >
             <v-card flat class="d-flex">
               <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <div
+          class="title"
+          v-if="experiment.videos && experiment.videos.length > 0"
+          style="margin-top: 20px;"
+        >Vidéos</div>
+        <v-row v-if="experiment.videos && experiment.videos.length > 0">
+          <v-col
+            v-for="(video, index) in experiment.videos.map(x => x.video)"
+            :key="index"
+            class="d-flex child-flex"
+            cols="12"
+            sm="6"
+          >
+            <v-card flat class="d-flex" height=250>
+              <video style="height: 100%; width: 100%; background: #333;" controls>
+                <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
+              </video>
             </v-card>
           </v-col>
         </v-row>

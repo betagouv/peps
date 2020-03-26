@@ -67,16 +67,33 @@ class Experiment(models.Model):
 
     def assign_images_from_airtable(self):
         fields = self.airtable_json['fields']
-        for image in fields.get('Photos / vidéo', []):
-            image_name = get_airtable_image_name(image)
-            image_content_file = get_airtable_image_content_file(image)
-            if image_name and image_content_file:
+        for media in fields.get('Photos / vidéo', []):
+            is_video = 'video' in media.get('type')
+            is_image = 'image' in media.get('type')
+            if not is_video and not is_image:
+                continue
+            media_name = get_airtable_image_name(media)
+            media_content_file = get_airtable_image_content_file(media)
+            if not media_name or not media_content_file:
+                continue
+            if is_image:
                 experiment_image = ExperimentImage()
                 experiment_image.experiment = self
-                experiment_image.image.save(image_name, image_content_file, save=True)
+                experiment_image.image.save(media_name, media_content_file, save=True)
+            if is_video:
+                experiment_video = ExperimentVideo()
+                experiment_video.experiment = self
+                experiment_video.video.save(media_name, media_content_file, save=True)
+
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields
 # https://code.djangoproject.com/ticket/25756#no1
 class ExperimentImage(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
+
+# This is sadly necessary because we can't use an ArrayField of ImageFields
+# https://code.djangoproject.com/ticket/25756#no1
+class ExperimentVideo(models.Model):
+    experiment = models.ForeignKey(Experiment, related_name='videos', on_delete=models.CASCADE, null=True)
+    video = models.FileField(upload_to='videos/')

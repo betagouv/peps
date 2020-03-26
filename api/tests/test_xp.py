@@ -17,20 +17,27 @@ class TestXP(TestCase):
         """
         We check that farmers have been correctly serialized
         """
-        self.assertEqual(Farmer.objects.count(), 2)
+        self.assertEqual(Farmer.objects.count(), 6)
 
     def test_experiments_serialized(self):
         """
         We check that experiments have been correctly serialized
         """
-        self.assertEqual(Experiment.objects.count(), 2)
+        self.assertEqual(Experiment.objects.count(), 6)
 
     def test_experiments_have_images(self):
         """
-        We check that experiments have been correctly serialized
+        We check that images are in the experiment objects
         """
         xp_with_images = Experiment.objects.filter(name='Mise en place d\'un canal de vente directe de foins').first()
         self.assertTrue(xp_with_images.images.all().count() > 0)
+
+    def test_experiments_have_videos(self):
+        """
+        We check that videos are in the experiment objects
+        """
+        xp_with_videos = Experiment.objects.filter(name='Test de la culture du Chia ').first()
+        self.assertTrue(xp_with_videos.videos.all().count() > 0)
 
 def _populate_database():
     # We need to mock the 'requests.get' function to get our test
@@ -69,6 +76,10 @@ def _get_mock_airtable(*args, **_):
 
     if '.png' in request_url or '.PNG' in request_url:
         with open(CURRENT_DIR + '/test-image.png', 'rb') as image:
+            return MockResponse(image.read(), 200)
+
+    if '.m4v' in request_url or '.M4V' in request_url:
+        with open(CURRENT_DIR + '/test-video.m4v', 'rb') as image:
             return MockResponse(image.read(), 200)
 
 class MockResponse:
