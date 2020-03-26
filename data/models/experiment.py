@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from data.models import Farmer
-from data.utils import get_airtable_image_name, get_airtable_image_content_file
+from data.utils import get_airtable_media_name, get_airtable_media_content_file
 
 class Experiment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -65,15 +65,15 @@ class Experiment(models.Model):
         return experiment
 
 
-    def assign_images_from_airtable(self):
+    def assign_media_from_airtable(self):
         fields = self.airtable_json['fields']
         for media in fields.get('Photos / vidéo', []):
             is_video = 'video' in media.get('type')
             is_image = 'image' in media.get('type')
             if not is_video and not is_image:
                 continue
-            media_name = get_airtable_image_name(media)
-            media_content_file = get_airtable_image_content_file(media)
+            media_name = get_airtable_media_name(media)
+            media_content_file = get_airtable_media_content_file(media)
             if not media_name or not media_content_file:
                 continue
             if is_image:

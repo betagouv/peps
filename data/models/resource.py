@@ -3,7 +3,7 @@ from enum import Enum
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField
-from data.utils import get_airtable_image_name, get_airtable_image_content_file
+from data.utils import get_airtable_media_name, get_airtable_media_content_file
 
 class ResourceType(Enum):
     SITE_WEB = 1
@@ -50,8 +50,8 @@ class Resource(models.Model):
         )
         resource_image = next((x for x in airtable_resource_images if x['fields'].get('URL_principal') in url), None)
         if resource_image:
-            image_name = get_airtable_image_name(resource_image, 'logo')
-            image_content_file = get_airtable_image_content_file(resource_image, 'logo')
+            image_name = get_airtable_media_name(resource_image, 'logo')
+            image_content_file = get_airtable_media_content_file(resource_image, 'logo')
             if image_name and image_content_file:
                 resource.image.save(image_name, image_content_file, save=True)
         return resource

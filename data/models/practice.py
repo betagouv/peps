@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField, ArrayField
-from data.utils import get_airtable_image_name, get_airtable_image_content_file
+from data.utils import get_airtable_media_name, get_airtable_media_content_file
 from .practicegroup import PracticeGroup
 from .practicetype import PracticeType, PracticeTypeCategory
 from .mechanism import Mechanism
@@ -178,8 +178,8 @@ class Practice(models.Model):
             pest_whitelist_external_ids=fields.get('Ravageurs whitelist', []),
             modification_date=timezone.now(),
         )
-        image_name = get_airtable_image_name(airtable_json, 'Image principale')
-        image_content_file = get_airtable_image_content_file(airtable_json, 'Image principale')
+        image_name = get_airtable_media_name(airtable_json, 'Image principale')
+        image_content_file = get_airtable_media_content_file(airtable_json, 'Image principale')
         if image_name and image_content_file:
             practice.image.save(image_name, image_content_file, save=True)
         return practice

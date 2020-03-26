@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.utils import timezone
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
-from data.utils import get_airtable_image_name, get_airtable_image_content_file
+from data.utils import get_airtable_media_name, get_airtable_media_content_file
 
 class Farmer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -71,8 +71,8 @@ class Farmer(models.Model):
             surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,
             output=str(fields.get('Potentiel rendement')) if fields.get('Potentiel rendement') else None,
         )
-        image_name = get_airtable_image_name(airtable_json, 'Photo')
-        image_content_file = get_airtable_image_content_file(airtable_json, 'Photo')
+        image_name = get_airtable_media_name(airtable_json, 'Photo')
+        image_content_file = get_airtable_media_content_file(airtable_json, 'Photo')
         if image_name and image_content_file:
             farmer.profile_image.save(image_name, image_content_file, save=True)
         return farmer

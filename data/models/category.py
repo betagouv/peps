@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from django.utils import timezone
 from django.contrib.postgres.fields import JSONField, ArrayField
-from data.utils import get_airtable_image_name, get_airtable_image_content_file
+from data.utils import get_airtable_media_name, get_airtable_media_content_file
 from .practice import Practice
 
 class Category(models.Model):
@@ -37,8 +37,8 @@ class Category(models.Model):
             description=airtable_json['fields'].get('Description'),
             practice_external_ids=airtable_json['fields'].get('Practices'),
         )
-        image_name = get_airtable_image_name(airtable_json, 'Image')
-        image_content_file = get_airtable_image_content_file(airtable_json, 'Image')
+        image_name = get_airtable_media_name(airtable_json, 'Image')
+        image_content_file = get_airtable_media_content_file(airtable_json, 'Image')
         if image_name and image_content_file:
             category.image.save(image_name, image_content_file, save=True)
         return category
