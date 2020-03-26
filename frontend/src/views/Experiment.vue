@@ -153,7 +153,7 @@
             :key="index"
             style="margin-top: 5px;"
           >
-            <a href="link">{{ link }}</a>
+            <a :href="link" target="_blank">{{ link }}</a>
           </li>
         </ul>
         <div
