@@ -1,14 +1,12 @@
 <template>
   <div style="position: absolute; width:100%;">
     <ContributionOverlay
-        :visible="showContributionOverlay"
-        @done="showContributionOverlay = false"
-      />
+      :visible="showContributionOverlay"
+      @done="showContributionOverlay = false"
+    />
     <v-app-bar app absolute color="primary" dark>
       <v-toolbar-title>
-        <div
-          style="color:white; text-decoration:none; font-weight: bold; outline: none;"
-        >Peps</div>
+        <div style="color:white; text-decoration:none; font-weight: bold; outline: none;">Peps</div>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-badge
@@ -37,9 +35,12 @@
         <span class="caption text-none d-none d-sm-flex">Contact</span>
       </v-btn>
 
-      <v-btn color="#00744C" dark @click="onShareXPClick">
-        <v-icon class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
-        <span class="caption text-none d-none d-sm-flex">Proposer une expérimentation</span>
+      <v-btn color="white" @click="onShareXPClick">
+        <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
+        <span
+          style="font-weight:bold;"
+          class="caption text-none d-none d-sm-flex primary--text"
+        >Proposer une expérimentation</span>
       </v-btn>
     </v-app-bar>
     <v-overlay :value="blacklistDialog" :dark="false">
@@ -66,9 +67,9 @@ export default {
   name: "z",
   components: { Blacklist, ContributionOverlay },
   data: () => {
-    return { 
+    return {
       blacklistDialog: false,
-      showContributionOverlay: false,
+      showContributionOverlay: false
     }
   },
   computed: {
@@ -78,7 +79,11 @@ export default {
   },
   methods: {
     onShareXPClick() {
-      window.sendTrackingEvent("Header", "shareXP", "Proposer une expérimentation")
+      window.sendTrackingEvent(
+        "Header",
+        "shareXP",
+        "Proposer une expérimentation"
+      )
       this.showContributionOverlay = true
     }
   },
