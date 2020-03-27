@@ -656,11 +656,6 @@ def validate_farmers(airtable_farmers):
             message = 'L\'agriculteur %s (ID %s) n\'a pas des données de geoloc (colonnes Latitude et Longitude)' % (name, farmer_id)
             errors.append(AirtableError(message, url=airtable_url))
 
-        if fields.get('Photo') and fields.get('Photo')[0].get('size') > 400000:
-            size = fields.get('Photo')[0].get('size') / 1000
-            message = 'L\'agriculteur "%s" (ID %s) a une image trop lourde (ça pèse %s ko)' % (name, farmer_id, str(size))
-            errors.append(AirtableError(message, fatal=False, url=airtable_url))
-
         return errors
 
     for farmer in airtable_farmers:
@@ -690,10 +685,10 @@ def validate_experiments(airtable_experiments):
             errors.append(AirtableError(message, url=airtable_url))
 
         if fields.get('Photos / vidéo'):
-            for photo_field in fields.get('Photos / vidéo'):
-                if photo_field.get('size') > 400000:
-                    size = photo_field.get('size') / 1000
-                    message = 'L\'expérimentation "%s" (ID %s) a une image trop lourde (ça pèse %s ko)' % (name, experiment_id, str(size))
+            for media_field in fields.get('Photos / vidéo'):
+                if 'video' in media_field.get('type', '') and media_field.get('size') > 1500000:
+                    size = media_field.get('size') / 1000
+                    message = 'L\'expérimentation "%s" (ID %s) a une vidéo trop lourde (ça pèse %s ko)' % (name, experiment_id, str(size))
                     errors.append(AirtableError(message, fatal=False, url=airtable_url))
 
         return errors

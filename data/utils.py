@@ -22,7 +22,11 @@ def get_airtable_media_name(json_payload, field_name=None):
     payload = [payload] if not isinstance(payload, list) else payload
     media_id = payload[0].get('id') or ''
     filename = payload[0].get('filename') or ''
-    extension = filename.split('.')[-1]
+
+    # Since we will later optimize the image into a jpg, the extension we will use will
+    # always be .jpg
+    extension = 'jpg'
+
     return media_id + '.' + extension if media_id and filename else None
 
 def get_airtable_media_content_file(json_payload, field_name=None):
@@ -34,57 +38,77 @@ def get_airtable_media_content_file(json_payload, field_name=None):
 
     payload = [payload] if not isinstance(payload, list) else payload
     file_type = payload[0].get('type')
+    image_format = 'jpeg'
 
     if not media_url:
         return None
     try:
-        media_content = _correct_image_rotation(requests.get(media_url).content, file_type)
-        return ContentFile(media_content)
+        media_response = requests.get(media_url)
+        media_content = media_response.content
+        if image_format and 'image' in file_type:
+            pillow_image = Img.open(BytesIO(media_content))
+            pillow_image = _optimize_image(pillow_image)
+
+            output = BytesIO()
+            pillow_image.save(output, optimize=True, format=image_format)
+            media_content = output.getvalue()
+
+        if media_content:
+            return ContentFile(media_content)
     except Exception as _:
         return None
 
-def _correct_image_rotation(image_content, file_type):
-    if not file_type or not 'image' in file_type:
-        return image_content
+def _optimize_image(pillow_image):
+    """
+    This method will perform several transformation to the image
+    with the goal of optimizing its size and setting the correct
+    rotation.
+    """
+    pillow_image = _rotate_image(pillow_image)
+    pillow_image = _resize_image(pillow_image)
+    pillow_image = _remove_alpha_channel(pillow_image)
 
-    image_format = file_type.split('/')[1] if len(file_type.split('/')) > 0 else None
+    return pillow_image
 
-    if not image_content:
-        return image_content
+def _rotate_image(pillow_image):
+    orientation_tag = next(filter(lambda x: ExifTags.TAGS[x] == 'Orientation', ExifTags.TAGS), None)
+    exif_data = pillow_image._getexif()
 
-    pillow_image = Img.open(BytesIO(image_content))
-    orientation_tag = None
+    if not orientation_tag or not exif_data:
+        return pillow_image
 
-    for orientation in ExifTags.TAGS.keys():
-        if ExifTags.TAGS[orientation] == 'Orientation':
-            orientation_tag = orientation
-
-    if not pillow_image or not orientation_tag or not pillow_image._getexif():
-        return image_content
-
-    exif = dict(pillow_image._getexif().items())
-    orientation = exif.get(orientation_tag)
-
-    if not orientation:
-        return image_content
+    orientation = dict(exif_data.items()).get(orientation_tag)
 
     if orientation == 3:
-        pillow_image = pillow_image.rotate(180, expand=True)
-    elif orientation == 6:
-        pillow_image = pillow_image.rotate(270, expand=True)
-    elif orientation == 8:
-        pillow_image = pillow_image.rotate(90, expand=True)
+        return pillow_image.rotate(180, expand=True)
+    if orientation == 6:
+        return pillow_image.rotate(270, expand=True)
+    if orientation == 8:
+        return pillow_image.rotate(90, expand=True)
+    return pillow_image
+
+def _resize_image(pillow_image):
+    max_size = 2000
+    needs_resize = pillow_image.width > max_size or pillow_image.height > max_size
+    if not needs_resize:
+        return pillow_image
+
+    if pillow_image.width >= pillow_image.height:
+        new_width = max_size
+        new_height = max_size * pillow_image.height / pillow_image.width
     else:
-        return image_content
+        new_width = max_size * pillow_image.width / pillow_image.height
+        new_height = max_size
 
-    output = BytesIO()
-    try:
-        pillow_image.save(output, format=image_format)
-    except Exception as _:
-        print(_)
-        return image_content
+    return pillow_image.resize((int(new_width), int(new_height)))
 
-    return output.getvalue()
+def _remove_alpha_channel(pillow_image):
+    if pillow_image.mode in ('RGBA', 'LA'):
+        background = Img.new(pillow_image.mode[:-1], pillow_image.size, '#FFFFFF')
+        background.paste(pillow_image, pillow_image.split()[-1])
+        pillow_image = background
+    return pillow_image
+
 
 def _get_airtable_data(url, base, offset=None):
     time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
