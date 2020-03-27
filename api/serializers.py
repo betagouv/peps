@@ -143,6 +143,7 @@ class ExperimentSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'external_id',
+            'tags',
             'name',
             'objectives',
             'method',

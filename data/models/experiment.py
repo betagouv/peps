@@ -14,6 +14,7 @@ class Experiment(models.Model):
 
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
 
+    tags = ArrayField(models.TextField(), blank=True, null=True)
     name = models.TextField()
     objectives = models.TextField(null=True)
     method = models.TextField(null=True)
@@ -43,6 +44,7 @@ class Experiment(models.Model):
             airtable_json=airtable_json,
             modification_date=timezone.now(),
             name=fields.get('Titre de l\'XP'),
+            tags=fields.get('Tags'),
             objectives=fields.get('Objectifs'),
             method=fields.get('Méthode XP'),
             temporality=fields.get('Temporalité'),
