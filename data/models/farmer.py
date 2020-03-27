@@ -76,3 +76,28 @@ class Farmer(models.Model):
         if image_name and image_content_file:
             farmer.profile_image.save(image_name, image_content_file, save=True)
         return farmer
+
+
+    def assign_media_from_airtable(self):
+        fields = self.airtable_json['fields']
+        for media in fields.get('Photos additionnelles', []):
+            is_image = 'image' in media.get('type')
+            if not is_image:
+                continue
+
+            media_name = get_airtable_media_name(media)
+            media_content_file = get_airtable_media_content_file(media)
+
+            if media_name and media_content_file:
+                farm_image = FarmImage()
+                farm_image.farmer = self
+                farm_image.image.save(media_name, media_content_file, save=True)
+
+
+
+
+# This is sadly necessary because we can't use an ArrayField of ImageFields
+# https://code.djangoproject.com/ticket/25756#no1
+class FarmImage(models.Model):
+    farmer = models.ForeignKey(Farmer, related_name='images', on_delete=models.CASCADE, null=True)
+    image = models.ImageField()

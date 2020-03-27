@@ -172,6 +172,25 @@
             <ExperimentCard :experiment="experiment" />
           </v-col>
         </v-row>
+
+        <div
+          class="title"
+          v-if="farmer.images && farmer.images.length > 0"
+          style="margin-top: 20px;"
+        >Images</div>
+        <v-row v-if="farmer.images && farmer.images.length > 0">
+          <v-col
+            v-for="(photo, index) in farmer.images.map(x => x.image)"
+            :key="index"
+            class="d-flex child-flex"
+            cols="6"
+            sm="3"
+          >
+            <v-card flat class="d-flex">
+              <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </div>
   </div>

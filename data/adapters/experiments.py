@@ -35,6 +35,7 @@ class ExperimentsAirtableAdapter:
         Farmer.objects.all().delete()
         for farmer in farmers:
             farmer.save()
+            farmer.assign_media_from_airtable()
 
         experiments = [Experiment.create_from_airtable(x) for x in json_experiments]
         Experiment.objects.all().delete()
