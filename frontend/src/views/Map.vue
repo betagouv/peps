@@ -73,7 +73,7 @@
         </v-col>
       </v-row>
       <v-divider style="margin: 30px 0 0px 0;" />
-      <div style="margin: 20px 0 10px 0;">
+      <div style="margin: 20px 0 10px 15px;">
         Vous souhaitez partager votre expérience ?
         <a @click="onShareXPClick">Proposer une expérimentation</a>
       </div>
