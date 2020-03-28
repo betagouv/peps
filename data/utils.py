@@ -22,10 +22,14 @@ def get_airtable_media_name(json_payload, field_name=None):
     payload = [payload] if not isinstance(payload, list) else payload
     media_id = payload[0].get('id') or ''
     filename = payload[0].get('filename') or ''
+    is_image = payload[0].get('type') and 'image' in payload[0].get('type')
 
-    # Since we will later optimize the image into a jpg, the extension we will use will
-    # always be .jpg
-    extension = 'jpg'
+    if is_image:
+        # Since we will later optimize the image into a jpg, the extension we will use will
+        # always be .jpg
+        extension = 'jpg'
+    else:
+        extension = filename.split('.')[-1]
 
     return media_id + '.' + extension if media_id and filename else None
 

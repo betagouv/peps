@@ -14,3 +14,14 @@ class PepsFileStorage(FileSystemStorage):
         if self.exists(name):
             return name
         return super(PepsFileStorage, self)._save(name, content)
+
+class OverwriteFileStorage(FileSystemStorage):
+    """
+    Overwrites existing files
+    """
+
+    def get_available_name(self, name, max_length=None):
+        if max_length and len(name) > max_length:
+            raise Exception("name's length is greater than max_length")
+        self.delete(name)
+        return name

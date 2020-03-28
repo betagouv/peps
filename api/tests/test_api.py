@@ -6,6 +6,7 @@ import dateutil
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey
+from django.core.files.base import ContentFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -453,7 +454,7 @@ def _populate_database():
         modification_date=timezone.now(),
         url='https://test.test/resource.pdf'
     )
-    resource.image.save(image_name, image_bytes, save=True)
+    resource.image.save(image_name, ContentFile(image_bytes), save=True)
     resource.save()
 
     for external_id in ('recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'):
@@ -462,7 +463,7 @@ def _populate_database():
             modification_date=timezone.now(),
             main_resource=resource,
         )
-        practice.image.save(image_name, image_bytes, save=True)
+        practice.image.save(image_name, ContentFile(image_bytes), save=True)
         practice.save()
 
     for category_id in ('rec82929kfas9i', 'rec0098afaooka', 'recppasf09aii'):
@@ -471,7 +472,7 @@ def _populate_database():
             modification_date=timezone.now(),
             practice_external_ids=['recZxlcM61qaDoOkc']
         )
-        category.image.save(image_name, image_bytes, save=True)
+        category.image.save(image_name, ContentFile(image_bytes), save=True)
         category.save()
         category.practices.add(Practice.objects.filter(external_id='recZxlcM61qaDoOkc').first())
 
