@@ -17,13 +17,13 @@ class TestXP(TestCase):
         """
         We check that farmers have been correctly serialized
         """
-        self.assertEqual(Farmer.objects.count(), 6)
+        self.assertEqual(Farmer.objects.count(), 7)
 
     def test_experiments_serialized(self):
         """
         We check that experiments have been correctly serialized
         """
-        self.assertEqual(Experiment.objects.count(), 6)
+        self.assertEqual(Experiment.objects.count(), 7)
 
     def test_experiments_have_images(self):
         """
