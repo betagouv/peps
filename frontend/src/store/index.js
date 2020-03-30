@@ -17,7 +17,7 @@ export default new Vuex.Store({
   state: {
     farmers: [],
     experiments: [],
-    selectedFarmer: null,
+    selectedFarmerExternalId: null,
     selectedDepartment: null,
 
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -119,7 +119,7 @@ export default new Vuex.Store({
       state.farmersLoadingStatus = Constants.LoadingStatus.IDLE
     },
     SET_SELECTED_FARMER(state, { selectedFarmer }) {
-      state.selectedFarmer = selectedFarmer
+      state.selectedFarmerExternalId = selectedFarmer.external_id
     },
     SET_SELECTED_DEPARTMENT(state, { selectedDepartment }) {
       state.selectedDepartment = selectedDepartment
@@ -350,6 +350,9 @@ export default new Vuex.Store({
     },
     farmerWithName(state) {
       return (farmerName => state.farmers.find(x => x.name === farmerName))
+    },
+    selectedFarmer(state) {
+      return state.farmers.find(x => x.external_id === state.selectedFarmerExternalId)
     }
   }
 })

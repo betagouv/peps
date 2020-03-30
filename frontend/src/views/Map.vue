@@ -67,9 +67,13 @@
         <v-col cols="12" sm="4">
           <FarmerCard
             :farmer="selectedFarmer"
-            v-if="selectedFarmer != null"
+            v-if="!!selectedFarmer"
             style="max-height: 520px; overflow: hidden;"
           />
+          <div v-else class="hidden-sm-and-down">
+            <div class="title" style="color: #AAA">Sélectionnez un point sur la carte pour voir les détails</div>
+            <v-icon large color="#AAA">mdi-subdirectory-arrow-left</v-icon>
+          </div>
         </v-col>
       </v-row>
       <v-divider style="margin: 30px 0 0px 0;" />
@@ -144,7 +148,7 @@ export default {
   },
   computed: {
     selectedFarmer() {
-      return this.$store.state.selectedFarmer
+      return this.$store.getters.selectedFarmer
     },
     selectedDepartment: {
       get() {
