@@ -7,41 +7,43 @@ from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+RELATIVE_PATH = '/api/tests/testdata/'
 PRACTICES_BASE = settings.AIRTABLE_PRACTICES_BASE
 XP_BASE = settings.AIRTABLE_XP_BASE
 MOCK_PATHS = {
-    PRACTICES_BASE + '/Pratiques?view=Grid%20view': '/testdata/practices.json',
-    PRACTICES_BASE + '/Types%20de%20sol?view=Grid%20view': '/testdata/soil_types.json',
-    PRACTICES_BASE + '/Pratiques%2FSol?view=Grid%20view': '/testdata/practices_soil.json',
-    PRACTICES_BASE + '/Pratiques%2FCultures?view=Grid%20view': '/testdata/practices_cultures.json',
-    PRACTICES_BASE + '/Cultures?view=Grid%20view': '/testdata/cultures.json',
-    PRACTICES_BASE + '/Pratiques%2FDepartements?view=Grid%20view': '/testdata/practices_departments.json',
-    PRACTICES_BASE + '/Departements?view=Grid%20view': '/testdata/departments.json',
-    PRACTICES_BASE + '/Pratiques%2FAdventices?view=Grid%20view': '/testdata/practices_weeds.json',
-    PRACTICES_BASE + '/Adventices?view=Grid%20view': '/testdata/weeds.json',
-    PRACTICES_BASE + '/Pratiques%2FRavageurs?view=Grid%20view': '/testdata/practices_pests.json',
-    PRACTICES_BASE + '/Ravageurs?view=Grid%20view': '/testdata/pests.json',
-    PRACTICES_BASE + '/Familles?view=Grid%20view': '/testdata/practice_groups.json',
-    PRACTICES_BASE + '/Marges%20de%20manoeuvre?view=Grid%20view': '/testdata/mechanisms.json',
-    PRACTICES_BASE + '/Liens?view=Grid%20view': '/testdata/resources.json',
-    PRACTICES_BASE + '/logos?view=Grid%20view': '/testdata/resource_images.json',
-    PRACTICES_BASE + '/Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
-    PRACTICES_BASE + '/Pratiques%2FGlyphosate?view=Grid%20view': '/testdata/practices_glyphosate.json',
-    PRACTICES_BASE + '/Glyphosate?view=Grid%20view': '/testdata/glyphosate.json',
-    PRACTICES_BASE + '/Categories?view=Grid%20view': '/testdata/categories.json',
-    XP_BASE + '/Agriculteur?view=Grid%20view': '/testdata/farmers.json',
-    XP_BASE + '/XP?view=Grid%20view': '/testdata/experiments.json',
+    PRACTICES_BASE + '/Pratiques?view=Grid%20view': 'practices.json',
+    PRACTICES_BASE + '/Types%20de%20sol?view=Grid%20view': 'soil_types.json',
+    PRACTICES_BASE + '/Pratiques%2FSol?view=Grid%20view': 'practices_soil.json',
+    PRACTICES_BASE + '/Pratiques%2FCultures?view=Grid%20view': 'practices_cultures.json',
+    PRACTICES_BASE + '/Cultures?view=Grid%20view': 'cultures.json',
+    PRACTICES_BASE + '/Pratiques%2FDepartements?view=Grid%20view': 'practices_departments.json',
+    PRACTICES_BASE + '/Departements?view=Grid%20view': 'departments.json',
+    PRACTICES_BASE + '/Pratiques%2FAdventices?view=Grid%20view': 'practices_weeds.json',
+    PRACTICES_BASE + '/Adventices?view=Grid%20view': 'weeds.json',
+    PRACTICES_BASE + '/Pratiques%2FRavageurs?view=Grid%20view': 'practices_pests.json',
+    PRACTICES_BASE + '/Ravageurs?view=Grid%20view': 'pests.json',
+    PRACTICES_BASE + '/Familles?view=Grid%20view': 'practice_groups.json',
+    PRACTICES_BASE + '/Marges%20de%20manoeuvre?view=Grid%20view': 'mechanisms.json',
+    PRACTICES_BASE + '/Liens?view=Grid%20view': 'resources.json',
+    PRACTICES_BASE + '/logos?view=Grid%20view': 'resource_images.json',
+    PRACTICES_BASE + '/Types%20de%20pratique?view=Grid%20view': 'practice_types.json',
+    PRACTICES_BASE + '/Pratiques%2FGlyphosate?view=Grid%20view': 'practices_glyphosate.json',
+    PRACTICES_BASE + '/Glyphosate?view=Grid%20view': 'glyphosate.json',
+    PRACTICES_BASE + '/Categories?view=Grid%20view': 'categories.json',
+    XP_BASE + '/Agriculteur?view=Grid%20view': 'farmers.json',
+    XP_BASE + '/XP?view=Grid%20view': 'experiments.json',
 }
 
 class Command(BaseCommand):
     help = 'Updates the test data with the info from Airtable'
 
     def handle(self, *args, **options):
-        for url, path in MOCK_PATHS.items():
+        os.makedirs(BASE_DIR + RELATIVE_PATH, exist_ok=True)
+        for url, filename in MOCK_PATHS.items():
             try:
                 self.stdout.write(self.style.HTTP_SUCCESS('Fetching %s' % url))
                 json_data = {'records': _get_airtable_data(url)}
-                with open(BASE_DIR + '/api/tests' + path, 'w+') as file:
+                with open(BASE_DIR + RELATIVE_PATH + filename, 'w+') as file:
                     file.write(json.dumps(json_data))
             except Exception as _:
                 print(traceback.format_exc())

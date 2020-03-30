@@ -79,7 +79,15 @@ python manage.py createsuperuser
 
 ## Test
 
-You should be ready to go. Run the following command to ensure everything is OK:
+You should be ready to go. First, run this command to fetch the test data from Airtable:
+```
+python manage.py generatetestdata
+...
+Successfully generated test data
+```
+
+
+Now run the following command to ensure everything is OK:
 
 ```
 python manage.py test
