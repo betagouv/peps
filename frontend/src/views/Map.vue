@@ -1,9 +1,5 @@
 <template>
   <div>
-    <ContributionOverlay
-      :visible="showContributionOverlay"
-      @done="showContributionOverlay = false"
-    />
     <v-container class="constrained">
       <div class="pa-0" style="margin-top: 10px;">
         <div class="display-1">
@@ -94,7 +90,6 @@ import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import geojson from "../resources/departments.json"
 import Constants from "@/constants"
-import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "Map",
@@ -103,12 +98,10 @@ export default {
     LMarker,
     LGeoJson,
     FarmerCard,
-    ExperimentFilter,
-    ContributionOverlay
+    ExperimentFilter
   },
   data() {
     return {
-      showContributionOverlay: false,
       markersInfo: [],
       showGeolocation: !!window.navigator.geolocation,
       showParagraph: false,
@@ -199,7 +192,7 @@ export default {
     },
     onShareXPClick() {
       window.sendTrackingEvent(this.$route.name, "shareXP", "Proposer une expérimentation")
-      this.showContributionOverlay = true
+      this.$router.push({name: 'Contribution'})
     },
     refreshMapMarkers() {
       this.markersInfo = []

@@ -18,10 +18,11 @@
           :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height:' + windowHeight + 'px'"
           class="overflow-y-auto"
         >
-          <v-card-title>Partagez votre expérience</v-card-title>
+          <v-card-title>Réjoignez le groupe d'agriculteurs test</v-card-title>
           <v-card-text>
-            Ce projet en est encore à ses débuts, dans un premier temps nous souhaitons rédiger avec vous cette fiche.
-            Laissez-nous vos coordonnées pour que nous prenions contact et que vous nous racontiez cette expérimentation.
+            Ce projet en est encore à ses débuts, dans un premier temps nous souhaitons cŕeer avec vous votre profil
+            et rédiger votre première expérimentation.
+            Laissez-nous vos coordonnées pour que nous prenions contact.
           </v-card-text>
           <v-card-text>
             <Form

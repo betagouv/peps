@@ -12,6 +12,7 @@ import Contact from '@/views/Contact.vue'
 import Map from '@/views/Map.vue'
 import Farmer from '@/views/Farmer.vue'
 import Experiment from '@/views/Experiment.vue'
+import Contribution from '@/views/Contribution.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ const routes = [
     path: '/formulaire',
     name: 'FormsContainer',
     component: FormsContainer,
+  },
+  {
+    path: '/contribution',
+    name: 'Contribution',
+    component: Contribution,
   },
   {
     path: '/categorie/:categoryTitle',

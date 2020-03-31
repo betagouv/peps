@@ -1,9 +1,5 @@
 <template>
   <div style="position: absolute; width:100%;">
-    <ContributionOverlay
-      :visible="showContributionOverlay"
-      @done="showContributionOverlay = false"
-    />
     <v-app-bar app absolute color="primary" dark>
       <v-toolbar-title>
         <div style="color:white; text-decoration:none; font-weight: bold; outline: none;">Peps</div>
@@ -61,15 +57,13 @@
 
 <script>
 import Blacklist from "@/components/Blacklist.vue"
-import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "z",
-  components: { Blacklist, ContributionOverlay },
+  components: { Blacklist },
   data: () => {
     return {
       blacklistDialog: false,
-      showContributionOverlay: false
     }
   },
   computed: {
@@ -88,7 +82,7 @@ export default {
         "shareXP",
         "Proposer une expérimentation"
       )
-      this.showContributionOverlay = true
+      this.$router.push({name: 'Contribution'})
     }
   },
   watch: {
