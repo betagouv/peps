@@ -38,7 +38,7 @@ class Experiment(models.Model):
     @staticmethod
     def create_from_airtable(airtable_json):
         fields = airtable_json['fields']
-        links = [fields.get(x) for x in ('Site', 'Liens contenu') if fields.get(x)]
+        links = [fields.get(x) for x in ('Lien 1', 'Lien 2', 'Lien 3', 'Lien 4') if fields.get(x)]
         experiment = Experiment(
             external_id=airtable_json.get('id'),
             airtable_json=airtable_json,
