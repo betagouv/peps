@@ -140,12 +140,12 @@
         </div>
 
         <div class="title" style="margin-top: 20px;">Son exploitation</div>
-        <div class="body-1" style="margin-top: 5px;">{{ farmer.description }}</div>
+        <div class="body-1" style="margin-top: 5px; white-space: pre-wrap;">{{ farmer.description }}</div>
 
         <div class="title" style="margin-top: 20px;" v-if="farmer.specificities">Spécifités</div>
         <div
           class="body-1"
-          style="margin-top: 5px;"
+          style="margin-top: 5px; white-space: pre-wrap;"
           v-if="farmer.specificities"
         >{{ farmer.specificities }}</div>
 

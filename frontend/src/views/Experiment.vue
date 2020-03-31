@@ -107,13 +107,13 @@
         </div>
 
         <div class="title" style="margin-top: 20px;">Objectifs</div>
-        <div class="body-1" style="margin-top: 5px;">{{ experiment.objectives }}</div>
+        <div class="body-1" style="margin-top: 5px; white-space: pre-wrap;">{{ experiment.objectives }}</div>
 
-        <div class="title" v-if="experiment.description" style="margin-top: 20px;">Description</div>
+        <p class="title" v-if="experiment.description" style="margin-top: 20px;">Description</p>
         <div
           class="body-1"
           v-if="experiment.description"
-          style="margin-top: 5px;"
+          style="margin-top: 5px; white-space: pre-wrap;"
         >{{ experiment.description }}</div>
 
         <div
@@ -124,7 +124,7 @@
         <div
           class="body-1"
           v-if="experiment.results_details"
-          style="margin-top: 5px;"
+          style="margin-top: 5px; white-space: pre-wrap;"
         >{{ experiment.results_details }}</div>
 
         <div
