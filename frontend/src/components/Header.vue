@@ -35,7 +35,7 @@
         <span class="caption text-none d-none d-sm-flex">Contact</span>
       </v-btn>
 
-      <v-btn color="white" @click="onShareXPClick">
+      <v-btn v-if="isXPPage" color="white" @click="onShareXPClick">
         <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
         <span
           style="font-weight:bold;"
@@ -75,6 +75,10 @@ export default {
   computed: {
     blacklist() {
       return this.$store.state.blacklist
+    },
+    isXPPage() {
+      const xpPages = ['Contribution', 'Farmer', 'Experiment', 'Map']
+      return xpPages.indexOf(this.$route.name) > -1
     }
   },
   methods: {
