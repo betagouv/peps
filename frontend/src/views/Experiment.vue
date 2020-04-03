@@ -217,14 +217,14 @@ export default {
   },
   methods: {
     goToFarmer(farmer) {
-      window.sendTrackingEvent("Experiment", "seeFarmer", this.farmer.name)
+      window.sendTrackingEvent(this.$route.name, "seeFarmer", this.farmer.name)
       this.$router.push({
         name: "Farmer",
         params: { farmerName: farmer.name }
       })
     },
     onContactClick() {
-      window.sendTrackingEvent("Experiment", "contact", this.farmerName)
+      window.sendTrackingEvent(this.$route.name, "contact", this.farmerName)
       this.contactOverlayVisible = true
     }
   },

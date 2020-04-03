@@ -69,11 +69,11 @@ export default {
   },
   methods: {
     goToForm() {
-      window.sendTrackingEvent("Landing", "simulator", this.formButtonText)
+      window.sendTrackingEvent(this.$route.name, "simulator", this.formButtonText)
       this.$router.push({ name: "FormsContainer" })
     },
     contribute() {
-      window.sendTrackingEvent("Landing", "contribute", 'Je contribue !')
+      window.sendTrackingEvent(this.$route.name, "contribute", 'Je contribue !')
       this.showContributionOverlay = true
     }
   }

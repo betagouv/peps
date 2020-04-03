@@ -256,12 +256,12 @@ export default {
       this.$emit("done")
     },
     cancelImplementation() {
-      window.sendTrackingEvent("Practice", "try cancel", this.practice.title)
+      window.sendTrackingEvent(this.$route.name, "try cancel", this.practice.title)
       this.$store.dispatch("resetImplementationForm")
       this.$emit("done")
     },
     sendImplementation() {
-      window.sendTrackingEvent("Practice", "try confirm", this.practice.title)
+      window.sendTrackingEvent(this.$route.name, "try confirm", this.practice.title)
       this.$store.dispatch("sendImplementation", { practice: this.practice })
     },
     onWindowResize() {

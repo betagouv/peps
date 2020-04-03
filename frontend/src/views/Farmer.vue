@@ -261,7 +261,7 @@ export default {
       return "primary"
     },
     onContactClick() {
-      window.sendTrackingEvent("Farmer", "contact", this.farmerName)
+      window.sendTrackingEvent(this.$route.name, "contact", this.farmerName)
       this.contactOverlayVisible = true
     }
   }

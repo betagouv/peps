@@ -170,11 +170,11 @@ export default {
       this.$emit("done")
     },
     cancelImplementation() {
-      window.sendTrackingEvent("Landing", "contactFarmer cancel", "")
+      window.sendTrackingEvent(this.$route.name, "contactFarmer cancel", "")
       this.$emit("done")
     },
     sendImplementation() {
-      window.sendTrackingEvent("Landing", "contactFarmer confirm", "")
+      window.sendTrackingEvent(this.$route.name, "contactFarmer confirm", "")
       this.$store.dispatch("sendFarmerContactRequest", { farmer: this.farmer })
     },
     onWindowResize() {

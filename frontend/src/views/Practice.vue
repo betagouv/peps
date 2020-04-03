@@ -147,7 +147,7 @@ export default {
   },
   methods: {
     tryPractice() {
-      window.sendTrackingEvent("Practice", "try", this.practice.title)
+      window.sendTrackingEvent(this.$route.name, "try", this.practice.title)
       this.implementationPractice = this.practice
     }
   }

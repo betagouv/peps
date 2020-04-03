@@ -80,14 +80,14 @@ export default {
   },
   methods: {
     goToPractice(practice) {
-      window.sendTrackingEvent("Practice", "more-info", practice.title)
+      window.sendTrackingEvent(this.$route.name, "more-info", practice.title)
       this.$router.push({
         name: "Practice",
         params: { practiceShortTitle: practice.short_title }
       })
     },
     blacklistPractice(practice) {
-      window.sendTrackingEvent("Practice", "blacklist", practice.title)
+      window.sendTrackingEvent(this.$route.name, "blacklist", practice.title)
       this.$emit("blacklist", practice)
     },
     infoItems(practice) {

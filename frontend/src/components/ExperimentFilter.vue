@@ -52,8 +52,10 @@ export default {
       const itemIsSelected = index > -1
       if (itemIsSelected) {
         this.selectedFilters.splice(index, 1)
+        window.sendTrackingEvent(this.$route.name, "filter", "deselected-" + filter)
       } else {
         this.selectedFilters.push(filter)
+        window.sendTrackingEvent(this.$route.name, "filter", "selected-" + filter)
       }
     }
   }

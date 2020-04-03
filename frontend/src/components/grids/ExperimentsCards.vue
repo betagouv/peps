@@ -1,12 +1,30 @@
 <template>
   <v-container :class="{'constrained': true, 'transition-backwards': lastTransitionBackwards}">
-    <v-pagination v-if="pages > 1" v-model="page" :length="pages" color="#333"></v-pagination>
+    <v-pagination
+      @input="onPaginationInput"
+      v-if="pages > 1"
+      v-model="page"
+      :length="pages"
+      color="#333"
+    ></v-pagination>
     <transition-group name="list" tag="div" class="row" mode="out-in">
-      <v-col v-for="experiment in paginatedExperiments" :key="experiment.id" cols="12" sm="6" md="4">
+      <v-col
+        v-for="experiment in paginatedExperiments"
+        :key="experiment.id"
+        cols="12"
+        sm="6"
+        md="4"
+      >
         <ExperimentCard :experiment="experiment" />
       </v-col>
     </transition-group>
-    <v-pagination v-if="pages > 1" v-model="page" :length="pages" color="#333"></v-pagination>
+    <v-pagination
+      @input="onPaginationInput"
+      color="#333"
+      v-if="pages > 1"
+      v-model="page"
+      :length="pages"
+    ></v-pagination>
   </v-container>
 </template>
 
@@ -20,13 +38,18 @@ export default {
     return {
       page: 1,
       cardsPerPage: 12,
-      lastTransitionBackwards: false,
+      lastTransitionBackwards: false
     }
   },
   props: {
     experiments: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    onPaginationInput() {
+      window.sendTrackingEvent(this.$route.name, "pagination", "page-" + this.page)
     }
   },
   computed: {

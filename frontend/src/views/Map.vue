@@ -198,7 +198,7 @@ export default {
       }
     },
     onShareXPClick() {
-      window.sendTrackingEvent("Map", "shareXP", "Proposer une expérimentation")
+      window.sendTrackingEvent(this.$route.name, "shareXP", "Proposer une expérimentation")
       this.showContributionOverlay = true
     },
     refreshMapMarkers() {
