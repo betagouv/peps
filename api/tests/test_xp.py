@@ -19,6 +19,11 @@ class TestXP(TestCase):
         """
         self.assertGreater(Farmer.objects.count(), 1)
 
+    def test_farmers_output(self):
+        external_id = 'recre6nczAgLTyNE9'
+        farmer = Farmer.objects.filter(external_id=external_id).first()
+        self.assertEqual(farmer.output, '85')
+
     def test_experiments_serialized(self):
         """
         We check that experiments have been correctly serialized

@@ -69,7 +69,7 @@ class Farmer(models.Model):
             surface=str(fields.get('Surface')),
             surface_cultures=str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None,
             surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,
-            output=str(fields.get('Potentiel rendement')) if fields.get('Potentiel rendement') else None,
+            output=str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None,
         )
         image_name = get_airtable_media_name(airtable_json, 'Photo')
         image_content_file = get_airtable_media_content_file(airtable_json, 'Photo')
