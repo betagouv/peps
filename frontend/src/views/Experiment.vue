@@ -48,7 +48,6 @@
         <div style="margin-bottom: 20px; margin-left: 45px; margin-top: 0px;">
           <v-btn
             class="text-none"
-            outlined
             @click="onContactClick"
             color="primary"
           >Contacter {{ farmer.name }}</v-btn>
@@ -181,6 +180,16 @@
             </v-card>
           </v-col>
         </v-row>
+
+        <div class="body-1" style="margin-top: 30px;">
+          Pour plus d'informations sur cette expérimentation : 
+          <v-btn
+            class="text-none"
+            @click="onContactClick"
+            style="margin-top: -2px;"
+            color="primary"
+          >Contacter {{ farmer.name }}</v-btn>
+        </div>
       </v-container>
     </div>
   </div>
