@@ -31,6 +31,7 @@
             outlined
             @click="geolocate()"
             color="primary"
+            class="text-none"
             style="margin: 10px 0 0 10px;"
           >
             <v-icon small style="margin: 0 5px 0 0;">mdi-crosshairs-gps</v-icon>Me localiser
@@ -67,17 +68,28 @@
             style="max-height: 520px; overflow: hidden;"
           />
           <div v-else class="hidden-sm-and-down">
-            <div class="title" style="color: #AAA">Sélectionnez un point sur la carte pour voir les détails</div>
+            <div
+              class="title"
+              style="color: #AAA"
+            >Sélectionnez un point sur la carte pour voir les détails</div>
             <v-icon large color="#AAA">mdi-subdirectory-arrow-left</v-icon>
           </div>
         </v-col>
       </v-row>
       <v-divider style="margin: 30px 0 0px 0;" />
-      <div style="margin: 20px 0 10px 15px;">
-        Vous souhaitez partager votre expérience ?
-        <a @click="onShareXPClick">Proposer une expérimentation</a>
-      </div>
+      <v-card-text class="title" style="padding: 16px 16px 0px 16px;">Trouvez un retour d'expérience</v-card-text>
       <ExperimentFilter />
+
+      <div style="margin: 20px 0 0px 15px;">
+        Vous souhaitez partager votre expérience ?
+        <v-btn
+          @click="onShareXPClick"
+          outlined
+          color="primary"
+          class="text-none primary--text"
+          style="margin-left: 10px; margin-top: -2px;"
+        >Proposer une expérimentation</v-btn>
+      </div>
     </v-container>
   </div>
 </template>
@@ -191,8 +203,12 @@ export default {
       }
     },
     onShareXPClick() {
-      window.sendTrackingEvent(this.$route.name, "shareXP", "Proposer une expérimentation")
-      this.$router.push({name: 'Contribution'})
+      window.sendTrackingEvent(
+        this.$route.name,
+        "shareXP",
+        "Proposer une expérimentation"
+      )
+      this.$router.push({ name: "Contribution" })
     },
     refreshMapMarkers() {
       this.markersInfo = []
