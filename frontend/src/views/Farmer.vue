@@ -79,8 +79,8 @@
         </div>
         <div v-if="farmer.livestock_type" class="body-2 info-item">
           <v-icon small left>mdi-cow</v-icon>
-          <div>Élevage : {{farmer.livestock_type}}</div>
-          <span v-if="farmer.livestock_number">({{ farmer.livestock_number }})</span>
+          <div>Élevage : {{farmer.livestock_type}}
+          <span v-if="farmer.livestock_number">({{ farmer.livestock_number }})</span></div>
         </div>
         <div
           v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
@@ -121,14 +121,14 @@
         <div v-if="farmer.surface" class="body-2 info-item">
           <v-icon small left>mdi-texture-box</v-icon>
           <div>
-            Surface : {{farmer.surface}}
+            Surface : {{farmer.surface}} ha
             <span
               v-if="farmer.surface_cultures || farmer.surface_meadows"
             >
               dont&nbsp;
-              <span v-if="farmer.surface_cultures">{{farmer.surface_cultures}} en cultures</span>
+              <span v-if="farmer.surface_cultures">{{farmer.surface_cultures}} ha en cultures</span>
               <span v-if="farmer.surface_cultures && farmer.surface_meadows">&nbsp;et&nbsp;</span>
-              <span v-if="farmer.surface_meadows">{{farmer.surface_meadows}} en prairie</span>
+              <span v-if="farmer.surface_meadows">{{farmer.surface_meadows}} ha en prairie</span>
             </span>
           </div>
         </div>
