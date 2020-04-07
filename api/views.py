@@ -9,13 +9,12 @@ from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
 from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
-from data.models import GroupCount, RefererCount, Category, Farmer, Experiment
+from data.models import GroupCount, RefererCount, Category, Farmer
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
-from api.serializers import FarmerSerializer, ExperimentSerializer, UserSerializer
+from api.serializers import FarmerSerializer, UserSerializer
 from api.formschema import get_form_schema
 from api.models import Response
-
 
 class RankingsApiView(APIView):
     """
@@ -49,7 +48,7 @@ class RefreshDataApiView(APIView):
     This view will refresh the DB for practice data
     """
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticated | HasAPIKey]
+    permission_classes = [permissions.IsAdminUser | HasAPIKey]
 
     def post(self, request):
         errors = PracticesAirtableAdapter.update()
@@ -64,7 +63,7 @@ class RefreshXPDataApiView(APIView):
     This view will refresh the DB for XP data
     """
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticated | HasAPIKey]
+    permission_classes = [permissions.IsAdminUser | HasAPIKey]
 
     def post(self, request):
         errors = ExperimentsAirtableAdapter.update()

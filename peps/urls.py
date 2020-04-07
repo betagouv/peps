@@ -4,6 +4,7 @@ from django.urls import path
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
+from magicauth.urls import urlpatterns as magicauth_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls)
@@ -11,6 +12,8 @@ urlpatterns = [
 
 urlpatterns.append(url(r'', include('web.urls')))
 urlpatterns.append(url(r'^api/v1/', include('api.urls')))
+
+urlpatterns.extend(magicauth_urls)
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()

@@ -13,6 +13,7 @@ import Map from '@/views/Map.vue'
 import Farmer from '@/views/Farmer.vue'
 import Experiment from '@/views/Experiment.vue'
 import Contribution from '@/views/Contribution.vue'
+import Profile from '@/views/Profile.vue'
 
 Vue.use(VueRouter)
 
@@ -108,6 +109,11 @@ const routes = [
     path: '/map',
     component: Map,
     name: 'Map',
+  },
+  {
+    path: '/compte',
+    component: Profile,
+    name: 'Profile',
   },
   {
     path: '*',

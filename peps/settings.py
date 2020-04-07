@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'web',
     'api',
     'data',
+    'magicauth',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
 ]
 
 CSRF_COOKIE_NAME = 'csrftoken'
@@ -193,3 +195,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 SECURE_SSL_REDIRECT = os.getenv('PEPS_FORCE_HTTPS') == 'True'
+
+MAGICAUTH_FROM_EMAIL = 'test@test.com'
+MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME = 'app'
+MAGICAUTH_EMAIL_UNKNOWN_CALLBACK = 'api.utils.email_unknown_callback'
+MAGICAUTH_EMAIL_FIELD = 'email'
+MAGICAUTH_EMAIL_HTML_TEMPLATE = 'email.html'
+MAGICAUTH_EMAIL_TEXT_TEMPLATE = 'email.txt'
+MAGICAUTH_LOGIN_VIEW_TEMPLATE = 'login-magicauth.html'
+MAGICAUTH_EMAIL_SENT_VIEW_TEMPLATE = 'email-sent.html'
+MAGICAUTH_EMAIL_UNKNOWN_MESSAGE = 'Nous n\'avons pas trouvé un utilisateur avec cet email. <a href="/#/contact">Contactez-nous</a> pour faire partie des testeurs Peps !'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

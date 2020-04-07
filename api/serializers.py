@@ -221,4 +221,8 @@ class UserSerializer(serializers.ModelSerializer):
             'id',
             'email',
             'farmer_external_id',
+            'is_superuser',
+            'username',
+            'first_name',
+            'last_name',
         )

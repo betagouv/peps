@@ -19,6 +19,7 @@ export default new Vuex.Store({
     experiments: [],
     selectedFarmerExternalId: null,
     selectedDepartment: null,
+    loggedUser: null,
 
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -123,7 +124,10 @@ export default new Vuex.Store({
     },
     SET_SELECTED_DEPARTMENT(state, { selectedDepartment }) {
       state.selectedDepartment = selectedDepartment
-    }
+    },
+    SET_LOGGED_USER(state, loggedUser) {
+      state.loggedUser = loggedUser
+    },
   },
   actions: {
     fetchFormDefinitions(context) {
@@ -165,6 +169,14 @@ export default new Vuex.Store({
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
+
+    fetchLoggedUser(context) {
+      Vue.http.get('api/v1/loggedUser').then(response => {
+        context.commit('SET_LOGGED_USER', response.body)
+      }).catch(() => {
+        context.commit('SET_LOGGED_USER', null)
       })
     },
 
@@ -350,6 +362,9 @@ export default new Vuex.Store({
     },
     farmerWithName(state) {
       return (farmerName => state.farmers.find(x => x.name === farmerName))
+    },
+    farmerWithExternalId(state) {
+      return (farmerExternalId => state.farmers.find(x => x.external_id === farmerExternalId))
     },
     selectedFarmer(state) {
       return state.farmers.find(x => x.external_id === state.selectedFarmerExternalId)

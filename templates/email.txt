@@ -1,0 +1,7 @@
+Bonjour{% if user.farmer %} {{user.farmer.name}}{% endif %},
+
+Pour accéder à Peps, vous avez juste à cliquer sur ce lien de connexion:  https://{{ site.domain }}{% url 'magicauth-validate-token' token.key %}?next={{ next_view }}
+
+Bonne journée,
+
+L'équipe de Peps
