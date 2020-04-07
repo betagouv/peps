@@ -1,8 +1,8 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from data.models import Practice, Mechanism, Resource, PracticeType
 from data.models import DiscardAction, Category, Farmer, Experiment
 from data.models import ExperimentImage, ExperimentVideo, FarmImage
-
 
 class MechanismSerializer(serializers.ModelSerializer):
 
@@ -205,4 +205,20 @@ class FarmerSerializer(serializers.ModelSerializer):
             'surface_cultures',
             'surface_meadows',
             'output',
+        )
+
+class UserSerializer(serializers.ModelSerializer):
+
+    farmer_external_id = serializers.SlugRelatedField(
+        source='profile',
+        read_only=True,
+        slug_field='farmer_external_id'
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'email',
+            'farmer_external_id',
         )

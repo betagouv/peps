@@ -13,6 +13,8 @@ class Farmer(models.Model):
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True)
 
+    email = models.EmailField(db_index=True)
+
     name = models.TextField(null=True)
     production = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     groups = ArrayField(models.CharField(max_length=200), blank=True, null=True)
@@ -71,6 +73,7 @@ class Farmer(models.Model):
             surface_cultures=str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None,
             surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,
             output=str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None,
+            email=fields.get('Adresse email'),
         )
         image_name = get_airtable_media_name(airtable_json, 'Photo')
         image_content_file = get_airtable_media_content_file(airtable_json, 'Photo')

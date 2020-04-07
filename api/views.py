@@ -1,9 +1,10 @@
 import dateutil.parser
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from django.contrib.auth.models import User
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework import permissions, authentication
 from rest_framework_api_key.permissions import HasAPIKey
 import asana
@@ -11,7 +12,7 @@ from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
 from data.models import GroupCount, RefererCount, Category, Farmer, Experiment
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
-from api.serializers import FarmerSerializer, ExperimentSerializer
+from api.serializers import FarmerSerializer, ExperimentSerializer, UserSerializer
 from api.formschema import get_form_schema
 from api.models import Response
 
@@ -189,3 +190,12 @@ class DiscardActionView(CreateAPIView):
 class FarmersView(ListAPIView):
     queryset = Farmer.objects
     serializer_class = FarmerSerializer
+
+class LoggedUserView(RetrieveAPIView):
+    model = User
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    queryset = User.objects.all()
+
+    def get_object(self):
+        return self.request.user
