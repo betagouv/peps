@@ -17,12 +17,9 @@
           :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
         />
         <div class="flex-container">
-          <v-card-text class="flex-fix-item" style="padding-bottom: 0; padding-top: 10px;">
-            <v-icon left small v-for="(iconName, index) in icons" :key="index">{{ iconName }}</v-icon>
-          </v-card-text>
           <v-card-title
             class="flex-fix-item subtitle-2"
-            style="padding-top: 5px; padding-bottom: 5px;"
+            style="padding-top: 10px; padding-bottom: 5px;"
           >{{experiment.name}}</v-card-title>
           <v-card-text class="caption flex-fix-item" style="padding-bottom: 0; padding-top: 0px;">
             <v-icon small left style="padding-bottom: 2px;">mdi-account</v-icon>
@@ -51,25 +48,6 @@ export default {
   data() {
     return {
       showDescriptionGradient: false
-    }
-  },
-  computed: {
-    icons() {
-      const icons = {
-        adventices: "mdi-sprout",
-        insectes: "mdi-ladybug",
-        maladies: "mdi-bottle-tonic-plus",
-        productivite: "mdi-chart-bell-curve-cumulative",
-        biodiversite: "mdi-bee",
-        sol: "mdi-image-filter-hdr",
-        fourrages: "mdi-cow",
-        "nouvelles-cultures": "mdi-corn",
-        oad: "mdi-cellphone-information"
-      }
-      if (!this.experiment.tags) return []
-      return this.experiment.tags
-        .map(x => (x in icons ? icons[x] : null))
-        .filter(x => x != null)
     }
   },
   methods: {

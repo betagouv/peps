@@ -65,7 +65,6 @@
           <FarmerCard
             :farmer="selectedFarmer"
             v-if="!!selectedFarmer"
-            style="max-height: 520px; overflow: hidden;"
           />
           <div v-else class="hidden-sm-and-down">
             <div

@@ -31,6 +31,7 @@ class Farmer(models.Model):
     specificities = models.TextField(null=True)
     contact_possible = models.BooleanField(default=False)
 
+
     links = ArrayField(models.TextField(), blank=True, null=True)
 
     surface = models.TextField(null=True)
@@ -52,7 +53,7 @@ class Farmer(models.Model):
             name=fields.get('Prénom et Nom'),
             production=fields.get('Productions'),
             groups=fields.get('Groupes'),
-            agriculture_types=fields.get('Type agriculture'),
+            agriculture_types=fields.get('Tag agriculture'),
             postal_code=fields.get('Code postal'),
             lat=Decimal(fields.get('Latitude')),
             lon=Decimal(fields.get('Longitude')),
