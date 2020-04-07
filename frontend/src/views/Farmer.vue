@@ -69,6 +69,30 @@
           </div>
         </v-card>
 
+        <div
+          class="title"
+          style="margin-top: 20px;"
+          v-if="farmer.experiments && farmer.experiments.length === 1"
+        >Son expérimentation</div>
+        <div
+          class="title"
+          style="margin-top: 20px;"
+          v-if="farmer.experiments && farmer.experiments.length > 1"
+        >Ses expérimentations</div>
+        <v-row v-if="farmer.experiments && farmer.experiments.length > 0">
+          <v-col
+            v-for="(experiment, index) in farmer.experiments"
+            :key="index"
+            cols="12"
+            sm="6"
+            md="4"
+          >
+            <ExperimentCard :experiment="experiment" />
+          </v-col>
+        </v-row>
+
+        <div class="title" style="margin-top: 20px;">Son exploitation</div>
+
         <div v-if="farmer.installation_date" class="body-2 info-item">
           <v-icon small left>mdi-calendar-blank-outline</v-icon>
           <div>Installation : {{farmer.installation_date.substring(0, 4)}}</div>
@@ -79,8 +103,12 @@
         </div>
         <div v-if="farmer.livestock_type" class="body-2 info-item">
           <v-icon small left>mdi-cow</v-icon>
-          <div>Élevage : {{farmer.livestock_type}}
-          <span v-if="farmer.livestock_number">({{ farmer.livestock_number }})</span></div>
+          <div>
+            Élevage : {{farmer.livestock_type}}
+            <span
+              v-if="farmer.livestock_number"
+            >({{ farmer.livestock_number }})</span>
+          </div>
         </div>
         <div
           v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
@@ -126,7 +154,9 @@
               v-if="farmer.surface_cultures || farmer.surface_meadows"
             >
               dont&nbsp;
-              <span v-if="farmer.surface_cultures">{{farmer.surface_cultures}} ha en cultures</span>
+              <span
+                v-if="farmer.surface_cultures"
+              >{{farmer.surface_cultures}} ha en cultures</span>
               <span v-if="farmer.surface_cultures && farmer.surface_meadows">&nbsp;et&nbsp;</span>
               <span v-if="farmer.surface_meadows">{{farmer.surface_meadows}} ha en prairie</span>
             </span>
@@ -134,13 +164,10 @@
         </div>
         <div v-if="farmer.output" class="body-2 info-item">
           <v-icon small left>mdi-silo</v-icon>
-          <div>
-            Potentiel de rendement en blé : {{farmer.output}} quintaux / ha
-          </div>
+          <div>Potentiel de rendement en blé : {{farmer.output}} quintaux / ha</div>
         </div>
 
-        <div class="title" style="margin-top: 20px;">Son exploitation</div>
-        <div class="body-1" style="margin-top: 5px; white-space: pre-wrap;">{{ farmer.description }}</div>
+        <div class="body-1" style="margin-top: 20px; white-space: pre-wrap;">{{ farmer.description }}</div>
 
         <div class="title" style="margin-top: 20px;" v-if="farmer.specificities">Spécifités</div>
         <div
@@ -155,23 +182,6 @@
           style="margin-top: 5px;"
           v-if="farmer.specificities"
         >{{ farmer.text_links }}</div>
-
-        <div
-          class="title"
-          style="margin-top: 20px;"
-          v-if="farmer.experiments && farmer.experiments.length > 0"
-        >Ses expérimentations</div>
-        <v-row v-if="farmer.experiments && farmer.experiments.length > 0">
-          <v-col
-            v-for="(experiment, index) in farmer.experiments"
-            :key="index"
-            cols="12"
-            sm="6"
-            md="4"
-          >
-            <ExperimentCard :experiment="experiment" />
-          </v-col>
-        </v-row>
 
         <div
           class="title"
@@ -232,7 +242,7 @@ export default {
         },
         {
           text: this.farmer.name,
-          disabled: true,
+          disabled: true
         }
       ]
     }

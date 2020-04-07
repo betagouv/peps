@@ -5,7 +5,7 @@
       style="max-height: 150px; overflow: hidden;"
       outlined
       slot-scope="{ hover }"
-      :elevation="hover ? 1 : 0"
+      :elevation="hover ? 3 : 1"
       @click="goToExperiment()"
     >
       <div class="d-flex justify-space-between" style="height: 100%">

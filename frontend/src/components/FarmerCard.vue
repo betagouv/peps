@@ -1,5 +1,5 @@
 <template>
-  <v-card class="flex-container">
+  <v-card class="flex-container" outlined>
     <v-list-item class="flex-fix-item" style="margin: 5px 0 0px 0;">
       <v-list-item-avatar color="grey">
         <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
