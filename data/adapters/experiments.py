@@ -1,4 +1,8 @@
+import datetime
+from decimal import Decimal
+from dateutil import parser
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from data.models import Farmer, Experiment
 from data.utils import _get_airtable_data
 from data.airtablevalidators import validate_farmers, validate_experiments
@@ -31,25 +35,38 @@ class ExperimentsAirtableAdapter:
         if has_fatal_errors:
             return errors
 
-        farmers = [Farmer.create_from_airtable(x) for x in json_farmers]
-        Farmer.objects.all().delete()
-        for farmer in farmers:
-            farmer.save()
-            farmer.assign_media_from_airtable()
+        # Farmers added in Airtable should be able to modify their information.
+        # We should have users for each of them who are able to view and edit their info.
+        # farmers = filter(lambda x: x, farmers) # Take those who have been modified recently only
 
-        experiments = [Experiment.create_from_airtable(x) for x in json_experiments]
-        Experiment.objects.all().delete()
-        for experiment in experiments:
-            experiment.save()
-            experiment.assign_media_from_airtable()
+        for json_farmer in json_farmers:
+            airtable_id = json_farmer.get('id')
+            airtable_modification_date = json_farmer['fields'].get('Last Modified') if json_farmer.get('fields') else None
+            if not airtable_id or not airtable_modification_date:
+                continue
 
-        _link_experiments_with_farmers(experiments)
+            (farmer, created) = Farmer.objects.get_or_create(external_id=airtable_id, defaults={'lat': Decimal(0.0), 'lon': Decimal(0.0)})
+
+            if created or parser.isoparse(airtable_modification_date) > farmer.modification_date:
+                farmer.update_from_airtable(json_farmer)
+                farmer.save()
+
+            if farmer.email and not get_user_model().objects.filter(email=farmer.email).first():
+                get_user_model().objects.create_user(email=farmer.email, username=farmer.email, password=get_user_model().objects.make_random_password())
+
+
+        for json_experiment in json_experiments:
+            airtable_id = json_experiment.get('id')
+            airtable_modification_date = json_experiment['fields'].get('Last Modified') if json_experiment.get('fields') else None
+            if not airtable_id or not airtable_modification_date:
+                continue
+
+            (experiment, created) = Experiment.objects.get_or_create(external_id=airtable_id, defaults={'name': ''})
+
+            if created or parser.isoparse(airtable_modification_date) > experiment.modification_date:
+                experiment.update_from_airtable(json_experiment)
+                farmer_external_id = experiment.airtable_json['fields'].get('Agriculteur')[0]
+                experiment.farmer = Farmer.objects.filter(external_id=farmer_external_id).first()
+                experiment.save()
 
         return errors
-
-def _link_experiments_with_farmers(experiments):
-    for experiment in experiments:
-        if experiment.airtable_json:
-            farmer_external_id = experiment.airtable_json['fields'].get('Agriculteur')[0]
-            experiment.farmer = Farmer.objects.filter(external_id=farmer_external_id).first()
-            experiment.save()

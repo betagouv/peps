@@ -7,8 +7,8 @@ from data.utils import get_airtable_media_name, get_airtable_media_content_file
 
 class Experiment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    external_id = models.CharField(max_length=100, db_index=True)
-    modification_date = models.DateTimeField()
+    external_id = models.CharField(max_length=100, db_index=True, null=False, unique=True)
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
     airtable_json = JSONField(null=True, blank=True)
 
@@ -35,36 +35,33 @@ class Experiment(models.Model):
     surface = models.TextField(null=True)
     surface_type = models.TextField(null=True)
 
-    @staticmethod
-    def create_from_airtable(airtable_json):
+    def update_from_airtable(self, airtable_json):
         fields = airtable_json['fields']
         links = [fields.get(x) for x in ('Lien 1', 'Lien 2', 'Lien 3', 'Lien 4') if fields.get(x)]
-        experiment = Experiment(
-            external_id=airtable_json.get('id'),
-            airtable_json=airtable_json,
-            modification_date=timezone.now(),
-            name=fields.get('Titre de l\'XP'),
-            tags=fields.get('Tags'),
-            objectives=fields.get('Objectifs'),
-            method=fields.get('Méthode XP'),
-            temporality=fields.get('Temporalité'),
-            equipment=fields.get('Matériel'),
-            execution=fields.get('Déroulé'),
-            origin=fields.get('Origine'),
-            additional_details=fields.get('Détails supplémentaires'),
-            control_presence=fields.get('Présence d\'un témoin') == 'Oui',
-            ongoing=fields.get('XP en cours') == 'Oui',
-            results=fields.get('Résultats'),
-            results_details=fields.get('Plus d\'information résultats'),
-            links=links,
-            surface=str(fields.get('Surface')) if fields.get('Surface') else None,
-            surface_type=' ,'.join(fields.get('Type surface')) if fields.get('Type surface') else None,
-            description=fields.get('Description'),
-            investment=fields.get('Investissement'),
-            xp_type=fields.get('Type d\'XP'),
-        )
 
-        return experiment
+        self.external_id = airtable_json.get('id')
+        self.airtable_json = airtable_json
+        self.name = fields.get('Titre de l\'XP')
+        self.tags = fields.get('Tags')
+        self.objectives = fields.get('Objectifs')
+        self.method = fields.get('Méthode XP')
+        self.temporality = fields.get('Temporalité')
+        self.equipment = fields.get('Matériel')
+        self.execution = fields.get('Déroulé')
+        self.origin = fields.get('Origine')
+        self.additional_details = fields.get('Détails supplémentaires')
+        self.control_presence = fields.get('Présence d\'un témoin') == 'Oui'
+        self.ongoing = fields.get('XP en cours') == 'Oui'
+        self.results = fields.get('Résultats')
+        self.results_details = fields.get('Plus d\'information résultats')
+        self.links = links
+        self.surface = str(fields.get('Surface')) if fields.get('Surface') else None
+        self.surface_type = ' ,'.join(fields.get('Type surface')) if fields.get('Type surface') else None
+        self.description = fields.get('Description')
+        self.investment = fields.get('Investissement')
+        self.xp_type = fields.get('Type d\'XP')
+
+        self.assign_media_from_airtable()
 
 
     def assign_media_from_airtable(self):

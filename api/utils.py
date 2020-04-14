@@ -97,15 +97,3 @@ class AlpacaUtils:
             except KeyError as _:
                 continue
         return return_list
-
-def email_unknown_callback(email=None):
-    from django.contrib.auth import get_user_model
-    from django import forms
-
-    if not email:
-        raise forms.ValidationError('Connait pas')
-
-    user_model = get_user_model()
-
-    user_model.objects.create_user(email=email, username=email, password=user_model.objects.make_random_password())
-    return email

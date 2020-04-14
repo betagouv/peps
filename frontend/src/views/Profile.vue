@@ -6,20 +6,7 @@
         <div class="display-1 primary--text">{{ displayName }}</div>
       </div>
 
-      <v-card elevation="1" color="#E0F4EE" v-if="loggedUser && !!loggedUser.is_superuser">
-        <v-card-text class="subtitle-2">
-          <v-icon color="amber">mdi-octagram</v-icon>Utilisateur admin
-        </v-card-text>
-        <v-card-text style="padding-top: 0px;">
-          <v-btn class="text-none" color="primary" style="margin-right: 15px;">
-            <v-icon size="20" style="margin: 0px 5px 0 0;">mdi-beaker-outline</v-icon>Mettre à jour les données XP
-          </v-btn>
-
-          <v-btn class="text-none">
-            <v-icon size="20" style="margin: 0px 5px 0 0;">mdi-format-list-checks</v-icon>Mettre à jour les données formulaire
-          </v-btn>
-        </v-card-text>
-      </v-card>
+      <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
       <div class="title" style="margin-top: 20px;">
         <span>Mes informations</span>
@@ -96,10 +83,11 @@
 <script>
 import Title from "@/components/Title.vue"
 import ExperimentCard from "@/components/ExperimentCard.vue"
+import AdminCard from "@/components/AdminCard.vue"
 
 export default {
   name: "Profile",
-  components: { Title, ExperimentCard },
+  components: { Title, ExperimentCard, AdminCard },
   data() {
     return {
       title: "Mon compte",

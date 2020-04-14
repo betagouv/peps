@@ -14,7 +14,7 @@ class PracticeGroup(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100)
-    modification_date = models.DateTimeField()
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
 
     airtable_json = JSONField(null=True, blank=True)
@@ -27,7 +27,6 @@ class PracticeGroup(models.Model):
         return PracticeGroup(
             external_id=airtable_json.get('id'),
             airtable_json=airtable_json,
-            modification_date=timezone.now(),
             name=airtable_json['fields'].get('Nom'),
             description=airtable_json['fields'].get('Description'),
         )

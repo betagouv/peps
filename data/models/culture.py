@@ -28,7 +28,7 @@ class Culture(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100, db_index=True)
-    modification_date = models.DateTimeField()
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
 
     airtable_json = JSONField(null=True, blank=True)
@@ -65,7 +65,6 @@ class Culture(models.Model):
         return Culture(
             external_id=airtable_json.get('id'),
             airtable_json=airtable_json,
-            modification_date=timezone.now(),
             display_text=airtable_json['fields'].get('Name'),
             sowing_period=sowing_period,
             sowing_months=sowing_months

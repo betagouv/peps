@@ -13,7 +13,7 @@ class Mechanism(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100)
-    modification_date = models.DateTimeField()
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
 
     airtable_json = JSONField(null=True, blank=True)
@@ -26,7 +26,6 @@ class Mechanism(models.Model):
     def create_from_airtable(airtable_json):
         return Mechanism(
             external_id=airtable_json.get('id'),
-            modification_date=timezone.now(),
             airtable_json=airtable_json,
             airtable_url='https://airtable.com/tbliz8fD7ZaoqIugz/' + airtable_json.get('id') + '/',
             name=airtable_json['fields'].get('Name'),

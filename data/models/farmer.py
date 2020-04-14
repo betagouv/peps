@@ -7,8 +7,8 @@ from data.utils import get_airtable_media_name, get_airtable_media_content_file
 
 class Farmer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    external_id = models.CharField(max_length=100, db_index=True)
-    modification_date = models.DateTimeField()
+    external_id = models.CharField(max_length=100, db_index=True, null=False, unique=True)
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True)
@@ -43,46 +43,50 @@ class Farmer(models.Model):
     output = models.TextField(null=True)
 
 
-
-    @staticmethod
-    def create_from_airtable(airtable_json):
+    def update_from_airtable(self, airtable_json):
         fields = airtable_json['fields']
         links = [fields.get(x) for x in ('Facebook', 'Twitter', 'Youtube', 'Site') if fields.get(x)]
-        farmer = Farmer(
-            external_id=airtable_json.get('id'),
-            airtable_json=airtable_json,
-            modification_date=timezone.now(),
-            name=fields.get('Prénom et Nom'),
-            production=fields.get('Productions'),
-            groups=fields.get('Groupes'),
-            agriculture_types=fields.get('Tag agriculture'),
-            postal_code=fields.get('Code postal'),
-            lat=Decimal(fields.get('Latitude')),
-            lon=Decimal(fields.get('Longitude')),
-            installation_date=fields.get('Date d\'installation'),
-            personnel=str(fields.get('Main d\'oeuvre')) if fields.get('Main d\'oeuvre') else None,
-            livestock_type=' ,'.join(fields.get('Type d\'élevage')) if fields.get('Type d\'élevage') else None,
-            livestock_number=str(fields.get('Nombre animaux')) if fields.get('Nombre animaux') else None,
-            cultures=fields.get('Cultures'),
-            soil_type=fields.get('Types sols'),
-            description=fields.get('Description exploitation'),
-            specificities=fields.get('Spécificités'),
-            contact_possible=fields.get('Contact possible') == 'Oui',
-            links=links,
-            surface=str(fields.get('Surface')),
-            surface_cultures=str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None,
-            surface_meadows=str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None,
-            output=str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None,
-            email=fields.get('Adresse email'),
-        )
+
+        self.external_id = airtable_json.get('id')
+        self.airtable_json = airtable_json
+        self.name = fields.get('Prénom et Nom')
+        self.production = fields.get('Productions')
+        self.groups = fields.get('Groupes')
+        self.agriculture_types = fields.get('Tag agriculture')
+        self.postal_code = fields.get('Code postal')
+        self.lat = Decimal(fields.get('Latitude'))
+        self.lon = Decimal(fields.get('Longitude'))
+        self.installation_date = fields.get('Date d\'installation')
+        self.personnel = str(fields.get('Main d\'oeuvre')) if fields.get('Main d\'oeuvre') else None
+        self.livestock_type = ' ,'.join(fields.get('Type d\'élevage')) if fields.get('Type d\'élevage') else None
+        self.livestock_number = str(fields.get('Nombre animaux')) if fields.get('Nombre animaux') else None
+        self.cultures = fields.get('Cultures')
+        self.soil_type = fields.get('Types sols')
+        self.description = fields.get('Description exploitation')
+        self.specificities = fields.get('Spécificités')
+        self.contact_possible = fields.get('Contact possible') == 'Oui'
+        self.links = links
+        self.surface = str(fields.get('Surface'))
+        self.surface_cultures = str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None
+        self.surface_meadows = str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None
+        self.output = str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None
+        self.email = fields.get('Adresse email')
+
+        self.assign_main_image_from_airtable()
+        self.assign_additional_images_from_airtable()
+
+    def assign_media_from_airtable(self):
+        self.assign_main_image_from_airtable()
+        self.assign_additional_images_from_airtable()
+
+    def assign_main_image_from_airtable(self):
+        airtable_json = self.airtable_json
         image_name = get_airtable_media_name(airtable_json, 'Photo')
         image_content_file = get_airtable_media_content_file(airtable_json, 'Photo')
         if image_name and image_content_file:
-            farmer.profile_image.save(image_name, image_content_file, save=True)
-        return farmer
+            self.profile_image.save(image_name, image_content_file, save=True)
 
-
-    def assign_media_from_airtable(self):
+    def assign_additional_images_from_airtable(self):
         fields = self.airtable_json['fields']
         for media in fields.get('Photos additionnelles', []):
             is_image = 'image' in media.get('type')
@@ -97,7 +101,8 @@ class Farmer(models.Model):
                 farm_image.farmer = self
                 farm_image.image.save(media_name, media_content_file, save=True)
 
-
+    def create_user_if_needed(self):
+        pass
 
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields

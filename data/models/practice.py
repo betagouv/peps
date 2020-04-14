@@ -18,7 +18,7 @@ class Practice(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100)
-    modification_date = models.DateTimeField()
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(null=True)
 
@@ -176,7 +176,6 @@ class Practice(models.Model):
             pest_multipliers=Practice._get_pest_multipliers(airtable_json, json_pests, json_pest_practices),
             weed_whitelist_external_ids=fields.get('Adventices whitelist', []),
             pest_whitelist_external_ids=fields.get('Ravageurs whitelist', []),
-            modification_date=timezone.now(),
         )
         image_name = get_airtable_media_name(airtable_json, 'Image principale')
         image_content_file = get_airtable_media_content_file(airtable_json, 'Image principale')

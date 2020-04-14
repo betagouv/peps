@@ -18,7 +18,7 @@ class Resource(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100)
-    modification_date = models.DateTimeField()
+    modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
 
     airtable_json = JSONField(null=True, blank=True)
@@ -40,7 +40,6 @@ class Resource(models.Model):
         url = airtable_json['fields'].get('Url')
         resource = Resource(
             external_id=airtable_json.get('id'),
-            modification_date=timezone.now(),
             airtable_json=airtable_json,
             airtable_url='https://airtable.com/tblVb2GDuCPGUrt35/' + airtable_json.get('id') + '/',
             name=airtable_json['fields'].get('Nom'),

@@ -48,7 +48,7 @@ class RefreshDataApiView(APIView):
     This view will refresh the DB for practice data
     """
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAdminUser | HasAPIKey]
+    permission_classes = [permissions.IsAdminUser]
 
     def post(self, request):
         errors = PracticesAirtableAdapter.update()
@@ -63,7 +63,7 @@ class RefreshXPDataApiView(APIView):
     This view will refresh the DB for XP data
     """
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAdminUser | HasAPIKey]
+    permission_classes = [permissions.IsAdminUser]
 
     def post(self, request):
         errors = ExperimentsAirtableAdapter.update()
