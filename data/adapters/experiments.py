@@ -4,7 +4,7 @@ from dateutil import parser
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from data.models import Farmer, Experiment
-from data.utils import _get_airtable_data
+from data.utils import _get_airtable_data, _patch_airtable_data
 from data.airtablevalidators import validate_farmers, validate_experiments
 
 class ExperimentsAirtableAdapter:
@@ -70,3 +70,13 @@ class ExperimentsAirtableAdapter:
                 experiment.save()
 
         return errors
+
+    @staticmethod
+    def updateExperiment(experiment, updatedFields):
+        base = settings.AIRTABLE_XP_BASE
+        data = {
+            'records': [
+                experiment.get_airtable_patch_payload(updatedFields)
+            ]
+        }
+        return _patch_airtable_data('XP', base, data)

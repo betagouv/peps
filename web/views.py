@@ -1,13 +1,16 @@
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
-class FormView(LoginRequiredMixin, TemplateView):
+class FormView(UserPassesTestMixin, TemplateView):
     """
     This view is the in-house basic form.
     """
     template_name = 'basic-form.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 class VueAppDisplayView(TemplateView):
     """

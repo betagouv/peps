@@ -131,4 +131,10 @@ body .buorg .buorg-buttons {
 .constrained {
   max-width: 1000px;
 }
+
+// https://github.com/Leaflet/Leaflet/issues/4686
+.leaflet-fade-anim .leaflet-tile,
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  will-change: auto !important;
+}
 </style>

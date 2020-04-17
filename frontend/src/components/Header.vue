@@ -94,7 +94,7 @@ export default {
       return this.$store.state.loggedUser
     },
     isXPPage() {
-      const xpPages = ["Contribution", "Farmer", "Experiment", "Map", "Profile"]
+      const xpPages = ["Contribution", "Farmer", "Experiment", "Map", "Profile" , "ExperimentEditor"]
       return xpPages.indexOf(this.$route.name) > -1
     },
     farmer() {

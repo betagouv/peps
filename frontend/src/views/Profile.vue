@@ -10,9 +10,6 @@
 
       <div class="title" style="margin-top: 20px;">
         <span>Mes informations</span>
-        <v-btn class="text-none" small fab style="margin-left: 15px; margin-top: -5px;">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
       </div>
 
       <div v-if="farmer">
@@ -30,10 +27,7 @@
           <v-icon style="margin-top: -2px; margin-right: 3px;" small>mdi-tractor</v-icon>
           <span class="subtitle-2" style="margin-right: 10px;">Types d'agriculture</span>
           <span class="body-2" v-if="farmer.agriculture_types">
-            <span
-              v-for="(agricultureType, index) in farmer.agriculture_types"
-              :key="index"
-            >
+            <span v-for="(agricultureType, index) in farmer.agriculture_types" :key="index">
               {{agricultureType}}
               <span
                 v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1"
@@ -43,7 +37,7 @@
           <span v-else class="body-2">Nous ne connaissons pas votre type d'agriculture</span>
         </div>
 
-      <div style="margin-top: 0px;">
+        <div style="margin-top: 0px;">
           <v-icon style="margin-top: -2px; margin-right: 3px;" small>mdi-account-group</v-icon>
           <span class="subtitle-2" style="margin-right: 10px;">Groupes</span>
           <span class="body-2" v-if="farmer.groups">
@@ -68,9 +62,15 @@
           sm="6"
           md="4"
         >
-        <v-btn class="text-none" small fab style="position: relative; z-index: 9; top: 15px;">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
+          <v-btn
+            @click="editXP(experiment)"
+            class="text-none"
+            small
+            fab
+            style="position: relative; z-index: 9; top: 15px;"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
           <ExperimentCard :experiment="experiment" />
         </v-col>
       </v-row>
@@ -123,6 +123,11 @@ export default {
         return this.loggedUser.username
 
       return this.loggedUser.email
+    }
+  },
+  methods: {
+    editXP(xp) {
+      this.$router.push({ name: "ExperimentEditor", query: { xp: xp.name } })
     }
   }
 }

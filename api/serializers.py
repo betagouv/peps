@@ -141,6 +141,10 @@ class ExperimentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Experiment
+        read_only_fields = [
+            'id',
+            'external_id',
+        ]
         fields = (
             'id',
             'external_id',
@@ -178,6 +182,10 @@ class FarmerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farmer
+        read_only_fields = [
+            'id',
+            'external_id',
+        ]
         fields = (
             'id',
             'external_id',

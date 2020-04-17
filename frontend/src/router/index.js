@@ -14,6 +14,7 @@ import Farmer from '@/views/Farmer.vue'
 import Experiment from '@/views/Experiment.vue'
 import Contribution from '@/views/Contribution.vue'
 import Profile from '@/views/Profile.vue'
+import ExperimentEditor from '@/views/ExperimentEditor.vue'
 
 Vue.use(VueRouter)
 
@@ -82,6 +83,16 @@ const routes = [
       return {
         farmerName: route.params.farmerName,
         experimentName: route.params.expName
+      }
+    }
+  },
+  {
+    path: '/editeurXP/',
+    name: 'ExperimentEditor',
+    component: ExperimentEditor,
+    props: (route) => {
+      return {
+        experimentName: route.query.xp
       }
     }
   },

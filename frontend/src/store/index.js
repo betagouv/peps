@@ -28,6 +28,7 @@ export default new Vuex.Store({
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
     farmersLoadingStatus: Constants.LoadingStatus.IDLE,
+    experimentEditLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
     statsFormDefinition: {},
@@ -118,6 +119,7 @@ export default new Vuex.Store({
       state.implementationLoadingStatus = Constants.LoadingStatus.IDLE
       state.categoriesLoadingStatus = Constants.LoadingStatus.IDLE
       state.farmersLoadingStatus = Constants.LoadingStatus.IDLE
+      state.experimentEditLoadingStatus = Constants.LoadingStatus.IDLE
     },
     SET_SELECTED_FARMER(state, { selectedFarmer }) {
       state.selectedFarmerExternalId = selectedFarmer.external_id
@@ -128,6 +130,19 @@ export default new Vuex.Store({
     SET_LOGGED_USER(state, loggedUser) {
       state.loggedUser = loggedUser
     },
+    SET_EXPERIMENT_EDIT_LOADING_STATUS(state, status) {
+      state.experimentEditLoadingStatus = status
+    },
+    UPDATE_XP(state, newExperiment) {
+      for (let i = 0; i < state.farmers.length; i++) {
+        const farmer = state.farmers[i]
+        const experimentIndex = farmer.experiments.findIndex(x => x.id === newExperiment.id)
+        if (experimentIndex > -1) {
+          farmer.experiments[experimentIndex] = newExperiment
+          break
+        }
+      }
+    }
   },
   actions: {
     fetchFormDefinitions(context) {
@@ -267,7 +282,19 @@ export default new Vuex.Store({
     },
     setSelectedDepartment(context, { department }) {
       context.commit('SET_SELECTED_DEPARTMENT', { selectedDepartment: department })
-    }
+    },
+    patchExperiment(context, { experiment, changes }) {
+      context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.patch('api/v1/experiments/' + experiment.id, changes, { headers }).then(response => {
+        context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+        context.commit('UPDATE_XP', response.body)
+      }).catch(() => {
+        context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    resetExperimentEditLoadingStatus(context) {
+      context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.IDLE)
+    },
   },
   modules: {
   },

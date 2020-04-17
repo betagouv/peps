@@ -137,3 +137,14 @@ def _get_airtable_data(url, base, offset=None):
     if offset:
         return records + _get_airtable_data(url, base, offset)
     return records
+
+def _patch_airtable_data(url, base, data):
+    time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
+    base_url = 'https://api.airtable.com/v0/' + base + '/'
+    headers = {
+        'Authorization': 'Bearer ' + settings.AIRTABLE_API_KEY,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    response = requests.patch(base_url + url, json.dumps(data), headers=headers)
+    return response.status_code >= 200 and response.status_code < 300

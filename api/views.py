@@ -4,17 +4,17 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework import permissions, authentication
-from rest_framework_api_key.permissions import HasAPIKey
 import asana
 from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
-from data.models import GroupCount, RefererCount, Category, Farmer
+from data.models import GroupCount, RefererCount, Category, Farmer, Experiment
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
-from api.serializers import FarmerSerializer, UserSerializer
+from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
 from api.formschema import get_form_schema
 from api.models import Response
+from api.permissions import IsExperimentAuthor
 
 class RankingsApiView(APIView):
     """
@@ -189,6 +189,22 @@ class DiscardActionView(CreateAPIView):
 class FarmersView(ListAPIView):
     queryset = Farmer.objects
     serializer_class = FarmerSerializer
+
+class ExperimentView(UpdateAPIView):
+    permission_classes = (IsExperimentAuthor, )
+    serializer_class = ExperimentSerializer
+    queryset = Experiment.objects
+
+    def put(self, request, *args, **kwargs):
+        return JsonResponse({'error': 'Only PATCH request supported in this resource'}, status=405)
+
+    def patch(self, request, *args, **kwargs):
+        experiment = Experiment.objects.get(id=kwargs['pk'])
+        if not experiment:
+            return JsonResponse({'error': 'Experiment not found'}, status=400)
+        if ExperimentsAirtableAdapter.updateExperiment(experiment, request.data):
+            return self.partial_update(request, *args, **kwargs)
+        return JsonResponse({'error': 'Airtable saving failed'}, status=500)
 
 class LoggedUserView(RetrieveAPIView):
     model = User
