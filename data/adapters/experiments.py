@@ -51,8 +51,11 @@ class ExperimentsAirtableAdapter:
                 farmer.update_from_airtable(json_farmer)
                 farmer.save()
 
-            if farmer.email and not get_user_model().objects.filter(email=farmer.email).first():
-                get_user_model().objects.create_user(email=farmer.email, username=farmer.email, password=get_user_model().objects.make_random_password())
+            if farmer.email:
+                farmer_email = farmer.email.strip().lower()
+                if not get_user_model().objects.filter(email=farmer_email).first():
+                    random_password = get_user_model().objects.make_random_password()
+                    get_user_model().objects.create_user(email=farmer_email, username=farmer_email, password=random_password)
 
 
         for json_experiment in json_experiments:
@@ -61,7 +64,7 @@ class ExperimentsAirtableAdapter:
             if not airtable_id or not airtable_modification_date:
                 continue
 
-            (experiment, created) = Experiment.objects.get_or_create(external_id=airtable_id, defaults={'name': ''})
+            (experiment, created) = Experiment.objects.get_or_create(external_id=airtable_id, defaults={'name': airtable_id})
 
             if created or parser.isoparse(airtable_modification_date) > experiment.modification_date:
                 experiment.update_from_airtable(json_experiment)
@@ -76,7 +79,7 @@ class ExperimentsAirtableAdapter:
         base = settings.AIRTABLE_XP_BASE
         data = {
             'records': [
-                Experiment.get_airtable_patch_payload(updated_fields, external_id=experiment.external_id)
+                Experiment.get_airtable_payload(updated_fields, external_id=experiment.external_id)
             ]
         }
         return _patch_airtable_data('XP', base, data)
@@ -84,7 +87,7 @@ class ExperimentsAirtableAdapter:
     @staticmethod
     def create_experiment(payload, farmer_external_id):
         base = settings.AIRTABLE_XP_BASE
-        record = Experiment.get_airtable_patch_payload(payload)
+        record = Experiment.get_airtable_payload(payload)
         record['fields']['Agriculteur'] = [farmer_external_id]
 
         data = {'records': [record]}

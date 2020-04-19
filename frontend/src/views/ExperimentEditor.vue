@@ -65,6 +65,73 @@
         </div>
 
         <div class="field">
+          <div
+            class="field-title title"
+          >Ajouter les labels qui vous sembles pertinents pour cette expérimentation</div>
+          <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Maladies"
+            value="Maladies"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Insectes et ravageurs"
+            value="Insectes et ravageurs"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Adventices"
+            value="Adventices"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Environnement & biodiversité"
+            value="Environnement & biodiversité"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Diversification"
+            value="Diversification"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Autonomie fourragère"
+            value="Autonomie fourragère"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Productivité"
+            value="Productivité"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Organisation du travail"
+            value="Organisation du travail"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Réduction des charges"
+            value="Réduction des charges"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.tags"
+            label="Autre"
+            value="Autre"
+          ></v-checkbox>
+        </div>
+
+        <div class="field">
           <div class="field-title title">L'expérimentation est-elle en cours aujourd'hui ?</div>
           <div
             class="field-helper subtitle-2 grey--text"
@@ -126,6 +193,44 @@
             v-model="dummyExperiment.description"
           ></v-textarea>
         </div>
+
+
+        <div class="field">
+          <div
+            class="field-title title"
+          >Sur quelle surface portait l'expérimentation ?</div>
+          <div class="field-helper subtitle-2 grey--text">"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.surface_type"
+            label="Toutes les surfaces"
+            value="Toutes les surfaces"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.surface_type"
+            label="Plusieurs parcelles"
+            value="Plusieurs parcelles"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.surface_type"
+            label="Une parcelle"
+            value="Une parcelle"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.surface_type"
+            label="Des bandes"
+            value="Des bandes"
+          ></v-checkbox>
+          <v-checkbox
+            @click="hasChanged = true"
+            v-model="dummyExperiment.surface_type"
+            label="Des carrés"
+            value="Des carrés"
+          ></v-checkbox>
+        </div>
         <!-- <div class="field">
         <div class="field-title title">Combien d'ha cela représente ?</div>
         <v-textarea
@@ -141,7 +246,7 @@
         <div class="field">
           <div class="field-title title">Avez-vous mis en place un témoin ?</div>
           <div class="field-helper subtitle-2 grey--text">
-            C'est à dire une surface similaire qui permet de valider les résultats obtenus
+            C'est à dire une surface similaire qui permet de valider les résultats obtenus.
             Si ce n'est pas pertinent, dites Non
           </div>
           <v-radio-group
@@ -223,12 +328,10 @@
           <v-card-text style="padding: 30px; color: #333;">
             <span v-if="updateSucceeded">
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
-              <span v-if="experimentName">
-              Votre expérimentation a bien été mise à jour !
-              </span>
-              <span v-else>
-              Votre expérimentation a bien été créée ! Notre équipe la mettra en ligne bientôt.
-              </span>
+              <span v-if="experimentName">Votre expérimentation a bien été mise à jour !</span>
+              <span
+                v-else
+              >Votre expérimentation a bien été créée ! Notre équipe la mettra en ligne bientôt.</span>
             </span>
             <span v-else>
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On a pas pu mettre à jour l'expérimentation. Veuillez essayer plus tard.
@@ -348,7 +451,7 @@ export default {
           changes: payload
         })
       } else {
-        this.$store.dispatch('createExperiment', {
+        this.$store.dispatch("createExperiment", {
           payload: this.dummyExperiment
         })
       }
@@ -385,10 +488,14 @@ export default {
 .field-helper {
   margin-bottom: 5px;
 }
+.v-input--checkbox {
+  margin-top: 0;
+  padding-top: 0;
+}
 </style>
 
 <style>
-/* #xp-edit .v-text-field--outlined fieldset {
-  border-color: #c8c8c8;
-} */
+.v-input--checkbox .v-input__slot {
+  margin-bottom: 0;
+}
 </style>

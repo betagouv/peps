@@ -72,7 +72,7 @@
             >{{experiment.surface}}</span>
             <span
               v-else-if="!experiment.surface && experiment.surface_type"
-            >{{experiment.surface_type}}</span>
+            >{{experiment.surface_type.join ? experiment.surface_type.join(', ') : experiment.surface_type}}</span>
             <span
               v-else
               style="text-transform: lowercase;"

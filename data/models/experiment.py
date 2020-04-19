@@ -54,7 +54,7 @@ class Experiment(models.Model):
     xp_type = models.TextField(null=True)
 
     surface = models.TextField(null=True)
-    surface_type = models.TextField(null=True)
+    surface_type = ArrayField(models.TextField(), blank=True, null=True)
 
     def update_from_airtable(self, airtable_json):
         fields = airtable_json['fields']
@@ -64,10 +64,9 @@ class Experiment(models.Model):
         setattr(self, 'external_id', airtable_json.get('id'))
         setattr(self, 'links', links)
 
-        setattr(self, 'control_presence', fields.get(MAPPINGS.get('control_presence') == 'Oui'))
+        setattr(self, 'control_presence', fields.get(MAPPINGS.get('control_presence')) == 'Oui')
         setattr(self, 'ongoing', fields.get(MAPPINGS.get('ongoing')) == 'Oui')
         setattr(self, 'surface', str(fields.get(MAPPINGS.get('surface'))) if fields.get(MAPPINGS.get('surface')) else None)
-        setattr(self, 'surface_type', ' ,'.join(fields.get(MAPPINGS.get('surface_type'))) if fields.get(MAPPINGS.get('surface_type')) else None)
 
         # These fields can be fetched directly into this model's properties, no further treatment is needed
         direct_fields = [
@@ -85,9 +84,11 @@ class Experiment(models.Model):
             'xp_type',
             'results',
             'results_details',
+            'surface_type',
         ]
         for direct_field in direct_fields:
-            setattr(self, direct_field, fields.get(MAPPINGS.get(direct_field)))
+            value = fields.get(MAPPINGS.get(direct_field))
+            setattr(self, direct_field, value)
 
         self.assign_media_from_airtable()
 
@@ -113,13 +114,13 @@ class Experiment(models.Model):
                 experiment_video.video.save(media_name, media_content_file, save=True)
 
     @staticmethod
-    def get_airtable_patch_payload(changes, external_id=None):
+    def get_airtable_payload(changes, external_id=None):
         payload = {
             'fields': {}
         }
 
         if external_id:
-            payload['id'] = external_id,
+            payload['id'] = external_id
 
         # These fields can be fetched serialized directly into the payload, no further treatment is needed
         direct_fields = [
@@ -138,20 +139,22 @@ class Experiment(models.Model):
             'results',
             'results_details',
             'surface',
+            'surface_type',
         ]
         for direct_field in direct_fields:
             if direct_field in changes:
                 payload['fields'][MAPPINGS.get(direct_field)] = changes[direct_field]
 
-        if 'control_presence' in direct_fields:
+        if 'control_presence' in changes:
             payload['fields'][MAPPINGS.get('control_presence')] = 'Oui' if changes['control_presence'] else 'Non'
 
-        if 'ongoing' in direct_fields:
+        if 'ongoing' in changes:
             payload['fields'][MAPPINGS.get('ongoing')] = 'Oui' if changes['ongoing'] else 'Non'
 
         # TODO: missing fields
         # links
-        # surface_type
+        # photos
+        # videos
 
         return payload
 
