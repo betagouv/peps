@@ -8,55 +8,11 @@
 
       <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
-      <div class="title" style="margin-top: 20px;">
-        <span>Mes informations</span>
-      </div>
-
-      <div v-if="farmer">
-        <div style="margin-top: 0px;">
-          <v-icon style="margin-top: -2px; margin-right: 3px;" small>mdi-account</v-icon>
-          <span class="subtitle-2" style="margin-right: 10px;">Nom</span>
-          <span class="body-2">{{farmer.name}}</span>
-        </div>
-        <div style="margin-top: 0px;">
-          <v-icon style="margin-top: -2px; margin-right: 3px;" small>mdi-leaf</v-icon>
-          <span class="subtitle-2" style="margin-right: 10px;">Cultures</span>
-          <span class="body-2">{{farmer.cultures || 'Nous ne connaissons pas vos cultures'}}</span>
-        </div>
-        <div style="margin-top: 0px;">
-          <v-icon style="margin-top: -2px; margin-right: 3px;" small>mdi-tractor</v-icon>
-          <span class="subtitle-2" style="margin-right: 10px;">Types d'agriculture</span>
-          <span class="body-2" v-if="farmer.agriculture_types">
-            <span v-for="(agricultureType, index) in farmer.agriculture_types" :key="index">
-              {{agricultureType}}
-              <span
-                v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1"
-              >,</span>
-            </span>
-          </span>
-          <span v-else class="body-2">Nous ne connaissons pas votre type d'agriculture</span>
-        </div>
-
-        <div style="margin-top: 0px;">
-          <v-icon style="margin-top: -2px; margin-right: 3px;" small>mdi-account-group</v-icon>
-          <span class="subtitle-2" style="margin-right: 10px;">Groupes</span>
-          <span class="body-2" v-if="farmer.groups">
-            <span v-for="(group, index) in farmer.groups" :key="index">
-              {{group}}
-              <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
-            </span>
-          </span>
-          <span v-else class="body-2">Nous ne connaissons pas les groupes dont vous faites partie</span>
-        </div>
-      </div>
-
-      <div v-else>Il nous manquent quelques informations sur vous</div>
-
-      <div class="title" style="margin-top: 20px;">Mes expérimentations</div>
-
-      <v-btn class="text-none" style="margin-top: 10px;" @click="createXP">
+      <v-btn class="text-none" style="margin-top: 10px;" v-if="!!farmer" @click="createXP">
         <v-icon style="margin-right: 10px;">mdi-flask-empty-plus-outline</v-icon>Partager une nouvelle expérimentation
       </v-btn>
+
+      <div class="title" style="margin-top: 30px; margin-bottom: -10px;">Mes expérimentations</div>
 
       <v-row v-if="farmer && farmer.experiments && farmer.experiments.length > 0">
         <v-col

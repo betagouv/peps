@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django_better_admin_arrayfield',
     'webpack_loader',
     'rest_framework',
     'rest_framework_api_key',

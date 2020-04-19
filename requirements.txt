@@ -6,6 +6,7 @@ botocore==1.14.5
 certifi==2019.6.16
 chardet==3.0.4
 Django==3.0.3
+django-better-admin-arrayfield==1.0.6
 django-magicauth==0.3
 django-storages==1.9.1
 django-webpack-loader==0.6.0

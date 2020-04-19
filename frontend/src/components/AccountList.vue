@@ -74,6 +74,8 @@ export default {
       this.$router.push({ name: "Contribution" })
     },
     goToProfile() {
+      if (this.$route.name === 'Profile')
+        return
       window.sendTrackingEvent("Header", "Profile", this.loggedUser.email)
       this.$router.push({
         name: "Profile"

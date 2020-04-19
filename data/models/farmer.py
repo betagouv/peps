@@ -2,8 +2,45 @@ import uuid
 from decimal import Decimal
 from django.utils import timezone
 from django.db import models
-from django.contrib.postgres.fields import JSONField, ArrayField
+from django.contrib.postgres.fields import JSONField
+from django_better_admin_arrayfield.models.fields import ArrayField
 from data.utils import get_airtable_media_name, get_airtable_media_content_file
+from data.forms import ChoiceArrayField
+
+PRODUCTIONS = (
+    ('Grandes cultures', 'Grandes cultures'),
+    ('Cultures industrielles', 'Cultures industrielles'),
+    ('Élevage allaitant', 'Élevage allaitant'),
+    ('Élevage laitier', 'Élevage laitier'),
+    ('Cultures légumières', 'Cultures légumières'),
+    ('Vigne', 'Vigne'),
+    ('Autre', 'Autre'),
+)
+
+GROUPS = (
+    ('DEPHY', 'DEPHY'),
+    ('GIEE', 'GIEE'),
+    ('30000', '30000'),
+    ('CETA', 'CETA'),
+    ('Groupe de coopérative', 'Groupe de coopérative'),
+    ('Groupe de négoce', 'Groupe de négoce'),
+    ('Groupe de chambre d\'agriculture', 'Groupe de chambre d\'agriculture'),
+    ('Groupe de voisins', 'Groupe de voisins'),
+    ('CUMA', 'CUMA'),
+    ('Autre', 'Autre'),
+)
+
+TYPE_AGRICULTURE = (
+    ('Agriculture Biologique', 'Agriculture Biologique'),
+    ('Agriculture de Conservation des Sols', 'Agriculture de Conservation des Sols'),
+    ('Techniques Culturales Simplifiées', 'Techniques Culturales Simplifiées'),
+    ('Labour occasionnel', 'Labour occasionnel'),
+    ('Agroforesterie', 'Agroforesterie'),
+    ('Conventionnel', 'Conventionnel'),
+    ('Cahier des charges industriel', 'Cahier des charges industriel'),
+    ('Label qualité', 'Label qualité'),
+    ('Autre', 'Autre'),
+)
 
 class Farmer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -16,9 +53,9 @@ class Farmer(models.Model):
     email = models.EmailField(db_index=True)
 
     name = models.TextField(null=True)
-    production = ArrayField(models.CharField(max_length=100), blank=True, null=True)
-    groups = ArrayField(models.CharField(max_length=200), blank=True, null=True)
-    agriculture_types = ArrayField(models.TextField(), blank=True, null=True)
+    production = ChoiceArrayField(models.CharField(max_length=100, choices=PRODUCTIONS), default=list)
+    groups = ChoiceArrayField(models.CharField(max_length=200, choices=GROUPS), default=list)
+    agriculture_types = ChoiceArrayField(models.TextField(choices=TYPE_AGRICULTURE), default=list)
     profile_image = models.ImageField(null=True)
     postal_code = models.CharField(max_length=20, null=True)
     lat = models.DecimalField(max_digits=9, decimal_places=6)
@@ -34,7 +71,7 @@ class Farmer(models.Model):
     contact_possible = models.BooleanField(default=False)
 
 
-    links = ArrayField(models.TextField(), blank=True, null=True)
+    links = ArrayField(models.TextField(), default=list)
 
     surface = models.TextField(null=True)
     surface_cultures = models.TextField(null=True)
@@ -104,9 +141,13 @@ class Farmer(models.Model):
     def create_user_if_needed(self):
         pass
 
+    def __str__(self):
+        return self.name
+
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields
 # https://code.djangoproject.com/ticket/25756#no1
 class FarmImage(models.Model):
     farmer = models.ForeignKey(Farmer, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
+    label = models.TextField(null=True)

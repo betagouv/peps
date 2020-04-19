@@ -96,7 +96,6 @@ const routes = [
       }
     },
     beforeEnter: (route, _, next) => {
-      console.log(store.state.loggedUser)
       // This view is not accessible to unlogged users
       if (!store.state.loggedUser) {
         next({ name: 'Landing' })

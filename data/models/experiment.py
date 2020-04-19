@@ -1,9 +1,11 @@
 import uuid
 from django.utils import timezone
 from django.db import models
-from django.contrib.postgres.fields import JSONField, ArrayField
+from django.contrib.postgres.fields import JSONField
+from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer
 from data.utils import get_airtable_media_name, get_airtable_media_content_file
+from data.forms import ChoiceArrayField
 
 MAPPINGS = {
     'name': 'Titre de l\'XP',
@@ -26,6 +28,43 @@ MAPPINGS = {
     'xp_type': 'Type d\'XP',
 }
 
+# (Stored in db, seen in drop-down)
+XP_TYPE = (
+    ('Changement important de l\'exploitation', 'Changement important de l\'exploitation'),
+    ('Amélioration de l\'existant', 'Amélioration de l\'existant'),
+)
+
+TAGS = (
+    ("Changement important de l'exploitation", "Changement important de l'exploitation"),
+    ("Amélioration de l'existant", "Amélioration de l'existant"),
+    ("Maladies", "Maladies"),
+    ("Insectes et ravageurs", "Insectes et ravageurs"),
+    ("Adventices", "Adventices"),
+    ("Environnement & biodiversité", "Environnement & biodiversité"),
+    ("Diversification", "Diversification"),
+    ("Autonomie fourragère", "Autonomie fourragère"),
+    ("Productivité", "Productivité"),
+    ("Organisation du travail", "Organisation du travail"),
+    ("Réduction des charges", "Réduction des charges"),
+    ("Autre", "Autre"),
+)
+
+RESULTS = (
+    ("XP qui fonctionne, elle est intégrée à l'exploitation", "XP qui fonctionne, elle est intégrée à l'exploitation"),
+    ("XP prometteuse, en cours d'amélioration", "XP prometteuse, en cours d'amélioration"),
+    ("XP abandonnée, les résultats ne sont pas satisfaisants", "XP abandonnée, les résultats ne sont pas satisfaisants"),
+    ("XP en suspens, les conditions ne sont plus réunies", "XP en suspens, les conditions ne sont plus réunies"),
+    ("XP qui commence, les premiers résultats sont à venir", "XP qui commence, les premiers résultats sont à venir"),
+)
+
+SURFACE_TYPE = (
+    ("Toutes les surfaces", "Toutes les surfaces"),
+    ("Plusieurs parcelles", "Plusieurs parcelles"),
+    ("Une parcelle", "Une parcelle"),
+    ("Des bandes", "Des bandes"),
+    ("Des carrés", "Des carrés"),
+)
+
 class Experiment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100, db_index=True, null=False, unique=True)
@@ -35,7 +74,7 @@ class Experiment(models.Model):
 
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
 
-    tags = ArrayField(models.TextField(), blank=True, null=True)
+    tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list)
     name = models.TextField(unique=True)
     objectives = models.TextField(null=True)
     method = models.TextField(null=True)
@@ -46,15 +85,15 @@ class Experiment(models.Model):
     additional_details = models.TextField(null=True)
     control_presence = models.BooleanField(null=True)
     ongoing = models.BooleanField(null=True)
-    results = models.TextField(null=True)
+    results = models.TextField(null=True, choices=RESULTS)
     results_details = models.TextField(null=True)
-    links = ArrayField(models.TextField(), blank=True, null=True)
+    links = ArrayField(models.TextField(), default=list)
     description = models.TextField(null=True)
     investment = models.TextField(null=True)
-    xp_type = models.TextField(null=True)
+    xp_type = models.TextField(null=True, choices=XP_TYPE)
 
     surface = models.TextField(null=True)
-    surface_type = ArrayField(models.TextField(), blank=True, null=True)
+    surface_type = ChoiceArrayField(models.TextField(choices=SURFACE_TYPE), default=list)
 
     def update_from_airtable(self, airtable_json):
         fields = airtable_json['fields']
@@ -158,15 +197,21 @@ class Experiment(models.Model):
 
         return payload
 
+    def __str__(self):
+        return self.name
+
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields
 # https://code.djangoproject.com/ticket/25756#no1
 class ExperimentImage(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
+    label = models.TextField(null=True)
+
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields
 # https://code.djangoproject.com/ticket/25756#no1
 class ExperimentVideo(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='videos', on_delete=models.CASCADE, null=True)
     video = models.FileField(upload_to='videos/')
+    label = models.TextField(null=True)

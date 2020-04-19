@@ -67,64 +67,64 @@
         <div class="field">
           <div
             class="field-title title"
-          >Ajouter les labels qui vous sembles pertinents pour cette expérimentation</div>
+          >Ajoutez les labels qui vous sembles pertinents pour cette expérimentation</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Maladies"
             value="Maladies"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Insectes et ravageurs"
             value="Insectes et ravageurs"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Adventices"
             value="Adventices"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Environnement & biodiversité"
             value="Environnement & biodiversité"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Diversification"
             value="Diversification"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Autonomie fourragère"
             value="Autonomie fourragère"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Productivité"
             value="Productivité"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Organisation du travail"
             value="Organisation du travail"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Réduction des charges"
             value="Réduction des charges"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Autre"
             value="Autre"
@@ -201,31 +201,31 @@
           >Sur quelle surface portait l'expérimentation ?</div>
           <div class="field-helper subtitle-2 grey--text">"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Toutes les surfaces"
             value="Toutes les surfaces"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Plusieurs parcelles"
             value="Plusieurs parcelles"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Une parcelle"
             value="Une parcelle"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Des bandes"
             value="Des bandes"
           ></v-checkbox>
           <v-checkbox
-            @click="hasChanged = true"
+            @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Des carrés"
             value="Des carrés"
@@ -369,7 +369,10 @@ export default {
   },
   data() {
     return {
-      dummyExperiment: {},
+      dummyExperiment: {
+        tags: [],
+        surface_type: [],
+      },
       hasChanged: false,
       formIsValid: true
     }
