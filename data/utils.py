@@ -148,3 +148,23 @@ def _patch_airtable_data(url, base, data):
     }
     response = requests.patch(base_url + url, json.dumps(data), headers=headers)
     return response.status_code >= 200 and response.status_code < 300
+
+
+def _create_airtable_data(url, base, data):
+    """
+    Returns a tuple whose first element is whether of not the Airtable creation
+    succeeded. The second element is the Airtable ID assigned to the newly
+    created object.
+    (success, airtable ID)
+    """
+    time.sleep(settings.AIRTABLE_REQUEST_INTERVAL_SECONDS) # lazy way to throttle, sorry
+    base_url = 'https://api.airtable.com/v0/' + base + '/'
+    headers = {
+        'Authorization': 'Bearer ' + settings.AIRTABLE_API_KEY,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    }
+    response = requests.post(base_url + url, json.dumps(data), headers=headers)
+    response_succeeded = response.status_code >= 200 and response.status_code < 300
+    response_external_id = json.loads(response.text)['records'][0]['id'] if response_succeeded else None
+    return (response_succeeded, response_external_id)

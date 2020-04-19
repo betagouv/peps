@@ -94,6 +94,36 @@ const routes = [
       return {
         experimentName: route.query.xp
       }
+    },
+    beforeEnter: (route, _, next) => {
+      console.log(store.state.loggedUser)
+      // This view is not accessible to unlogged users
+      if (!store.state.loggedUser) {
+        next({ name: 'Landing' })
+
+      // This view is always accessible to superusers
+      } else if (store.state.loggedUser.is_superuser) {
+        next()
+
+      // This view is not accessible to users without a farmer profile
+      } else if (!store.state.loggedUser.farmer_external_id) {
+        next({ name: 'Landing' })
+
+      // If we are creating a new XP, we an access the view
+      } else if (!route.query.xp){
+        next()
+
+      // If we are editing an existing XP, it must belong to the logged farmer
+      } else {
+        const farmer = store.getters.farmerWithExternalId(
+          store.state.loggedUser.farmer_external_id
+        )
+        if (farmer.experiments.find(x => x.name === route.query.xp)) {
+          next()
+        } else {
+          next({ name: 'Landing' })
+        }
+      }
     }
   },
   {

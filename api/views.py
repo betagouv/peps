@@ -1,4 +1,5 @@
 import dateutil.parser
+import asana
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -6,7 +7,6 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework import permissions, authentication
-import asana
 from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
 from data.models import GroupCount, RefererCount, Category, Farmer, Experiment
 from api.engine import Engine
@@ -14,7 +14,8 @@ from api.serializers import ResponseSerializer, DiscardActionSerializer, Categor
 from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
 from api.formschema import get_form_schema
 from api.models import Response
-from api.permissions import IsExperimentAuthor
+from api.permissions import IsExperimentAuthor, IsFarmer
+from api.utils import AsanaUtils
 
 class RankingsApiView(APIView):
     """
@@ -125,26 +126,13 @@ class SendTaskView(APIView):
             notes += 'Réponses :\n{0}'.format(answers)
 
         try:
-            SendTaskView._send_task(settings.ASANA_PROJECT, task_name, notes, date)
+            AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, date)
             return JsonResponse({}, status=200)
         except asana.error.InvalidRequestError as _:
             return JsonResponse({'error': 'Invalid request'}, status=400)
         except asana.error.InvalidTokenError as _:
             return JsonResponse({'error': 'Invalid token'}, status=403)
         return JsonResponse({'error': 'Invalid request'}, status=400)
-
-    @staticmethod
-    def _send_task(projects, name, notes, due_at):
-        client = asana.Client.access_token(settings.ASANA_PERSONAL_TOKEN)
-        date = due_at.astimezone().isoformat() if due_at else None
-        # pylint: disable=no-member
-        client.tasks.create({
-            'projects': projects,
-            'due_at': date,
-            'name': name,
-            'notes': notes,
-        })
-        # pylint: enable=no-member
 
 
 class StatsView(APIView):
@@ -202,9 +190,40 @@ class ExperimentView(UpdateAPIView):
         experiment = Experiment.objects.get(id=kwargs['pk'])
         if not experiment:
             return JsonResponse({'error': 'Experiment not found'}, status=400)
-        if ExperimentsAirtableAdapter.updateExperiment(experiment, request.data):
+        if ExperimentsAirtableAdapter.update_experiment(experiment, request.data):
             return self.partial_update(request, *args, **kwargs)
         return JsonResponse({'error': 'Airtable saving failed'}, status=500)
+
+
+class ExperimentCreateView(CreateAPIView):
+    permission_classes = (IsFarmer, )
+    serializer_class = ExperimentSerializer
+
+    def post(self, request, *args, **kwargs):
+        farmer = Farmer.objects.get(external_id=self.request.user.profile.farmer_external_id)
+        (airtable_creation_success, airtable_id) = ExperimentsAirtableAdapter.create_experiment(request.data, farmer.external_id)
+
+        if airtable_creation_success:
+
+            #### We won't create the new XP until it is verified by our team
+            # request.data['external_id'] = airtable_id
+            # return self.create(request, *args, **kwargs)
+
+            success_payload = {}
+            try:
+                task_name = 'Nouvelle XP créée par ' + farmer.name + ' en attente de validation'
+                notes = 'XP "' + airtable_id + '" est en attente de validation.'
+                AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, None)
+            except Exception as _:
+                success_payload = {'warning': 'Asana task not created'}
+
+            return JsonResponse(success_payload, status=200)
+        else:
+            return JsonResponse({'error': 'Airtable saving failed'}, status=500)
+
+    def perform_create(self, serializer):
+        farmer = Farmer.objects.get(external_id=self.request.user.profile.farmer_external_id)
+        serializer.save(farmer=farmer)
 
 class LoggedUserView(RetrieveAPIView):
     model = User

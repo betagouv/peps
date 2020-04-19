@@ -5,6 +5,27 @@ from django.contrib.postgres.fields import JSONField, ArrayField
 from data.models import Farmer
 from data.utils import get_airtable_media_name, get_airtable_media_content_file
 
+MAPPINGS = {
+    'name': 'Titre de l\'XP',
+    'tags': 'Tags',
+    'objectives': 'Objectifs',
+    'method': 'Méthode XP',
+    'temporality': 'Temporalité',
+    'equipment': 'Matériel',
+    'execution': 'Déroulé',
+    'origin': 'Origine',
+    'additional_details': 'Détails supplémentaires',
+    'control_presence': 'Présence d\'un témoin',
+    'ongoing': 'XP en cours',
+    'results': 'Résultats',
+    'results_details': 'Plus d\'information résultats',
+    'surface': 'Surface',
+    'surface_type': 'Type surface',
+    'description': 'Description',
+    'investment': 'Investissement',
+    'xp_type': 'Type d\'XP',
+}
+
 class Experiment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100, db_index=True, null=False, unique=True)
@@ -15,7 +36,7 @@ class Experiment(models.Model):
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
 
     tags = ArrayField(models.TextField(), blank=True, null=True)
-    name = models.TextField()
+    name = models.TextField(unique=True)
     objectives = models.TextField(null=True)
     method = models.TextField(null=True)
     temporality = models.TextField(null=True)
@@ -35,27 +56,6 @@ class Experiment(models.Model):
     surface = models.TextField(null=True)
     surface_type = models.TextField(null=True)
 
-    mapping = {
-        'name': 'Titre de l\'XP',
-        'tags': 'Tags',
-        'objectives': 'Objectifs',
-        'method': 'Méthode XP',
-        'temporality': 'Temporalité',
-        'equipment': 'Matériel',
-        'execution': 'Déroulé',
-        'origin': 'Origine',
-        'additional_details': 'Détails supplémentaires',
-        'control_presence': 'Présence d\'un témoin',
-        'ongoing': 'XP en cours',
-        'results': 'Résultats',
-        'results_details': 'Plus d\'information résultats',
-        'surface': 'Surface',
-        'surface_type': 'Type surface',
-        'description': 'Description',
-        'investment': 'Investissement',
-        'xp_type': 'Type d\'XP',
-    }
-
     def update_from_airtable(self, airtable_json):
         fields = airtable_json['fields']
         links = [fields.get(x) for x in ('Lien 1', 'Lien 2', 'Lien 3', 'Lien 4') if fields.get(x)]
@@ -64,10 +64,10 @@ class Experiment(models.Model):
         setattr(self, 'external_id', airtable_json.get('id'))
         setattr(self, 'links', links)
 
-        setattr(self, 'control_presence', fields.get(self.mapping.get('control_presence') == 'Oui'))
-        setattr(self, 'ongoing', fields.get(self.mapping.get('ongoing')) == 'Oui')
-        setattr(self, 'surface', str(fields.get(self.mapping.get('surface'))) if fields.get(self.mapping.get('surface')) else None)
-        setattr(self, 'surface_type', ' ,'.join(fields.get(self.mapping.get('surface_type'))) if fields.get(self.mapping.get('surface_type')) else None)
+        setattr(self, 'control_presence', fields.get(MAPPINGS.get('control_presence') == 'Oui'))
+        setattr(self, 'ongoing', fields.get(MAPPINGS.get('ongoing')) == 'Oui')
+        setattr(self, 'surface', str(fields.get(MAPPINGS.get('surface'))) if fields.get(MAPPINGS.get('surface')) else None)
+        setattr(self, 'surface_type', ' ,'.join(fields.get(MAPPINGS.get('surface_type'))) if fields.get(MAPPINGS.get('surface_type')) else None)
 
         # These fields can be fetched directly into this model's properties, no further treatment is needed
         direct_fields = [
@@ -87,7 +87,7 @@ class Experiment(models.Model):
             'results_details',
         ]
         for direct_field in direct_fields:
-            setattr(self, direct_field, fields.get(self.mapping.get(direct_field)))
+            setattr(self, direct_field, fields.get(MAPPINGS.get(direct_field)))
 
         self.assign_media_from_airtable()
 
@@ -112,12 +112,14 @@ class Experiment(models.Model):
                 experiment_video.experiment = self
                 experiment_video.video.save(media_name, media_content_file, save=True)
 
-
-    def get_airtable_patch_payload(self, changes):
+    @staticmethod
+    def get_airtable_patch_payload(changes, external_id=None):
         payload = {
-            'id': self.external_id,
             'fields': {}
         }
+
+        if external_id:
+            payload['id'] = external_id,
 
         # These fields can be fetched serialized directly into the payload, no further treatment is needed
         direct_fields = [
@@ -139,13 +141,13 @@ class Experiment(models.Model):
         ]
         for direct_field in direct_fields:
             if direct_field in changes:
-                payload['fields'][self.mapping.get(direct_field)] = changes[direct_field]
+                payload['fields'][MAPPINGS.get(direct_field)] = changes[direct_field]
 
         if 'control_presence' in direct_fields:
-            payload['fields'][self.mapping.get('control_presence')] = 'Oui' if changes['control_presence'] else 'Non'
+            payload['fields'][MAPPINGS.get('control_presence')] = 'Oui' if changes['control_presence'] else 'Non'
 
         if 'ongoing' in direct_fields:
-            payload['fields'][self.mapping.get('ongoing')] = 'Oui' if changes['ongoing'] else 'Non'
+            payload['fields'][MAPPINGS.get('ongoing')] = 'Oui' if changes['ongoing'] else 'Non'
 
         # TODO: missing fields
         # links

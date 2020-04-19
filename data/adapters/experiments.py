@@ -4,7 +4,7 @@ from dateutil import parser
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from data.models import Farmer, Experiment
-from data.utils import _get_airtable_data, _patch_airtable_data
+from data.utils import _get_airtable_data, _patch_airtable_data, _create_airtable_data
 from data.airtablevalidators import validate_farmers, validate_experiments
 
 class ExperimentsAirtableAdapter:
@@ -72,11 +72,21 @@ class ExperimentsAirtableAdapter:
         return errors
 
     @staticmethod
-    def updateExperiment(experiment, updatedFields):
+    def update_experiment(experiment, updated_fields):
         base = settings.AIRTABLE_XP_BASE
         data = {
             'records': [
-                experiment.get_airtable_patch_payload(updatedFields)
+                Experiment.get_airtable_patch_payload(updated_fields, external_id=experiment.external_id)
             ]
         }
         return _patch_airtable_data('XP', base, data)
+
+    @staticmethod
+    def create_experiment(payload, farmer_external_id):
+        base = settings.AIRTABLE_XP_BASE
+        record = Experiment.get_airtable_patch_payload(payload)
+        record['fields']['Agriculteur'] = [farmer_external_id]
+
+        data = {'records': [record]}
+
+        return _create_airtable_data('XP', base, data)

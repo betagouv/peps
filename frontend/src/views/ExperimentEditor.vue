@@ -11,109 +11,122 @@
           <v-icon>mdi-arrow-left</v-icon>Annuler
         </v-btn>
 
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary">
+        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateExperiment">
           <v-icon>mdi-content-save</v-icon>Sauvegarder les changements
         </v-btn>
       </v-toolbar>
 
-      <div class="field">
-        <div class="field-title title">Titre de l'expérimentation</div>
-        <div
-          class="field-helper subtitle-2 grey--text"
-        >Court et explicite, il doit donner l'idée générale</div>
-        <v-text-field
-          :rules="[validators.textNotEmpty]"
-          @input="hasChanged = true"
-          outlined
-          dense
-          v-model="dummyExperiment.name"
-        ></v-text-field>
-      </div>
+      <!-- Add dropdown to select author if superuser -->
 
-      <div class="field">
-        <div class="field-title title">De quel type d'expérimentation s'agit-il ?</div>
-        <v-radio-group @change="hasChanged = true" v-model="dummyExperiment.xp_type" :mandatory="false">
-          <v-radio label="Changement important de l'exploitation" value="Changement important de l'exploitation"></v-radio>
-          <v-radio label="Amélioration de l'existant" value="Amélioration de l'existant"></v-radio>
-        </v-radio-group>
-      </div>
+      <v-form ref="form" v-model="formIsValid">
+        <div class="field">
+          <div class="field-title title">Titre de l'expérimentation</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+          >Court et explicite, il doit donner l'idée générale</div>
+          <v-text-field
+            :rules="[validators.notEmpty]"
+            @input="hasChanged = true"
+            outlined
+            dense
+            v-model="dummyExperiment.name"
+          ></v-text-field>
+        </div>
 
-      <div class="field">
-        <div
-          class="field-title title"
-        >Dans quels objectifs plus global de l'exploitation cela s'inscrit ?</div>
-        <v-textarea
-          :rules="[validators.textNotEmpty]"
-          rows="1"
-          @input="hasChanged = true"
-          auto-grow
-          outlined
-          dense
-          v-model="dummyExperiment.objectives"
-        ></v-textarea>
-      </div>
+        <div class="field">
+          <div class="field-title title">De quel type d'expérimentation s'agit-il ?</div>
+          <v-radio-group
+            @change="hasChanged = true"
+            v-model="dummyExperiment.xp_type"
+            :mandatory="false"
+            :rules="[validators.notEmpty]"
+          >
+            <v-radio
+              label="Changement important de l'exploitation"
+              value="Changement important de l'exploitation"
+            ></v-radio>
+            <v-radio label="Amélioration de l'existant" value="Amélioration de l'existant"></v-radio>
+          </v-radio-group>
+        </div>
 
-      <div class="field">
-        <div class="field-title title">L'expérimentation est-elle en cours aujourd'hui ?</div>
-        <div
-          class="field-helper subtitle-2 grey--text"
-        >Si l'expérimentation a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
-        <v-radio-group @change="hasChanged = true" v-model="dummyExperiment.ongoing" :mandatory="false">
-          <v-radio label="Oui" :value="true"></v-radio>
-          <v-radio label="Non" :value="false"></v-radio>
-        </v-radio-group>
-      </div>
+        <div class="field">
+          <div
+            class="field-title title"
+          >Dans quels objectifs plus global de l'exploitation cela s'inscrit ?</div>
+          <v-textarea
+            :rules="[validators.notEmpty]"
+            rows="1"
+            @input="hasChanged = true"
+            auto-grow
+            outlined
+            dense
+            v-model="dummyExperiment.objectives"
+          ></v-textarea>
+        </div>
 
-      <div class="field">
-        <div
-          class="field-title title"
-        >Quels investissements ont été nécessaires pour cette expérimentation ?</div>
-        <div class="field-helper subtitle-2 grey--text">En temps, en argent, en machines...</div>
-        <v-textarea
-          :rules="[validators.textNotEmpty]"
-          rows="1"
-          @input="hasChanged = true"
-          auto-grow
-          outlined
-          dense
-          v-model="dummyExperiment.investment"
-        ></v-textarea>
-      </div>
+        <div class="field">
+          <div class="field-title title">L'expérimentation est-elle en cours aujourd'hui ?</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+          >Si l'expérimentation a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
+          <v-radio-group
+            @change="hasChanged = true"
+            v-model="dummyExperiment.ongoing"
+            :mandatory="false"
+            :rules="[validators.notEmpty]"
+          >
+            <v-radio label="Oui" :value="true"></v-radio>
+            <v-radio label="Non" :value="false"></v-radio>
+          </v-radio-group>
+        </div>
 
-      <div class="field">
-        <div
-          class="field-title title"
-        >Quel matériel avez-vous utilisé pour mener cette expérimentation ?</div>
-        <div class="field-helper subtitle-2 grey--text">Vous pouvez ici être assez spécifique</div>
-        <v-textarea
-          rows="1"
-          @input="hasChanged = true"
-          auto-grow
-          outlined
-          dense
-          v-model="dummyExperiment.equipment"
-        ></v-textarea>
-      </div>
+        <div class="field">
+          <div
+            class="field-title title"
+          >Quels investissements ont été nécessaires pour cette expérimentation ?</div>
+          <div class="field-helper subtitle-2 grey--text">En temps, en argent, en machines...</div>
+          <v-textarea
+            :rules="[validators.notEmpty]"
+            rows="1"
+            @input="hasChanged = true"
+            auto-grow
+            outlined
+            dense
+            v-model="dummyExperiment.investment"
+          ></v-textarea>
+        </div>
 
+        <div class="field">
+          <div
+            class="field-title title"
+          >Quel matériel avez-vous utilisé pour mener cette expérimentation ?</div>
+          <div class="field-helper subtitle-2 grey--text">Vous pouvez ici être assez spécifique</div>
+          <v-textarea
+            rows="1"
+            @input="hasChanged = true"
+            auto-grow
+            outlined
+            dense
+            v-model="dummyExperiment.equipment"
+          ></v-textarea>
+        </div>
 
-
-
-      <div class="field">
-        <div class="field-title title">Pouvez-vous décrire l'expérimentation ?</div>
-        <div
-          class="field-helper subtitle-2 grey--text"
-        >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
-        <v-textarea
-          :rules="[validators.textNotEmpty]"
-          rows="1"
-          @input="hasChanged = true"
-          auto-grow
-          outlined
-          dense
-          v-model="dummyExperiment.description"
-        ></v-textarea>
-      </div>
-      <!-- <div class="field">
+        <div class="field">
+          <div class="field-title title">Pouvez-vous décrire l'expérimentation ?</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+          >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
+          <v-textarea
+            :rules="[validators.notEmpty]"
+            rows="1"
+            @input="hasChanged = true"
+            auto-grow
+            outlined
+            dense
+            v-model="dummyExperiment.description"
+          ></v-textarea>
+        </div>
+        <!-- <div class="field">
         <div class="field-title title">Combien d'ha cela représente ?</div>
         <v-textarea
           @change="hasChanged = true"
@@ -123,46 +136,71 @@
           dense
           v-model="dummyExperiment.surface"
         ></v-textarea>
-      </div> -->
+        </div>-->
 
-      <div class="field">
-        <div class="field-title title">Avez-vous mis en place un témoin ?</div>
-        <div
-          class="field-helper subtitle-2 grey--text"
-        >C'est à dire une surface similaire qui permet de valider les résultats obtenus 
-Si ce n'est pas pertinent, dites Non</div>
-        <v-radio-group @change="hasChanged = true" v-model="dummyExperiment.control_presence" :mandatory="false">
-          <v-radio label="Oui" :value="true"></v-radio>
-          <v-radio label="Non" :value="false"></v-radio>
-        </v-radio-group>
-      </div>
+        <div class="field">
+          <div class="field-title title">Avez-vous mis en place un témoin ?</div>
+          <div class="field-helper subtitle-2 grey--text">
+            C'est à dire une surface similaire qui permet de valider les résultats obtenus
+            Si ce n'est pas pertinent, dites Non
+          </div>
+          <v-radio-group
+            :rules="[validators.notEmpty]"
+            @change="hasChanged = true"
+            v-model="dummyExperiment.control_presence"
+            :mandatory="false"
+          >
+            <v-radio label="Oui" :value="true"></v-radio>
+            <v-radio label="Non" :value="false"></v-radio>
+          </v-radio-group>
+        </div>
 
-      <div class="field">
-        <div class="field-title title">Quels sont les résultats de cette expérimentation ?</div>
-        <v-radio-group @change="hasChanged = true" v-model="dummyExperiment.results" :mandatory="false">
-          <v-radio label="XP qui fonctionne, elle est intégrée à l'exploitation" value="XP qui fonctionne, elle est intégrée à l'exploitation"></v-radio>
-          <v-radio label="XP prometteuse, en cours d'amélioration" value="XP prometteuse, en cours d'amélioration"></v-radio>
-          <v-radio label="XP abandonnée, les résultats ne sont pas satisfaisants" value="XP abandonnée, les résultats ne sont pas satisfaisants"></v-radio>
-          <v-radio label="XP en suspens, les conditions ne sont plus réunies" value="XP en suspens, les conditions ne sont plus réunies"></v-radio>
-          <v-radio label="XP qui commence, les premiers résultats sont à venir" value="XP qui commence, les premiers résultats sont à venir"></v-radio>
-        </v-radio-group>
-      </div>
+        <div class="field">
+          <div class="field-title title">Quels sont les résultats de cette expérimentation ?</div>
+          <v-radio-group
+            :rules="[validators.notEmpty]"
+            @change="hasChanged = true"
+            v-model="dummyExperiment.results"
+            :mandatory="false"
+          >
+            <v-radio
+              label="XP qui fonctionne, elle est intégrée à l'exploitation"
+              value="XP qui fonctionne, elle est intégrée à l'exploitation"
+            ></v-radio>
+            <v-radio
+              label="XP prometteuse, en cours d'amélioration"
+              value="XP prometteuse, en cours d'amélioration"
+            ></v-radio>
+            <v-radio
+              label="XP abandonnée, les résultats ne sont pas satisfaisants"
+              value="XP abandonnée, les résultats ne sont pas satisfaisants"
+            ></v-radio>
+            <v-radio
+              label="XP en suspens, les conditions ne sont plus réunies"
+              value="XP en suspens, les conditions ne sont plus réunies"
+            ></v-radio>
+            <v-radio
+              label="XP qui commence, les premiers résultats sont à venir"
+              value="XP qui commence, les premiers résultats sont à venir"
+            ></v-radio>
+          </v-radio-group>
+        </div>
 
-
-      <div class="field">
-        <div class="field-title title">Pouvez-vous détailler les résultats ?</div>
-        <div
-          class="field-helper subtitle-2 grey--text"
-        >Vous pouvez ici donner des chiffres, détailler les résultats des différents tests que vous avez fait si ça a été le cas...</div>
-        <v-textarea
-          rows="1"
-          @input="hasChanged = true"
-          auto-grow
-          outlined
-          dense
-          v-model="dummyExperiment.results_details"
-        ></v-textarea>
-      </div>
+        <div class="field">
+          <div class="field-title title">Pouvez-vous détailler les résultats ?</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+          >Vous pouvez ici donner des chiffres, détailler les résultats des différents tests que vous avez fait si ça a été le cas...</div>
+          <v-textarea
+            rows="1"
+            @input="hasChanged = true"
+            auto-grow
+            outlined
+            dense
+            v-model="dummyExperiment.results_details"
+          ></v-textarea>
+        </div>
+      </v-form>
 
       <v-toolbar elevation="0">
         <v-toolbar-title class="primary--text"></v-toolbar-title>
@@ -184,7 +222,13 @@ Si ce n'est pas pertinent, dites Non</div>
         <v-card :style="'max-width: 600px;'" class="overflow-y-auto">
           <v-card-text style="padding: 30px; color: #333;">
             <span v-if="updateSucceeded">
-              <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>Votre expérimentation a bien été mise à jour !
+              <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
+              <span v-if="experimentName">
+              Votre expérimentation a bien été mise à jour !
+              </span>
+              <span v-else>
+              Votre expérimentation a bien été créée ! Notre équipe la mettra en ligne bientôt.
+              </span>
             </span>
             <span v-else>
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On a pas pu mettre à jour l'expérimentation. Veuillez essayer plus tard.
@@ -194,7 +238,7 @@ Si ce n'est pas pertinent, dites Non</div>
             <v-btn
               class="text-none body-1 practice-buttons"
               color="primary"
-              @click="resetLoadingStatus()"
+              @click="closeOverlay()"
               rounded
             >OK</v-btn>
           </div>
@@ -223,7 +267,8 @@ export default {
   data() {
     return {
       dummyExperiment: {},
-      hasChanged: false
+      hasChanged: false,
+      formIsValid: true
     }
   },
   computed: {
@@ -252,14 +297,14 @@ export default {
       return this.$store.state.loggedUser
     },
     farmer() {
-      if (!this.loggedUser || !this.loggedUser.farmer_external_id) return null
-      return this.$store.getters.farmerWithExternalId(
-        this.loggedUser.farmer_external_id
+      return this.$store.state.farmers.find(
+        x => !!x.experiments.find(y => y.name === this.experimentName)
       )
     },
     experiment() {
-      if (!this.farmer || !this.experimentName) return
-      return this.farmer.experiments.find(x => x.name === this.experimentName)
+      return this.farmer
+        ? this.farmer.experiments.find(x => x.name === this.experimentName)
+        : undefined
     },
     breadcrumbs() {
       return [
@@ -274,7 +319,9 @@ export default {
           href: "/#/compte"
         },
         {
-          text: this.experiment.name,
+          text: this.experiment
+            ? this.experiment.name
+            : "Nouvelle expérimenation",
           disabled: true
         }
       ]
@@ -282,18 +329,37 @@ export default {
   },
   methods: {
     updateExperiment() {
-      const payload = utils.getObjectDiff(this.experiment, this.dummyExperiment)
+      this.$refs.form.validate()
+
+      if (!this.formIsValid) {
+        window.scrollTo(0, 0)
+        window.alert("Merci de vérifier les champs en rouge et réessayer")
+        return
+      }
+
       if (this.experiment) {
+        const payload = utils.getObjectDiff(
+          this.experiment,
+          this.dummyExperiment
+        )
+
         this.$store.dispatch("patchExperiment", {
           experiment: this.experiment,
           changes: payload
         })
       } else {
-        // Create new experiment
+        this.$store.dispatch('createExperiment', {
+          payload: this.dummyExperiment
+        })
       }
     },
-    resetLoadingStatus() {
+    closeOverlay() {
+      const success = this.updateSucceeded
       this.$store.dispatch("resetExperimentEditLoadingStatus")
+      if (success)
+        this.$router.push({
+          name: "Profile"
+        })
     },
     cancelEdit() {
       this.$router.go(-1)
@@ -304,7 +370,6 @@ export default {
           this.dummyExperiment,
           this.experiment
         )
-      else if (this.experimentName) window.alert("XP not found") //  TODO: Change this
     }
   },
   beforeMount() {

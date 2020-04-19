@@ -292,6 +292,14 @@ export default new Vuex.Store({
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
     },
+    createExperiment(context, { payload }) {
+      context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/experiments/', payload, { headers }).then(() => {
+        context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
     resetExperimentEditLoadingStatus(context) {
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.IDLE)
     },

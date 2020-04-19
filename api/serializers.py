@@ -136,8 +136,8 @@ class ExperimentVideoSerializer(serializers.ModelSerializer):
         )
 
 class ExperimentSerializer(serializers.ModelSerializer):
-    images = ExperimentImageSerializer(many=True)
-    videos = ExperimentVideoSerializer(many=True)
+    images = ExperimentImageSerializer(many=True, required=False)
+    videos = ExperimentVideoSerializer(many=True, required=False)
 
     class Meta:
         model = Experiment

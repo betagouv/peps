@@ -54,6 +54,10 @@
 
       <div class="title" style="margin-top: 20px;">Mes expérimentations</div>
 
+      <v-btn class="text-none" style="margin-top: 10px;" @click="createXP">
+        <v-icon style="margin-right: 10px;">mdi-flask-empty-plus-outline</v-icon>Partager une nouvelle expérimentation
+      </v-btn>
+
       <v-row v-if="farmer && farmer.experiments && farmer.experiments.length > 0">
         <v-col
           v-for="(experiment, index) in farmer.experiments"
@@ -128,6 +132,9 @@ export default {
   methods: {
     editXP(xp) {
       this.$router.push({ name: "ExperimentEditor", query: { xp: xp.name } })
+    },
+    createXP() {
+      this.$router.push({ name: "ExperimentEditor" })
     }
   }
 }

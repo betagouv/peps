@@ -15,6 +15,7 @@ from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
 from data.models import Practice, DiscardAction, RefererCount, GroupCount
 from data.models import Category, Resource, Farmer, Experiment
 from api.views import SendTaskView
+from api.utils import AsanaUtils
 
 # In these tests we will mock some protected functions so we'll need to access them
 # pylint: disable = protected-access
@@ -271,8 +272,8 @@ class TestApi(TestCase):
         """
 
         self.client.logout()
-        original_function = SendTaskView._send_task
-        SendTaskView._send_task = MagicMock()
+        original_function = AsanaUtils.send_task
+        AsanaUtils.send_task = MagicMock()
         try:
             response = self.client.post(
                 reverse('send_task'),
@@ -287,9 +288,9 @@ class TestApi(TestCase):
                 format='json',
             )
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            SendTaskView._send_task.assert_called_once()
+            AsanaUtils.send_task.assert_called_once()
         finally:
-            SendTaskView._send_task = original_function
+            AsanaUtils.send_task = original_function
 
 
     def test_task_api_key_auth(self):
@@ -298,8 +299,8 @@ class TestApi(TestCase):
         projects and apps, not users.
         """
         self.client.logout()
-        original_function = SendTaskView._send_task
-        SendTaskView._send_task = MagicMock()
+        original_function = AsanaUtils.send_task
+        AsanaUtils.send_task = MagicMock()
         try:
             response = self.client.post(
                 reverse('send_task'),
@@ -323,10 +324,10 @@ class TestApi(TestCase):
             tel = '07 77 08 81 79'
             responses = 'What help do you need?\nNothing'
             notes = '{0}\n\n{1} a besoin d\'aide pour implémenter la pratique {2}.\n\nNum tel : {3}\n\nRéponses :\n{4}'.format(problem, name, url, tel, responses)
-            SendTaskView._send_task.assert_called_once_with('1143885392507417', 'Jean-Michel', notes, date)
+            AsanaUtils.send_task.assert_called_once_with('1143885392507417', 'Jean-Michel', notes, date)
 
         finally:
-            SendTaskView._send_task = original_function
+            AsanaUtils.send_task = original_function
 
 
     def test_task_incomplete_info(self):
@@ -335,8 +336,8 @@ class TestApi(TestCase):
         """
 
         self.client.logout()
-        original_function = SendTaskView._send_task
-        SendTaskView._send_task = MagicMock()
+        original_function = AsanaUtils.send_task
+        AsanaUtils.send_task = MagicMock()
 
         try:
             # Without the name we should get a 400 error
@@ -353,7 +354,7 @@ class TestApi(TestCase):
                 **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
             )
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            SendTaskView._send_task.assert_not_called()
+            AsanaUtils.send_task.assert_not_called()
 
             # Without the phone number we should get a 400 error
             response = self.client.post(
@@ -369,7 +370,7 @@ class TestApi(TestCase):
                 **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
             )
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            SendTaskView._send_task.assert_not_called()
+            AsanaUtils.send_task.assert_not_called()
 
             # Other fields are not mandatory
             response = self.client.post(
@@ -382,10 +383,10 @@ class TestApi(TestCase):
                 **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
             )
             self.assertEqual(response.status_code, status.HTTP_200_OK)
-            SendTaskView._send_task.assert_called_once()
+            AsanaUtils.send_task.assert_called_once()
 
         finally:
-            SendTaskView._send_task = original_function
+            AsanaUtils.send_task = original_function
 
 
     def test_task_invalid_date(self):
@@ -394,8 +395,8 @@ class TestApi(TestCase):
         """
 
         self.client.logout()
-        original_function = SendTaskView._send_task
-        SendTaskView._send_task = MagicMock()
+        original_function = AsanaUtils.send_task
+        AsanaUtils.send_task = MagicMock()
 
         try:
             response = self.client.post(
@@ -412,9 +413,9 @@ class TestApi(TestCase):
                 **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
             )
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            SendTaskView._send_task.assert_not_called()
+            AsanaUtils.send_task.assert_not_called()
         finally:
-            SendTaskView._send_task = original_function
+            AsanaUtils.send_task = original_function
 
 
     def test_discard_action(self):
@@ -575,7 +576,7 @@ def _populate_database():
         experiment = Experiment(
             external_id=experiment_id,
             airtable_json={'id': experiment_id},
-            name="Test experiment",
+            name="Test experiment " + experiment_id,
             farmer=Farmer.objects.filter(external_id='rec66629kfas9i').first()
         )
         experiment.save()
