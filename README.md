@@ -61,6 +61,7 @@ PEPS_CELLAR_BUCKET_NAME=''
 PEPS_FORCE_HTTPS='False'
 PEPS_ANALYTICS_ID=''
 PEPS_ANALYTICS_DOMAIN=''
+PEPS_EMAIL_BACKEND='django.core.mail.backends.console.EmailBackendS'
 ```
 
 ### Make initial migration and create super user
