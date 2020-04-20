@@ -12,7 +12,7 @@
         <v-icon style="margin-right: 10px;">mdi-flask-empty-plus-outline</v-icon>Partager une nouvelle expérimentation
       </v-btn>
 
-      <div class="title" style="margin-top: 30px; margin-bottom: -10px;">Mes expérimentations</div>
+      <div class="title" style="margin-top: 30px; margin-bottom: 0px;">Mes expérimentations</div>
 
       <v-row v-if="farmer && farmer.experiments && farmer.experiments.length > 0">
         <v-col

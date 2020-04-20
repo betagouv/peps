@@ -1,6 +1,7 @@
 import uuid
 from decimal import Decimal
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django_better_admin_arrayfield.models.fields import ArrayField
@@ -44,7 +45,10 @@ TYPE_AGRICULTURE = (
 
 class Farmer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    external_id = models.CharField(max_length=100, db_index=True, null=False, unique=True)
+    external_id = models.CharField(max_length=100, db_index=True, null=True)
+
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True)
+
     modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
     airtable_json = JSONField(null=True, blank=True)
@@ -70,7 +74,6 @@ class Farmer(models.Model):
     specificities = models.TextField(null=True)
     contact_possible = models.BooleanField(default=False)
 
-
     links = ArrayField(models.TextField(), default=list)
 
     surface = models.TextField(null=True)
@@ -87,9 +90,9 @@ class Farmer(models.Model):
         self.external_id = airtable_json.get('id')
         self.airtable_json = airtable_json
         self.name = fields.get('Prénom et Nom')
-        self.production = fields.get('Productions')
-        self.groups = fields.get('Groupes')
-        self.agriculture_types = fields.get('Tag agriculture')
+        self.production = fields.get('Productions', [])
+        self.groups = fields.get('Groupes', [])
+        self.agriculture_types = fields.get('Tag agriculture', [])
         self.postal_code = fields.get('Code postal')
         self.lat = Decimal(fields.get('Latitude'))
         self.lon = Decimal(fields.get('Longitude'))
@@ -107,7 +110,7 @@ class Farmer(models.Model):
         self.surface_cultures = str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None
         self.surface_meadows = str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None
         self.output = str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None
-        self.email = fields.get('Adresse email')
+        self.email = fields.get('Adresse email').strip() if fields.get('Adresse email') else None
 
         self.assign_main_image_from_airtable()
         self.assign_additional_images_from_airtable()

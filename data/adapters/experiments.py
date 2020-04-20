@@ -35,10 +35,6 @@ class ExperimentsAirtableAdapter:
         if has_fatal_errors:
             return errors
 
-        # Farmers added in Airtable should be able to modify their information.
-        # We should have users for each of them who are able to view and edit their info.
-        # farmers = filter(lambda x: x, farmers) # Take those who have been modified recently only
-
         for json_farmer in json_farmers:
             airtable_id = json_farmer.get('id')
             airtable_modification_date = json_farmer['fields'].get('Last Modified') if json_farmer.get('fields') else None
@@ -47,7 +43,9 @@ class ExperimentsAirtableAdapter:
 
             (farmer, created) = Farmer.objects.get_or_create(external_id=airtable_id, defaults={'lat': Decimal(0.0), 'lon': Decimal(0.0)})
 
-            if created or parser.isoparse(airtable_modification_date) > farmer.modification_date:
+            email_matches = json_farmer['fields'].get('Adresse email') == farmer.email
+
+            if created or parser.isoparse(airtable_modification_date) > farmer.modification_date or not email_matches:
                 farmer.update_from_airtable(json_farmer)
                 farmer.save()
 
@@ -56,6 +54,9 @@ class ExperimentsAirtableAdapter:
                 if not get_user_model().objects.filter(email=farmer_email).first():
                     random_password = get_user_model().objects.make_random_password()
                     get_user_model().objects.create_user(email=farmer_email, username=farmer_email, password=random_password)
+
+                farmer.user = get_user_model().objects.filter(email=farmer_email).first()
+                farmer.save()
 
 
         for json_experiment in json_experiments:

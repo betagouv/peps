@@ -16,4 +16,3 @@ from .referercount import RefererCount
 from .category import Category
 from .farmer import Farmer, FarmImage
 from .experiment import Experiment, ExperimentImage, ExperimentVideo
-from .profile import Profile

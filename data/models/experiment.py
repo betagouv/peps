@@ -110,7 +110,6 @@ class Experiment(models.Model):
         # These fields can be fetched directly into this model's properties, no further treatment is needed
         direct_fields = [
             'name',
-            'tags',
             'objectives',
             'method',
             'temporality',
@@ -123,11 +122,18 @@ class Experiment(models.Model):
             'xp_type',
             'results',
             'results_details',
-            'surface_type',
         ]
         for direct_field in direct_fields:
             value = fields.get(MAPPINGS.get(direct_field))
             setattr(self, direct_field, value)
+
+        array_fields = [
+            'tags',
+            'surface_type',
+        ]
+        for array_field in array_fields:
+            value = fields.get(MAPPINGS.get(array_field), [])
+            setattr(self, array_field, value)
 
         self.assign_media_from_airtable()
 

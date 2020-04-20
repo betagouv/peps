@@ -10,10 +10,10 @@ class IsExperimentAuthor(permissions.IsAuthenticated):
 
         if not isinstance(obj, Experiment):
             return False
-        if not request.user or not request.user.profile or not request.user.profile.farmer_external_id:
+        if not request.user or not request.user.farmer:
             return False
 
-        return obj.farmer.external_id == request.user.profile.farmer_external_id
+        return obj.farmer == request.user.farmer
 
 class IsFarmer(permissions.IsAuthenticated):
     """
@@ -22,4 +22,4 @@ class IsFarmer(permissions.IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         if not isinstance(obj, Experiment):
             return False
-        return request.user and request.user.profile and request.user.profile.farmer_external_id
+        return request.user and request.user.farmer

@@ -218,9 +218,9 @@ class FarmerSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
 
     farmer_external_id = serializers.SlugRelatedField(
-        source='profile',
+        source='farmer',
         read_only=True,
-        slug_field='farmer_external_id'
+        slug_field='external_id'
     )
 
     class Meta:

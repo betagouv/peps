@@ -13,11 +13,13 @@ class TestXP(TestCase):
     def setUp(self):
         _populate_database()
 
-    def test_farmers_serialized(self):
+    def test_farmers_have_users(self):
         """
         We check that farmers have been correctly serialized
         """
-        self.assertGreater(Farmer.objects.count(), 1)
+        for farmer in list(Farmer.objects.all()):
+            self.assertTrue(farmer.user != None)
+            self.assertEqual(farmer.email, farmer.user.email)
 
     def test_farmers_output(self):
         external_id = 'recre6nczAgLTyNE9'

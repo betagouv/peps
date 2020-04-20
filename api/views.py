@@ -200,7 +200,7 @@ class ExperimentCreateView(CreateAPIView):
     serializer_class = ExperimentSerializer
 
     def post(self, request, *args, **kwargs):
-        farmer = Farmer.objects.get(external_id=self.request.user.profile.farmer_external_id)
+        farmer = self.request.user.farmer
         (airtable_creation_success, airtable_id) = ExperimentsAirtableAdapter.create_experiment(request.data, farmer.external_id)
 
         if airtable_creation_success:
@@ -222,7 +222,7 @@ class ExperimentCreateView(CreateAPIView):
             return JsonResponse({'error': 'Airtable saving failed'}, status=500)
 
     def perform_create(self, serializer):
-        farmer = Farmer.objects.get(external_id=self.request.user.profile.farmer_external_id)
+        farmer = Farmer.objects.get(external_id=self.request.user.farmer.external_id)
         serializer.save(farmer=farmer)
 
 class LoggedUserView(RetrieveAPIView):

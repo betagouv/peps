@@ -98,5 +98,6 @@ class FarmerForm(forms.ModelForm):
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'cultures',)
+    readonly_fields = ('user', )
     inlines = (FarmImageInline, )
     form = FarmerForm
