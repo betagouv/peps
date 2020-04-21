@@ -49,7 +49,7 @@
 
         </v-menu>
 
-        <v-btn v-if="isXPPage" color="white" @click="onShareXPClick">
+        <v-btn v-if="isXPPage && loggedUser && loggedUser.farmer_external_id" color="white" @click="onShareXPClick">
           <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
           <span
             style="font-weight:bold;"
@@ -116,7 +116,7 @@ export default {
         "shareXP",
         "Proposer une expérimentation"
       )
-      this.$router.push({ name: "Contribution" })
+      this.$router.push({ name: "ExperimentEditor" })
     }
   },
   watch: {

@@ -87,9 +87,19 @@ export default {
   },
   methods: {
     editXP(xp) {
+      window.sendTrackingEvent(
+        "Profile",
+        "Edit XP",
+        xp.name
+      )
       this.$router.push({ name: "ExperimentEditor", query: { xp: xp.name } })
     },
     createXP() {
+      window.sendTrackingEvent(
+        "Profile",
+        "Create XP",
+        "Proposer une expérimentation"
+      )
       this.$router.push({ name: "ExperimentEditor" })
     }
   }

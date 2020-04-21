@@ -79,7 +79,7 @@
       <v-card-text class="title" style="padding: 16px 16px 0px 16px;">Trouvez un retour d'expérience</v-card-text>
       <ExperimentFilter />
 
-      <div style="margin: 20px 0 0px 15px;">
+      <div v-if="loggedUser && loggedUser.farmer_external_id" style="margin: 20px 0 0px 15px;">
         Vous souhaitez partager votre expérience ?
         <v-btn
           @click="onShareXPClick"
@@ -171,6 +171,9 @@ export default {
     departments() {
       return this.geojson.features.map(x => x.properties)
     },
+    loggedUser() {
+      return this.$store.state.loggedUser
+    },
     options() {
       return {
         onEachFeature: (feature, layer) => {
@@ -207,7 +210,7 @@ export default {
         "shareXP",
         "Proposer une expérimentation"
       )
-      this.$router.push({ name: "Contribution" })
+      this.$router.push({ name: "ExperimentEditor" })
     },
     refreshMapMarkers() {
       this.markersInfo = []

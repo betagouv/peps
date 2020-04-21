@@ -65,14 +65,6 @@ export default {
     }
   },
   methods: {
-    onShareXPClick() {
-      window.sendTrackingEvent(
-        "Header",
-        "shareXP",
-        "Proposer une expérimentation"
-      )
-      this.$router.push({ name: "Contribution" })
-    },
     goToProfile() {
       if (this.$route.name === 'Profile')
         return
