@@ -10,10 +10,10 @@ from django.core.files.base import ContentFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.utils import timezone
 from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
 from data.models import Practice, DiscardAction, RefererCount, GroupCount
 from data.models import Category, Resource, Farmer, Experiment
+from data.utils import patch_airtable_data, create_airtable_data
 from api.views import SendTaskView
 from api.utils import AsanaUtils
 
@@ -529,6 +529,168 @@ class TestApi(TestCase):
         for farmer_id in ('rec66629kfas9i', 'rec0098666ooka', 'rec666sf09aii'):
             self.assertEqual(len(list(filter(lambda x: x['external_id'] == farmer_id, body))), 1)
 
+    def test_xp_patch_unauthenticated(self):
+        """
+        Ensures we are not able to modify an XP if we are not logged in
+        """
+        self.client.logout()
+        experiment = Experiment.objects.get(external_id='rec33329kfas9i')
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
+
+        try:
+            original_function = ExperimentsAirtableAdapter.update_experiment
+            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
+            response = self.client.patch(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+            ExperimentsAirtableAdapter.update_experiment.assert_not_called()
+        finally:
+            ExperimentsAirtableAdapter.update_experiment = original_function
+
+    def test_xp_patch_unauthorized(self):
+        """
+        Ensures we are not able to modify an XP if we are not logged in
+        """
+        self.client.logout()
+        farmer_external_id = 'rec0098666ooka' # this farmer is not the creator of the XP
+        experiment = Experiment.objects.get(external_id='rec33329kfas9i')
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
+
+        self.client.login(username=farmer_external_id, password='12345')
+
+        try:
+            original_function = ExperimentsAirtableAdapter.update_experiment
+            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
+            response = self.client.patch(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+            ExperimentsAirtableAdapter.update_experiment.assert_not_called()
+        finally:
+            ExperimentsAirtableAdapter.update_experiment = original_function
+
+    def test_xp_put_unavailable(self):
+        """
+        Ensures we only propose patch to modify an XP
+        """
+        self.client.logout()
+        farmer_external_id = 'rec66629kfas9i' # this farmer is the creator of the XP
+        experiment = Experiment.objects.get(external_id='rec33329kfas9i')
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
+
+        self.client.login(username=farmer_external_id, password='12345')
+
+        # patch utils _patch_eirtable_data
+        try:
+            original_function = ExperimentsAirtableAdapter.update_experiment
+            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
+            response = self.client.put(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            ExperimentsAirtableAdapter.update_experiment.assert_not_called()
+        finally:
+            ExperimentsAirtableAdapter.update_experiment = original_function
+
+    def test_xp_patch_success(self):
+        """
+        Ensures the author is able to modify an XP
+        """
+        self.client.logout()
+        farmer_external_id = 'rec66629kfas9i' # this farmer is the creator of the XP
+        experiment = Experiment.objects.get(external_id='rec33329kfas9i')
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
+
+        self.client.login(username=farmer_external_id, password='12345')
+
+        try:
+            original_function = ExperimentsAirtableAdapter.update_experiment
+            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
+
+            response = self.client.patch(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertEqual(Experiment.objects.get(external_id='rec33329kfas9i').objectives, 'Lorem ipsum')
+            ExperimentsAirtableAdapter.update_experiment.assert_called_once()
+        finally:
+            ExperimentsAirtableAdapter.update_experiment = original_function
+
+    def test_xp_post_unauthenticated(self):
+        """
+        Ensures we are not able to create an XP if we are not logged in
+        """
+        self.client.logout()
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_create')
+
+        try:
+            original_function = ExperimentsAirtableAdapter.create_experiment
+            original_asana_function = AsanaUtils.send_task
+
+            ExperimentsAirtableAdapter.create_experiment = MagicMock(return_value=(True, 'recertt3229kfas9i'))
+            AsanaUtils.send_task = MagicMock()
+
+            response = self.client.post(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+            ExperimentsAirtableAdapter.create_experiment.assert_not_called()
+            AsanaUtils.send_task.assert_not_called()
+        finally:
+            ExperimentsAirtableAdapter.create_experiment = original_function
+            AsanaUtils.send_task = original_asana_function
+
+    def test_xp_post_unauthorized(self):
+        """
+        Ensures a user without a farmer profile is not able to create an XP
+        """
+        self.client.logout()
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_create')
+
+        self.client.login(username='testuser', password='12345')
+
+        try:
+            original_function = ExperimentsAirtableAdapter.create_experiment
+            original_asana_function = AsanaUtils.send_task
+
+            ExperimentsAirtableAdapter.create_experiment = MagicMock(return_value=(True, 'recertt3229kfas9i'))
+            AsanaUtils.send_task = MagicMock()
+
+            response = self.client.post(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+            ExperimentsAirtableAdapter.create_experiment.assert_not_called()
+            AsanaUtils.send_task.assert_not_called()
+        finally:
+            ExperimentsAirtableAdapter.create_experiment = original_function
+            AsanaUtils.send_task = original_asana_function
+
+
+    def test_xp_post_success(self):
+        """
+        Ensures a farmer can create an XP
+        """
+        self.client.logout()
+        payload = {'objectives': 'Lorem ipsum'}
+        url = reverse('experiment_create')
+        farmer_external_id = 'rec66629kfas9i'
+
+        self.client.login(username=farmer_external_id, password='12345')
+
+        try:
+            original_function = ExperimentsAirtableAdapter.create_experiment
+            original_asana_function = AsanaUtils.send_task
+
+            ExperimentsAirtableAdapter.create_experiment = MagicMock(return_value=(True, 'recertt3229kfas9i'))
+            AsanaUtils.send_task = MagicMock()
+
+            response = self.client.post(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+            ExperimentsAirtableAdapter.create_experiment.assert_called_once()
+            AsanaUtils.send_task.assert_called_once()
+        finally:
+            ExperimentsAirtableAdapter.create_experiment = original_function
+            AsanaUtils.send_task = original_asana_function
+
 
 def _populate_database():
     User.objects.create_user(username='testuser', password='12345')
@@ -564,11 +726,13 @@ def _populate_database():
         category.practices.add(Practice.objects.filter(external_id='recZxlcM61qaDoOkc').first())
 
     for farmer_id in ('rec66629kfas9i', 'rec0098666ooka', 'rec666sf09aii'):
+        user = User.objects.create_user(username=farmer_id, password='12345')
         farmer = Farmer(
             external_id=farmer_id,
             airtable_json={'id': farmer_id},
             lat=45.1808,
             lon=1.893,
+            user=user
         )
         farmer.save()
 

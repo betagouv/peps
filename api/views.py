@@ -179,7 +179,7 @@ class FarmersView(ListAPIView):
     serializer_class = FarmerSerializer
 
 class ExperimentView(UpdateAPIView):
-    permission_classes = (IsExperimentAuthor, )
+    permission_classes = [permissions.IsAuthenticated & IsFarmer & IsExperimentAuthor]
     serializer_class = ExperimentSerializer
     queryset = Experiment.objects
 
@@ -196,7 +196,7 @@ class ExperimentView(UpdateAPIView):
 
 
 class ExperimentCreateView(CreateAPIView):
-    permission_classes = (IsFarmer, )
+    permission_classes = [permissions.IsAuthenticated & IsFarmer]
     serializer_class = ExperimentSerializer
 
     def post(self, request, *args, **kwargs):
@@ -211,7 +211,7 @@ class ExperimentCreateView(CreateAPIView):
 
             success_payload = {}
             try:
-                task_name = 'Nouvelle XP créée par ' + farmer.name + ' en attente de validation'
+                task_name = 'Nouvelle XP créée par ' + str(farmer.name) + ' en attente de validation'
                 notes = 'XP "' + airtable_id + '" est en attente de validation.'
                 AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, None)
             except Exception as _:
@@ -228,7 +228,7 @@ class ExperimentCreateView(CreateAPIView):
 class LoggedUserView(RetrieveAPIView):
     model = User
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.all()
 
     def get_object(self):

@@ -4,7 +4,7 @@ from dateutil import parser
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from data.models import Farmer, Experiment
-from data.utils import _get_airtable_data, _patch_airtable_data, _create_airtable_data
+from data.utils import _get_airtable_data, patch_airtable_data, create_airtable_data
 from data.airtablevalidators import validate_farmers, validate_experiments
 
 class ExperimentsAirtableAdapter:
@@ -83,7 +83,7 @@ class ExperimentsAirtableAdapter:
                 Experiment.get_airtable_payload(updated_fields, external_id=experiment.external_id)
             ]
         }
-        return _patch_airtable_data('XP', base, data)
+        return patch_airtable_data('XP', base, data)
 
     @staticmethod
     def create_experiment(payload, farmer_external_id):
@@ -93,4 +93,4 @@ class ExperimentsAirtableAdapter:
 
         data = {'records': [record]}
 
-        return _create_airtable_data('XP', base, data)
+        return create_airtable_data('XP', base, data)
