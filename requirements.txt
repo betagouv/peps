@@ -8,7 +8,7 @@ chardet==3.0.4
 Django==3.0.3
 django-anymail==7.1.0
 django-better-admin-arrayfield==1.0.6
-django-magicauth==0.3
+git+https://github.com/betagouv/django-magicauth.git@9f1c768ce907aa8962d62b68261cf491bd66a702
 django-storages==1.9.1
 django-webpack-loader==0.6.0
 djangorestframework==3.11.0
