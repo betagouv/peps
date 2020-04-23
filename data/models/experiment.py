@@ -74,6 +74,8 @@ class Experiment(models.Model):
 
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
 
+    approved = models.BooleanField(default=False)
+
     tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list)
     name = models.TextField(unique=True)
     objectives = models.TextField(null=True)

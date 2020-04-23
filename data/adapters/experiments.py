@@ -41,7 +41,8 @@ class ExperimentsAirtableAdapter:
             if not airtable_id or not airtable_modification_date:
                 continue
 
-            (farmer, created) = Farmer.objects.get_or_create(external_id=airtable_id, defaults={'lat': Decimal(0.0), 'lon': Decimal(0.0)})
+            defaults = {'lat': Decimal(0.0), 'lon': Decimal(0.0)}
+            (farmer, created) = Farmer.objects.get_or_create(external_id=airtable_id, defaults=defaults)
 
             email_matches = json_farmer['fields'].get('Adresse email') == farmer.email
 
@@ -65,7 +66,8 @@ class ExperimentsAirtableAdapter:
             if not airtable_id or not airtable_modification_date:
                 continue
 
-            (experiment, created) = Experiment.objects.get_or_create(external_id=airtable_id, defaults={'name': airtable_id})
+            defaults = {'name': airtable_id, 'approved': True}
+            (experiment, created) = Experiment.objects.get_or_create(external_id=airtable_id, defaults=defaults)
 
             if created or parser.isoparse(airtable_modification_date) > experiment.modification_date:
                 experiment.update_from_airtable(json_experiment)

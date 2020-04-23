@@ -126,7 +126,7 @@ export default {
         .then(response => {
           this.endProgressBar(true)
           this.overlayText = response.body.success
-            ? "✔ Données à jour"
+            ? "✔ Données à jour. Actualisez la page pour voir les nouveaux données."
             : "✖ La mise à jour des données a échoué"
           this.overlayIssues = response.body.errors
         })

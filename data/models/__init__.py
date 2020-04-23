@@ -14,3 +14,5 @@ from .discardaction import DiscardAction
 from .category import Category
 from .farmer import Farmer, FarmImage
 from .experiment import Experiment, ExperimentImage, ExperimentVideo
+from .groupcount import GroupCount
+from .referercount import RefererCount
