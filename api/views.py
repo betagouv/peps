@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework import permissions, authentication
 from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
-from data.models import GroupCount, RefererCount, Category, Farmer, Experiment
+from data.models import Category, Farmer, Experiment
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
 from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
@@ -133,36 +133,6 @@ class SendTaskView(APIView):
         except asana.error.InvalidTokenError as _:
             return JsonResponse({'error': 'Invalid token'}, status=403)
         return JsonResponse({'error': 'Invalid request'}, status=400)
-
-
-class StatsView(APIView):
-    """
-    Temporary view that will increment the counters of stat models
-    such as groupCount.
-    """
-
-    def post(self, request):
-        groups = request.data.get('groups')
-        referers = request.data.get('referers')
-
-        try:
-            StatsView._increment_groups(groups)
-            StatsView._increment_referers(referers)
-            return JsonResponse({}, status=200)
-        except Exception as _:
-            return JsonResponse({}, status=400)
-
-    @staticmethod
-    def _increment_groups(groups):
-        groups = groups if isinstance(groups, list) else groups.split(',')
-        for group in groups:
-            GroupCount.create_or_increment(GroupCount.AgriculturalGroup[group])
-
-    @staticmethod
-    def _increment_referers(referers):
-        referers = referers if isinstance(referers, list) else referers.split(',')
-        for referer in referers:
-            RefererCount.create_or_increment(RefererCount.Referer[referer])
 
 
 class CategoriesView(ListAPIView):

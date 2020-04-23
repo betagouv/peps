@@ -11,8 +11,6 @@ from .resource import Resource, ResourceType
 from .pepsenum import PepsEnum
 from .glyphosateuses import GlyphosateUses
 from .discardaction import DiscardAction
-from .groupcount import GroupCount
-from .referercount import RefererCount
 from .category import Category
 from .farmer import Farmer, FarmImage
 from .experiment import Experiment, ExperimentImage, ExperimentVideo

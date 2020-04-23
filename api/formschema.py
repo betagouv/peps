@@ -442,69 +442,6 @@ def get_form_schema():
             },
         },
 
-        "stats_form": {
-            "schema": {
-                "description": "Peps est en étape d'expérimentation. Afin d'améliorer le service, cela nous aiderait grandement d'en savoir un peu plus sur vous.",
-                "type": "object",
-                "properties": {
-                    "groups": {
-                        "title": "Faites-vous partie de groupes ou d'initiatives travaillant sur la réduction des produits phytosanitaires ?",
-                        "required": False,
-                        "logAnswer": True,
-                    },
-                    "referers": {
-                        "title": "Comment avez-vous connu Peps ?",
-                        "required": False,
-                        "logAnswer": True,
-                    },
-                },
-            },
-            "options": {
-                "form": {
-                    "attributes": {
-                        "method": "post",
-                        "action": "/api/stats"
-                    }
-                },
-                "fields": {
-                    "groups": {
-                        "hideNone": True,
-                        "sort": False,
-                        "type": "checkbox",
-                        "multiple": True,
-                        "dataSource": [
-                            {'text': 'DEPHY', 'value': 'DEPHY'},
-                            {'text': '30000', 'value': 'GROUPE_30000'},
-                            {'text': 'GIEE', 'value': 'GIEE'},
-                            {'text': 'Groupe de chambre d\'agriculture', 'value': 'CHAMBRE'},
-                            {'text': 'Groupe de coopérative ou négoce', 'value': 'COOPERATIVE_OU_NEGOCE'},
-                            {'text': 'Je suis en AB ou en conversion AB', 'value': 'AB_CONVERSION_AB'},
-                            {'text': 'Autre', 'value': 'AUTRE'},
-                            {'text': 'Aucun', 'value': 'AUCUN'},
-                        ],
-                    },
-                    "referers": {
-                        "hideNone": True,
-                        "sort": False,
-                        "type": "checkbox",
-                        "multiple": True,
-                        "dataSource": [
-                            {'text': 'Moteur de recherche (Google, Bing, etc.)', 'value': 'MOTEUR_RECHERCHE'},
-                            {'text': 'Réseaux sociaux (Facebook, Twitter)', 'value': 'RESEAUX_SOCIAUX'},
-                            {'text': 'Bouche à oreille', 'value': 'BOUCHE_A_OREILLE'},
-                            {'text': 'Presse', 'value': 'PRESSE'},
-                            {'text': 'Par ma coopérative ou mon négoce', 'value': 'COOPERATIVE_OU_NEGOCE'},
-                            {'text': 'Par ma Chambre d\'Agriculture', 'value': 'CHAMBRE_AGRICULTURE'},
-                            {'text': 'Par un agriculteur', 'value': 'AGRICULTEUR'},
-                            {'text': 'Via un atelier sur mon territoire', 'value': 'ATELIER_TERRITOIRE'},
-                            {'text': 'Par la DDT', 'value': 'DDT'},
-                            {'text': 'Autre', 'value': 'AUTRE'},
-                        ],
-                    },
-                },
-            },
-        },
-
         "contact_form": {
             "schema": {
                 "type": "object",

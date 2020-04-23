@@ -21,14 +21,6 @@
         />
         <Form
           style="margin-bottom: 10px;"
-          v-if="$options.shouldShowStatsForm"
-          :schema="statsFormDefinition.schema"
-          :options="statsFormDefinition.options"
-          updateActionName="addStatsFormData"
-          storeDataName="statsFormData"
-        />
-        <Form
-          style="margin-bottom: 10px;"
           v-if="$options.shouldShowContactForm"
           :schema="contactFormDefinition.schema"
           :options="contactFormDefinition.options"
@@ -67,10 +59,7 @@ export default {
   name: "FormsContainer",
   components: { Loader, Title, Form },
   created() {
-    const statsFormData = this.$store.state.statsFormData
     const contactFormData = this.$store.state.contactFormData
-    this.$options.shouldShowStatsForm =
-      !statsFormData || Object.keys(statsFormData).length === 0
     this.$options.shouldShowContactForm =
       !contactFormData || Object.keys(contactFormData).length === 0
   },
@@ -101,16 +90,12 @@ export default {
     miaFormDefinition() {
       return this.$store.state.miaFormDefinition
     },
-    statsFormDefinition() {
-      return this.$store.state.statsFormDefinition
-    },
     contactFormDefinition() {
       return this.$store.state.contactFormDefinition
     },
     canRenderForms() {
       return (
         Object.keys(this.miaFormDefinition).length > 0 &&
-        Object.keys(this.statsFormDefinition).length > 0 &&
         Object.keys(this.contactFormDefinition).length > 0
       )
     },
@@ -121,9 +106,6 @@ export default {
   methods: {
     submitForm() {
       this.$router.push({ name: "Results" })
-      if (this.$options.shouldShowStatsForm) {
-        this.$store.dispatch("sendStatsData")
-      }
       if (this.$options.shouldShowContactForm) {
         this.$store.dispatch("sendUsageData")
       }

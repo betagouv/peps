@@ -23,7 +23,6 @@ export default new Vuex.Store({
 
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
-    statsLoadingStatus: Constants.LoadingStatus.IDLE,
     contactLoadingStatus: Constants.LoadingStatus.IDLE,
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -31,11 +30,9 @@ export default new Vuex.Store({
     experimentEditLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
-    statsFormDefinition: {},
     contactFormDefinition: {},
 
     miaFormData: {},
-    statsFormData: {},
     contactFormData: {},
 
     implementationFormData: {},
@@ -52,9 +49,6 @@ export default new Vuex.Store({
     },
     SET_SUGGESTIONS_LOADING(state, status) {
       state.suggestionsLoadingStatus = status
-    },
-    SET_STATS_LOADING(state, status) {
-      state.statsLoadingStatus = status
     },
     SET_CONTACT_LOADING(state, status) {
       state.contactLoadingStatus = status
@@ -76,14 +70,10 @@ export default new Vuex.Store({
     },
     SET_FORM_SCHEMAS(state, formDefinitions) {
       state.miaFormDefinition = formDefinitions['practices_form'] || {}
-      state.statsFormDefinition = formDefinitions['stats_form'] || {}
       state.contactFormDefinition = formDefinitions['contact_form'] || {}
     },
     SET_MIA_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.miaFormData, fieldId, fieldValue)
-    },
-    SET_STATS_FORM_DATA(state, { fieldId, fieldValue }) {
-      Vue.set(state.statsFormData, fieldId, fieldValue)
     },
     SET_CONTACT_FORM_DATA(state, { fieldId, fieldValue }) {
       Vue.set(state.contactFormData, fieldId, fieldValue)
@@ -114,7 +104,6 @@ export default new Vuex.Store({
     RESET_LOADERS(state) {
       state.formDefinitionsLoadingStatus = Constants.LoadingStatus.IDLE
       state.suggestionsLoadingStatus = Constants.LoadingStatus.IDLE
-      state.statsLoadingStatus = Constants.LoadingStatus.IDLE
       state.contactLoadingStatus = Constants.LoadingStatus.IDLE
       state.implementationLoadingStatus = Constants.LoadingStatus.IDLE
       state.categoriesLoadingStatus = Constants.LoadingStatus.IDLE
@@ -194,15 +183,6 @@ export default new Vuex.Store({
         context.commit('SET_LOGGED_USER', null)
       })
     },
-
-    sendStatsData(context) {
-      context.commit('SET_STATS_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/stats', this.getters.statsPayload, { headers }).then(() => {
-        context.commit('SET_STATS_LOADING', Constants.LoadingStatus.SUCCESS)
-      }).catch(() => {
-        context.commit('SET_STATS_LOADING', Constants.LoadingStatus.ERROR)
-      })
-    },
     sendContactData(context) { // From contact page
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
@@ -251,9 +231,6 @@ export default new Vuex.Store({
     },
     addMiaFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_MIA_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
-    },
-    addStatsFormData(context, { fieldId, fieldValue }) {
-      context.commit('SET_STATS_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
     },
     addContactFormData(context, { fieldId, fieldValue }) {
       context.commit('SET_CONTACT_FORM_DATA', { fieldId: fieldId, fieldValue: fieldValue })
@@ -308,13 +285,12 @@ export default new Vuex.Store({
   },
   getters: {
     formsAreComplete(state) {
-      if (Object.keys(state.miaFormDefinition).length === 0 && Object.keys(state.statsFormDefinition).length === 0 && Object.keys(state.contactFormDefinition).length === 0) {
+      if (Object.keys(state.miaFormDefinition).length === 0 && Object.keys(state.contactFormDefinition).length === 0) {
         return false
       }
       const miaFormIsComplete = formutils.formIsComplete(state.miaFormDefinition.schema, state.miaFormDefinition.options, state.miaFormData)
-      const statsFormIsComplete = formutils.formIsComplete(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
       const contactFormIsComplete = formutils.formIsComplete(state.contactFormDefinition.schema, state.contactFormDefinition.options, state.contactFormData)
-      return miaFormIsComplete && statsFormIsComplete && contactFormIsComplete
+      return miaFormIsComplete && contactFormIsComplete
     },
     suggestionsPayload(state) {
       return { answers: state.miaFormData, practice_blacklist: state.blacklist.map(x => x.id) }
@@ -322,7 +298,7 @@ export default new Vuex.Store({
     implementationPayload(state, getters) {
       const reasons = state.implementationFormData ? state.implementationFormData.implementationReason || [] : []
       return {
-        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        answers: getters.humanReadableMiaAnswers,
         email: state.contactFormData ? state.contactFormData.email : '',
         name: (state.contactFormData ? state.contactFormData.name : '') + ' [IMPLEMENTATION PRATIQUE]',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
@@ -334,7 +310,7 @@ export default new Vuex.Store({
         email: state.contactFormData ? state.contactFormData.email : '',
         name: (state.contactFormData ? state.contactFormData.name : '') + ' [PARTAGE CONTACT]',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        answers: getters.humanReadableMiaAnswers,
         reason: 'A partagé ses coordonnées pour être contacté',
         practice_id: '',
       }
@@ -344,7 +320,7 @@ export default new Vuex.Store({
         email: state.contactFormData ? state.contactFormData.email : '',
         name: (state.contactFormData ? state.contactFormData.name : '') + ' [UTILISATION FORMULAIRE]',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        answers: getters.humanReadableMiaAnswers,
         reason: 'A répondu au formulaire depuis l\'application web',
         practice_id: '',
       }
@@ -354,7 +330,7 @@ export default new Vuex.Store({
         email: state.contactFormData ? state.contactFormData.email : '',
         name: (state.contactFormData ? state.contactFormData.name : '') + ' [PARTAGE XP]',
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: getters.humanReadableMiaAnswers + '\n' + getters.humanReadableStatsAnswers,
+        answers: getters.humanReadableMiaAnswers,
         reason: 'Veut partager une expérimentation',
         practice_id: '',
       }
@@ -366,17 +342,8 @@ export default new Vuex.Store({
         phone_number: state.contactFormData ? state.contactFormData.phone : '',
       }
     },
-    statsPayload(state) {
-      return {
-        groups: state.statsFormData ? state.statsFormData.groups : [],
-        referers: state.statsFormData ? state.statsFormData.referers : [],
-      }
-    },
     humanReadableMiaAnswers(state) {
       return formutils.getHumanReadableAnswers(state.miaFormDefinition.schema, state.miaFormDefinition.options, state.miaFormData)
-    },
-    humanReadableStatsAnswers(state) {
-      return formutils.getHumanReadableAnswers(state.statsFormDefinition.schema, state.statsFormDefinition.options, state.statsFormData)
     },
     practiceWithShortTitle(state) {
       // TODO: this is only while we have all practices in a state property
