@@ -194,12 +194,11 @@
           ></v-textarea>
         </div>
 
-
         <div class="field">
+          <div class="field-title title">Sur quelle surface portait l'expérimentation ?</div>
           <div
-            class="field-title title"
-          >Sur quelle surface portait l'expérimentation ?</div>
-          <div class="field-helper subtitle-2 grey--text">"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
+            class="field-helper subtitle-2 grey--text"
+          >"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
@@ -231,17 +230,17 @@
             value="Des carrés"
           ></v-checkbox>
         </div>
-        <!-- <div class="field">
-        <div class="field-title title">Combien d'ha cela représente ?</div>
-        <v-textarea
-          @change="hasChanged = true"
-          rows="1"
-          auto-grow
-          outlined
-          dense
-          v-model="dummyExperiment.surface"
-        ></v-textarea>
-        </div>-->
+        <div class="field">
+          <div class="field-title title">Combien d'ha cela représente ?</div>
+          <v-textarea
+            @change="hasChanged = true"
+            rows="1"
+            auto-grow
+            outlined
+            dense
+            v-model="dummyExperiment.surface"
+          ></v-textarea>
+        </div>
 
         <div class="field">
           <div class="field-title title">Avez-vous mis en place un témoin ?</div>
@@ -371,7 +370,7 @@ export default {
     return {
       dummyExperiment: {
         tags: [],
-        surface_type: [],
+        surface_type: []
       },
       hasChanged: false,
       formIsValid: true
