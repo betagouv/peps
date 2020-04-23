@@ -20,23 +20,25 @@
           style="background: #CCC;"
           />-->
 
-          <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
-            <v-avatar size="100" color="grey">
+          <div style="margin: 20px 15px 20px 15px;  " class="pa-0 d-flex">
+            <v-avatar :size="isMobile ? 35 : 100" color="grey">
               <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
-              <v-icon v-else large>mdi-account</v-icon>
+              <v-icon v-else :large="!isMobile" :small="isMobile">mdi-account</v-icon>
             </v-avatar>
-            <div style="padding-left: 30px;">
+            <div style="padding-left: 15px;">
               <div class="headline">
                 {{ farmer.name }}
+                <span class="d-block d-sm-inline">
                 <v-chip
                   small
                   class
-                  style="margin-top:-4px; margin-left: 10px;"
+                  style="margin-top:-4px; margin-right: 10px;"
                   v-for="(title, index) in (farmer.production || [])"
                   :key="index"
                 >{{ title }}</v-chip>
+                </span>
               </div>
-              <div v-if="farmer.postal_code" style="margin-top: 3px;" class="body-2">
+              <div v-if="farmer.postal_code" style="margin-top: 5px;" class="body-2">
                 <v-icon small style="padding-bottom: 3px;">mdi-map-marker</v-icon>
                 {{ farmer.postal_code }}
               </div>
@@ -46,6 +48,7 @@
                   class="text-none"
                   style="margin-top: 10px"
                   outlined
+                  :small="isMobile"
                   color="primary"
                   @click="onContactClick"
                 >Contacter {{farmer.name}}</v-btn>
@@ -232,6 +235,9 @@ export default {
     },
     farmerNotFound() {
       return this.$store.state.farmers.length > 0 && !this.farmer
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.name === 'xs'
     },
     breadcrumbs() {
       return [
