@@ -24,6 +24,11 @@
             et rédiger votre première expérimentation.
             Laissez-nous vos coordonnées pour que nous prenions contact.
           </v-card-text>
+
+          <v-card-text>
+            Si vous faites déjà partie des testeurs
+            <v-btn outlined color="primary" href="/login" small class="text-none">identifiez-vous</v-btn> pour proposer une nouvelle expérimentation.
+          </v-card-text>
           <v-card-text>
             <Form
               style="margin-bottom: 0px;"

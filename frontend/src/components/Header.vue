@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ContributionOverlay :visible="showContributionOverlay" @done="showContributionOverlay = false"/>
     <div style="position: absolute; width:100%;">
       <v-app-bar app absolute color="primary" dark>
         <v-toolbar-title>
@@ -49,7 +50,7 @@
 
         </v-menu>
 
-        <v-btn v-if="isXPPage && loggedUser && loggedUser.farmer_external_id" color="white" @click="onShareXPClick">
+        <v-btn v-if="isXPPage" color="white" @click="onShareXPClick">
           <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
           <span
             style="font-weight:bold;"
@@ -77,13 +78,15 @@
 <script>
 import Blacklist from "@/components/Blacklist.vue"
 import AccountList from "@/components/AccountList.vue"
+import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "Header",
-  components: { Blacklist, AccountList },
+  components: { Blacklist, AccountList, ContributionOverlay },
   data: () => {
     return {
-      blacklistDialog: false
+      blacklistDialog: false,
+      showContributionOverlay: false
     }
   },
   computed: {
@@ -116,7 +119,12 @@ export default {
         "shareXP",
         "Proposer une expérimentation"
       )
-      this.$router.push({ name: "ExperimentEditor" })
+      if (this.loggedUser && this.loggedUser.farmer_external_id)
+        this.$router.push({ name: "ExperimentEditor" })
+      else if (this.loggedUser)
+        window.alert('Vous n\'avez pas un profil agriculteur sur notre site')
+      else
+        this.showContributionOverlay = true
     }
   },
   watch: {
@@ -126,3 +134,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.v-overlay {
+  z-index: 99999 !important;
+}
+.close-overlay {
+  position: absolute;
+  right: -10px;
+  top: -20px;
+  z-index: 99999;
+}
+</style>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ContributionOverlay :visible="showContributionOverlay" @done="showContributionOverlay = false"/>
     <v-container class="constrained">
       <div class="pa-0" style="margin-top: 10px;">
         <div class="display-1">
@@ -79,7 +80,7 @@
       <v-card-text class="title" style="padding: 16px 16px 0px 16px;">Trouvez un retour d'expérience</v-card-text>
       <ExperimentFilter />
 
-      <div v-if="loggedUser && loggedUser.farmer_external_id" style="margin: 20px 0 0px 15px;">
+      <div style="margin: 20px 0 0px 15px;">
         Vous souhaitez partager votre expérience ?
         <v-btn
           @click="onShareXPClick"
@@ -101,6 +102,7 @@ import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import geojson from "../resources/departments.json"
 import Constants from "@/constants"
+import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "Map",
@@ -109,10 +111,12 @@ export default {
     LMarker,
     LGeoJson,
     FarmerCard,
-    ExperimentFilter
+    ExperimentFilter,
+    ContributionOverlay
   },
   data() {
     return {
+      showContributionOverlay: false,
       markersInfo: [],
       showGeolocation: !!window.navigator.geolocation,
       showParagraph: false,
@@ -206,11 +210,16 @@ export default {
     },
     onShareXPClick() {
       window.sendTrackingEvent(
-        this.$route.name,
+        "Header",
         "shareXP",
         "Proposer une expérimentation"
       )
-      this.$router.push({ name: "ExperimentEditor" })
+      if (this.loggedUser && this.loggedUser.farmer_external_id)
+        this.$router.push({ name: "ExperimentEditor" })
+      else if (this.loggedUser)
+        window.alert('Vous n\'avez pas un profil agriculteur sur notre site')
+      else
+        this.showContributionOverlay = true
     },
     refreshMapMarkers() {
       this.markersInfo = []
