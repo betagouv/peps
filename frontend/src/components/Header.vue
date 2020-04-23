@@ -51,7 +51,7 @@
         </v-menu>
 
         <v-btn v-if="isXPPage" color="white" @click="onShareXPClick">
-          <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-outline</v-icon>
+          <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-plus-outline</v-icon>
           <span
             style="font-weight:bold;"
             class="caption text-none d-none d-sm-flex primary--text"

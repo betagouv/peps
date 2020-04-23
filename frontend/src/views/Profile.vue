@@ -9,7 +9,7 @@
       <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
       <v-btn class="text-none" style="margin-top: 10px;" v-if="!!farmer" @click="createXP">
-        <v-icon style="margin-right: 10px;">mdi-flask-empty-plus-outline</v-icon>Partager une nouvelle expérimentation
+        <v-icon style="margin-right: 10px;">mdi-beaker-plus-outline</v-icon>Partager une nouvelle expérimentation
       </v-btn>
 
       <div class="title" style="margin-top: 30px; margin-bottom: 0px;">Mes expérimentations</div>
