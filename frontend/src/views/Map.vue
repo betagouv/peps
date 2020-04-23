@@ -11,7 +11,7 @@
           >entre agriculteurs</span>
         </div>
         <v-card-text
-          class="title"
+          :class="subtitleClass"
           style="padding: 16px 16px 0px 0;"
         >Trouvez des exemples près de chez vous</v-card-text>
         <v-row style="padding: 0 16px 0 16px;">
@@ -20,11 +20,12 @@
             :items="departments"
             hide-no-data
             hide-selected
+            hide-details
             item-text="nom"
             item-value="code"
             v-model="selectedDepartment"
             placeholder="Trouvez votre département"
-            prepend-icon="mdi-map-search-outline"
+            :prepend-icon="searchIcon"
             return-object
           ></v-autocomplete>
           <v-btn
@@ -35,7 +36,8 @@
             class="text-none"
             style="margin: 10px 0 0 10px;"
           >
-            <v-icon small style="margin: 0 5px 0 0;">mdi-crosshairs-gps</v-icon>Me localiser
+            <v-icon small style="margin: 0 5px 0 0;">mdi-crosshairs-gps</v-icon>
+            <span class="d-none d-sm-flex">Me localiser</span>
           </v-btn>
           <v-spacer class="hidden-sm-and-down" />
         </v-row>
@@ -50,7 +52,7 @@
             :options="{ zoomSnap: 0.2, maxZoom: 10, minZoom: 4, maxBounds: maxBounds }"
             :zoom="zoom"
             :center="center"
-            style="height: 520px;border: solid 1px #DDD;"
+            :style="'height: ' + mapHeight + ';border: solid 1px #DDD;'"
           >
             <l-geo-json :geojson="geojson" :options="options" :options-style="styleOptions" />
             <l-marker
@@ -177,6 +179,15 @@ export default {
     },
     loggedUser() {
       return this.$store.state.loggedUser
+    },
+    mapHeight() {
+      return this.$vuetify.breakpoint.name === 'xs' ? '180px' : '520px'
+    },
+    searchIcon() {
+      return this.$vuetify.breakpoint.name === 'xs' ? undefined : 'mdi-map-search-outline'
+    },
+    subtitleClass() {
+      return this.$vuetify.breakpoint.name === 'xs' ? 'subtitle-2' : 'title'
     },
     options() {
       return {
