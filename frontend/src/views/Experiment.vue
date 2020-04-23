@@ -20,13 +20,13 @@
             style="background: #CCC;"
           />-->
 
-          <div style="margin: 20px 20px 20px 20px;  " class="pa-0 d-flex">
+          <div style="margin: 20px 15px 20px 15px;" class="pa-0 d-flex">
             <div>
-              <div class="headline" style="margin: 0px 0px 5px 0">
-                <v-icon style="margin: 0px 5px 0 0">mdi-beaker-outline</v-icon>
-                {{ experiment.name }}
+              <div style="float: left; margin-top: 3px;">
+                <v-icon>mdi-beaker-outline</v-icon>
               </div>
               <div style="margin-left: 35px;" class="body-2">
+                <div class="headline" style="margin-bottom: 10px;">{{ experiment.name }}</div>
                 <v-icon
                   style="margin-right: 3px;"
                   v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
@@ -38,18 +38,22 @@
           </div>
         </v-card>
 
-        <div class="body-1">
-          <v-avatar style="margin-right: 10px;" size="35" color="grey">
-            <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
-            <v-icon small v-else>mdi-account</v-icon>
-          </v-avatar>Expérimentation faite par
-          <a @click="goToFarmer(farmer)">{{farmer.name}}</a>
-        </div>
-        <div style="margin-bottom: 20px; margin-left: 45px; margin-top: 0px;">
+        <v-avatar style="margin-right: 10px; float: left;" size="35" color="grey">
+          <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
+          <v-icon small v-else>mdi-account</v-icon>
+        </v-avatar>
+
+        <div style="margin-bottom: 20px; margin-left: 50px; margin-top: 0px;">
+          <div class="body-1" style="margin-bottom: 10px;">
+            Expérimentation faite par
+            <a @click="goToFarmer(farmer)">{{farmer.name}}</a>
+          </div>
+
           <v-btn
             class="text-none"
             @click="onContactClick"
             color="primary"
+            :small="isMobile"
           >Contacter {{ farmer.name }}</v-btn>
         </div>
 
@@ -106,7 +110,10 @@
         </div>
 
         <div class="title" style="margin-top: 20px;">Objectifs</div>
-        <div class="body-1" style="margin-top: 5px; white-space: pre-wrap;">{{ experiment.objectives }}</div>
+        <div
+          class="body-1"
+          style="margin-top: 5px; white-space: pre-wrap;"
+        >{{ experiment.objectives }}</div>
 
         <p class="title" v-if="experiment.description" style="margin-top: 20px;">Description</p>
         <div
@@ -173,7 +180,7 @@
             cols="12"
             sm="6"
           >
-            <v-card flat class="d-flex" height=250>
+            <v-card flat class="d-flex" height="250">
               <video style="height: 100%; width: 100%; background: #333;" controls>
                 <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
               </video>
@@ -182,7 +189,7 @@
         </v-row>
 
         <div class="body-1" style="margin-top: 30px;">
-          Pour plus d'informations sur cette expérimentation : 
+          Pour plus d'informations sur cette expérimentation :
           <v-btn
             class="text-none"
             @click="onContactClick"
@@ -240,6 +247,9 @@ export default {
   computed: {
     farmer() {
       return this.$store.getters.farmerWithName(this.farmerName)
+    },
+    isMobile() {
+      return this.$vuetify.breakpoint.name === 'xs'
     },
     experiment() {
       if (!this.farmer) return
