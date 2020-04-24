@@ -58,6 +58,14 @@ export default {
         window.sendTrackingEvent(this.$route.name, "filter", "selected-" + filter)
       }
     }
+  },
+  watch: {
+    selectedFilters(newFilters) {
+      this.$store.dispatch('updateFilters', { filters: newFilters })
+    }
+  },
+  beforeMount() {
+    this.selectedFilters = this.$store.state.xpSelectionFilters
   }
 }
 </script>

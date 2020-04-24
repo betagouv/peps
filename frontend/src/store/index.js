@@ -42,6 +42,8 @@ export default new Vuex.Store({
 
     categories: [],
     defaultPracticeImageUrl: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
+    xpPaginationPage: 1,
+    xpSelectionFilters: []
   },
   mutations: {
     SET_FORM_SCHEMAS_LOADING(state, status) {
@@ -131,7 +133,13 @@ export default new Vuex.Store({
           break
         }
       }
-    }
+    },
+    UPDATE_PAGINATION(state, page) {
+      state.xpPaginationPage = page
+    },
+    UPDATE_FILTERS(state, filters) {
+      Vue.set(state, 'xpSelectionFilters', filters)
+    },
   },
   actions: {
     fetchFormDefinitions(context) {
@@ -280,6 +288,12 @@ export default new Vuex.Store({
     resetExperimentEditLoadingStatus(context) {
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.IDLE)
     },
+    updatePagination(context, { page }) {
+      context.commit('UPDATE_PAGINATION', page)
+    },
+    updateFilters(context, { filters }) {
+      context.commit('UPDATE_FILTERS', filters)
+    }
   },
   modules: {
   },

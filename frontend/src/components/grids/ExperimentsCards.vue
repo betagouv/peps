@@ -67,10 +67,14 @@ export default {
   watch: {
     page(newPage, oldPage) {
       this.lastTransitionBackwards = newPage < oldPage
+      this.$store.dispatch('updatePagination', { page: newPage })
     },
     experiments() {
       this.page = 1
     }
+  },
+  mounted() {
+    this.page = this.$store.state.xpPaginationPage
   }
 }
 </script>
