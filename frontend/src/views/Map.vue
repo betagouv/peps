@@ -66,6 +66,7 @@
         </v-col>
         <v-col cols="12" sm="4">
           <FarmerCard
+            :showMapPin="true"
             :farmer="selectedFarmer"
             v-if="!!selectedFarmer"
           />

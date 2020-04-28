@@ -1,14 +1,17 @@
 <template>
   <v-card class="flex-container" outlined>
+    <MiniMap style="padding-top: 15px;" v-if="showMiniMap" :lat='farmer.lat' :lon='farmer.lon' />
+
     <v-list-item class="flex-fix-item" style="margin: 5px 0 0px 0;">
-      <v-list-item-avatar color="grey">
+      <v-list-item-avatar :size="avatarSize" color="grey" style="margin-right: 8px;">
         <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
         <v-icon v-else>mdi-account</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title class="title" style="padding-left: 3px;">
+        <v-list-item-title :class="{'title': !compact, 'subtitle-2': compact}" style="padding-left: 3px;">
           <img
             src="/static/images/marker-icon-2x-red.png"
+            v-if="showMapPin"
             height="18px"
             style="display:inline-block; margin-bottom: -3px; margin-right: 2px;"
           />
@@ -31,12 +34,12 @@
       >{{ title }}</v-chip>
     </v-card-text>
 
-
     <v-card-text class="flex-fix-item" style="padding-top: 3px; padding-bottom: 0;">
       <v-btn
         block
         class="text-none"
         color="primary"
+        :outlined="ctaSecondary"
         max-width="50"
         @click="goToFarmer(farmer)"
       >Voir le profil</v-btn>
@@ -48,21 +51,26 @@
       style="color: #666; padding-bottom: 0; padding-top: 15px;"
     >
       <v-icon size="20" style="margin: -3px 3px 0 0;">mdi-beaker-outline</v-icon>
-      <div style="font-weight: bold;">{{farmer.experiments.length}} Expérimentation{{farmer.experiments.length > 1 ? 's' : ''}}</div>
+      <div
+        style="font-weight: bold;"
+      >{{farmer.experiments.length}} Expérimentation{{farmer.experiments.length > 1 ? 's' : ''}}</div>
     </v-card-text>
 
     <v-divider class="flex-fix-item" style="margin: 10px 15px 10px 15px;" />
 
-
-     <v-card-subtitle
+    <v-card-subtitle
       v-if="farmer.groups && farmer.groups.length > 0"
       class="subtitle-2 flex-fix-item"
       style="padding-bottom: 5px; padding-top: 0;"
     >Exploitation</v-card-subtitle>
 
-    <v-card-text v-if="farmer.surface" style="padding-bottom: 5px; padding-top: 0px;" class="body-2 flex-fix-item">
+    <v-card-text
+      v-if="farmer.surface"
+      style="padding-bottom: 5px; padding-top: 0px;"
+      class="body-2 flex-fix-item"
+    >
       <div>
-        {{farmer.surface}} ha 
+        {{farmer.surface}} ha
         <span v-if="farmer.surface_cultures || farmer.surface_meadows">
           dont&nbsp;
           <span v-if="farmer.surface_cultures">{{farmer.surface_cultures}} ha en cultures</span>
@@ -85,7 +93,7 @@
       class="body-2 flex-fix-item"
       style="padding: 5px;"
     >
-    <v-chip
+      <v-chip
         small
         class
         style="margin-top:-4px; margin-left: 10px;"
@@ -95,16 +103,12 @@
     </v-card-text>
 
     <v-divider class="flex-fix-item" style="margin: 0px 15px 10px 15px;" />
-
     <v-card-subtitle
       v-if="farmer.groups && farmer.groups.length > 0"
       class="subtitle-2 flex-fix-item"
       style="padding-bottom: 5px; padding-top: 0;"
     >Groupes</v-card-subtitle>
-    <v-card-text
-      class="flex-fix-item body-2"
-      v-if="farmer.groups && farmer.groups.length > 0"
-    >
+    <v-card-text class="flex-fix-item body-2" v-if="farmer.groups && farmer.groups.length > 0">
       <span v-for="(group, index) in farmer.groups" :key="index">
         {{group}}
         <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
@@ -114,12 +118,35 @@
 </template>
 
 <script>
+import MiniMap from "@/components/MiniMap.vue"
+
 export default {
   name: "FarmerCard",
+  components: { MiniMap },
   props: {
     farmer: {
       type: Object,
       required: true
+    },
+    ctaSecondary: {
+      type: Boolean,
+      default: false
+    },
+    showMiniMap: {
+      type: Boolean,
+      default: false
+    },
+    showMapPin: {
+      type: Boolean,
+      default: false
+    },
+    avatarSize: {
+      type: Number,
+      default: 40
+    },
+    compact: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

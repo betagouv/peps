@@ -12,191 +12,229 @@
     <div v-else-if="experiment">
       <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
-        <v-card style="margin-bottom: 20px" outlined shaped>
-          <!-- <v-img
+        <v-row>
+          <v-col cols="12" sm="7" md="9">
+            <v-card style="margin-bottom: 20px" outlined shaped>
+              <!-- <v-img
             class="white--text align-end"
             height="110px"
             :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
             style="background: #CCC;"
-          />-->
+              />-->
 
-          <div style="margin: 20px 15px 20px 15px;" class="pa-0 d-flex">
-            <div>
-              <div style="float: left; margin-top: 3px;">
-                <v-icon>mdi-beaker-outline</v-icon>
+              <div style="margin: 20px 15px 20px 15px;" class="pa-0 d-flex">
+                <div>
+                  <div style="float: left; margin-top: 3px;">
+                    <v-icon>mdi-beaker-outline</v-icon>
+                  </div>
+                  <div style="margin-left: 35px;" class="body-2">
+                    <div class="headline" style="margin-bottom: 10px;">{{ experiment.name }}</div>
+                    <v-icon
+                      style="margin-right: 3px;"
+                      v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
+                      color="primary"
+                    >mdi-check-decagram</v-icon>
+                    {{experiment.results}}
+                  </div>
+                  <div style="margin-left: 35px; margin-top: 10px;">
+                    <v-btn
+                      class="text-none d-none d-sm-flex"
+                      @click="onContactClick"
+                      color="primary"
+                      :small="isMobile"
+                    >Contacter {{ farmer.name }}</v-btn>
+                  </div>
+                </div>
               </div>
-              <div style="margin-left: 35px;" class="body-2">
-                <div class="headline" style="margin-bottom: 10px;">{{ experiment.name }}</div>
-                <v-icon
-                  style="margin-right: 3px;"
-                  v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
+            </v-card>
+
+            <div
+              class="d-flex d-sm-none"
+              style="margin-bottom: 20px; margin-left: 15px; margin-top: 0px;"
+            >
+              <v-avatar
+                style="margin-right: 10px; float: left; margin-top: 0px;"
+                size="35"
+                color="grey"
+              >
+                <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
+                <v-icon small v-else>mdi-account</v-icon>
+              </v-avatar>
+
+              <div class="subtitle-1" style="margin-bottom: 0px;">
+                Expérimentation faite par {{ farmer.name }}.
+                <v-btn
+                block
+                small
+                class="text-none"
+                style="margin-bottom: 10px; margin-top: 5px;"
+                @click="onContactClick"
+                color="primary"
+              >Contacter {{ farmer.name }}</v-btn>
+            
+                <v-btn
+                  block
+                  class="text-none"
                   color="primary"
-                >mdi-check-decagram</v-icon>
-                {{experiment.results}}
+                  outlined
+                  small
+                  @click="goToFarmer(farmer)"
+                >Voir son profil</v-btn>
               </div>
             </div>
-          </div>
-        </v-card>
 
-        <v-avatar style="margin-right: 10px; float: left;" size="35" color="grey">
-          <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
-          <v-icon small v-else>mdi-account</v-icon>
-        </v-avatar>
+            <div v-if="experiment.xp_type" class="body-2 info-item">
+              <v-icon small left>mdi-shape-outline</v-icon>
+              <div>{{experiment.xp_type}}</div>
+            </div>
 
-        <div style="margin-bottom: 20px; margin-left: 50px; margin-top: 0px;">
-          <div class="body-1" style="margin-bottom: 10px;">
-            Expérimentation faite par
-            <a @click="goToFarmer(farmer)">{{farmer.name}}</a>
-          </div>
+            <div v-if="experiment.investment" class="body-2 info-item">
+              <v-icon small left>mdi-cash-multiple</v-icon>
+              <div>{{experiment.investment}}</div>
+            </div>
 
-          <v-btn
-            class="text-none"
-            @click="onContactClick"
-            color="primary"
-            :small="isMobile"
-          >Contacter {{ farmer.name }}</v-btn>
-        </div>
+            <div v-if="experiment.surface || experiment.surface_type" class="body-2 info-item">
+              <v-icon small left>mdi-texture-box</v-icon>
+              <div>
+                Surface :
+                <span
+                  v-if="experiment.surface && !experiment.surface_type"
+                >{{experiment.surface}}</span>
+                <span
+                  v-else-if="!experiment.surface && experiment.surface_type"
+                >{{experiment.surface_type.join ? experiment.surface_type.join(', ') : experiment.surface_type}}</span>
+                <span
+                  v-else
+                  style="text-transform: lowercase;"
+                >{{experiment.surface}} ({{experiment.surface_type}})</span>
+              </div>
+            </div>
 
-        <div v-if="experiment.xp_type" class="body-2 info-item">
-          <v-icon small left>mdi-shape-outline</v-icon>
-          <div>{{experiment.xp_type}}</div>
-        </div>
+            <div v-if="experiment.ongoing" class="body-2 info-item">
+              <v-icon small left>mdi-playlist-edit</v-icon>
+              <div>Expérimentation en cours</div>
+            </div>
 
-        <div v-if="experiment.investment" class="body-2 info-item">
-          <v-icon small left>mdi-cash-multiple</v-icon>
-          <div>{{experiment.investment}}</div>
-        </div>
+            <div v-else class="body-2 info-item">
+              <v-icon small left>mdi-playlist-check</v-icon>
+              <div>Expérimentation finie</div>
+            </div>
 
-        <div v-if="experiment.surface || experiment.surface_type" class="body-2 info-item">
-          <v-icon small left>mdi-texture-box</v-icon>
-          <div>
-            Surface :
-            <span
-              v-if="experiment.surface && !experiment.surface_type"
-            >{{experiment.surface}}</span>
-            <span
-              v-else-if="!experiment.surface && experiment.surface_type"
-            >{{experiment.surface_type.join ? experiment.surface_type.join(', ') : experiment.surface_type}}</span>
-            <span
-              v-else
-              style="text-transform: lowercase;"
-            >{{experiment.surface}} ({{experiment.surface_type}})</span>
-          </div>
-        </div>
+            <div v-if="experiment.control_presence" class="body-2 info-item">
+              <v-icon small left>mdi-eye-outline</v-icon>
+              <div>Mise en place d'un témoin</div>
+            </div>
 
-        <div v-if="experiment.ongoing" class="body-2 info-item">
-          <v-icon small left>mdi-playlist-edit</v-icon>
-          <div>Expérimentation en cours</div>
-        </div>
+            <div v-else class="body-2 info-item">
+              <v-icon small left>mdi-eye-off-outline</v-icon>
+              <div>Pas de témoin mis en place</div>
+            </div>
 
-        <div v-else class="body-2 info-item">
-          <v-icon small left>mdi-playlist-check</v-icon>
-          <div>Expérimentation finie</div>
-        </div>
+            <div v-if="experiment.equipment" class="body-2 info-item">
+              <v-icon small left>mdi-hammer-wrench</v-icon>
+              <div>{{ experiment.equipment }}</div>
+            </div>
 
-        <div v-if="experiment.control_presence" class="body-2 info-item">
-          <v-icon small left>mdi-eye-outline</v-icon>
-          <div>Mise en place d'un témoin</div>
-        </div>
+            <div class="title" style="margin-top: 20px;">Objectifs</div>
+            <div
+              class="body-1"
+              style="margin-top: 5px; white-space: pre-wrap;"
+            >{{ experiment.objectives }}</div>
 
-        <div v-else class="body-2 info-item">
-          <v-icon small left>mdi-eye-off-outline</v-icon>
-          <div>Pas de témoin mis en place</div>
-        </div>
+            <p class="title" v-if="experiment.description" style="margin-top: 20px;">Description</p>
+            <div
+              class="body-1"
+              v-if="experiment.description"
+              style="margin-top: 5px; white-space: pre-wrap;"
+            >{{ experiment.description }}</div>
 
-        <div v-if="experiment.equipment" class="body-2 info-item">
-          <v-icon small left>mdi-hammer-wrench</v-icon>
-          <div>{{ experiment.equipment }}</div>
-        </div>
+            <div
+              class="title"
+              v-if="experiment.results_details"
+              style="margin-top: 20px;"
+            >Information sur les résultats</div>
+            <div
+              class="body-1"
+              v-if="experiment.results_details"
+              style="margin-top: 5px; white-space: pre-wrap;"
+            >{{ experiment.results_details }}</div>
 
-        <div class="title" style="margin-top: 20px;">Objectifs</div>
-        <div
-          class="body-1"
-          style="margin-top: 5px; white-space: pre-wrap;"
-        >{{ experiment.objectives }}</div>
+            <div
+              class="title"
+              v-if="experiment.links && experiment.links.length > 0"
+              style="margin-top: 20px;"
+            >Liens</div>
+            <ul v-if="experiment.links && experiment.links.length > 0">
+              <li
+                class="body-1"
+                v-for="(link, index) in experiment.links"
+                :key="index"
+                style="margin-top: 5px;"
+              >
+                <a :href="link" target="_blank">{{ link }}</a>
+              </li>
+            </ul>
+            <div
+              class="title"
+              v-if="experiment.images && experiment.images.length > 0"
+              style="margin-top: 20px;"
+            >Images</div>
+            <v-row v-if="experiment.images && experiment.images.length > 0">
+              <v-col
+                v-for="(photo, index) in experiment.images.map(x => x.image)"
+                :key="index"
+                class="d-flex child-flex"
+                cols="6"
+                sm="3"
+              >
+                <v-card flat class="d-flex">
+                  <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
+                </v-card>
+              </v-col>
+            </v-row>
 
-        <p class="title" v-if="experiment.description" style="margin-top: 20px;">Description</p>
-        <div
-          class="body-1"
-          v-if="experiment.description"
-          style="margin-top: 5px; white-space: pre-wrap;"
-        >{{ experiment.description }}</div>
+            <div
+              class="title"
+              v-if="experiment.videos && experiment.videos.length > 0"
+              style="margin-top: 20px;"
+            >Vidéos</div>
+            <v-row v-if="experiment.videos && experiment.videos.length > 0">
+              <v-col
+                v-for="(video, index) in experiment.videos.map(x => x.video)"
+                :key="index"
+                class="d-flex child-flex"
+                cols="12"
+                sm="6"
+              >
+                <v-card flat class="d-flex" height="250">
+                  <video style="height: 100%; width: 100%; background: #333;" controls>
+                    <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
+                  </video>
+                </v-card>
+              </v-col>
+            </v-row>
 
-        <div
-          class="title"
-          v-if="experiment.results_details"
-          style="margin-top: 20px;"
-        >Information sur les résultats</div>
-        <div
-          class="body-1"
-          v-if="experiment.results_details"
-          style="margin-top: 5px; white-space: pre-wrap;"
-        >{{ experiment.results_details }}</div>
-
-        <div
-          class="title"
-          v-if="experiment.links && experiment.links.length > 0"
-          style="margin-top: 20px;"
-        >Liens</div>
-        <ul v-if="experiment.links && experiment.links.length > 0">
-          <li
-            class="body-1"
-            v-for="(link, index) in experiment.links"
-            :key="index"
-            style="margin-top: 5px;"
-          >
-            <a :href="link" target="_blank">{{ link }}</a>
-          </li>
-        </ul>
-        <div
-          class="title"
-          v-if="experiment.images && experiment.images.length > 0"
-          style="margin-top: 20px;"
-        >Images</div>
-        <v-row v-if="experiment.images && experiment.images.length > 0">
-          <v-col
-            v-for="(photo, index) in experiment.images.map(x => x.image)"
-            :key="index"
-            class="d-flex child-flex"
-            cols="6"
-            sm="3"
-          >
-            <v-card flat class="d-flex">
-              <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-            </v-card>
+            <div class="body-1" style="margin-top: 30px;">
+              Pour plus d'informations sur cette expérimentation :
+              <v-btn
+                class="text-none"
+                @click="onContactClick"
+                style="margin-top: -2px;"
+                color="primary"
+              >Contacter {{ farmer.name }}</v-btn>
+            </div>
+          </v-col>
+          <v-col style="padding-left: 0; padding-right: 0;" cols="12" sm="5" md="3">
+            <FarmerCard
+              class="d-none d-sm-flex"
+              :showMiniMap="true"
+              :ctaSecondary="true"
+              :avatarSize="30"
+              :compact="true"
+              :farmer="farmer"
+            />
           </v-col>
         </v-row>
-
-        <div
-          class="title"
-          v-if="experiment.videos && experiment.videos.length > 0"
-          style="margin-top: 20px;"
-        >Vidéos</div>
-        <v-row v-if="experiment.videos && experiment.videos.length > 0">
-          <v-col
-            v-for="(video, index) in experiment.videos.map(x => x.video)"
-            :key="index"
-            class="d-flex child-flex"
-            cols="12"
-            sm="6"
-          >
-            <v-card flat class="d-flex" height="250">
-              <video style="height: 100%; width: 100%; background: #333;" controls>
-                <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
-              </video>
-            </v-card>
-          </v-col>
-        </v-row>
-
-        <div class="body-1" style="margin-top: 30px;">
-          Pour plus d'informations sur cette expérimentation :
-          <v-btn
-            class="text-none"
-            @click="onContactClick"
-            style="margin-top: -2px;"
-            color="primary"
-          >Contacter {{ farmer.name }}</v-btn>
-        </div>
       </v-container>
     </div>
   </div>
@@ -206,10 +244,11 @@
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
+import FarmerCard from "@/components/FarmerCard.vue"
 
 export default {
   name: "Experiment",
-  components: { Title, NotFound, FarmerContactOverlay },
+  components: { Title, NotFound, FarmerContactOverlay, FarmerCard },
   data() {
     return {
       testImages: [
@@ -249,7 +288,7 @@ export default {
       return this.$store.getters.farmerWithName(this.farmerName)
     },
     isMobile() {
-      return this.$vuetify.breakpoint.name === 'xs'
+      return this.$vuetify.breakpoint.name === "xs"
     },
     experiment() {
       if (!this.farmer) return
