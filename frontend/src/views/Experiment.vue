@@ -62,16 +62,20 @@
               </v-avatar>
 
               <div class="subtitle-1" style="margin-bottom: 0px;">
-                Expérimentation faite par {{ farmer.name }}.
+                Expérimentation faite par {{ farmer.name }}
+                <span v-if="farmer.postal_code" style="margin-top: 5px;" class="body-2">
+                  (<v-icon small style="padding-bottom: 3px;">mdi-map-marker</v-icon>
+                  {{ farmer.postal_code }})
+                </span>
                 <v-btn
-                block
-                small
-                class="text-none"
-                style="margin-bottom: 10px; margin-top: 5px;"
-                @click="onContactClick"
-                color="primary"
-              >Contacter {{ farmer.name }}</v-btn>
-            
+                  block
+                  small
+                  class="text-none"
+                  style="margin-bottom: 10px; margin-top: 5px;"
+                  @click="onContactClick"
+                  color="primary"
+                >Contacter {{ farmer.name }}</v-btn>
+
                 <v-btn
                   block
                   class="text-none"
