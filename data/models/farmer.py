@@ -13,6 +13,8 @@ PRODUCTIONS = (
     ('Cultures industrielles', 'Cultures industrielles'),
     ('Élevage allaitant', 'Élevage allaitant'),
     ('Élevage laitier', 'Élevage laitier'),
+    ('Élevage engraissement', 'Élevage engraissement'),
+    ('Élevage poule pondeuses', 'Élevage poule pondeuses'),
     ('Cultures légumières', 'Cultures légumières'),
     ('Vigne', 'Vigne'),
     ('Autre', 'Autre'),
