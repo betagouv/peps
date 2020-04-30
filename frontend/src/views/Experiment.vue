@@ -256,7 +256,7 @@ export default {
       return this.farmer.experiments.find(x => x.name === this.experimentName)
     },
     experimentNotFound() {
-      return this.$store.state.experiments.length > 0 && !this.experiment
+      return this.$store.getters.experiments.length > 0 && !this.experiment
     },
     icons() {
       const icons = {

@@ -5,10 +5,11 @@
       style="max-height: 150px; overflow: hidden;"
       outlined
       slot-scope="{ hover }"
-      :elevation="hover ? 3 : 1"
+      :elevation="!disabled && hover ? 3 : elevation"
+      :disabled="disabled"
       @click="goToExperiment()"
     >
-      <div class="d-flex justify-space-between" style="height: 100%">
+      <div class="d-flex" style="height: 100%;">
         <v-img
           class="white--text align-end flex-fix-item"
           height="100%"
@@ -43,6 +44,14 @@ export default {
     experiment: {
       type: Object,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    elevation: {
+      type: Number,
+      default: 1
     }
   },
   data() {

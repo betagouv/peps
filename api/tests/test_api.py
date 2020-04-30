@@ -13,8 +13,6 @@ from django.contrib.auth.models import User
 from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
 from data.models import Practice, DiscardAction
 from data.models import Category, Resource, Farmer, Experiment
-from data.utils import patch_airtable_data, create_airtable_data
-from api.views import SendTaskView
 from api.utils import AsanaUtils
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -498,15 +496,11 @@ class TestApi(TestCase):
         experiment = Experiment.objects.get(external_id='rec33329kfas9i')
         payload = {'objectives': 'Lorem ipsum'}
         url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
+        response = self.client.patch(url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-        try:
-            original_function = ExperimentsAirtableAdapter.update_experiment
-            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
-            response = self.client.patch(url, payload, format='json')
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            ExperimentsAirtableAdapter.update_experiment.assert_not_called()
-        finally:
-            ExperimentsAirtableAdapter.update_experiment = original_function
+
+
 
     def test_xp_patch_unauthorized(self):
         """
@@ -519,15 +513,8 @@ class TestApi(TestCase):
         url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
 
         self.client.login(username=farmer_external_id, password='12345')
-
-        try:
-            original_function = ExperimentsAirtableAdapter.update_experiment
-            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
-            response = self.client.patch(url, payload, format='json')
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            ExperimentsAirtableAdapter.update_experiment.assert_not_called()
-        finally:
-            ExperimentsAirtableAdapter.update_experiment = original_function
+        response = self.client.patch(url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_xp_put_unavailable(self):
         """
@@ -541,15 +528,8 @@ class TestApi(TestCase):
 
         self.client.login(username=farmer_external_id, password='12345')
 
-        # patch utils _patch_eirtable_data
-        try:
-            original_function = ExperimentsAirtableAdapter.update_experiment
-            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
-            response = self.client.put(url, payload, format='json')
-            self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-            ExperimentsAirtableAdapter.update_experiment.assert_not_called()
-        finally:
-            ExperimentsAirtableAdapter.update_experiment = original_function
+        response = self.client.put(url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_xp_patch_success(self):
         """
@@ -563,16 +543,10 @@ class TestApi(TestCase):
 
         self.client.login(username=farmer_external_id, password='12345')
 
-        try:
-            original_function = ExperimentsAirtableAdapter.update_experiment
-            ExperimentsAirtableAdapter.update_experiment = MagicMock(return_value=True)
+        response = self.client.patch(url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Experiment.objects.get(external_id='rec33329kfas9i').objectives, 'Lorem ipsum')
 
-            response = self.client.patch(url, payload, format='json')
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
-            self.assertEqual(Experiment.objects.get(external_id='rec33329kfas9i').objectives, 'Lorem ipsum')
-            ExperimentsAirtableAdapter.update_experiment.assert_called_once()
-        finally:
-            ExperimentsAirtableAdapter.update_experiment = original_function
 
     def test_xp_post_unauthenticated(self):
         """
@@ -583,19 +557,15 @@ class TestApi(TestCase):
         url = reverse('experiment_create')
 
         try:
-            original_function = ExperimentsAirtableAdapter.create_experiment
             original_asana_function = AsanaUtils.send_task
 
-            ExperimentsAirtableAdapter.create_experiment = MagicMock(return_value=(True, 'recertt3229kfas9i'))
             AsanaUtils.send_task = MagicMock()
 
             response = self.client.post(url, payload, format='json')
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-            ExperimentsAirtableAdapter.create_experiment.assert_not_called()
             AsanaUtils.send_task.assert_not_called()
         finally:
-            ExperimentsAirtableAdapter.create_experiment = original_function
             AsanaUtils.send_task = original_asana_function
 
     def test_xp_post_unauthorized(self):
@@ -609,19 +579,15 @@ class TestApi(TestCase):
         self.client.login(username='testuser', password='12345')
 
         try:
-            original_function = ExperimentsAirtableAdapter.create_experiment
             original_asana_function = AsanaUtils.send_task
 
-            ExperimentsAirtableAdapter.create_experiment = MagicMock(return_value=(True, 'recertt3229kfas9i'))
             AsanaUtils.send_task = MagicMock()
 
             response = self.client.post(url, payload, format='json')
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-            ExperimentsAirtableAdapter.create_experiment.assert_not_called()
             AsanaUtils.send_task.assert_not_called()
         finally:
-            ExperimentsAirtableAdapter.create_experiment = original_function
             AsanaUtils.send_task = original_asana_function
 
 
@@ -630,26 +596,22 @@ class TestApi(TestCase):
         Ensures a farmer can create an XP
         """
         self.client.logout()
-        payload = {'objectives': 'Lorem ipsum'}
+        payload = {'objectives': 'Lorem ipsum', 'name': 'Lorem ipsum'}
         url = reverse('experiment_create')
         farmer_external_id = 'rec66629kfas9i'
 
         self.client.login(username=farmer_external_id, password='12345')
 
         try:
-            original_function = ExperimentsAirtableAdapter.create_experiment
             original_asana_function = AsanaUtils.send_task
-
-            ExperimentsAirtableAdapter.create_experiment = MagicMock(return_value=(True, 'recertt3229kfas9i'))
             AsanaUtils.send_task = MagicMock()
 
             response = self.client.post(url, payload, format='json')
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-            ExperimentsAirtableAdapter.create_experiment.assert_called_once()
             AsanaUtils.send_task.assert_called_once()
+
         finally:
-            ExperimentsAirtableAdapter.create_experiment = original_function
             AsanaUtils.send_task = original_asana_function
 
 

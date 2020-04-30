@@ -35,7 +35,19 @@
         </v-col>
       </v-row>
 
-      <div v-else>Vous n'avez pas d'expérimentations</div>
+      <div class="title" v-if="farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 30px; margin-bottom: 0px;">En attente de validation</div>
+
+      <v-row v-if="farmer && farmer.pending_experiments && farmer.pending_experiments.length > 0">
+        <v-col
+          v-for="(experiment, index) in farmer.pending_experiments"
+          :key="index"
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <ExperimentCard :experiment="experiment" :disabled="true" :elevation="0" />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -87,11 +99,7 @@ export default {
   },
   methods: {
     editXP(xp) {
-      window.sendTrackingEvent(
-        "Profile",
-        "Edit XP",
-        xp.name
-      )
+      window.sendTrackingEvent("Profile", "Edit XP", xp.name)
       this.$router.push({ name: "ExperimentEditor", query: { xp: xp.name } })
     },
     createXP() {

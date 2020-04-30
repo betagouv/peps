@@ -37,13 +37,13 @@ export default {
   computed: {
     filteredExperiments() {
       if (this.selectedFilters.length === 0)
-        return this.$store.state.experiments
-      return this.$store.state.experiments.filter(
+        return this.$store.getters.experiments
+      return this.$store.getters.experiments.filter(
         x => !!x.tags && x.tags.some(y => this.selectedFilters.indexOf(y) > -1)
       )
     },
     filters() {
-      return [...new Set(this.$store.state.experiments.flatMap(x => x.tags).filter(x => !!x))]
+      return [...new Set(this.$store.getters.experiments.flatMap(x => x.tags).filter(x => !!x))]
     }
   },
   methods: {

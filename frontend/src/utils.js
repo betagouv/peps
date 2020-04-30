@@ -78,5 +78,14 @@ export default {
     }
 
     return true
+  },
+  toBase64(file, success, error) {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = function () {
+      success(reader.result)
+    }
+    if (error)
+      reader.onerror = error
   }
 }

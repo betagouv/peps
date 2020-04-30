@@ -304,6 +304,68 @@
             v-model="dummyExperiment.results_details"
           ></v-textarea>
         </div>
+
+        <div class="field">
+          <div class="field-title title">Images</div>
+          <v-file-input
+            chips
+            multiple
+            @change="addImages"
+            prepend-icon="mdi-camera"
+            accept="image/*"
+            label="Ajoutez des images"
+          ></v-file-input>
+          <v-row v-if="dummyExperiment.images && dummyExperiment.images.length > 0">
+            <v-col
+              v-for="(photo, index) in dummyExperiment.images.map(x => x.image)"
+              :key="index"
+              class="d-flex child-flex"
+              cols="6"
+              sm="3"
+            >
+              <v-card flat class="d-flex">
+                <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
+                <div style="position: absolute; top: 10px; left: 10px;">
+                  <v-btn fab small @click="deleteImage(index)">
+                    <v-icon color="red">mdi-trash-can-outline</v-icon>
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="field">
+          <div class="field-title title">Vidéos</div>
+          <v-file-input
+            chips
+            multiple
+            prepend-icon="mdi-video"
+            @change="addVideos"
+            accept="video/*"
+            label="Ajoutez des vidéos"
+          ></v-file-input>
+          <v-row v-if="dummyExperiment.videos && dummyExperiment.videos.length > 0">
+            <v-col
+              v-for="(video, index) in dummyExperiment.videos.map(x => x.video)"
+              :key="index"
+              class="d-flex child-flex"
+              cols="12"
+              sm="6"
+            >
+              <v-card flat class="d-flex" height="250">
+                <video style="height: 100%; width: 100%; background: #333;" controls>
+                  <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
+                </video>
+                <div style="position: absolute; top: 10px; left: 10px;">
+                  <v-btn fab small @click="deleteVideo(index)">
+                    <v-icon color="red">mdi-trash-can-outline</v-icon>
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
       </v-form>
 
       <v-toolbar elevation="0">
@@ -320,7 +382,7 @@
     </v-container>
     <v-overlay :value="updateSucceeded || updateFailed" :dark="false">
       <div>
-        <v-btn @click="close()" class="close-overlay" fab dark small color="grey lighten-5">
+        <v-btn @click="closeOverlay()" class="close-overlay" fab dark small color="grey lighten-5">
           <v-icon color="red darken-3">mdi-close</v-icon>
         </v-btn>
         <v-card :style="'max-width: 600px;'" class="overflow-y-auto">
@@ -333,7 +395,7 @@
               >Votre expérimentation a bien été créée ! Notre équipe la mettra en ligne bientôt.</span>
             </span>
             <span v-else>
-              <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On a pas pu mettre à jour l'expérimentation. Veuillez essayer plus tard.
+              <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On n'a pas pu mettre à jour l'expérimentation. Veuillez essayer plus tard.
             </span>
           </v-card-text>
           <div style="padding: 10px; text-align: right">
@@ -373,6 +435,8 @@ export default {
         surface_type: []
       },
       hasChanged: false,
+      imagesToAdd: [],
+      videosToAdd: [],
       formIsValid: true
     }
   },
@@ -398,8 +462,11 @@ export default {
     validators() {
       return validators
     },
-    loggedUser() {
-      return this.$store.state.loggedUser
+    loggedFarmer() {
+      const farmer = this.$store.getters.farmerWithExternalId(
+        this.$store.state.loggedUser.farmer_external_id
+      )
+      return farmer
     },
     farmer() {
       return this.$store.state.farmers.find(
@@ -442,6 +509,16 @@ export default {
         return
       }
 
+      for (let i = 0; i < this.imagesToAdd.length; i++) {
+        this.dummyExperiment.images = this.dummyExperiment.images || []
+        this.dummyExperiment.images.push(this.imagesToAdd[i])
+      }
+
+      for (let i = 0; i < this.videosToAdd.length; i++) {
+        this.dummyExperiment.videos = this.dummyExperiment.videos || []
+        this.dummyExperiment.videos.push(this.videosToAdd[i])
+      }
+
       if (this.experiment) {
         const payload = utils.getObjectDiff(
           this.experiment,
@@ -454,7 +531,8 @@ export default {
         })
       } else {
         this.$store.dispatch("createExperiment", {
-          payload: this.dummyExperiment
+          payload: this.dummyExperiment,
+          farmer: this.loggedFarmer
         })
       }
     },
@@ -465,16 +543,54 @@ export default {
         this.$router.push({
           name: "Profile"
         })
+      else this.resetMediaFields()
     },
     cancelEdit() {
       this.$router.go(-1)
     },
     resetDummyExperiment() {
       if (this.experiment)
-        this.dummyExperiment = Object.assign(
-          this.dummyExperiment,
-          this.experiment
-        )
+        this.dummyExperiment = JSON.parse(JSON.stringify(this.experiment))
+    },
+    resetMediaFields() {
+      this.dummyExperiment.images = this.experiment
+        ? JSON.parse(JSON.stringify(this.experiment.images))
+        : []
+      this.dummyExperiment.videos = this.experiment
+        ? JSON.parse(JSON.stringify(this.experiment.videos))
+        : []
+    },
+    addImages(files) {
+      this.hasChanged = true
+      this.imagesToAdd = []
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        utils.toBase64(file, base64 => {
+          this.imagesToAdd.push({
+            image: base64
+          })
+        })
+      }
+    },
+    addVideos(files) {
+      this.hasChanged = true
+      this.videosToAdd = []
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        utils.toBase64(file, base64 => {
+          this.videosToAdd.push({
+            video: base64
+          })
+        })
+      }
+    },
+    deleteImage(index) {
+      this.dummyExperiment.images.splice(index, 1)
+      this.hasChanged = true
+    },
+    deleteVideo(index) {
+      this.dummyExperiment.videos.splice(index, 1)
+      this.hasChanged = true
     }
   },
   beforeMount() {

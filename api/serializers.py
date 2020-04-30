@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from drf_base64.fields import Base64ImageField, Base64FileField
 from data.models import Practice, Mechanism, Resource, PracticeType
 from data.models import DiscardAction, Category, Farmer, Experiment
 from data.models import ExperimentImage, ExperimentVideo, FarmImage
@@ -121,23 +122,64 @@ class CategorySerializer(serializers.ModelSerializer):
             'practices',
         )
 
+
 class ExperimentImageSerializer(serializers.ModelSerializer):
+    image = Base64ImageField()
+    id = serializers.IntegerField(required=False)
     class Meta:
         model = ExperimentImage
         fields = (
             'image',
+            'label',
+            'id',
         )
 
+
 class ExperimentVideoSerializer(serializers.ModelSerializer):
+    video = Base64FileField()
+    id = serializers.IntegerField(required=False)
     class Meta:
         model = ExperimentVideo
         fields = (
             'video',
+            'label',
+            'id'
         )
 
+
+class MediaListSerializer(serializers.ListSerializer):
+    """
+    For linked models and list serializers, we need to specify the update behaviour since
+    Django Rest Framework does not do it :
+    https://www.django-rest-framework.org/api-guide/serializers/#customizing-multiple-update
+    """
+
+    def update(self, instance, validated_data):
+        instance_mapping = {instance.id: instance for instance in instance}
+
+        media = []
+
+        # New media will be created and existing media will be updated.
+        for item in validated_data:
+            element = instance_mapping.get(item.get('id'), None)
+            if element is None:
+                media.append(self.child.create(item))
+            else:
+                media.append(self.child.update(element, item))
+
+        # Media that was removed will be also removed from the database.
+        data_mapping = {item['id']: item for item in validated_data if item.get('id')}
+        for element_id, element in instance_mapping.items():
+            if element_id not in data_mapping:
+                element.delete()
+
+        return media
+
+
+
 class ExperimentSerializer(serializers.ModelSerializer):
-    images = ExperimentImageSerializer(many=True, required=False)
-    videos = ExperimentVideoSerializer(many=True, required=False)
+    images = MediaListSerializer(required=False, child=ExperimentImageSerializer(required=False))
+    videos = MediaListSerializer(required=False, child=ExperimentVideoSerializer(required=False))
 
     class Meta:
         model = Experiment
@@ -169,6 +211,51 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'videos',
         )
 
+    def create(self, validated_data):
+        if 'images' not in validated_data and 'videos' not in validated_data:
+            return super().create(validated_data)
+
+        image_validated_data = validated_data.pop('images', None)
+        video_validated_data = validated_data.pop('videos', None)
+        experiment = super().create(validated_data)
+
+        if image_validated_data is not None:
+            experiment_image_serializer = self.fields['images']
+            for item in image_validated_data:
+                item['experiment'] = experiment
+            experiment_image_serializer.create(image_validated_data)
+
+        if video_validated_data is not None:
+            experiment_video_serializer = self.fields['videos']
+            for item in video_validated_data:
+                item['experiment'] = experiment
+            experiment_video_serializer.create(video_validated_data)
+
+        return experiment
+
+
+    def update(self, instance, validated_data):
+        if 'images' not in validated_data and 'videos' not in validated_data:
+            return super().update(instance, validated_data)
+
+        image_validated_data = validated_data.pop('images', None)
+        video_validated_data = validated_data.pop('videos', None)
+        experiment = super().update(instance, validated_data)
+
+        if image_validated_data is not None:
+            experiment_image_serializer = self.fields['images']
+            for item in image_validated_data:
+                item['experiment'] = experiment
+            experiment_image_serializer.update(experiment.images.all(), image_validated_data)
+
+        if video_validated_data is not None:
+            experiment_video_serializer = self.fields['videos']
+            for item in video_validated_data:
+                item['experiment'] = experiment
+            experiment_video_serializer.update(experiment.videos.all(), video_validated_data)
+
+        return experiment
+
 class FarmImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = FarmImage
@@ -177,8 +264,18 @@ class FarmImageSerializer(serializers.ModelSerializer):
         )
 
 class FarmerSerializer(serializers.ModelSerializer):
-    experiments = ExperimentSerializer(many=True)
+    experiments = ExperimentSerializer(many=True, source='approved_experiments')
+    pending_experiments = serializers.SerializerMethodField()
     images = FarmImageSerializer(many=True)
+
+    def get_pending_experiments(self, obj):
+        request = self.context.get('request')
+        user = request.user if request else None
+
+        if user and hasattr(user, 'farmer') and user.farmer == obj:
+            serializer = ExperimentSerializer(obj.pending_experiments, many=True)
+            return serializer.data
+        return None
 
     class Meta:
         model = Farmer
@@ -197,6 +294,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'images',
             'postal_code',
             'experiments',
+            'pending_experiments',
             'lat',
             'lon',
             'installation_date',

@@ -50,9 +50,41 @@ class ExperimentForm(forms.ModelForm):
             'surface': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
         }
 
+class ApprovalFilter(admin.SimpleListFilter):
+    title = 'Approval status'
+    parameter_name = 'XP'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('approved', 'Approved'),
+            ('not_approved', 'Not approved'),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'approved':
+            return queryset.distinct().filter(approved=True)
+        if self.value() == 'not_approved':
+            return queryset.distinct().filter(approved=False)
+
+class AuthorFilter(admin.SimpleListFilter):
+    title = 'Author'
+    parameter_name = 'XP Author'
+
+    def lookups(self, request, model_admin):
+        options = []
+        for farmer in Farmer.objects.all().only('name').order_by('name'):
+            options.append((farmer.name, farmer.name))
+        return options
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.distinct().filter(farmer__name=self.value())
+
 @admin.register(Experiment)
 class ExperimentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'author', 'xp_type', 'results',)
+    list_display = ('name', 'author', 'xp_type', 'results', 'approved')
+    list_filter = (ApprovalFilter, AuthorFilter)
+    search_fields = ('name', 'author', 'xp_type', 'results', 'approved')
     inlines = (ExperimentImageInline, ExperimentVideoInline)
     form = ExperimentForm
 

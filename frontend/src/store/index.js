@@ -16,7 +16,6 @@ export default new Vuex.Store({
   plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
   state: {
     farmers: [],
-    experiments: [],
     selectedFarmerExternalId: null,
     selectedDepartment: null,
     loggedUser: null,
@@ -66,9 +65,6 @@ export default new Vuex.Store({
     },
     SET_FARMERS(state, farmers) {
       state.farmers = farmers
-    },
-    SET_EXPERIMENTS(state, experiments) {
-      state.experiments = experiments
     },
     SET_FORM_SCHEMAS(state, formDefinitions) {
       state.miaFormDefinition = formDefinitions['practices_form'] || {}
@@ -129,10 +125,15 @@ export default new Vuex.Store({
         const farmer = state.farmers[i]
         const experimentIndex = farmer.experiments.findIndex(x => x.id === newExperiment.id)
         if (experimentIndex > -1) {
+          newExperiment.farmer = farmer.name
           farmer.experiments[experimentIndex] = newExperiment
           break
         }
       }
+    },
+    ADD_XP_TO_FARMER(state, newExperiment, farmer) {
+      farmer.pending_experiments = farmer.pending_experiments || []
+      farmer.pending_experiments.push(newExperiment)
     },
     UPDATE_PAGINATION(state, page) {
       state.xpPaginationPage = page
@@ -172,12 +173,12 @@ export default new Vuex.Store({
     fetchFarmersAndExperiments(context) {
       context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.get('api/v1/farmers').then(response => {
-        context.commit('SET_FARMERS', response.body)
-        context.commit('SET_EXPERIMENTS', response.body.flatMap(x => {
-          let tests = x['experiments']
-          tests.forEach(y => y.farmer = x['name'])
-          return tests
-        }))
+        const body = response.body
+        body.forEach(x => {
+          if (x.experiments)
+            x.experiments.forEach(y => y.farmer = x.name)
+        })
+        context.commit('SET_FARMERS', body)
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.ERROR)
@@ -277,10 +278,11 @@ export default new Vuex.Store({
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
     },
-    createExperiment(context, { payload }) {
+    createExperiment(context, { payload, farmer }) {
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/experiments/', payload, { headers }).then(() => {
+      Vue.http.post('api/v1/experiments/', payload, { headers }).then(response => {
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+        context.commit('ADD_XP_TO_FARMER', response.body, farmer)
       }).catch(() => {
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
@@ -384,6 +386,9 @@ export default new Vuex.Store({
     },
     selectedFarmer(state) {
       return state.farmers.find(x => x.external_id === state.selectedFarmerExternalId)
+    },
+    experiments(state) {
+      return state.farmers.flatMap(x => x.experiments).filter(x => !!x)
     }
   }
 })

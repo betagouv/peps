@@ -141,8 +141,13 @@ class Farmer(models.Model):
                 farm_image.farmer = self
                 farm_image.image.save(media_name, media_content_file, save=True)
 
-    def create_user_if_needed(self):
-        pass
+    @property
+    def approved_experiments(self):
+        return self.experiments.filter(approved=True)
+
+    @property
+    def pending_experiments(self):
+        return self.experiments.filter(approved=False)
 
     def __str__(self):
         return self.name

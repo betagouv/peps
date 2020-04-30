@@ -157,43 +157,22 @@ class ExperimentView(UpdateAPIView):
         return JsonResponse({'error': 'Only PATCH request supported in this resource'}, status=405)
 
     def patch(self, request, *args, **kwargs):
-        experiment = Experiment.objects.get(id=kwargs['pk'])
-        if not experiment:
-            return JsonResponse({'error': 'Experiment not found'}, status=400)
-        if ExperimentsAirtableAdapter.update_experiment(experiment, request.data):
-            return self.partial_update(request, *args, **kwargs)
-        return JsonResponse({'error': 'Airtable saving failed'}, status=500)
+        return self.partial_update(request, *args, **kwargs)
 
 
 class ExperimentCreateView(CreateAPIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer]
     serializer_class = ExperimentSerializer
 
-    def post(self, request, *args, **kwargs):
-        farmer = self.request.user.farmer
-        (airtable_creation_success, airtable_id) = ExperimentsAirtableAdapter.create_experiment(request.data, farmer.external_id)
-
-        if airtable_creation_success:
-
-            #### We won't create the new XP until it is verified by our team
-            # request.data['external_id'] = airtable_id
-            # return self.create(request, *args, **kwargs)
-
-            success_payload = {}
-            try:
-                task_name = 'Nouvelle XP créée par ' + str(farmer.name) + ' en attente de validation'
-                notes = 'XP "' + airtable_id + '" est en attente de validation.'
-                AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, None)
-            except Exception as _:
-                success_payload = {'warning': 'Asana task not created'}
-
-            return JsonResponse(success_payload, status=200)
-        else:
-            return JsonResponse({'error': 'Airtable saving failed'}, status=500)
-
     def perform_create(self, serializer):
-        farmer = Farmer.objects.get(external_id=self.request.user.farmer.external_id)
-        serializer.save(farmer=farmer)
+        farmer = self.request.user.farmer
+        try:
+            task_name = 'Nouvelle XP créée par ' + str(farmer.name) + ' en attente de validation'
+            notes = 'Une nouvelle XP est en attente de validation.'
+            AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, None)
+        finally:
+            serializer.save(farmer=farmer)
+
 
 class LoggedUserView(RetrieveAPIView):
     model = User
