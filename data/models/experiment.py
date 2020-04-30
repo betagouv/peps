@@ -142,6 +142,8 @@ class Experiment(models.Model):
 
     def assign_media_from_airtable(self):
         fields = self.airtable_json['fields']
+        self.images.all().delete()
+        self.videos.all().delete()
         for media in fields.get('Photos / vidéo', []):
             is_video = 'video' in media.get('type')
             is_image = 'image' in media.get('type')
