@@ -13,6 +13,8 @@ PRODUCTIONS = (
     ('Cultures industrielles', 'Cultures industrielles'),
     ('Élevage allaitant', 'Élevage allaitant'),
     ('Élevage laitier', 'Élevage laitier'),
+    ('Élevage engraissement', 'Élevage engraissement'),
+    ('Élevage poule pondeuses', 'Élevage poule pondeuses'),
     ('Cultures légumières', 'Cultures légumières'),
     ('Vigne', 'Vigne'),
     ('Autre', 'Autre'),
@@ -127,6 +129,7 @@ class Farmer(models.Model):
             self.profile_image.save(image_name, image_content_file, save=True)
 
     def assign_additional_images_from_airtable(self):
+        self.images.all().delete()
         fields = self.airtable_json['fields']
         for media in fields.get('Photos additionnelles', []):
             is_image = 'image' in media.get('type')
