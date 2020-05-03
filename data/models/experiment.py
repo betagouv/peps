@@ -35,8 +35,6 @@ XP_TYPE = (
 )
 
 TAGS = (
-    ("Changement important de l'exploitation", "Changement important de l'exploitation"),
-    ("Amélioration de l'existant", "Amélioration de l'existant"),
     ("Maladies", "Maladies"),
     ("Insectes et ravageurs", "Insectes et ravageurs"),
     ("Adventices", "Adventices"),
@@ -76,26 +74,26 @@ class Experiment(models.Model):
 
     approved = models.BooleanField(default=False, db_index=True)
 
-    tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list)
+    tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list, blank=True, null=True)
     name = models.TextField(unique=True)
-    objectives = models.TextField(null=True)
-    method = models.TextField(null=True)
-    temporality = models.TextField(null=True)
-    equipment = models.TextField(null=True)
-    origin = models.TextField(null=True)
-    execution = models.TextField(null=True)
-    additional_details = models.TextField(null=True)
-    control_presence = models.BooleanField(null=True)
-    ongoing = models.BooleanField(null=True)
-    results = models.TextField(null=True, choices=RESULTS)
-    results_details = models.TextField(null=True)
-    links = ArrayField(models.TextField(), default=list)
-    description = models.TextField(null=True)
-    investment = models.TextField(null=True)
-    xp_type = models.TextField(null=True, choices=XP_TYPE)
+    objectives = models.TextField(null=True, blank=True)
+    method = models.TextField(null=True, blank=True)
+    temporality = models.TextField(null=True, blank=True)
+    equipment = models.TextField(null=True, blank=True)
+    origin = models.TextField(null=True, blank=True)
+    execution = models.TextField(null=True, blank=True)
+    additional_details = models.TextField(null=True, blank=True)
+    control_presence = models.BooleanField(null=True, blank=True)
+    ongoing = models.BooleanField(null=True, blank=True)
+    results = models.TextField(null=True, blank=True, choices=RESULTS)
+    results_details = models.TextField(null=True, blank=True)
+    links = ArrayField(models.TextField(), default=list, blank=True, null=True)
+    description = models.TextField(null=True, blank=True)
+    investment = models.TextField(null=True, blank=True)
+    xp_type = models.TextField(null=True, blank=True, choices=XP_TYPE)
 
-    surface = models.TextField(null=True)
-    surface_type = ChoiceArrayField(models.TextField(choices=SURFACE_TYPE), default=list)
+    surface = models.TextField(null=True, blank=True)
+    surface_type = ChoiceArrayField(models.TextField(choices=SURFACE_TYPE), default=list, blank=True, null=True)
 
     def update_from_airtable(self, airtable_json):
         fields = airtable_json['fields']
@@ -216,7 +214,7 @@ class Experiment(models.Model):
 class ExperimentImage(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
-    label = models.TextField(null=True)
+    label = models.TextField(null=True, blank=True)
 
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields
@@ -224,4 +222,4 @@ class ExperimentImage(models.Model):
 class ExperimentVideo(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='videos', on_delete=models.CASCADE, null=True)
     video = models.FileField(upload_to='videos/')
-    label = models.TextField(null=True)
+    label = models.TextField(null=True, blank=True)

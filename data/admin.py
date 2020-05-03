@@ -38,7 +38,29 @@ class ExperimentVideoInline(admin.TabularInline):
 
 class ExperimentForm(forms.ModelForm):
     class Meta:
-        exclude = ('airtable_json', 'external_id', 'creation_date', 'method', 'temporality', 'origin', 'execution', 'additional_details')
+        fields = [
+            'name',
+            'farmer',
+            'approved',
+            'xp_type',
+            'objectives',
+            'description',
+            'results',
+            'results_details',
+            'tags',
+            'control_presence',
+            'ongoing',
+            'method',
+            'temporality',
+            'equipment',
+            'origin',
+            'execution',
+            'additional_details',
+            'links',
+            'investment',
+            'surface_type',
+            'surface',
+        ]
         model = Experiment
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
@@ -48,6 +70,11 @@ class ExperimentForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'cols': 55, 'rows': 8}),
             'investment': forms.Textarea(attrs={'cols': 55, 'rows': 2}),
             'surface': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'method': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'temporality': forms.Textarea(attrs={'cols': 55, 'rows': 3}),
+            'origin': forms.Textarea(attrs={'cols': 55, 'rows': 3}),
+            'execution': forms.Textarea(attrs={'cols': 55, 'rows': 3}),
+            'additional_details': forms.Textarea(attrs={'cols': 55, 'rows': 3}),
         }
 
 class ApprovalFilter(admin.SimpleListFilter):
@@ -130,6 +157,5 @@ class FarmerForm(forms.ModelForm):
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'cultures',)
-    readonly_fields = ('user', )
     inlines = (FarmImageInline, )
     form = FarmerForm

@@ -22,7 +22,7 @@
             class="flex-fix-item subtitle-2"
             style="padding-top: 10px; padding-bottom: 5px;"
           >{{experiment.name}}</v-card-title>
-          <v-card-text class="caption flex-fix-item" style="padding-bottom: 0; padding-top: 0px;">
+          <v-card-text class="caption flex-fix-item" v-if="experiment.farmer" style="padding-bottom: 0; padding-top: 0px;">
             <v-icon small left style="padding-bottom: 2px;">mdi-account</v-icon>
             {{experiment.farmer}}
           </v-card-text>

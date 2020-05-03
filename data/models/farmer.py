@@ -58,31 +58,33 @@ class Farmer(models.Model):
 
     email = models.EmailField(db_index=True)
 
-    name = models.TextField(null=True)
-    production = ChoiceArrayField(models.CharField(max_length=100, choices=PRODUCTIONS), default=list)
-    groups = ChoiceArrayField(models.CharField(max_length=200, choices=GROUPS), default=list)
-    agriculture_types = ChoiceArrayField(models.TextField(choices=TYPE_AGRICULTURE), default=list)
-    profile_image = models.ImageField(null=True)
-    postal_code = models.CharField(max_length=20, null=True)
+    name = models.TextField(null=True, blank=True)
+    installation_date = models.DateField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     lon = models.DecimalField(max_digits=9, decimal_places=6)
-    installation_date = models.DateField(null=True)
-    personnel = models.TextField(null=True)
-    livestock_type = models.CharField(max_length=120, null=True)
-    livestock_number = models.TextField(null=True)
-    cultures = models.TextField(null=True)
-    soil_type = models.TextField(null=True)
-    description = models.TextField(null=True)
-    specificities = models.TextField(null=True)
+
+    production = ChoiceArrayField(models.CharField(max_length=100, choices=PRODUCTIONS), default=list, null=True, blank=True)
+    groups = ChoiceArrayField(models.CharField(max_length=200, choices=GROUPS), default=list, null=True, blank=True)
+    agriculture_types = ChoiceArrayField(models.TextField(choices=TYPE_AGRICULTURE), default=list, null=True, blank=True)
+    profile_image = models.ImageField(null=True, blank=True)
+    postal_code = models.CharField(max_length=20, null=True, blank=True)
+    personnel = models.TextField(null=True, blank=True)
+    livestock_type = models.CharField(max_length=120, null=True, blank=True)
+    livestock_number = models.TextField(null=True, blank=True)
+    cultures = models.TextField(null=True, blank=True)
+    soil_type = models.TextField(null=True, blank=True)
+    specificities = models.TextField(null=True, blank=True)
     contact_possible = models.BooleanField(default=False)
 
-    links = ArrayField(models.TextField(), default=list)
+    links = ArrayField(models.TextField(), default=list, blank=True, null=True)
 
-    surface = models.TextField(null=True)
-    surface_cultures = models.TextField(null=True)
-    surface_meadows = models.TextField(null=True)
+    surface = models.TextField(null=True, blank=True)
+    surface_cultures = models.TextField(null=True, blank=True)
+    surface_meadows = models.TextField(null=True, blank=True)
 
-    output = models.TextField(null=True)
+    output = models.TextField(null=True, blank=True)
 
 
     def update_from_airtable(self, airtable_json):
@@ -161,4 +163,4 @@ class Farmer(models.Model):
 class FarmImage(models.Model):
     farmer = models.ForeignKey(Farmer, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
-    label = models.TextField(null=True)
+    label = models.TextField(null=True, blank=True)
