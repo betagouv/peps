@@ -321,12 +321,19 @@ class UserSerializer(serializers.ModelSerializer):
         slug_field='external_id'
     )
 
+    farmer_id = serializers.SlugRelatedField(
+        source='farmer',
+        read_only=True,
+        slug_field='id'
+    )
+
     class Meta:
         model = User
         fields = (
             'id',
             'email',
             'farmer_external_id',
+            'farmer_id',
             'is_superuser',
             'username',
             'first_name',

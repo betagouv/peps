@@ -106,6 +106,7 @@ class Experiment(models.Model):
         setattr(self, 'control_presence', fields.get(MAPPINGS.get('control_presence')) == 'Oui')
         setattr(self, 'ongoing', fields.get(MAPPINGS.get('ongoing')) == 'Oui')
         setattr(self, 'surface', str(fields.get(MAPPINGS.get('surface'))) if fields.get(MAPPINGS.get('surface')) else None)
+        setattr(self, 'approved', fields.get('Validation', False))
 
         # These fields can be fetched directly into this model's properties, no further treatment is needed
         direct_fields = [

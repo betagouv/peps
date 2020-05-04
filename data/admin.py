@@ -79,7 +79,7 @@ class ExperimentForm(forms.ModelForm):
 
 class ApprovalFilter(admin.SimpleListFilter):
     title = 'Approval status'
-    parameter_name = 'XP'
+    parameter_name = ''
 
     def lookups(self, request, model_admin):
         return [
@@ -156,6 +156,7 @@ class FarmerForm(forms.ModelForm):
 
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
-    list_display = ('name', 'postal_code', 'cultures',)
+    list_display = ('name', 'postal_code', 'cultures', 'approved')
+    list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, )
     form = FarmerForm

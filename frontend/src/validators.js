@@ -15,4 +15,15 @@ export default {
       return errorMessage
     return input.length && input.length > 0 ? true : errorMessage
   },
+  isUrl(input) {
+    let url
+    const errorMessage = 'Le lien doit être une URL valide (par ex. "https://exemple.com")'
+    try {
+      url = new URL(input)
+    } catch (_) {
+      return errorMessage
+    }
+    const isValid = url.protocol === "http:" || url.protocol === "https:"
+    return isValid ? true : errorMessage
+  }
 }

@@ -16,8 +16,6 @@
         </v-btn>
       </v-toolbar>
 
-      <!-- Add dropdown to select author if superuser -->
-
       <v-form ref="form" v-model="formIsValid">
         <div class="field">
           <div class="field-title title">Titre de l'expérimentation</div>
@@ -306,6 +304,41 @@
         </div>
 
         <div class="field">
+          <div class="field-title title">Liens</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+            style="margin-bottom: 10px;"
+          >Si vous le souhaitez, vous pouvez ajouter des liens vers votre site, vos profils de réseaux sociaux, ou autre</div>
+          <v-text-field
+            :rules="[validators.isUrl]"
+            @input="hasChanged = true"
+            @blur="appendHttp(index)"
+            v-for="(link, index) in (dummyExperiment.links || [])"
+            :key="index"
+            outlined
+            dense
+            placeholder="https://..."
+            style="max-width: 600px;"
+            v-model="dummyExperiment.links[index]"
+          >
+            <template v-slot:prepend>
+              <v-btn fab x-small style="margin-top: -3px;" @click="deleteLink(index)">
+                <v-icon color="red">
+                  mdi-trash-can-outline
+                </v-icon>
+              </v-btn>
+            </template>
+            <!-- <template v-slot:append-outer>
+              <v-btn class="text-none" outlined style="margin-top: -5px" :href="link" target="_blank" :disabled="!link">
+                <v-icon small style="margin-right: 5px;">mdi-open-in-new</v-icon>
+                Visiter
+              </v-btn>
+            </template> -->
+          </v-text-field>
+          <v-btn class="text-none" @click="addLink()"><v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien</v-btn>
+        </div>
+
+        <div class="field">
           <div class="field-title title">Images</div>
           <v-file-input
             chips
@@ -463,8 +496,8 @@ export default {
       return validators
     },
     loggedFarmer() {
-      const farmer = this.$store.getters.farmerWithExternalId(
-        this.$store.state.loggedUser.farmer_external_id
+      const farmer = this.$store.getters.farmerWithId(
+        this.$store.state.loggedUser.farmer_id
       )
       return farmer
     },
@@ -590,6 +623,21 @@ export default {
     },
     deleteVideo(index) {
       this.dummyExperiment.videos.splice(index, 1)
+      this.hasChanged = true
+    },
+    addLink() {
+      this.dummyExperiment.links = this.dummyExperiment.links || []
+      this.dummyExperiment.links.push('')
+      this.hasChanged = true
+    },
+    appendHttp(index) {
+      if (!this.dummyExperiment.links[index])
+        return
+      if (this.dummyExperiment.links[index].indexOf('http') !== 0)
+        this.dummyExperiment.links.splice(index, 1, `http://${this.dummyExperiment.links[index]}`)
+    },
+    deleteLink(index) {
+      this.dummyExperiment.links.splice(index, 1)
       this.hasChanged = true
     }
   },

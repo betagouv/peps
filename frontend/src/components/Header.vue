@@ -101,9 +101,9 @@ export default {
       return xpPages.indexOf(this.$route.name) > -1
     },
     farmer() {
-      if (!this.loggedUser || !this.loggedUser.farmer_external_id) return null
-      return this.$store.getters.farmerWithExternalId(
-        this.loggedUser.farmer_external_id
+      if (!this.loggedUser || !this.loggedUser.farmer_id) return null
+      return this.$store.getters.farmerWithId(
+        this.loggedUser.farmer_id
       )
     },
     profileImage() {
@@ -119,7 +119,7 @@ export default {
         "shareXP",
         "Proposer une expérimentation"
       )
-      if (this.loggedUser && this.loggedUser.farmer_external_id)
+      if (this.loggedUser && this.loggedUser.farmer_id)
         this.$router.push({ name: "ExperimentEditor" })
       else if (this.loggedUser)
         window.alert('Vous n\'avez pas un profil agriculteur sur notre site')

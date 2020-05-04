@@ -24,11 +24,11 @@ class ExperimentsAirtableAdapter:
         base = settings.AIRTABLE_XP_BASE
 
         json_farmers = _get_airtable_data('Agriculteur?view=Grid%20view', base)
-        json_farmers = list(filter(lambda x: x['fields'].get('Validation'), json_farmers))
+        # json_farmers = list(filter(lambda x: x['fields'].get('Validation'), json_farmers))
         errors += validate_farmers(json_farmers)
 
         json_experiments = _get_airtable_data('XP?view=Grid%20view', base)
-        json_experiments = list(filter(lambda x: x['fields'].get('Validation'), json_experiments))
+        # json_experiments = list(filter(lambda x: x['fields'].get('Validation'), json_experiments))
         errors += validate_experiments(json_experiments)
 
         has_fatal_errors = any(x.fatal for x in errors)
@@ -41,14 +41,14 @@ class ExperimentsAirtableAdapter:
             if not airtable_id or not airtable_modification_date:
                 continue
 
-            defaults = {'lat': Decimal(0.0), 'lon': Decimal(0.0)}
+            defaults = {'lat': Decimal(0.0), 'lon': Decimal(0.0), 'approved': json_farmer['fields'].get('validation', False)}
             (farmer, created) = Farmer.objects.get_or_create(external_id=airtable_id, defaults=defaults)
 
-            email_matches = json_farmer['fields'].get('Adresse email') == farmer.email
+            # email_matches = json_farmer['fields'].get('Adresse email') == farmer.email
 
-            if created or parser.isoparse(airtable_modification_date) > farmer.modification_date or not email_matches:
-                farmer.update_from_airtable(json_farmer)
-                farmer.save()
+            # if created or parser.isoparse(airtable_modification_date) > farmer.modification_date or not email_matches:
+            farmer.update_from_airtable(json_farmer)
+            farmer.save()
 
             if farmer.email:
                 farmer_email = farmer.email.strip().lower()
@@ -66,13 +66,13 @@ class ExperimentsAirtableAdapter:
             if not airtable_id or not airtable_modification_date:
                 continue
 
-            defaults = {'name': airtable_id, 'approved': True}
+            defaults = {'name': airtable_id, 'approved': json_experiment['fields'].get('Validation', False)}
             (experiment, created) = Experiment.objects.get_or_create(external_id=airtable_id, defaults=defaults)
 
-            if created or parser.isoparse(airtable_modification_date) > experiment.modification_date:
-                experiment.update_from_airtable(json_experiment)
-                farmer_external_id = experiment.airtable_json['fields'].get('Agriculteur')[0]
-                experiment.farmer = Farmer.objects.filter(external_id=farmer_external_id).first()
-                experiment.save()
+            # if created or parser.isoparse(airtable_modification_date) > experiment.modification_date:
+            experiment.update_from_airtable(json_experiment)
+            farmer_external_id = experiment.airtable_json['fields'].get('Agriculteur')[0]
+            experiment.farmer = Farmer.objects.filter(external_id=farmer_external_id).first()
+            experiment.save()
 
         return errors

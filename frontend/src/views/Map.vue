@@ -226,7 +226,7 @@ export default {
         "shareXP",
         "Proposer une expérimentation"
       )
-      if (this.loggedUser && this.loggedUser.farmer_external_id)
+      if (this.loggedUser && this.loggedUser.farmer_id)
         this.$router.push({ name: "ExperimentEditor" })
       else if (this.loggedUser)
         window.alert('Vous n\'avez pas un profil agriculteur sur notre site')

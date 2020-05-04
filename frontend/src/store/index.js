@@ -16,7 +16,7 @@ export default new Vuex.Store({
   plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
   state: {
     farmers: [],
-    selectedFarmerExternalId: null,
+    selectedFarmerId: null,
     selectedDepartment: null,
     loggedUser: null,
 
@@ -109,7 +109,7 @@ export default new Vuex.Store({
       state.experimentEditLoadingStatus = Constants.LoadingStatus.IDLE
     },
     SET_SELECTED_FARMER(state, { selectedFarmer }) {
-      state.selectedFarmerExternalId = selectedFarmer.external_id
+      state.selectedFarmerId = selectedFarmer.id
     },
     SET_SELECTED_DEPARTMENT(state, { selectedDepartment }) {
       state.selectedDepartment = selectedDepartment
@@ -381,11 +381,11 @@ export default new Vuex.Store({
     farmerWithName(state) {
       return (farmerName => state.farmers.find(x => x.name === farmerName))
     },
-    farmerWithExternalId(state) {
-      return (farmerExternalId => state.farmers.find(x => x.external_id === farmerExternalId))
+    farmerWithId(state) {
+      return (farmerId => state.farmers.find(x => x.id === farmerId))
     },
     selectedFarmer(state) {
-      return state.farmers.find(x => x.external_id === state.selectedFarmerExternalId)
+      return state.farmers.find(x => x.id === state.selectedFarmerId)
     },
     experiments(state) {
       return state.farmers.flatMap(x => x.experiments).filter(x => !!x)

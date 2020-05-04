@@ -51,14 +51,17 @@ class Farmer(models.Model):
 
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True)
 
+    approved = models.BooleanField(default=False, db_index=True)
+
     modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True)
 
-    email = models.EmailField(db_index=True)
-
     name = models.TextField(null=True, blank=True)
+    email = models.EmailField(db_index=True, null=True, blank=True)
+    phone_number = models.CharField(max_length=50, null=True, blank=True)
+
     installation_date = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
@@ -91,6 +94,7 @@ class Farmer(models.Model):
         fields = airtable_json['fields']
         links = [fields.get(x) for x in ('Facebook', 'Twitter', 'Youtube', 'Site') if fields.get(x)]
 
+        self.approved = fields.get('Validation', False)
         self.external_id = airtable_json.get('id')
         self.airtable_json = airtable_json
         self.name = fields.get('Prénom et Nom')
@@ -115,6 +119,7 @@ class Farmer(models.Model):
         self.surface_meadows = str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None
         self.output = str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None
         self.email = fields.get('Adresse email').strip() if fields.get('Adresse email') else None
+        self.phone_number = fields.get('Numéro de téléphone')
 
         self.assign_main_image_from_airtable()
         self.assign_additional_images_from_airtable()

@@ -145,7 +145,7 @@ class DiscardActionView(CreateAPIView):
 
 
 class FarmersView(ListAPIView):
-    queryset = Farmer.objects
+    queryset = Farmer.objects.filter(approved=True)
     serializer_class = FarmerSerializer
 
 class ExperimentView(UpdateAPIView):

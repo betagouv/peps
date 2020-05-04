@@ -86,9 +86,9 @@ export default {
       return this.$store.state.loggedUser
     },
     farmer() {
-      if (!this.loggedUser || !this.loggedUser.farmer_external_id) return null
-      return this.$store.getters.farmerWithExternalId(
-        this.loggedUser.farmer_external_id
+      if (!this.loggedUser || !this.loggedUser.farmer_id) return null
+      return this.$store.getters.farmerWithId(
+        this.loggedUser.farmer_id
       )
     },
     displayName() {
