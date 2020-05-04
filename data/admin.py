@@ -108,7 +108,7 @@ class AuthorFilter(admin.SimpleListFilter):
             return queryset.distinct().filter(farmer__name=self.value())
 
 @admin.register(Experiment)
-class ExperimentAdmin(admin.ModelAdmin):
+class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'author', 'xp_type', 'results', 'approved')
     list_filter = (ApprovalFilter, AuthorFilter)
     search_fields = ('name', 'author', 'xp_type', 'results', 'approved')
