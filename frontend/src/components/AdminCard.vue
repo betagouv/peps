@@ -7,13 +7,6 @@
 
       <v-container>
         <v-row>
-          <v-col cols="12" sm="6" md="4">
-            <v-card @click="updateXpData">
-              <v-card-subtitle>
-                <v-icon size="20" style="margin: 0px 5px 0 0;">mdi-beaker-outline</v-icon>Mettre à jour les données XP
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
 
           <v-col cols="12" sm="6" md="4">
             <v-card @click="updateFormData">
@@ -105,9 +98,6 @@ export default {
     }
   },
   methods: {
-    updateXpData() {
-      this.updateData("Mise à jour des données XP", "/api/v1/refreshXPData")
-    },
     updateFormData() {
       this.updateData(
         "Mise à jour des données Formulaire",
