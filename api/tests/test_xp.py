@@ -18,8 +18,11 @@ class TestXP(TestCase):
         We check that farmers have been correctly serialized
         """
         for farmer in list(Farmer.objects.all()):
-            self.assertTrue(farmer.user != None)
-            self.assertEqual(farmer.email, farmer.user.email)
+            if farmer.email:
+                self.assertIsNotNone(farmer.user)
+                self.assertEqual(farmer.email, farmer.user.email)
+            else:
+                self.assertIsNone(farmer.user)
 
     def test_farmers_output(self):
         external_id = 'recre6nczAgLTyNE9'

@@ -119,6 +119,19 @@ class ExperimentAdmin(admin.ModelAdmin):
         return format_html('<a href="{0}">{1}</a>'.format('/admin/data/farmer/' + str(obj.farmer.id), obj.farmer.name))
 
 
+class ExperimentInline(admin.TabularInline):
+    model = Experiment
+    show_change_link = True
+    fields = ('name', 'approved', 'results')
+    readonly_fields = ('name', 'approved', 'results')
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj):
+        return False
+
+
 class FarmImageForm(forms.ModelForm):
     class Meta:
         model = FarmImage
@@ -144,7 +157,7 @@ class FarmerForm(forms.ModelForm):
             'cultures': forms.Textarea(attrs={'cols': 55, 'rows': 3}),
             'soil_type': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'description': forms.Textarea(attrs={'cols': 55, 'rows': 10}),
-            'specificities': forms.Textarea(attrs={'cols': 55, 'rows': 10}),
+            'specificities': forms.Textarea(attrs={'cols': 55, 'rows': 5}),
             'surface': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'surface_cultures': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'surface_meadows': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
@@ -158,5 +171,5 @@ class FarmerForm(forms.ModelForm):
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'cultures', 'approved')
     list_filter = (ApprovalFilter, )
-    inlines = (FarmImageInline, )
+    inlines = (FarmImageInline, ExperimentInline)
     form = FarmerForm

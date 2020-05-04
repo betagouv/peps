@@ -118,7 +118,7 @@ class Farmer(models.Model):
         self.surface_cultures = str(fields.get('Surface cultures')) if fields.get('Surface cultures') else None
         self.surface_meadows = str(fields.get('Surface prairie')) if fields.get('Surface prairie') else None
         self.output = str(fields.get('Rendement moyen')) if fields.get('Rendement moyen') else None
-        self.email = fields.get('Adresse email').strip() if fields.get('Adresse email') else None
+        self.email = fields.get('Adresse email').strip().lower() if fields.get('Adresse email') else None
         self.phone_number = fields.get('Numéro de téléphone')
 
         self.assign_main_image_from_airtable()

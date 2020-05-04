@@ -655,7 +655,8 @@ def _populate_database():
             airtable_json={'id': farmer_id},
             lat=45.1808,
             lon=1.893,
-            user=user
+            user=user,
+            approved=True,
         )
         farmer.save()
 
@@ -664,7 +665,8 @@ def _populate_database():
             external_id=experiment_id,
             airtable_json={'id': experiment_id},
             name="Test experiment " + experiment_id,
-            farmer=Farmer.objects.filter(external_id='rec66629kfas9i').first()
+            farmer=Farmer.objects.filter(external_id='rec66629kfas9i').first(),
+            approved=True,
         )
         experiment.save()
 
