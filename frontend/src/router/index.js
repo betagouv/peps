@@ -105,7 +105,7 @@ const routes = [
         next()
 
       // This view is not accessible to users without a farmer profile
-      } else if (!store.state.loggedUser.farmer_external_id) {
+      } else if (!store.state.loggedUser.farmer_id) {
         next({ name: 'Landing' })
 
       // If we are creating a new XP, we an access the view
@@ -114,8 +114,8 @@ const routes = [
 
       // If we are editing an existing XP, it must belong to the logged farmer
       } else {
-        const farmer = store.getters.farmerWithExternalId(
-          store.state.loggedUser.farmer_external_id
+        const farmer = store.getters.farmerWithId(
+          store.state.loggedUser.farmer_id
         )
         if (farmer.experiments.find(x => x.name === route.query.xp)) {
           next()
