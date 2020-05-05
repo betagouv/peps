@@ -35,9 +35,9 @@
         </v-col>
       </v-row>
 
-      <div class="title" v-if="farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 30px; margin-bottom: 0px;">En attente de validation</div>
+      <div class="title" v-if="farmer && farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 30px; margin-bottom: 0px;">En attente de validation</div>
 
-      <div class="body-2" v-if="farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 0px; margin-bottom: 0px;">
+      <div class="body-2" v-if="farmer && farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 0px; margin-bottom: 0px;">
         Notre équipe validera bientôt les expérimentations ci-dessous.
       </div>
 

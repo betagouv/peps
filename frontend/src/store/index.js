@@ -131,7 +131,7 @@ export default new Vuex.Store({
         }
       }
     },
-    ADD_XP_TO_FARMER(state, newExperiment, farmer) {
+    ADD_XP_TO_FARMER(state, { newExperiment, farmer }) {
       farmer.pending_experiments = farmer.pending_experiments || []
       farmer.pending_experiments.push(newExperiment)
     },
@@ -282,7 +282,7 @@ export default new Vuex.Store({
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
       Vue.http.post('api/v1/experiments/', payload, { headers }).then(response => {
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
-        context.commit('ADD_XP_TO_FARMER', response.body, farmer)
+        context.commit('ADD_XP_TO_FARMER', { newExperiment: response.body, farmer: farmer })
       }).catch(() => {
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })

@@ -313,13 +313,14 @@
             :rules="[validators.isUrl]"
             @input="hasChanged = true"
             @blur="appendHttp(index)"
-            v-for="(link, index) in (dummyExperiment.links || [])"
+            v-for="(link, index) in dummyExperiment.links"
             :key="index"
             outlined
             dense
             placeholder="https://..."
             style="max-width: 600px;"
             v-model="dummyExperiment.links[index]"
+
           >
             <template v-slot:prepend>
               <v-btn fab x-small style="margin-top: -3px;" @click="deleteLink(index)">
@@ -328,12 +329,6 @@
                 </v-icon>
               </v-btn>
             </template>
-            <!-- <template v-slot:append-outer>
-              <v-btn class="text-none" outlined style="margin-top: -5px" :href="link" target="_blank" :disabled="!link">
-                <v-icon small style="margin-right: 5px;">mdi-open-in-new</v-icon>
-                Visiter
-              </v-btn>
-            </template> -->
           </v-text-field>
           <v-btn class="text-none" @click="addLink()"><v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien</v-btn>
         </div>
@@ -465,7 +460,8 @@ export default {
     return {
       dummyExperiment: {
         tags: [],
-        surface_type: []
+        surface_type: [],
+        links: []
       },
       hasChanged: false,
       imagesToAdd: [],
@@ -626,7 +622,6 @@ export default {
       this.hasChanged = true
     },
     addLink() {
-      this.dummyExperiment.links = this.dummyExperiment.links || []
       this.dummyExperiment.links.push('')
       this.hasChanged = true
     },
