@@ -14,7 +14,7 @@
 
         <p class="body-1">
           Sinon,
-          <a @click="joinTest">contactez-nous</a> pour faire partie du groupe et partager vos expérimentations.
+          <a @click="joinTest">contactez-nous</a> pour faire partie du groupe et partager vos retours d'expérience.
         </p>
 
         <v-divider class="ma-5"></v-divider>
@@ -42,15 +42,15 @@ export default {
   data() {
     return {
       showContributionOverlay: false,
-      title: "Proposez une expérimentation",
+      title: "Partager une expérience",
       breadcrumbs: [
         {
-          text: "Carte des expérimentations",
+          text: "Carte de retours d'expérience",
           disabled: false,
           href: "/#/map"
         },
         {
-          text: "Proposez une expérimentation",
+          text: "Partager une expérience",
           disabled: true
         }
       ]

@@ -91,7 +91,7 @@
           color="primary"
           class="text-none primary--text"
           style="margin-left: 10px; margin-top: -2px;"
-        >Proposer une expérimentation</v-btn>
+        >Partager une expérience</v-btn>
       </div>
     </v-container>
   </div>
@@ -224,7 +224,7 @@ export default {
       window.sendTrackingEvent(
         "Header",
         "shareXP",
-        "Proposer une expérimentation"
+        "Partager une expérience"
       )
       if (this.loggedUser && this.loggedUser.farmer_id)
         this.$router.push({ name: "ExperimentEditor" })

@@ -62,7 +62,7 @@
               </v-avatar>
 
               <div class="subtitle-1" style="margin-bottom: 0px;">
-                Expérimentation faite par {{ farmer.name }}
+                Retour d'expérience par {{ farmer.name }}
                 <span v-if="farmer.postal_code" style="margin-top: 5px;" class="body-2">
                   (<v-icon small style="padding-bottom: 3px;">mdi-map-marker</v-icon>
                   {{ farmer.postal_code }})
@@ -116,12 +116,12 @@
 
             <div v-if="experiment.ongoing" class="body-2 info-item">
               <v-icon small left>mdi-playlist-edit</v-icon>
-              <div>Expérimentation en cours</div>
+              <div>Expérience en cours</div>
             </div>
 
             <div v-else class="body-2 info-item">
               <v-icon small left>mdi-playlist-check</v-icon>
-              <div>Expérimentation finie</div>
+              <div>Expérience finie</div>
             </div>
 
             <div v-if="experiment.control_presence" class="body-2 info-item">
@@ -219,7 +219,7 @@
             </v-row>
 
             <div class="body-1" style="margin-top: 30px;">
-              Pour plus d'informations sur cette expérimentation :
+              Pour plus d'informations sur cette expérience :
               <v-btn
                 class="text-none"
                 @click="onContactClick"
@@ -323,7 +323,7 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: "Carte des expérimentations",
+          text: "Carte de retours d'expérience",
           disabled: false,
           href: "/#/map"
         },

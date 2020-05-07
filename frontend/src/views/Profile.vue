@@ -9,10 +9,10 @@
       <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
       <v-btn class="text-none" style="margin-top: 10px;" v-if="!!farmer" @click="createXP">
-        <v-icon style="margin-right: 10px;">mdi-beaker-plus-outline</v-icon>Partager une nouvelle expérimentation
+        <v-icon style="margin-right: 10px;">mdi-beaker-plus-outline</v-icon>Partager une nouvelle expérience
       </v-btn>
 
-      <div class="title" style="margin-top: 30px; margin-bottom: 0px;">Mes expérimentations</div>
+      <div class="title" style="margin-top: 30px; margin-bottom: 0px;">Mes retours d'expérience</div>
 
       <v-row v-if="farmer && farmer.experiments && farmer.experiments.length > 0">
         <v-col
@@ -38,7 +38,7 @@
       <div class="title" v-if="farmer && farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 30px; margin-bottom: 0px;">En attente de validation</div>
 
       <div class="body-2" v-if="farmer && farmer.pending_experiments && farmer.pending_experiments.length > 0" style="margin-top: 0px; margin-bottom: 0px;">
-        Notre équipe validera bientôt les expérimentations ci-dessous.
+        Notre équipe validera bientôt les retours d'expérience ci-dessous.
       </div>
 
 
@@ -70,7 +70,7 @@ export default {
       title: "Mon compte",
       breadcrumbs: [
         {
-          text: "Carte des expérimentations",
+          text: "Carte de retours d'expérience",
           disabled: false,
           href: "/#/map"
         },
@@ -111,7 +111,7 @@ export default {
       window.sendTrackingEvent(
         "Profile",
         "Create XP",
-        "Proposer une expérimentation"
+        "Partager une expérience"
       )
       this.$router.push({ name: "ExperimentEditor" })
     }

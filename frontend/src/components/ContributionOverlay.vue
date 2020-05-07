@@ -21,13 +21,13 @@
           <v-card-title>Réjoignez le groupe d'agriculteurs test</v-card-title>
           <v-card-text>
             Ce projet en est encore à ses débuts, dans un premier temps nous souhaitons cŕeer avec vous votre profil
-            et rédiger votre première expérimentation.
+            et rédiger votre premier retour d'expérience.
             Laissez-nous vos coordonnées pour que nous prenions contact.
           </v-card-text>
 
           <v-card-text>
             Si vous faites déjà partie des testeurs
-            <v-btn outlined color="primary" href="/login" small class="text-none">identifiez-vous</v-btn> pour proposer une nouvelle expérimentation.
+            <v-btn outlined color="primary" href="/login" small class="text-none">identifiez-vous</v-btn> pour partager une expérience.
           </v-card-text>
           <v-card-text>
             <Form

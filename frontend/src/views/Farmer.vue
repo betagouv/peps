@@ -76,12 +76,12 @@
           class="title"
           style="margin-top: 20px;"
           v-if="farmer.experiments && farmer.experiments.length === 1"
-        >Son expérimentation</div>
+        >Son retour d'expérience</div>
         <div
           class="title"
           style="margin-top: 20px;"
           v-if="farmer.experiments && farmer.experiments.length > 1"
-        >Ses expérimentations</div>
+        >Ses retours d'expérience</div>
         <v-row v-if="farmer.experiments && farmer.experiments.length > 0">
           <v-col
             v-for="(experiment, index) in farmer.experiments"
@@ -242,7 +242,7 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: "Carte des expérimentations",
+          text: "Carte de retours d'expérience",
           disabled: false,
           href: "/#/map"
         },

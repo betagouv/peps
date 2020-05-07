@@ -55,7 +55,7 @@
           <span
             style="font-weight:bold;"
             class="caption text-none d-none d-sm-flex primary--text"
-          >Proposer une expérimentation</span>
+          >Partager une expérience</span>
         </v-btn>
       </v-app-bar>
       <v-overlay :value="blacklistDialog" :dark="false">
@@ -117,7 +117,7 @@ export default {
       window.sendTrackingEvent(
         "Header",
         "shareXP",
-        "Proposer une expérimentation"
+        "Partager une expérience"
       )
       if (this.loggedUser && this.loggedUser.farmer_id)
         this.$router.push({ name: "ExperimentEditor" })

@@ -53,7 +53,7 @@
       <v-icon size="20" style="margin: -3px 3px 0 0;">mdi-beaker-outline</v-icon>
       <div
         style="font-weight: bold;"
-      >{{farmer.experiments.length}} Expérimentation{{farmer.experiments.length > 1 ? 's' : ''}}</div>
+      >{{farmer.experiments.length}} Retour{{farmer.experiments.length > 1 ? 's' : ''}} d'expérience</div>
     </v-card-text>
 
     <v-divider class="flex-fix-item" style="margin: 10px 15px 10px 15px;" />

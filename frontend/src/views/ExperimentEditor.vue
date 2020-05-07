@@ -18,7 +18,7 @@
 
       <v-form ref="form" v-model="formIsValid">
         <div class="field">
-          <div class="field-title title">Titre de l'expérimentation</div>
+          <div class="field-title title">Titre de l'expérience</div>
           <div
             class="field-helper subtitle-2 grey--text"
           >Court et explicite, il doit donner l'idée générale</div>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">De quel type d'expérimentation s'agit-il ?</div>
+          <div class="field-title title">De quel type d'expérience s'agit-il ?</div>
           <v-radio-group
             @change="hasChanged = true"
             v-model="dummyExperiment.xp_type"
@@ -65,7 +65,7 @@
         <div class="field">
           <div
             class="field-title title"
-          >Ajoutez les labels qui vous sembles pertinents pour cette expérimentation</div>
+          >Ajoutez les labels qui vous sembles pertinents pour ce retour d'expérience</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -130,10 +130,10 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">L'expérimentation est-elle en cours aujourd'hui ?</div>
+          <div class="field-title title">L'expérience est-elle en cours aujourd'hui ?</div>
           <div
             class="field-helper subtitle-2 grey--text"
-          >Si l'expérimentation a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
+          >Si l'expérience a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
           <v-radio-group
             @change="hasChanged = true"
             v-model="dummyExperiment.ongoing"
@@ -148,7 +148,7 @@
         <div class="field">
           <div
             class="field-title title"
-          >Quels investissements ont été nécessaires pour cette expérimentation ?</div>
+          >Quels investissements ont été nécessaires pour cette expérience ?</div>
           <div class="field-helper subtitle-2 grey--text">En temps, en argent, en machines...</div>
           <v-textarea
             :rules="[validators.notEmpty]"
@@ -164,7 +164,7 @@
         <div class="field">
           <div
             class="field-title title"
-          >Quel matériel avez-vous utilisé pour mener cette expérimentation ?</div>
+          >Quel matériel avez-vous utilisé pour mener cette expérience ?</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez ici être assez spécifique</div>
           <v-textarea
             rows="1"
@@ -177,7 +177,7 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Pouvez-vous décrire l'expérimentation ?</div>
+          <div class="field-title title">Pouvez-vous décrire l'expérience ?</div>
           <div
             class="field-helper subtitle-2 grey--text"
           >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
@@ -193,7 +193,7 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Sur quelle surface portait l'expérimentation ?</div>
+          <div class="field-title title">Sur quelle surface portait l'expérience ?</div>
           <div
             class="field-helper subtitle-2 grey--text"
           >"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
@@ -258,7 +258,7 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Quels sont les résultats de cette expérimentation ?</div>
+          <div class="field-title title">Quels sont les résultats de cette expérience ?</div>
           <v-radio-group
             :rules="[validators.notEmpty]"
             @change="hasChanged = true"
@@ -417,13 +417,13 @@
           <v-card-text style="padding: 30px; color: #333;">
             <span v-if="updateSucceeded">
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
-              <span v-if="experimentName">Votre expérimentation a bien été mise à jour !</span>
+              <span v-if="experimentName">Votre retour d'expérience a bien été mise à jour !</span>
               <span
                 v-else
-              >Votre expérimentation a bien été créée ! Notre équipe la mettra en ligne bientôt.</span>
+              >Votre retour d'expérience a bien été créée ! Notre équipe la mettra en ligne bientôt.</span>
             </span>
             <span v-else>
-              <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On n'a pas pu mettre à jour l'expérimentation. Veuillez essayer plus tard.
+              <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On n'a pas pu mettre à jour le retour d'expérience. Veuillez essayer plus tard.
             </span>
           </v-card-text>
           <div style="padding: 10px; text-align: right">
@@ -510,7 +510,7 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: "Carte des expérimentations",
+          text: "Carte de retours d'expérience",
           disabled: false,
           href: "/#/map"
         },
@@ -522,7 +522,7 @@ export default {
         {
           text: this.experiment
             ? this.experiment.name
-            : "Nouvelle expérimenation",
+            : "Nouvelle expérience",
           disabled: true
         }
       ]
