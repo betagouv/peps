@@ -33,6 +33,14 @@
           <span class="caption text-none d-none d-sm-flex">Contact</span>
         </v-btn>
 
+        <v-btn v-if="isXPPage" color="white" @click="onShareXPClick">
+          <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-plus-outline</v-icon>
+          <span
+            style="font-weight:bold;"
+            class="caption text-none d-none d-sm-flex primary--text"
+          >Partager une expérience</span>
+        </v-btn>
+
         <v-btn text elevation="0" v-if="isXPPage && !loggedUser" href="/login">
           <v-icon class="d-flex d-sm-none">mdi-account</v-icon>
           <span class="caption text-none d-none d-sm-flex">S'identifier</span>
@@ -40,7 +48,7 @@
 
         <v-menu v-if="isXPPage && loggedUser" left bottom>
           <template v-slot:activator="{ on }">
-            <v-btn style="margin-left: 0px; margin-right: 10px;" icon v-on="on">
+            <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
               <v-avatar size="40" v-if="profileImage"><v-img :src="profileImage" ></v-img></v-avatar>
               <v-icon v-else>mdi-account</v-icon>
             </v-btn>
@@ -50,13 +58,6 @@
 
         </v-menu>
 
-        <v-btn v-if="isXPPage" color="white" @click="onShareXPClick">
-          <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-plus-outline</v-icon>
-          <span
-            style="font-weight:bold;"
-            class="caption text-none d-none d-sm-flex primary--text"
-          >Partager une expérience</span>
-        </v-btn>
       </v-app-bar>
       <v-overlay :value="blacklistDialog" :dark="false">
         <v-btn
