@@ -18,42 +18,64 @@
           :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height:' + windowHeight + 'px'"
           class="overflow-y-auto"
         >
-          <v-card-title>Réjoignez le groupe d'agriculteurs test</v-card-title>
-          <v-card-text>
-            Ce projet en est encore à ses débuts, dans un premier temps nous souhaitons cŕeer avec vous votre profil
-            et rédiger votre premier retour d'expérience.
-            Laissez-nous vos coordonnées pour que nous prenions contact.
-          </v-card-text>
-
-          <v-card-text>
-            Si vous faites déjà partie des testeurs
-            <v-btn outlined color="primary" href="/login" small class="text-none">identifiez-vous</v-btn> pour partager une expérience.
-          </v-card-text>
-          <v-card-text>
-            <Form
-              style="margin-bottom: 0px;"
-              :elevation="0"
-              :schema="contactSchema"
-              :options="contactOptions"
-              updateActionName="addContactFormData"
-              storeDataName="contactFormData"
-            />
+          <div v-if="needsAccount === undefined">
+            <v-card-title>Partager une expérience</v-card-title>
+            <v-card-text>Il est nécessaire d'avoir un compte pour partager une expérience.</v-card-text>
+            <v-card-text>Ce projet en est encore à ses débuts, dans un premier temps nous souhaitons créer votre compte avec vous.</v-card-text>
+            <v-card-text>
             <div style="text-align: right">
-              <v-btn
-                class="text-none body-1 practice-buttons"
-                style="margin-right: 10px;"
-                @click="cancelImplementation()"
-                rounded
-              >Annuler</v-btn>
-              <v-btn
-                class="text-none body-1 practice-buttons"
-                color="primary"
-                :disabled="!complete"
-                @click="sendImplementation()"
-                rounded
-              >Confirmer</v-btn>
-            </div>
-          </v-card-text>
+                <v-btn
+                  class="text-none practice-buttons"
+                  style="margin-right: 10px;"
+                  @click="cancelImplementation()"
+                  text
+                >Annuler</v-btn>
+                <v-btn
+                  class="text-none practice-buttons"
+                  color="primary"
+                  style="margin-right: 10px; margin-left: 10px;"
+                  outlined
+                  href="/login"
+                >S'identifier</v-btn>
+                <v-btn
+                  class="text-none practice-buttons"
+                  color="primary"
+                  @click="needsAccount = true"
+                >Créer mon compte</v-btn>
+              </div>
+            </v-card-text>
+          </div>
+
+          <div v-if="needsAccount === true">
+            <v-card-title>Créer votre compte</v-card-title>
+            <v-card-text>
+              Laissez-nous vos coordonnées pour que nous prenions contact.
+            </v-card-text>
+            <v-card-text>
+              <Form
+                style="margin-bottom: 0px;"
+                :elevation="0"
+                :schema="contactSchema"
+                :options="contactOptions"
+                updateActionName="addContactFormData"
+                storeDataName="contactFormData"
+              />
+              <div style="text-align: right">
+                <v-btn
+                  class="text-none practice-buttons"
+                  style="margin-right: 10px;"
+                  @click="cancelImplementation()"
+                  text
+                >Annuler</v-btn>
+                <v-btn
+                  class="text-none practice-buttons"
+                  color="primary"
+                  :disabled="!complete"
+                  @click="sendImplementation()"
+                >Confirmer</v-btn>
+              </div>
+            </v-card-text>
+          </div>
         </v-card>
       </div>
 
@@ -73,7 +95,6 @@
               class="text-none body-1 practice-buttons"
               color="primary"
               @click="close()"
-              rounded
             >OK</v-btn>
           </div>
         </v-card>
@@ -93,6 +114,7 @@ export default {
   components: { Loader, Form },
   data: () => ({
     windowHeight: window.innerHeight - 30,
+    needsAccount: undefined,
     contactSchema: {
       type: "object",
       properties: {
@@ -171,6 +193,7 @@ export default {
     close() {
       this.$store.dispatch("resetContactLoadingStatus")
       this.$emit("done")
+      this.needsAccount = undefined
     },
     cancelImplementation() {
       window.sendTrackingEvent("Landing", "shareXP cancel", "")
