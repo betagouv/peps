@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django_better_admin_arrayfield.models.fields import ArrayField
+from data.utils import optimize_image
 from data.forms import ChoiceArrayField
 
 PRODUCTIONS = (
@@ -87,8 +88,6 @@ class Farmer(models.Model):
 
     output = models.TextField(null=True, blank=True)
 
-
-
     @property
     def approved_experiments(self):
         return self.experiments.filter(approved=True)
@@ -96,6 +95,11 @@ class Farmer(models.Model):
     @property
     def pending_experiments(self):
         return self.experiments.filter(approved=False)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.profile_image:
+            self.profile_image = optimize_image(self.profile_image, self.profile_image.name)
+        super(Farmer, self).save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
         return self.name
@@ -108,9 +112,14 @@ class FarmImage(models.Model):
     image = models.ImageField()
     label = models.TextField(null=True, blank=True)
 
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.image = optimize_image(self.image, self.image.name)
+        super(FarmImage, self).save(force_insert, force_update, using, update_fields)
+
 
 def create_user_if_needed(sender, instance, **kwargs):
     if sender == Farmer and instance.email:
+        instance.email = instance.email.strip().lower()
         existing_user = get_user_model().objects.filter(email=instance.email).first()
         if existing_user:
             instance.user = existing_user

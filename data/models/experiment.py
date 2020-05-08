@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer
-from data.utils import get_airtable_media_name, get_airtable_media_content_file
+from data.utils import optimize_image
 from data.forms import ChoiceArrayField
 
 MAPPINGS = {
@@ -95,117 +95,6 @@ class Experiment(models.Model):
     surface = models.TextField(null=True, blank=True)
     surface_type = ChoiceArrayField(models.TextField(choices=SURFACE_TYPE), default=list, blank=True, null=True)
 
-    def update_from_airtable(self, airtable_json):
-        fields = airtable_json['fields']
-        links = [fields.get(x) for x in ('Lien 1', 'Lien 2', 'Lien 3', 'Lien 4') if fields.get(x)]
-
-        setattr(self, 'airtable_json', airtable_json)
-        setattr(self, 'external_id', airtable_json.get('id'))
-        setattr(self, 'links', links)
-
-        setattr(self, 'control_presence', fields.get(MAPPINGS.get('control_presence')) == 'Oui')
-        setattr(self, 'ongoing', fields.get(MAPPINGS.get('ongoing')) == 'Oui')
-        setattr(self, 'surface', str(fields.get(MAPPINGS.get('surface'))) if fields.get(MAPPINGS.get('surface')) else None)
-        setattr(self, 'approved', fields.get('Validation', False))
-
-        # These fields can be fetched directly into this model's properties, no further treatment is needed
-        direct_fields = [
-            'name',
-            'objectives',
-            'method',
-            'temporality',
-            'equipment',
-            'execution',
-            'origin',
-            'additional_details',
-            'description',
-            'investment',
-            'xp_type',
-            'results',
-            'results_details',
-        ]
-        for direct_field in direct_fields:
-            value = fields.get(MAPPINGS.get(direct_field))
-            setattr(self, direct_field, value)
-
-        array_fields = [
-            'tags',
-            'surface_type',
-        ]
-        for array_field in array_fields:
-            value = fields.get(MAPPINGS.get(array_field), [])
-            setattr(self, array_field, value)
-
-        self.assign_media_from_airtable()
-
-
-    def assign_media_from_airtable(self):
-        fields = self.airtable_json['fields']
-        self.images.all().delete()
-        self.videos.all().delete()
-        for media in fields.get('Photos / vidéo', []):
-            is_video = 'video' in media.get('type')
-            is_image = 'image' in media.get('type')
-            if not is_video and not is_image:
-                continue
-            media_name = get_airtable_media_name(media)
-            media_content_file = get_airtable_media_content_file(media)
-            if not media_name or not media_content_file:
-                continue
-            if is_image:
-                experiment_image = ExperimentImage()
-                experiment_image.experiment = self
-                experiment_image.image.save(media_name, media_content_file, save=True)
-            if is_video:
-                experiment_video = ExperimentVideo()
-                experiment_video.experiment = self
-                experiment_video.video.save(media_name, media_content_file, save=True)
-
-    @staticmethod
-    def get_airtable_payload(changes, external_id=None):
-        payload = {
-            'fields': {}
-        }
-
-        if external_id:
-            payload['id'] = external_id
-
-        # These fields can be fetched serialized directly into the payload, no further treatment is needed
-        direct_fields = [
-            'name',
-            'tags',
-            'objectives',
-            'method',
-            'temporality',
-            'equipment',
-            'execution',
-            'origin',
-            'additional_details',
-            'description',
-            'investment',
-            'xp_type',
-            'results',
-            'results_details',
-            'surface',
-            'surface_type',
-        ]
-        for direct_field in direct_fields:
-            if direct_field in changes:
-                payload['fields'][MAPPINGS.get(direct_field)] = changes[direct_field]
-
-        if 'control_presence' in changes:
-            payload['fields'][MAPPINGS.get('control_presence')] = 'Oui' if changes['control_presence'] else 'Non'
-
-        if 'ongoing' in changes:
-            payload['fields'][MAPPINGS.get('ongoing')] = 'Oui' if changes['ongoing'] else 'Non'
-
-        # TODO: missing fields
-        # links
-        # photos
-        # videos
-
-        return payload
-
     def __str__(self):
         return self.name
 
@@ -216,6 +105,10 @@ class ExperimentImage(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
     label = models.TextField(null=True, blank=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.image = optimize_image(self.image, self.image.name)
+        super(ExperimentImage, self).save(force_insert, force_update, using, update_fields)
 
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields

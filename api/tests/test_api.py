@@ -521,12 +521,12 @@ class TestApi(TestCase):
         Ensures we only propose patch to modify an XP
         """
         self.client.logout()
-        farmer_external_id = 'rec66629kfas9i' # this farmer is the creator of the XP
+        farmer_username = 'rec66629kfas9i@farmer.com' # this farmer is the creator of the XP
         experiment = Experiment.objects.get(external_id='rec33329kfas9i')
         payload = {'objectives': 'Lorem ipsum'}
         url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
 
-        self.client.login(username=farmer_external_id, password='12345')
+        self.client.login(username=farmer_username, password='12345')
 
         response = self.client.put(url, payload, format='json')
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -536,12 +536,12 @@ class TestApi(TestCase):
         Ensures the author is able to modify an XP
         """
         self.client.logout()
-        farmer_external_id = 'rec66629kfas9i' # this farmer is the creator of the XP
+        username = 'rec66629kfas9i@farmer.com' # this farmer is the creator of the XP
         experiment = Experiment.objects.get(external_id='rec33329kfas9i')
         payload = {'objectives': 'Lorem ipsum'}
         url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
 
-        self.client.login(username=farmer_external_id, password='12345')
+        self.client.login(username=username, password='12345')
 
         response = self.client.patch(url, payload, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -598,9 +598,9 @@ class TestApi(TestCase):
         self.client.logout()
         payload = {'objectives': 'Lorem ipsum', 'name': 'Lorem ipsum'}
         url = reverse('experiment_create')
-        farmer_external_id = 'rec66629kfas9i'
+        farmer_username = 'rec66629kfas9i@farmer.com'
 
-        self.client.login(username=farmer_external_id, password='12345')
+        self.client.login(username=farmer_username, password='12345')
 
         try:
             original_asana_function = AsanaUtils.send_task
@@ -649,13 +649,15 @@ def _populate_database():
         category.practices.add(Practice.objects.filter(external_id='recZxlcM61qaDoOkc').first())
 
     for farmer_id in ('rec66629kfas9i', 'rec0098666ooka', 'rec666sf09aii'):
-        user = User.objects.create_user(username=farmer_id, password='12345')
+
+        User.objects.create_user(username=farmer_id + "@farmer.com", password='12345', email=farmer_id + "@farmer.com")
+
         farmer = Farmer(
             external_id=farmer_id,
             airtable_json={'id': farmer_id},
             lat=45.1808,
             lon=1.893,
-            user=user,
+            email=farmer_id + "@farmer.com",
             approved=True,
         )
         farmer.save()

@@ -75,13 +75,19 @@ def _optimize_image(pillow_image):
 
     return pillow_image
 
-def _rotate_image(pillow_image):
+def _needs_rotation(pillow_image):
     orientation_tag = next(filter(lambda x: ExifTags.TAGS[x] == 'Orientation', ExifTags.TAGS), None)
     exif_data = pillow_image._getexif()
 
-    if not orientation_tag or not exif_data:
+    return exif_data and orientation_tag
+
+def _rotate_image(pillow_image):
+    needs_rotation = _needs_rotation(pillow_image)
+    if not needs_rotation:
         return pillow_image
 
+    orientation_tag = next(filter(lambda x: ExifTags.TAGS[x] == 'Orientation', ExifTags.TAGS), None)
+    exif_data = pillow_image._getexif()
     orientation = dict(exif_data.items()).get(orientation_tag)
 
     if orientation == 3:
@@ -92,9 +98,13 @@ def _rotate_image(pillow_image):
         return pillow_image.rotate(90, expand=True)
     return pillow_image
 
+def _needs_resize(pillow_image):
+    max_size = 2000
+    return pillow_image.width > max_size or pillow_image.height > max_size
+
 def _resize_image(pillow_image):
     max_size = 2000
-    needs_resize = pillow_image.width > max_size or pillow_image.height > max_size
+    needs_resize = _needs_resize(pillow_image)
     if not needs_resize:
         return pillow_image
 
@@ -107,8 +117,11 @@ def _resize_image(pillow_image):
 
     return pillow_image.resize((int(new_width), int(new_height)))
 
+def _needs_alpha_channel_removal(pillow_image):
+    return pillow_image.mode in ('RGBA', 'LA')
+
 def _remove_alpha_channel(pillow_image):
-    if pillow_image.mode in ('RGBA', 'LA'):
+    if _needs_alpha_channel_removal(pillow_image):
         background = Img.new(pillow_image.mode[:-1], pillow_image.size, '#FFFFFF')
         background.paste(pillow_image, pillow_image.split()[-1])
         pillow_image = background
@@ -138,3 +151,26 @@ def _get_airtable_data(url, base, offset=None):
     if offset:
         return records + _get_airtable_data(url, base, offset)
     return records
+
+def optimize_image(image, name):
+    try:
+        image_format = 'jpeg'
+        pillow_image = Img.open(image)
+
+        if not _needs_resize(pillow_image) and not _needs_rotation(pillow_image) and not _needs_alpha_channel_removal(pillow_image):
+            return image
+
+        pillow_image = _rotate_image(pillow_image)
+        pillow_image = _resize_image(pillow_image)
+        pillow_image = _remove_alpha_channel(pillow_image)
+
+        output = BytesIO()
+        pillow_image.save(output, optimize=True, format=image_format)
+        media_content = output.getvalue()
+
+        if media_content:
+            return ContentFile(media_content, name=name)
+        else:
+            return image
+    except Exception as _:
+        return image
