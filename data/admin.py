@@ -101,7 +101,7 @@ class AuthorFilter(admin.SimpleListFilter):
 class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'author', 'xp_type', 'results', 'approved')
     list_filter = (ApprovalFilter, AuthorFilter)
-    search_fields = ('name', 'author', 'xp_type', 'results', 'approved')
+    search_fields = ('name', )
     inlines = (ExperimentImageInline, ExperimentVideoInline)
     form = ExperimentForm
 
@@ -138,7 +138,7 @@ class FarmImageInline(admin.TabularInline):
 
 class FarmerForm(forms.ModelForm):
     class Meta:
-        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date')
+        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user')
         model = Farmer
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
@@ -160,6 +160,7 @@ class FarmerForm(forms.ModelForm):
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'cultures', 'approved')
+    search_fields = ('name', 'email')
     list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, ExperimentInline)
     form = FarmerForm
