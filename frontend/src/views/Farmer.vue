@@ -104,13 +104,15 @@
           <v-icon small left>mdi-card-account-details-outline</v-icon>
           <div>Effectif : {{farmer.personnel}} temps plein</div>
         </div>
-        <div v-if="farmer.livestock_type" class="body-2 info-item">
+        <div
+          v-if="farmer.livestock_types && farmer.livestock_types.length > 0"
+          class="body-2 info-item"
+        >
           <v-icon small left>mdi-cow</v-icon>
           <div>
-            Élevage : {{farmer.livestock_type}}
-            <span
-              v-if="farmer.livestock_number"
-            >({{ farmer.livestock_number }})</span>
+            Élevage :
+            <span v-for="(livestock, index) in farmer.livestock_types" :key="index">{{livestock}},</span>
+            <span v-if="farmer.livestock_number">({{ farmer.livestock_number }})</span>
           </div>
         </div>
         <div

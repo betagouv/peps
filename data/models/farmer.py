@@ -44,6 +44,15 @@ TYPE_AGRICULTURE = (
     ('Autre', 'Autre'),
 )
 
+TYPE_LIVESTOCK = (
+    ('Bovin', 'Bovin'),
+    ('Ovin', 'Ovin'),
+    ('Caprin', 'Caprin'),
+    ('Avicole', 'Avicole'),
+    ('Porcin', 'Porcin'),
+    ('Autre', 'Autre'),
+)
+
 class Farmer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100, db_index=True, null=True)
@@ -70,10 +79,14 @@ class Farmer(models.Model):
     production = ChoiceArrayField(models.CharField(max_length=100, choices=PRODUCTIONS), default=list, null=True, blank=True)
     groups = ChoiceArrayField(models.CharField(max_length=200, choices=GROUPS), default=list, null=True, blank=True)
     agriculture_types = ChoiceArrayField(models.TextField(choices=TYPE_AGRICULTURE), default=list, null=True, blank=True)
+
     profile_image = models.ImageField(null=True, blank=True)
     postal_code = models.CharField(max_length=20, null=True, blank=True)
     personnel = models.TextField(null=True, blank=True)
+
     livestock_type = models.CharField(max_length=120, null=True, blank=True)
+    livestock_types = ChoiceArrayField(models.TextField(choices=TYPE_LIVESTOCK), default=list, null=True, blank=True)
+
     livestock_number = models.TextField(null=True, blank=True)
     cultures = models.TextField(null=True, blank=True)
     soil_type = models.TextField(null=True, blank=True)

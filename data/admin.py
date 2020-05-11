@@ -138,7 +138,7 @@ class FarmImageInline(admin.TabularInline):
 
 class FarmerForm(forms.ModelForm):
     class Meta:
-        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user')
+        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user', 'livestock_type')
         model = Farmer
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),

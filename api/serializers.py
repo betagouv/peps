@@ -296,7 +296,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'lon',
             'installation_date',
             'personnel',
-            'livestock_type',
+            'livestock_types',
             'livestock_number',
             'cultures',
             'soil_type',
