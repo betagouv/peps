@@ -59,8 +59,8 @@
               v-for="(farmer, index) in markersInfo"
               :key="index"
               :lat-lng="toLatLon(farmer.lat, farmer.lon)"
-              :icon="selectedFarmer && farmer.name === selectedFarmer.name ? selectedMarkerIcon : markerIcon"
-              @click="selectFarmer(farmer.name)"
+              :icon="selectedFarmer && farmer.id === selectedFarmer.id ? selectedMarkerIcon : markerIcon"
+              @click="selectFarmer(farmer.id)"
             ></l-marker>
           </l-map>
         </v-col>
@@ -242,14 +242,15 @@ export default {
             {
               lat: farmer.lat,
               lon: farmer.lon,
-              name: farmer.name
+              name: farmer.name,
+              id: farmer.id
             }
           )
         )
       }
     },
-    selectFarmer(farmerName) {
-      this.$store.dispatch("setSelectedFarmer", { farmerName })
+    selectFarmer(farmerId) {
+      this.$store.dispatch("setSelectedFarmer", { farmerId })
     },
     toLatLon(latitude, longitude) {
       return latLng(latitude, longitude)

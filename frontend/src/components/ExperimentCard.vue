@@ -22,9 +22,9 @@
             class="flex-fix-item subtitle-2"
             style="padding-top: 10px; padding-bottom: 5px;"
           >{{experiment.name}}</v-card-title>
-          <v-card-text class="caption flex-fix-item" v-if="experiment.farmer" style="padding-bottom: 0; padding-top: 0px;">
+          <v-card-text class="caption flex-fix-item" v-if="farmer" style="padding-bottom: 0; padding-top: 0px;">
             <v-icon small left style="padding-bottom: 2px;">mdi-account</v-icon>
-            {{experiment.farmer}}
+            {{farmer.name}}
           </v-card-text>
           <v-card-text class="description flex-shrink-item">
             {{experiment.objectives}}
@@ -61,14 +61,20 @@ export default {
   },
   methods: {
     goToExperiment() {
-      window.sendTrackingEvent("ExperimentCard", "seeXP", this.experiment.name)
+      let experimentUrlComponent = this.$store.getters.experimentUrlComponent(this.experiment)
+      window.sendTrackingEvent("ExperimentCard", "seeXP", experimentUrlComponent)
       this.$router.push({
         name: "Experiment",
         params: {
-          farmerName: this.experiment.farmer,
-          expName: this.experiment.name
+          farmerUrlComponent: this.$store.getters.farmerUrlComponent(this.farmer),
+          experimentUrlComponent: experimentUrlComponent
         }
       })
+    }
+  },
+  computed: {
+    farmer() {
+      return this.$store.getters.farmerWithId(this.experiment.farmerId)
     }
   },
   mounted() {

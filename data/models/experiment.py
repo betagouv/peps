@@ -7,27 +7,6 @@ from data.models import Farmer
 from data.utils import optimize_image
 from data.forms import ChoiceArrayField
 
-MAPPINGS = {
-    'name': 'Titre de l\'XP',
-    'tags': 'Tags',
-    'objectives': 'Objectifs',
-    'method': 'Méthode XP',
-    'temporality': 'Temporalité',
-    'equipment': 'Matériel',
-    'execution': 'Déroulé',
-    'origin': 'Origine',
-    'additional_details': 'Détails supplémentaires',
-    'control_presence': 'Présence d\'un témoin',
-    'ongoing': 'XP en cours',
-    'results': 'Résultats',
-    'results_details': 'Plus d\'information résultats',
-    'surface': 'Surface',
-    'surface_type': 'Type surface',
-    'description': 'Description',
-    'investment': 'Investissement',
-    'xp_type': 'Type d\'XP',
-}
-
 # (Stored in db, seen in drop-down)
 XP_TYPE = (
     ('Changement important de l\'exploitation', 'Changement important de l\'exploitation'),
@@ -71,18 +50,11 @@ class Experiment(models.Model):
     airtable_json = JSONField(null=True, blank=True)
 
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
-
     approved = models.BooleanField(default=False, db_index=True)
-
     tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list, blank=True, null=True)
-    name = models.TextField(unique=True)
+    name = models.TextField()
     objectives = models.TextField(null=True, blank=True)
-    method = models.TextField(null=True, blank=True)
-    temporality = models.TextField(null=True, blank=True)
     equipment = models.TextField(null=True, blank=True)
-    origin = models.TextField(null=True, blank=True)
-    execution = models.TextField(null=True, blank=True)
-    additional_details = models.TextField(null=True, blank=True)
     control_presence = models.BooleanField(null=True, blank=True)
     ongoing = models.BooleanField(null=True, blank=True)
     results = models.TextField(null=True, blank=True, choices=RESULTS)

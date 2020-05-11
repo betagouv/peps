@@ -104,8 +104,9 @@ export default {
   },
   methods: {
     editXP(xp) {
-      window.sendTrackingEvent("Profile", "Edit XP", xp.name)
-      this.$router.push({ name: "ExperimentEditor", query: { xp: xp.name } })
+      let experimentUrlComponent = this.$store.getters.experimentUrlComponent(xp)
+      window.sendTrackingEvent("Profile", "Edit XP", experimentUrlComponent)
+      this.$router.push({ name: "ExperimentEditor", query: { xp: experimentUrlComponent } })
     },
     createXP() {
       window.sendTrackingEvent(

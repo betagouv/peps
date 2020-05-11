@@ -68,22 +68,93 @@ const routes = [
     }
   },
   {
-    path: '/agriculteur/:farmerName',
+    path: '/agriculteur/:farmerUrlComponent',
     name: 'Farmer',
     component: Farmer,
     props: (route) => ({
-      farmerName: route.params.farmerName
+      farmerUrlComponent: route.params.farmerUrlComponent
     }),
+    beforeEnter: (route, _, next) => {
+      if (!route.params.farmerUrlComponent) {
+        next({ name: 'Landing' })
+        return
+      }
+
+      const isValidComponent = route.params.farmerUrlComponent.indexOf('__') >= 0
+      if (isValidComponent) {
+        next()
+        return
+      }
+
+      const farmerName = route.params.farmerUrlComponent
+      const farmer = store.state.farmers.find(x => x.name === farmerName)
+      if (!farmer) {
+        next({ name: 'Landing' })
+        return
+      }
+      next({
+        name: 'Farmer',
+        params: {
+          farmerUrlComponent: store.getters.farmerUrlComponent(farmer)
+        }
+      })
+    }
   },
   {
-    path: '/agriculteur/:farmerName/experimentation/:expName',
+    path: '/agriculteur/:farmerUrlComponent/experimentation/:experimentUrlComponent',
     name: 'Experiment',
     component: Experiment,
     props: (route) => {
       return {
-        farmerName: route.params.farmerName,
-        experimentName: route.params.expName
+        farmerUrlComponent: route.params.farmerUrlComponent,
+        experimentUrlComponent: route.params.experimentUrlComponent
       }
+    },
+    beforeEnter: (route, _, next) => {
+      if (!route.params.farmerUrlComponent || !route.params.experimentUrlComponent) {
+        next({ name: 'Landing' })
+        return
+      }
+      const isValidFarmerComponent = route.params.farmerUrlComponent.indexOf('__') >= 0
+      const isValidXPComponent = route.params.experimentUrlComponent.indexOf('__') >= 0
+
+      if (isValidFarmerComponent && isValidXPComponent) {
+        next()
+        return
+      }
+
+      let farmerUrlComponent = route.params.farmerUrlComponent
+      let experimentUrlComponent = route.params.experimentUrlComponent
+      if (!isValidFarmerComponent) {
+        const farmerName = route.params.farmerUrlComponent
+        const farmer = store.state.farmers.find(x => x.name === farmerName)
+        if (!farmer) {
+          next({ name: 'Landing' })
+          return
+        }
+        farmerUrlComponent = store.getters.farmerUrlComponent(farmer)
+      }
+      if (!isValidXPComponent) {
+        const xpFarmer = store.getters.farmerWithUrlComponent(farmerUrlComponent)
+        if (!xpFarmer) {
+          next({ name: 'Landing' })
+          return
+        }
+        const experimentName = route.params.experimentUrlComponent
+        const experiment = xpFarmer.experiments.find(x => x.name === experimentName)
+        if (!experiment) {
+          next({ name: 'Landing' })
+          return
+        }
+        experimentUrlComponent = store.getters.experimentUrlComponent(experiment)
+      }
+      next({
+        name: 'Experiment',
+        params: {
+          farmerUrlComponent,
+          experimentUrlComponent
+        }
+      })
     }
   },
   {
@@ -92,7 +163,7 @@ const routes = [
     component: ExperimentEditor,
     props: (route) => {
       return {
-        experimentName: route.query.xp
+        experimentUrlComponent: route.query.xp
       }
     },
     beforeEnter: (route, _, next) => {
@@ -117,7 +188,8 @@ const routes = [
         const farmer = store.getters.farmerWithId(
           store.state.loggedUser.farmer_id
         )
-        if (farmer.experiments.find(x => x.name === route.query.xp)) {
+        let experiment = store.getters.experimentWithUrlComponent(farmer, route.query.xp)
+        if (experiment) {
           next()
         } else {
           next({ name: 'Landing' })

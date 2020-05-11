@@ -29,13 +29,13 @@
               <div class="headline">
                 {{ farmer.name }}
                 <span class="d-block d-sm-inline">
-                <v-chip
-                  small
-                  class
-                  style="margin-top:-4px; margin-right: 10px;"
-                  v-for="(title, index) in (farmer.production || [])"
-                  :key="index"
-                >{{ title }}</v-chip>
+                  <v-chip
+                    small
+                    class
+                    style="margin-top:-4px; margin-right: 10px;"
+                    v-for="(title, index) in (farmer.production || [])"
+                    :key="index"
+                  >{{ title }}</v-chip>
                 </span>
               </div>
               <div v-if="farmer.postal_code" style="margin-top: 5px;" class="body-2">
@@ -170,7 +170,10 @@
           <div>Potentiel de rendement en blé : {{farmer.output}} quintaux / ha</div>
         </div>
 
-        <div class="body-1" style="margin-top: 20px; white-space: pre-wrap;">{{ farmer.description }}</div>
+        <div
+          class="body-1"
+          style="margin-top: 20px; white-space: pre-wrap;"
+        >{{ farmer.description }}</div>
 
         <div class="title" style="margin-top: 20px;" v-if="farmer.specificities">Spécifités</div>
         <div
@@ -214,6 +217,7 @@ import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
+import Constants from "@/constants"
 
 export default {
   name: "Farmer",
@@ -224,20 +228,25 @@ export default {
     }
   },
   props: {
-    farmerName: {
+    farmerUrlComponent: {
       type: String,
       required: true
     }
   },
   computed: {
     farmer() {
-      return this.$store.getters.farmerWithName(this.farmerName)
+      return this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
     },
     farmerNotFound() {
-      return this.$store.state.farmers.length > 0 && !this.farmer
+      return (
+        this.$store.state.farmersLoadingStatus ===
+          Constants.LoadingStatus.SUCCESS &&
+        this.$store.state.farmers.length > 0 &&
+        !this.farmer
+      )
     },
     isMobile() {
-      return this.$vuetify.breakpoint.name === 'xs'
+      return this.$vuetify.breakpoint.name === "xs"
     },
     breadcrumbs() {
       return [
@@ -277,7 +286,11 @@ export default {
       return "primary"
     },
     onContactClick() {
-      window.sendTrackingEvent(this.$route.name, "contact", this.farmerName)
+      window.sendTrackingEvent(
+        this.$route.name,
+        "contact",
+        this.farmerUrlComponent
+      )
       this.contactOverlayVisible = true
     }
   }

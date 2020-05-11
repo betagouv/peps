@@ -1,8 +1,8 @@
 
 import time
 import json
-import requests
 from io import BytesIO
+import requests
 from PIL import Image as Img
 from PIL import ExifTags
 from django.conf import settings

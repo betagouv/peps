@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import Constants from '@/constants'
 import formutils from '@/formutils'
+import short from 'short-uuid'
 
 Vue.use(Vuex)
 
@@ -108,8 +109,8 @@ export default new Vuex.Store({
       state.farmersLoadingStatus = Constants.LoadingStatus.IDLE
       state.experimentEditLoadingStatus = Constants.LoadingStatus.IDLE
     },
-    SET_SELECTED_FARMER(state, { selectedFarmer }) {
-      state.selectedFarmerId = selectedFarmer.id
+    SET_SELECTED_FARMER(state, { farmerId }) {
+      state.selectedFarmerId = farmerId
     },
     SET_SELECTED_DEPARTMENT(state, { selectedDepartment }) {
       state.selectedDepartment = selectedDepartment
@@ -125,7 +126,7 @@ export default new Vuex.Store({
         const farmer = state.farmers[i]
         const experimentIndex = farmer.experiments.findIndex(x => x.id === newExperiment.id)
         if (experimentIndex > -1) {
-          newExperiment.farmer = farmer.name
+          newExperiment.farmerId = farmer.id
           farmer.experiments[experimentIndex] = newExperiment
           break
         }
@@ -176,7 +177,7 @@ export default new Vuex.Store({
         const body = response.body
         body.forEach(x => {
           if (x.experiments)
-            x.experiments.forEach(y => y.farmer = x.name)
+            x.experiments.forEach(y => y.farmerId = x.id)
         })
         context.commit('SET_FARMERS', body)
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
@@ -263,8 +264,8 @@ export default new Vuex.Store({
     resetLoaders(context) {
       context.commit('RESET_LOADERS')
     },
-    setSelectedFarmer(context, { farmerName }) {
-      context.commit('SET_SELECTED_FARMER', { selectedFarmer: this.getters.farmerWithName(farmerName) })
+    setSelectedFarmer(context, { farmerId }) {
+      context.commit('SET_SELECTED_FARMER', { farmerId })
     },
     setSelectedDepartment(context, { department }) {
       context.commit('SET_SELECTED_DEPARTMENT', { selectedDepartment: department })
@@ -378,11 +379,28 @@ export default new Vuex.Store({
         return undefined
       })
     },
-    farmerWithName(state) {
-      return (farmerName => state.farmers.find(x => x.name === farmerName))
+    farmerWithUrlComponent(state) {
+      return (farmerUrlComponent => {
+        let shortenedId = farmerUrlComponent.split('__')[1]
+        let uuid = short().toUUID(shortenedId)
+        return state.farmers.find(x => x.id === uuid)
+      })
+    },
+    experimentWithUrlComponent() {
+      return ((farmer, experimentUrlComponent) => {
+        let shortenedId = experimentUrlComponent.split('__')[1]
+        let uuid = short().toUUID(shortenedId)
+        return farmer.experiments.find(x => x.id === uuid)
+      })
     },
     farmerWithId(state) {
       return (farmerId => state.farmers.find(x => x.id === farmerId))
+    },
+    farmerUrlComponent() {
+      return (farmer => `${farmer.name}__${short().fromUUID(farmer.id)}`)
+    },
+    experimentUrlComponent() {
+      return (experiment => `${experiment.name}__${short().fromUUID(experiment.id)}`)
     },
     selectedFarmer(state) {
       return state.farmers.find(x => x.id === state.selectedFarmerId)

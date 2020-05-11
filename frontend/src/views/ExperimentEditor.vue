@@ -417,7 +417,7 @@
           <v-card-text style="padding: 30px; color: #333;">
             <span v-if="updateSucceeded">
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
-              <span v-if="experimentName">Votre retour d'expérience a bien été mise à jour !</span>
+              <span v-if="experimentUrlComponent">Votre retour d'expérience a bien été mise à jour !</span>
               <span
                 v-else
               >Votre retour d'expérience a bien été créée ! Notre équipe la mettra en ligne bientôt.</span>
@@ -451,7 +451,7 @@ export default {
   name: "ExperimentEditor",
   components: { Title, Loader },
   props: {
-    experimentName: {
+    experimentUrlComponent: {
       type: String,
       default: null
     }
@@ -497,15 +497,10 @@ export default {
       )
       return farmer
     },
-    farmer() {
-      return this.$store.state.farmers.find(
-        x => !!x.experiments.find(y => y.name === this.experimentName)
-      )
-    },
     experiment() {
-      return this.farmer
-        ? this.farmer.experiments.find(x => x.name === this.experimentName)
-        : undefined
+      if (!this.loggedFarmer || !this.experimentUrlComponent)
+        return undefined
+      return this.$store.getters.experimentWithUrlComponent(this.loggedFarmer, this.experimentUrlComponent) 
     },
     breadcrumbs() {
       return [

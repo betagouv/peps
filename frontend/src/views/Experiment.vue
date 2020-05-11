@@ -82,7 +82,7 @@
                   color="primary"
                   outlined
                   small
-                  @click="goToFarmer(farmer)"
+                  @click="goToFarmer()"
                 >Voir son profil</v-btn>
               </div>
             </div>
@@ -265,38 +265,38 @@ export default {
     }
   },
   props: {
-    farmerName: {
+    farmerUrlComponent: {
       type: String,
       required: true
     },
-    experimentName: {
+    experimentUrlComponent: {
       type: String,
       required: true
     }
   },
   methods: {
-    goToFarmer(farmer) {
+    goToFarmer() {
       window.sendTrackingEvent(this.$route.name, "seeFarmer", this.farmer.name)
       this.$router.push({
         name: "Farmer",
-        params: { farmerName: farmer.name }
+        params: { farmerUrlComponent: this.farmerUrlComponent }
       })
     },
     onContactClick() {
-      window.sendTrackingEvent(this.$route.name, "contact", this.farmerName)
+      window.sendTrackingEvent(this.$route.name, "contact", this.farmer.name)
       this.contactOverlayVisible = true
     }
   },
   computed: {
     farmer() {
-      return this.$store.getters.farmerWithName(this.farmerName)
+      return this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
     },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs"
     },
     experiment() {
       if (!this.farmer) return
-      return this.farmer.experiments.find(x => x.name === this.experimentName)
+      return this.$store.getters.experimentWithUrlComponent(this.farmer, this.experimentUrlComponent)
     },
     experimentNotFound() {
       return this.$store.getters.experiments.length > 0 && !this.experiment

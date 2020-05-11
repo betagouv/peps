@@ -154,7 +154,7 @@ export default {
       window.sendTrackingEvent("FarmerCard", "seeProfile", farmer.name)
       this.$router.push({
         name: "Farmer",
-        params: { farmerName: farmer.name }
+        params: { farmerUrlComponent: this.$store.getters.farmerUrlComponent(farmer) }
       })
     },
     goToExperiment(farmer, experiment) {
@@ -166,7 +166,7 @@ export default {
       this.$router.push({
         name: "Experiment",
         params: {
-          farmerName: farmer.name,
+          farmerUrlComponent: this.$store.getters.farmerUrlComponent(farmer),
           expName: experiment.name
         }
       })
