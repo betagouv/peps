@@ -84,7 +84,6 @@ class Farmer(models.Model):
     postal_code = models.CharField(max_length=20, null=True, blank=True)
     personnel = models.TextField(null=True, blank=True)
 
-    livestock_type = models.CharField(max_length=120, null=True, blank=True)
     livestock_types = ChoiceArrayField(models.TextField(choices=TYPE_LIVESTOCK), default=list, null=True, blank=True)
 
     livestock_number = models.TextField(null=True, blank=True)

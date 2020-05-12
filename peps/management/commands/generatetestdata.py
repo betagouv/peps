@@ -9,7 +9,6 @@ from django.core.management.base import BaseCommand, CommandError
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 RELATIVE_PATH = '/api/tests/testdata/'
 PRACTICES_BASE = settings.AIRTABLE_PRACTICES_BASE
-XP_BASE = settings.AIRTABLE_XP_BASE
 MOCK_PATHS = {
     PRACTICES_BASE + '/Pratiques?view=Grid%20view': 'practices.json',
     PRACTICES_BASE + '/Types%20de%20sol?view=Grid%20view': 'soil_types.json',
@@ -30,8 +29,6 @@ MOCK_PATHS = {
     PRACTICES_BASE + '/Pratiques%2FGlyphosate?view=Grid%20view': 'practices_glyphosate.json',
     PRACTICES_BASE + '/Glyphosate?view=Grid%20view': 'glyphosate.json',
     PRACTICES_BASE + '/Categories?view=Grid%20view': 'categories.json',
-    XP_BASE + '/Agriculteur?view=Grid%20view': 'farmers.json',
-    XP_BASE + '/XP?view=Grid%20view': 'experiments.json',
 }
 
 class Command(BaseCommand):

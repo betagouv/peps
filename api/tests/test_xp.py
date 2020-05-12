@@ -3,7 +3,6 @@ from unittest.mock import Mock
 import requests
 from django.test import TestCase, override_settings
 from data.models import Farmer, Experiment
-from data.adapters import ExperimentsAirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))

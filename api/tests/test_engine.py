@@ -823,8 +823,6 @@ def _get_mock_airtable(*args, **_):
         'logos?view=Grid%20view': '/testdata/resource_images.json',
         'Types%20de%20pratique?view=Grid%20view': '/testdata/practice_types.json',
         'Categories?view=Grid%20view': '/testdata/categories.json',
-        'Agriculteur?view=Grid%20view': '/testdata/farmers.json',
-        'XP?view=Grid%20view': '/testdata/experiments.json',
     }
     for url, path in mock_paths.items():
         if url in request_url:

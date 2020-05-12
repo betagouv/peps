@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework import permissions, authentication
-from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
+from data.adapters import PracticesAirtableAdapter
 from data.models import Category, Farmer, Experiment
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
@@ -53,21 +53,6 @@ class RefreshDataApiView(APIView):
 
     def post(self, request):
         errors = PracticesAirtableAdapter.update()
-        has_fatal_errors = any(x.fatal for x in errors)
-
-        json_errors = [{'message': x.message, 'fatal': x.fatal, 'url': x.url} for x in errors]
-        return JsonResponse({'success': not has_fatal_errors, 'errors': json_errors})
-
-
-class RefreshXPDataApiView(APIView):
-    """
-    This view will refresh the DB for XP data
-    """
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAdminUser]
-
-    def post(self, request):
-        errors = ExperimentsAirtableAdapter.update()
         has_fatal_errors = any(x.fatal for x in errors)
 
         json_errors = [{'message': x.message, 'fatal': x.fatal, 'url': x.url} for x in errors]

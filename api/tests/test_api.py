@@ -10,7 +10,7 @@ from django.core.files.base import ContentFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
-from data.adapters import PracticesAirtableAdapter, ExperimentsAirtableAdapter
+from data.adapters import PracticesAirtableAdapter
 from data.models import Practice, DiscardAction
 from data.models import Category, Resource, Farmer, Experiment
 from api.utils import AsanaUtils
@@ -151,77 +151,6 @@ class TestApi(TestCase):
             PracticesAirtableAdapter.update.assert_not_called()
         finally:
             PracticesAirtableAdapter.update = original_function
-
-
-    def test_refresh_airtable_xp_unauthenticated(self):
-        """
-        Tests the refresh XP data without authentication,
-        which should not work. We mock Airtable's API
-        to carry this test out.
-        """
-        self.client.logout()
-        original_function = ExperimentsAirtableAdapter.update
-        ExperimentsAirtableAdapter.update = MagicMock()
-        try:
-            response = self.client.post(reverse('refresh_xp_data'), {}, format='json')
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            ExperimentsAirtableAdapter.update.assert_not_called()
-        finally:
-            ExperimentsAirtableAdapter.update = original_function
-
-
-    def test_refresh_airtable_xp_session_auth(self):
-        """
-        Tests the refresh XP data authenticated as non-admin,
-        which should not work. We mock Airtable's API
-        to carry this test out.
-        """
-        self.client.login(username='testuser', password='12345')
-        original_function = ExperimentsAirtableAdapter.update
-        ExperimentsAirtableAdapter.update = MagicMock()
-        try:
-            response = self.client.post(reverse('refresh_xp_data'), {}, format='json')
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            ExperimentsAirtableAdapter.update.assert_not_called()
-        finally:
-            ExperimentsAirtableAdapter.update = original_function
-
-
-    def test_refresh_airtable_xp_session_admin_auth(self):
-        """
-        Tests the refresh XP data endpoint using the session (user specific)
-        authentication. We mock Airtable's API to carry this test out.
-        """
-        self.client.login(username='testsuperuser', password='12345')
-        original_function = ExperimentsAirtableAdapter.update
-        ExperimentsAirtableAdapter.update = MagicMock()
-        try:
-            response = self.client.post(reverse('refresh_xp_data'), {}, format='json')
-            self.assertEqual(response.status_code, status.HTTP_200_OK)
-            ExperimentsAirtableAdapter.update.assert_called_once()
-        finally:
-            ExperimentsAirtableAdapter.update = original_function
-
-
-    def test_refresh_airtable_xp_api_key_auth(self):
-        """
-        Tests the refresh XP data endpoint using the Api key, meant to identify
-        projects and apps, not users. We mock Airtable's API to carry
-        this test out.
-        """
-        self.client.logout()
-        original_function = ExperimentsAirtableAdapter.update
-        ExperimentsAirtableAdapter.update = MagicMock()
-        try:
-            response = self.client.post(
-                reverse('refresh_xp_data'),
-                format='json',
-                **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
-            )
-            self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-            ExperimentsAirtableAdapter.update.assert_not_called()
-        finally:
-            ExperimentsAirtableAdapter.update = original_function
 
 
     def test_form_schema_unauthenticated(self):
@@ -654,7 +583,6 @@ def _populate_database():
 
         farmer = Farmer(
             external_id=farmer_id,
-            airtable_json={'id': farmer_id},
             lat=45.1808,
             lon=1.893,
             email=farmer_id + "@farmer.com",
@@ -665,7 +593,6 @@ def _populate_database():
     for experiment_id in ('rec33329kfas9i', 'rec0098333ooka', 'rec3333f09aii'):
         experiment = Experiment(
             external_id=experiment_id,
-            airtable_json={'id': experiment_id},
             name="Test experiment " + experiment_id,
             farmer=Farmer.objects.filter(external_id='rec66629kfas9i').first(),
             approved=True,
