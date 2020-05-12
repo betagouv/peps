@@ -46,14 +46,14 @@
     </v-card-text>
 
     <v-card-text
-      v-if="farmer.experiments && farmer.experiments.length > 0"
+      v-if="approvedExperiments && approvedExperiments.length > 0"
       class="body-2 flex-fix-item info-item"
       style="color: #666; padding-bottom: 0; padding-top: 15px;"
     >
       <v-icon size="20" style="margin: -3px 3px 0 0;">mdi-beaker-outline</v-icon>
       <div
         style="font-weight: bold;"
-      >{{farmer.experiments.length}} Retour{{farmer.experiments.length > 1 ? 's' : ''}} d'expérience</div>
+      >{{approvedExperiments.length}} Retour{{approvedExperiments.length > 1 ? 's' : ''}} d'expérience</div>
     </v-card-text>
 
     <v-divider class="flex-fix-item" style="margin: 10px 15px 10px 15px;" />
@@ -170,6 +170,13 @@ export default {
           expName: experiment.name
         }
       })
+    }
+  },
+  computed: {
+    approvedExperiments() {
+      if (!this.farmer.experiments || this.farmer.experiments.length === 0)
+        return []
+      return this.farmer.experiments.filter(x => !!x.approved)
     }
   }
 }

@@ -191,6 +191,7 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'id',
             'external_id',
             'tags',
+            'approved',
             'name',
             'objectives',
             'equipment',
@@ -254,35 +255,39 @@ class ExperimentSerializer(serializers.ModelSerializer):
         return experiment
 
 class FarmImageSerializer(serializers.ModelSerializer):
+    image = Base64ImageField()
+    id = serializers.IntegerField(required=False)
     class Meta:
         model = FarmImage
         fields = (
             'image',
+            'label',
+            'id'
         )
 
 class FarmerSerializer(serializers.ModelSerializer):
-    experiments = ExperimentSerializer(many=True, source='approved_experiments')
-    pending_experiments = serializers.SerializerMethodField()
-    images = FarmImageSerializer(many=True)
+    experiments = serializers.SerializerMethodField()
+    images = MediaListSerializer(required=False, child=FarmImageSerializer(required=False))
 
-    def get_pending_experiments(self, obj):
+    def get_experiments(self, obj):
         request = self.context.get('request')
         user = request.user if request else None
 
         if user and hasattr(user, 'farmer') and user.farmer == obj:
-            serializer = ExperimentSerializer(obj.pending_experiments, many=True)
-            return serializer.data
-        return None
+            return ExperimentSerializer(obj.experiments, many=True).data
+        return ExperimentSerializer(obj.approved_experiments, many=True).data
 
     class Meta:
         model = Farmer
         read_only_fields = [
             'id',
             'external_id',
+            'experiments',
         ]
         fields = (
             'id',
             'external_id',
+            'approved',
             'name',
             'production',
             'groups',
@@ -291,7 +296,6 @@ class FarmerSerializer(serializers.ModelSerializer):
             'images',
             'postal_code',
             'experiments',
-            'pending_experiments',
             'lat',
             'lon',
             'installation_date',

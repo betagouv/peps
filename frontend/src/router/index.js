@@ -15,6 +15,7 @@ import Experiment from '@/views/Experiment.vue'
 import Contribution from '@/views/Contribution.vue'
 import Profile from '@/views/Profile.vue'
 import ExperimentEditor from '@/views/ExperimentEditor.vue'
+import FarmerEditor from '@/views/FarmerEditor.vue'
 
 Vue.use(VueRouter)
 
@@ -195,6 +196,49 @@ const routes = [
           next({ name: 'Landing' })
         }
       }
+    }
+  },
+  {
+    path: '/editeurProfil/',
+    name: 'FarmerEditor',
+    component: FarmerEditor,
+    props: (route) => {
+      return {
+        farmerUrlComponent: route.query.agriculteur
+      }
+    },
+    beforeEnter: (route, _, next) => {
+      // If the user is not logged or the logged user has no farmer profile we redirect
+      if (!store.state.loggedUser || !store.state.loggedUser.farmer_id) {
+        next({ name: 'Profile' })
+        return
+      }
+
+      const loggedFarmer = store.getters.farmerWithId(store.state.loggedUser.farmer_id)
+      const hasFarmerQuery = route.query && route.query.agriculteur
+
+      // A logged used can only modify its own farmer profile
+      if (!hasFarmerQuery) {
+        next({
+          name: 'FarmerEditor',
+          query: {
+            agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
+          }
+        })
+        return
+      } else {
+        const requestedFarmer = store.getters.farmerWithUrlComponent(route.query.agriculteur)
+        if (requestedFarmer != loggedFarmer) {
+          next({
+            name: 'FarmerEditor',
+            query: {
+              agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
+            }
+          })
+          return
+        }
+      }
+      next()
     }
   },
   {

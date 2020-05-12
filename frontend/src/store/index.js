@@ -28,6 +28,7 @@ export default new Vuex.Store({
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
     farmersLoadingStatus: Constants.LoadingStatus.IDLE,
     experimentEditLoadingStatus: Constants.LoadingStatus.IDLE,
+    farmerEditLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
     contactFormDefinition: {},
@@ -108,6 +109,7 @@ export default new Vuex.Store({
       state.categoriesLoadingStatus = Constants.LoadingStatus.IDLE
       state.farmersLoadingStatus = Constants.LoadingStatus.IDLE
       state.experimentEditLoadingStatus = Constants.LoadingStatus.IDLE
+      state.farmerEditLoadingStatus = Constants.LoadingStatus.IDLE
     },
     SET_SELECTED_FARMER(state, { farmerId }) {
       state.selectedFarmerId = farmerId
@@ -121,6 +123,9 @@ export default new Vuex.Store({
     SET_EXPERIMENT_EDIT_LOADING_STATUS(state, status) {
       state.experimentEditLoadingStatus = status
     },
+    SET_FARMER_EDIT_LOADING_STATUS(state, status) {
+      state.farmerEditLoadingStatus = status
+    },
     UPDATE_XP(state, newExperiment) {
       for (let i = 0; i < state.farmers.length; i++) {
         const farmer = state.farmers[i]
@@ -132,9 +137,17 @@ export default new Vuex.Store({
         }
       }
     },
+    UPDATE_FARMER(state, updatedFarmer) {
+      const farmerIndex = state.farmers.findIndex(x => x.id === updatedFarmer.id)
+      if (farmerIndex > -1) {
+        if (updatedFarmer.experiments)
+          updatedFarmer.experiments.forEach(y => y.farmerId = updatedFarmer.id)
+        state.farmers.splice(farmerIndex, 1, updatedFarmer)
+      }
+    },
     ADD_XP_TO_FARMER(state, { newExperiment, farmer }) {
-      farmer.pending_experiments = farmer.pending_experiments || []
-      farmer.pending_experiments.push(newExperiment)
+      farmer.experiments = farmer.experiments || []
+      farmer.experiments.push(newExperiment)
     },
     UPDATE_PAGINATION(state, page) {
       state.xpPaginationPage = page
@@ -290,6 +303,18 @@ export default new Vuex.Store({
     },
     resetExperimentEditLoadingStatus(context) {
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.IDLE)
+    },
+    patchFarmer(context, { farmer, changes }) {
+      context.commit('SET_FARMER_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.patch('api/v1/farmers/' + farmer.id, changes, { headers }).then(response => {
+        context.commit('SET_FARMER_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+        context.commit('UPDATE_FARMER', response.body)
+      }).catch(() => {
+        context.commit('SET_FARMER_EDIT_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    resetFarmerEditLoadingStatus(context) {
+      context.commit('SET_FARMER_EDIT_LOADING_STATUS', Constants.LoadingStatus.IDLE)
     },
     updatePagination(context, { page }) {
       context.commit('UPDATE_PAGINATION', page)

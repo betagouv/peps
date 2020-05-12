@@ -14,7 +14,7 @@ from api.serializers import ResponseSerializer, DiscardActionSerializer, Categor
 from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
 from api.formschema import get_form_schema
 from api.models import Response
-from api.permissions import IsExperimentAuthor, IsFarmer
+from api.permissions import IsExperimentAuthor, IsFarmer, IsProfileOwner
 from api.utils import AsanaUtils
 
 class RankingsApiView(APIView):
@@ -133,6 +133,17 @@ class FarmersView(ListAPIView):
     queryset = Farmer.objects.filter(approved=True)
     serializer_class = FarmerSerializer
 
+    def get_queryset(self):
+        """
+        We will return approved farmers as well as the one corresponding
+        to the logged user (even if it is not yet approved)
+        """
+        user = self.request.user
+        approved_farmers = Farmer.objects.filter(approved=True)
+        if hasattr(user, 'farmer') and user.farmer:
+            return approved_farmers | Farmer.objects.filter(id=user.farmer.id)
+        return approved_farmers
+
 class ExperimentView(UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer & IsExperimentAuthor]
     serializer_class = ExperimentSerializer
@@ -167,3 +178,15 @@ class LoggedUserView(RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class FarmerView(UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated & IsFarmer & IsProfileOwner]
+    serializer_class = FarmerSerializer
+    queryset = Farmer.objects
+
+    def put(self, request, *args, **kwargs):
+        return JsonResponse({'error': 'Only PATCH request supported in this resource'}, status=405)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)

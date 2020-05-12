@@ -36,14 +36,23 @@ export default {
   },
   computed: {
     filteredExperiments() {
-      if (this.selectedFilters.length === 0)
-        return this.$store.getters.experiments
-      return this.$store.getters.experiments.filter(
+      let approvedXps = this.$store.getters.experiments.filter(
+        x => !!x.approved
+      )
+      if (this.selectedFilters.length === 0) return approvedXps
+      return approvedXps.filter(
         x => !!x.tags && x.tags.some(y => this.selectedFilters.indexOf(y) > -1)
       )
     },
     filters() {
-      return [...new Set(this.$store.getters.experiments.flatMap(x => x.tags).filter(x => !!x))]
+      return [
+        ...new Set(
+          this.$store.getters.experiments
+            .filter(x => !!x.approved)
+            .flatMap(x => x.tags)
+            .filter(x => !!x)
+        )
+      ]
     }
   },
   methods: {
@@ -52,16 +61,24 @@ export default {
       const itemIsSelected = index > -1
       if (itemIsSelected) {
         this.selectedFilters.splice(index, 1)
-        window.sendTrackingEvent(this.$route.name, "filter", "deselected-" + filter)
+        window.sendTrackingEvent(
+          this.$route.name,
+          "filter",
+          "deselected-" + filter
+        )
       } else {
         this.selectedFilters.push(filter)
-        window.sendTrackingEvent(this.$route.name, "filter", "selected-" + filter)
+        window.sendTrackingEvent(
+          this.$route.name,
+          "filter",
+          "selected-" + filter
+        )
       }
     }
   },
   watch: {
     selectedFilters(newFilters) {
-      this.$store.dispatch('updateFilters', { filters: newFilters })
+      this.$store.dispatch("updateFilters", { filters: newFilters })
     }
   },
   beforeMount() {

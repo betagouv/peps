@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.utils.html import format_html
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
+from django.core.exceptions import ValidationError
 from data.models import Experiment, Farmer, ExperimentImage, ExperimentVideo, FarmImage
 
 admin.site.site_header = 'Administration Peps'
@@ -156,10 +157,14 @@ class FarmerForm(forms.ModelForm):
         help_texts = {
             'email': 'Ce champ est utilisé pour le login',
         }
+    def clean_email(self):
+        if len(Farmer.objects.filter(email=self.data['email']).exclude(pk=self.instance.pk)) > 0:
+            raise ValidationError('Another farmer already has this email', code='invalid')
+        return self.cleaned_data['email']
 
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
-    list_display = ('name', 'postal_code', 'cultures', 'approved')
+    list_display = ('name', 'postal_code', 'email', 'approved')
     search_fields = ('name', 'email')
     list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, ExperimentInline)

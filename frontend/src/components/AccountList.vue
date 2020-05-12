@@ -1,6 +1,5 @@
 <template>
   <v-list>
-
     <v-list-item v-if="loggedUser">
       <v-list-item-avatar color="grey">
         <v-img :src="profileImage" v-if="profileImage"></v-img>
@@ -20,7 +19,9 @@
     <v-divider v-if="loggedUser"></v-divider>
 
     <v-list-item v-if="loggedUser" @click="goToProfile">
-      <v-list-item-title class="body-2" style="padding-left: 3px;">Mon compte</v-list-item-title>
+      <v-badge color="amber" dot :value="profilePending">
+        <v-list-item-title class="body-2" style="padding-left: 3px;">Mon compte</v-list-item-title>
+      </v-badge>
     </v-list-item>
 
     <v-list-item v-if="loggedUser" @click="logout">
@@ -30,13 +31,10 @@
     <v-list-item v-if="!loggedUser" @click="login">
       <v-list-item-title class="body-2" style="padding-left: 3px;">M'identifier</v-list-item-title>
     </v-list-item>
-
   </v-list>
-  
 </template>
 
 <script>
-
 export default {
   name: "AccountList",
   computed: {
@@ -45,9 +43,7 @@ export default {
     },
     farmer() {
       if (!this.loggedUser || !this.loggedUser.farmer_id) return null
-      return this.$store.getters.farmerWithId(
-        this.loggedUser.farmer_id
-      )
+      return this.$store.getters.farmerWithId(this.loggedUser.farmer_id)
     },
     displayName() {
       if (!this.loggedUser) return ""
@@ -62,27 +58,29 @@ export default {
     profileImage() {
       if (!this.farmer) return null
       return this.farmer.profile_image
+    },
+    profilePending() {
+      return this.farmer && !this.farmer.approved
     }
   },
   methods: {
     goToProfile() {
-      if (this.$route.name === 'Profile')
-        return
+      if (this.$route.name === "Profile") return
       window.sendTrackingEvent("Header", "Profile", this.loggedUser.email)
       this.$router.push({
         name: "Profile"
       })
     },
     login() {
-      window.sendTrackingEvent("Header", "Login", 'login')
+      window.sendTrackingEvent("Header", "Login", "login")
       window.location.href = "/login"
     },
     logout() {
-      if (window.confirm('Êtes-vous sur de vouloir fermer votre session ?')) {
-        window.sendTrackingEvent("Header", "Logout", 'logout')
+      if (window.confirm("Êtes-vous sur de vouloir fermer votre session ?")) {
+        window.sendTrackingEvent("Header", "Logout", "logout")
         window.location.href = "/logout"
       }
-    },
+    }
   }
 }
 </script>

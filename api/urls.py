@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from api.views import RankingsApiView, RefreshDataApiView, FormSchemaView
 from api.views import SendTaskView, DiscardActionView, CategoriesView
-from api.views import FarmersView, LoggedUserView, ExperimentView
+from api.views import FarmersView, LoggedUserView, ExperimentView, FarmerView
 from api.views import ExperimentCreateView
 
 urlpatterns = {
@@ -17,6 +17,7 @@ urlpatterns = {
     url(r'^loggedUser/?$', LoggedUserView.as_view(), name='logged_user'),
     url(r'^experiments/?$', ExperimentCreateView.as_view(), name='experiment_create'),
     path('experiments/<uuid:pk>', ExperimentView.as_view(), name='experiment_update'),
+    path('farmers/<uuid:pk>', FarmerView.as_view(), name='farmer_update'),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

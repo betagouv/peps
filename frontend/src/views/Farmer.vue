@@ -75,16 +75,16 @@
         <div
           class="title"
           style="margin-top: 20px;"
-          v-if="farmer.experiments && farmer.experiments.length === 1"
+          v-if="approvedExperiments && approvedExperiments.length === 1"
         >Son retour d'expérience</div>
         <div
           class="title"
           style="margin-top: 20px;"
-          v-if="farmer.experiments && farmer.experiments.length > 1"
+          v-if="approvedExperiments && approvedExperiments.length > 1"
         >Ses retours d'expérience</div>
-        <v-row v-if="farmer.experiments && farmer.experiments.length > 0">
+        <v-row v-if="approvedExperiments && approvedExperiments.length > 0">
           <v-col
-            v-for="(experiment, index) in farmer.experiments"
+            v-for="(experiment, index) in approvedExperiments"
             :key="index"
             cols="12"
             sm="6"
@@ -96,81 +96,8 @@
 
         <div class="title" style="margin-top: 20px;">Son exploitation</div>
 
-        <div v-if="farmer.installation_date" class="body-2 info-item">
-          <v-icon small left>mdi-calendar-blank-outline</v-icon>
-          <div>Installation : {{farmer.installation_date.substring(0, 4)}}</div>
-        </div>
-        <div v-if="farmer.personnel" class="body-2 info-item">
-          <v-icon small left>mdi-card-account-details-outline</v-icon>
-          <div>Effectif : {{farmer.personnel}} temps plein</div>
-        </div>
-        <div
-          v-if="farmer.livestock_types && farmer.livestock_types.length > 0"
-          class="body-2 info-item"
-        >
-          <v-icon small left>mdi-cow</v-icon>
-          <div>
-            Élevage :
-            <span v-for="(livestock, index) in farmer.livestock_types" :key="index">{{livestock}},</span>
-            <span v-if="farmer.livestock_number">({{ farmer.livestock_number }})</span>
-          </div>
-        </div>
-        <div
-          v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
-          class="body-2 info-item"
-        >
-          <v-icon small left>mdi-tractor</v-icon>
-          <div>
-            Types d'agriculture :
-            <span
-              v-for="(agricultureType, index) in farmer.agriculture_types"
-              :key="index"
-            >
-              {{agricultureType}}
-              <span
-                v-if="farmer.agriculture_types.length > 1 && index < farmer.agriculture_types.length - 1"
-              >,</span>
-            </span>
-          </div>
-        </div>
-        <div v-if="farmer.cultures" class="body-2 info-item">
-          <v-icon small left>mdi-leaf</v-icon>
-          <div>Cultures : {{farmer.cultures}}</div>
-        </div>
-        <div v-if="farmer.groups && farmer.groups.length > 0" class="body-2 info-item">
-          <v-icon small left>mdi-account-group</v-icon>
-          <div>
-            Groupes :
-            <span v-for="(group, index) in farmer.groups" :key="index">
-              {{group}}
-              <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
-            </span>
-          </div>
-        </div>
-        <div v-if="farmer.soil_type" class="body-2 info-item">
-          <v-icon small left>mdi-drag-horizontal</v-icon>
-          <div>Type de sol : {{farmer.soil_type}}</div>
-        </div>
-        <div v-if="farmer.surface" class="body-2 info-item">
-          <v-icon small left>mdi-texture-box</v-icon>
-          <div>
-            Surface : {{farmer.surface}} ha
-            <span
-              v-if="farmer.surface_cultures || farmer.surface_meadows"
-            >
-              dont&nbsp;
-              <span
-                v-if="farmer.surface_cultures"
-              >{{farmer.surface_cultures}} ha en cultures</span>
-              <span v-if="farmer.surface_cultures && farmer.surface_meadows">&nbsp;et&nbsp;</span>
-              <span v-if="farmer.surface_meadows">{{farmer.surface_meadows}} ha en prairie</span>
-            </span>
-          </div>
-        </div>
-        <div v-if="farmer.output" class="body-2 info-item">
-          <v-icon small left>mdi-silo</v-icon>
-          <div>Potentiel de rendement en blé : {{farmer.output}} quintaux / ha</div>
-        </div>
+        <FarmerInfoBox v-if="farmer" :farmer="farmer" />
+
 
         <div
           class="body-1"
@@ -219,11 +146,12 @@ import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
+import FarmerInfoBox from '@/components/FarmerInfoBox'
 import Constants from "@/constants"
 
 export default {
   name: "Farmer",
-  components: { Title, ExperimentCard, FarmerContactOverlay, NotFound },
+  components: { Title, ExperimentCard, FarmerContactOverlay, NotFound, FarmerInfoBox },
   data() {
     return {
       contactOverlayVisible: false
@@ -262,6 +190,11 @@ export default {
           disabled: true
         }
       ]
+    },
+    approvedExperiments() {
+      if (!this.farmer || !this.farmer.experiments || this.farmer.experiments.length === 0)
+        return []
+      return this.farmer.experiments.filter(x => !!x.approved)
     }
   },
   methods: {
@@ -298,18 +231,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.info-item {
-  margin-top: 10px;
-}
-
-.info-item > div {
-  margin-left: 30px;
-}
-
-.info-item > i {
-  float: left;
-  padding-top: 3px;
-}
-</style>

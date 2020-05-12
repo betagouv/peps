@@ -1,6 +1,9 @@
 <template>
   <div>
-    <ContributionOverlay :visible="showContributionOverlay" @done="showContributionOverlay = false"/>
+    <ContributionOverlay
+      :visible="showContributionOverlay"
+      @done="showContributionOverlay = false"
+    />
     <div style="position: absolute; width:100%;">
       <v-app-bar app absolute color="primary" dark>
         <v-toolbar-title>
@@ -48,16 +51,19 @@
 
         <v-menu v-if="isXPPage && loggedUser" left bottom>
           <template v-slot:activator="{ on }">
-            <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
-              <v-avatar size="40" v-if="profileImage"><v-img :src="profileImage" ></v-img></v-avatar>
-              <v-icon v-else>mdi-account</v-icon>
-            </v-btn>
+            
+              <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
+                <v-badge dot color="amber" :value="profilePending">
+                <v-avatar size="40" v-if="profileImage">
+                  <v-img :src="profileImage"></v-img>
+                </v-avatar>
+                <v-icon v-else>mdi-account</v-icon>
+                </v-badge>
+              </v-btn>
           </template>
 
           <AccountList />
-
         </v-menu>
-
       </v-app-bar>
       <v-overlay :value="blacklistDialog" :dark="false">
         <v-btn
@@ -98,34 +104,36 @@ export default {
       return this.$store.state.loggedUser
     },
     isXPPage() {
-      const xpPages = ["Contribution", "Farmer", "Experiment", "Map", "Profile" , "ExperimentEditor"]
+      const xpPages = [
+        "Contribution",
+        "Farmer",
+        "Experiment",
+        "Map",
+        "Profile",
+        "ExperimentEditor"
+      ]
       return xpPages.indexOf(this.$route.name) > -1
     },
     farmer() {
       if (!this.loggedUser || !this.loggedUser.farmer_id) return null
-      return this.$store.getters.farmerWithId(
-        this.loggedUser.farmer_id
-      )
+      return this.$store.getters.farmerWithId(this.loggedUser.farmer_id)
     },
     profileImage() {
-      if (!this.farmer)
-        return null
+      if (!this.farmer) return null
       return this.farmer.profile_image
+    },
+    profilePending() {
+      return this.farmer && !this.farmer.approved
     }
   },
   methods: {
     onShareXPClick() {
-      window.sendTrackingEvent(
-        "Header",
-        "shareXP",
-        "Partager une expérience"
-      )
+      window.sendTrackingEvent("Header", "shareXP", "Partager une expérience")
       if (this.loggedUser && this.loggedUser.farmer_id)
         this.$router.push({ name: "ExperimentEditor" })
       else if (this.loggedUser)
-        window.alert('Vous n\'avez pas un profil agriculteur sur notre site')
-      else
-        this.showContributionOverlay = true
+        window.alert("Vous n'avez pas un profil agriculteur sur notre site")
+      else this.showContributionOverlay = true
     }
   },
   watch: {

@@ -235,7 +235,7 @@ export default {
     },
     refreshMapMarkers() {
       this.markersInfo = []
-      for (const farmer of this.$store.state.farmers) {
+      for (const farmer of this.$store.state.farmers.filter(x => !!x.approved)) {
         this.markersInfo.push(
           Object.assign(
             {},
