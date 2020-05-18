@@ -4,94 +4,118 @@
     <v-container class="constrained">
       <div>
         <div class="display-1 primary--text">Le constat</div>
-        <div class="title">Des agriculteurs qui souhaitent faire évoluer leur système</div>
-        <div class="body-2">
-          Augmentation des charges, efficacité en baisse de certains produits, impasses techniques... La plupart des
-          agriculteurs font ces observations directement sur leur exploitation. Il devient alors nécessaire de
-          trouver d'autres pratiques pour répondre aux problèmes d'adventice, de ravageur ou de maladie.
+        <div class="body-1">
+          Le système agricole actuel est en pleine transformation sous l’effet de différentes
+          dynamiques en particulier la mondialisation du marché agricole - qui entraîne une fluctuation
+          des prix - et la réduction de l’utilisation des produits phytosanitaires - sous l’effet de
+          l’apparition de résistances des adventices/ravageurs, de la demande sociétale et de la
+          réglementation.
         </div>
-        <div class="body-2">
-          D'autre part, les agriculteurs sont les premiers concernés par l'impact sur la santé du tout chimique et
-          subissent une pression sociale parfois violente.
+        <div class="body-1">
+          Dans ce contexte, les agriculteurs sont de plus en plus amenés à repenser leur
+          exploitation. Beaucoup cherchent à réduire leurs charges alors que les prix ne sont
+          pas stables et peu prédictibles. D’autres se tournent vers de nouvelles pratiques
+          agroécologiques se substituant à l’action des produits phytosanitaires tandis que
+          certains cherchent des nouvelles cultures ou des nouveaux débouchés afin de diversifier
+          et assurer les revenus. Ces nouvelles pistes ne sont bien évidemment pas exclusives
+          et sont souvent combinées.
         </div>
 
-        <div class="title">Des agriculteurs connectés</div>
-        <div class="body-2">
-          Les agriculteurs sont l'une des catégories socio-professionnelles les plus connectées. L'étude Agrinautes
-          2018 réalisée par BVA pour Terre-net Média et Hyltel montre que 85% des agrinautes recherchent sur internet
-          des informations technique sur leurs cultures.
+        <div class="display-1 primary--text">La proposition</div>
+        <div class="body-1">
+          Peps est d’une plateforme de partage d’expériences entre agriculteurs. Par expérience
+          nous entendons l’ensemble des projets qu’un agriculteur a pu mener, des petits essais
+          pour améliorer l’existant aux grands changements qui transforment structurellement
+          l’exploitation.
         </div>
 
-        <div
-          class="title"
-        >Beaucoup d’initiatives locales qui fonctionnent et sont documentées</div>
-        <div class="body-2">
-          Depuis plusieurs années, l'ensemble du monde agricole s'est mobilisé pour tester des pratiques alternatives
-          à la chimie. Les résultats sont très positifs et de nombreux agriculteurs utilisent désormais ces techniques
-          dans leur exploitation.
+        <div class="title">
+          Pourquoi nous avons choisi la piste du partage d’expérience?
         </div>
-        <div class="body-2">
-          Ces pratiques sont documentées et recensées dans différentes bases de données au niveau national : EcophytoPic,
-          GECO, les CEPP, le Centre National de Ressource Glyphosate, sur les sites des instituts techniques...
+
+        <div class="body-1">
+          A la suite d’entretiens avec des agriculteurs, il ressort que ceux ci sont intéressés
+          par les essais mis en place par d’autres agriculteurs, en particulier quand ils sont
+          proches géographiquement. En outre, le partage et l’entraide sont des pratiques
+          traditionnellement répandues parmi cette profession.
         </div>
-        <div class="body-2">
-          Des expériences d'agriculteurs sont également la pour concrétiser ces documentations, par exemple celles des
-          agriculteurs du réseau DEPHY, des CETA, de groupes GIEE ou 30000 et bien d'autres !
+
+        <div class="body-1">
+          Plus largement, si les agriculteurs ont toujours mené des essais sur leur
+          exploitation, cette aptitude apparaît aujourd’hui d’autant plus primordiale.
+          En effet, l’adoption des pratiques agroécologiques passe nécessairement par leur
+          expérimentation, celles-ci présentant un caractère moins systématique et plus
+          systémique que les produits phytosanitaires. En outre, la diversification et
+          la recherche d’un nouveau modèle pour une exploitation agricole passe par
+          l’introduction de nouvelles cultures dans les rotations et la diversification
+          des débouchés (vente directe, production d’énergie, nouvel atelier…)
+        </div>
+
+        <div class="title">
+          Quel sont les objectifs d’un tel service ?
+        </div>
+
+        <div class="body-1">
+          L’objectif du partage d’expérience est de soutenir la pratique de
+          l’expérimentation chez les agriculteurs en :
+          <ul>
+            <li>
+              favorisant la découverte de nouvelles idées ou de nouvelles
+              manières de mettre en oeuvre des pratiques qu’ils connaissent déjà,
+            </li>
+            <li>
+              montrant ce que fait le terrain et en valorisant un monde agricole qui
+              change,
+            </li>
+            <li>
+              facilitant la mise en contact entre les agriculteurs
+            </li>
+          </ul>
+        </div>
+
+        <div class="title">
+          Comment travaillons-nous pour créer Peps ?
+        </div>
+
+        <div class="body-1">
+          Comme toutes les startups d’État, Peps se construit à partir des retours du terrain.
+          Ainsi, depuis le début du projet nous avons conduit des entretiens avec plus de 150
+          agriculteurs.
+        </div>
+
+        <div class="body-1">
+          Aujourd’hui, nous cherchons à valider la proposition de valeur présentée plus haut
+          c’est à dire nous assurer que les agriculteurs trouvent de l’intérêt dans un tel service.
+          Pour ce faire, nous lançons un prototype avec les agriculteurs volontaires.
+        </div>
+
+        <div class="body-1">
+          Si vous êtes agriculteurs et souhaitez participer au test de ce prototype, <a href="/#/contact" target="_blank">contactez nous</a>.
+        </div>
+
+        <div class="display-1 primary--text">Historique</div>
+
+        <div class="body-1">
+          Dans sa première version, nous avions développé un site qui, à partir de quelques
+          données sur l’exploitation de l’agriculteur, proposait automatiquement des pratiques
+          alternatives à la chimie. Ces pratiques étaient documentées à partir des ressources
+          la plateforme d’EcophytoPIC et notre outil s’inscrivait dans le volet diffusion du
+          plan Ecophyto 2+.
+        </div>
+
+        <div class="body-1">
+          Aujourd’hui, la version 2 n’utilise pas ce simulateur, le choix ayant été fait de
+          se focaliser sur le partage d’expérience et la recherche par zone géographique
+          et/ou catégorie. Néanmoins, l’outil demeure fonctionnel et pourra être intégrée
+          à la nouvelle proposition dans un second temps afin de proposer de nouvelles
+          modalités de recherche d’expérience.
         </div>
       </div>
 
-      <div style="margin-top: 10px;">
-        <div class="display-1 primary--text">Notre demarche</div>
-        <div class="title">Un service public numérique</div>
-        <div class="body-2">
-          Peps est une startup d'État dont l'objectif est d'accompagner les agriculteurs vers des pratiques économes
-          en produits phytosanitaires.
-        </div>
-        <div class="body-2">
-          Le dispositif Startup d’Etat vise à utiliser les principes de fonctionnement des Startups pour répondre
-          à un problème lié à une politique publique. Le service est ainsi co-conçu à partir d'atelier avec les
-          acteurs du terrain. Une première version, même imparfaite, est lancée rapidement et améliorée par la
-          suite avec le retours des agriculteurs et des acteurs du monde agricole. Au lieu de sortir dans 5 ans
-          un produit a priori parfait mais jamais confronté au terrain, une Startup d'Etat lance un service public
-          petit qu'elle fait grandir au fur et à mesure avec ses utilisateurs. L'objectif est de construire avec le
-          terrain un service utile et utilisé.
-        </div>
 
-        <div class="title">Concevoir avec et pour les utilisateurs</div>
-        <div class="body-2">
-          À l’instar des autres Startup d’État, l’équipe de Peps s’attache d'abord à comprendre les problématiques
-          de chacune des parties prenantes pour créer un service adapté en synergie avec les outils et dynamiques
-          existantes.
-        </div>
-        <div class="body-2">
-          Pour se faire, nous prenons contact avec toutes les personnes qui œuvrent sur le sujet et nous allons
-          autant que possible au contact du terrain pour les rencontrer. Ainsi, Peps a organisé des journées de
-          travail avec l'ensemble du monde agricole : agriculteurs, syndicats, DRAAF, DDT, Chambres d'agricultures,
-          coopératives, association environnementale, CUMA. L'équipe Peps suit aussi des conseillers de coopératives
-          et des agriculteurs dans leur journée de travail.
-        </div>
-      </div>
 
       <div style="margin-top: 10px;">
-        <div class="display-1 primary--text">Nos administrations référentes</div>
-        <v-container class="ma-0 pa-5">
-          <v-row>
-            <v-col
-              v-for="(admin, index) in administrations"
-              :key="index"
-              cols="12"
-              :sm="admin.size"
-            >
-              <v-card class="pa-0 fill-height" elevation="0">
-                <v-img class="white--text align-end" height="200px" :src="admin.imageUrl" contain />
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
-
-      <div style="margin-top: 10px;">
-        <div class="display-1 primary--text">L'équipe</div>
+        <div class="display-1 primary--text">L'équipe actuelle</div>
         <v-container class="ma-0 pa-5">
           <v-row>
             <v-col v-for="(member, index) in team" :key="index" cols="12" sm="3">
@@ -105,28 +129,6 @@
         </v-container>
       </div>
 
-      <div style="margin-top: 10px;">
-        <div class="display-1 primary--text">Dans la presse</div>
-        <v-container class="ma-0 pa-5">
-          <v-row>
-            <v-col v-for="(article, index) in articles" :key="index" cols="12" sm="4">
-              <v-card class="pa-0 fill-height" elevation="0">
-                <v-img class="white--text align-end" height="100" contain :src="article.imageUrl" />
-                <div class="caption grey--text">{{ article.journal }}</div>
-                <div class="subtitle-2 black--text">{{ article.title }}</div>
-                <v-btn
-                  class="text-none ma-3 fill-height"
-                  :href="article.url"
-                  target="_blank"
-                  rounded
-                  small
-                  color="primary"
-                >Voir l'article</v-btn>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
     </v-container>
   </div>
 </template>
@@ -170,54 +172,6 @@ export default {
           imageUrl: "/static/images/benjamin_doberset.png"
         }
       ],
-      administrations: [
-        {
-          imageUrl: "/static/images/dinum.png",
-          size: 2
-        },
-        {
-          imageUrl: "/static/images/minagri.png",
-          size: 2
-        },
-        {
-          imageUrl: "/static/images/mineco.jpg",
-          size: 3
-        },
-        {
-          imageUrl: "/static/images/ecophyto.png",
-          size: 2
-        },
-        {
-          imageUrl: "/static/images/inra.jpg",
-          size: 2
-        }
-      ],
-      articles: [
-        {
-          journal: "Le contrat de solutions",
-          title:
-            "Peps : accompagner les agriculteurs dans la réduction des produits phytosanitaires",
-          imageUrl: "/static/images/contrat-de-solutions.png",
-          url:
-            "https://contratsolutions.fr/actualites/peps-accompagner-les-agriculteurs-dans-la-reduction-des-produits-phytosanitaires/"
-        },
-        {
-          journal: "Agrifind",
-          title:
-            "Peps : Une initiative pour la durabilité agronomique des exploitations agricoles",
-          imageUrl: "/static/images/agrifind.png",
-          url:
-            "https://www.agrifind.fr/peps-une-initiative-pour-la-durabilite-agronomique-des-exploitations-agricoles/"
-        },
-        {
-          journal: "La France Agricole",
-          title:
-            "Task force, enquête flash, start-up d’État, centre de ressources…",
-          imageUrl: "/static/images/la-france-agricole.png",
-          url:
-            "http://www.lafranceagricole.fr/actualites/cultures/sortie-du-glyphosate-task-force-enquete-flash-start-up-detat-centre-de-ressources-1,8,2751982137.html"
-        }
-      ]
     }
   }
 }
@@ -236,7 +190,7 @@ export default {
   margin-top: 10px;
   margin-bottom: 5px;
 }
-.body-2 {
-  line-height: 1.375rem;
+.body-1 {
+  margin-top: 15px;
 }
 </style>

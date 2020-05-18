@@ -6,6 +6,7 @@ import dateutil
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -225,6 +226,7 @@ class TestApi(TestCase):
         Tests the task API using the Api key, meant to identify
         projects and apps, not users.
         """
+        asana_project = settings.ASANA_PROJECT
         self.client.logout()
         original_function = AsanaUtils.send_task
         AsanaUtils.send_task = MagicMock()
@@ -251,7 +253,7 @@ class TestApi(TestCase):
             tel = '07 77 08 81 79'
             responses = 'What help do you need?\nNothing'
             notes = '{0}\n\n{1} a besoin d\'aide pour implémenter la pratique {2}.\n\nNum tel : {3}\n\nRéponses :\n{4}'.format(problem, name, url, tel, responses)
-            AsanaUtils.send_task.assert_called_once_with('1143885392507417', 'Jean-Michel', notes, date)
+            AsanaUtils.send_task.assert_called_once_with(asana_project, 'Jean-Michel', notes, date)
 
         finally:
             AsanaUtils.send_task = original_function
