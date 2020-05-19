@@ -17,10 +17,9 @@
       </v-toolbar>
 
       <v-form ref="form" v-model="formIsValid">
-
         <!-- NAME -->
 
-        <div class="field">
+        <div class="field" style="margin-bottom: 0px;">
           <div class="field-title title">Votre prénom et nom</div>
           <v-text-field
             :rules="[validators.notEmpty]"
@@ -29,6 +28,39 @@
             dense
             v-model="dummyFarmer.name"
           ></v-text-field>
+        </div>
+
+        <!-- PROFILE IMAGE -->
+        <div class="field">
+          <div class="field-title title">Photo de profil</div>
+
+          <div style="position: relative; margin-left: 23px; margin-top: 10px;">
+            <v-avatar size="120" style="border: solid 3px #CCC">
+              <v-img v-if="dummyFarmer.profile_image" :src="dummyFarmer.profile_image"></v-img>
+              <v-icon size="80" v-else>mdi-account</v-icon>
+            </v-avatar>
+
+            <div style="position: absolute; top: -10px; left: -10px;">
+              <v-btn v-if="dummyFarmer.profile_image" fab small @click="changeProfileImage(undefined)">
+                <v-icon color="red">mdi-trash-can-outline</v-icon>
+              </v-btn>
+            </div>
+          </div>
+
+          <v-btn
+            class="text-none"
+            outlined
+            color="primary"
+            style="margin-top: 10px"
+            @click="onProfilePhotoUploadClick"
+          >Choisir une photo</v-btn>
+          <input
+            ref="uploader"
+            class="d-none"
+            type="file"
+            accept="image/*"
+            @change="onProfilePhotoChanged"
+          />
         </div>
 
         <!-- PRODUCTIONS -->
@@ -92,10 +124,6 @@
           ></v-checkbox>
         </div>
 
-        <!-- PROFILE IMAGE -->
-
-
-
         <!-- ADDITIONAL IMAGES -->
 
         <div class="field">
@@ -146,7 +174,9 @@
         <!-- PERSONNEL -->
 
         <div class="field">
-          <div class="field-title title">Combien de personnes travaillen sur l'exploitation à temps plein ?</div>
+          <div
+            class="field-title title"
+          >Combien de personnes travaillen sur l'exploitation à temps plein ?</div>
           <div class="field-helper subtitle-2 grey--text">Comptez-vous et vos associés</div>
           <v-text-field
             :rules="[validators.notEmpty]"
@@ -241,9 +271,7 @@
         <!-- LIVESTOCK NUMBER -->
 
         <div class="field">
-          <div
-            class="field-title title"
-          >Si vous avez de l'élevage, combien de bêtes avez-vous ?</div>
+          <div class="field-title title">Si vous avez de l'élevage, combien de bêtes avez-vous ?</div>
           <v-text-field
             @input="hasChanged = true"
             outlined
@@ -255,10 +283,10 @@
         <!-- CULTURES -->
 
         <div>
+          <div class="field-title title">Quelles cultures avez-vous sur l'exploitation ?</div>
           <div
-            class="field-title title"
-          >Quelles cultures avez-vous sur l'exploitation ?</div>
-          <div class="field-helper subtitle-2 grey--text">Lister les cultures et les espèces fourragères</div>
+            class="field-helper subtitle-2 grey--text"
+          >Lister les cultures et les espèces fourragères</div>
           <v-textarea
             rows="3"
             @input="hasChanged = true"
@@ -272,9 +300,7 @@
         <!-- SOIL TYPE -->
 
         <div>
-          <div
-            class="field-title title"
-          >Quels types de sols sont présents sur l'exploitation ?</div>
+          <div class="field-title title">Quels types de sols sont présents sur l'exploitation ?</div>
           <v-textarea
             rows="3"
             @input="hasChanged = true"
@@ -291,21 +317,16 @@
           <div
             class="field-title title"
           >Quel est rendement moyen en blé tendre de l'exploitation (en quintaux / ha)</div>
-          <v-text-field
-            @input="hasChanged = true"
-            outlined
-            dense
-            v-model="dummyFarmer.output"
-          ></v-text-field>
+          <v-text-field @input="hasChanged = true" outlined dense v-model="dummyFarmer.output"></v-text-field>
         </div>
 
         <!-- DESCRIPTION -->
 
         <div>
+          <div class="field-title title">Pouvez-vous décrire votre exploitation ?</div>
           <div
-            class="field-title title"
-          >Pouvez-vous décrire votre exploitation ?</div>
-          <div class="field-helper subtitle-2 grey--text">Son histoire, son fonctionnement, ses particularités, la philosophie et le type d'agriculture pratiquée... </div>
+            class="field-helper subtitle-2 grey--text"
+          >Son histoire, son fonctionnement, ses particularités, la philosophie et le type d'agriculture pratiquée...</div>
           <v-textarea
             rows="5"
             @input="hasChanged = true"
@@ -322,7 +343,9 @@
           <div
             class="field-title title"
           >Si il y en a, quelles sont les spécificités de l'exploitation ?</div>
-          <div class="field-helper subtitle-2 grey--text">Irrigation, drainage, zone protégée, captage d'eau, parcellaire...</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+          >Irrigation, drainage, zone protégée, captage d'eau, parcellaire...</div>
           <v-textarea
             rows="5"
             @input="hasChanged = true"
@@ -336,9 +359,7 @@
         <!-- GROUPS -->
 
         <div class="field">
-          <div
-            class="field-title title"
-          >Appartenez-vous à des groupes ?</div>
+          <div class="field-title title">Appartenez-vous à des groupes ?</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
 
           <v-checkbox
@@ -406,9 +427,7 @@
         <!-- AGRICULTURE TYPES -->
 
         <div class="field">
-          <div
-            class="field-title title"
-          >Appartenez-vous à des groupes ?</div>
+          <div class="field-title title">Appartenez-vous à des groupes ?</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -485,17 +504,16 @@
             placeholder="https://..."
             style="max-width: 600px;"
             v-model="dummyFarmer.links[index]"
-
           >
             <template v-slot:prepend>
               <v-btn fab x-small style="margin-top: -3px;" @click="deleteLink(index)">
-                <v-icon color="red">
-                  mdi-trash-can-outline
-                </v-icon>
+                <v-icon color="red">mdi-trash-can-outline</v-icon>
               </v-btn>
             </template>
           </v-text-field>
-          <v-btn class="text-none" @click="addLink()"><v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien</v-btn>
+          <v-btn class="text-none" @click="addLink()">
+            <v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien
+          </v-btn>
         </div>
 
         <!-- PHONE NUMBER -->
@@ -526,9 +544,7 @@
             <span v-if="updateSucceeded">
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
               <span v-if="farmerUrlComponent">Votre profil a bien été mis à jour !</span>
-              <span
-                v-else
-              >Votre profil a bien été créé ! Notre équipe la mettra en ligne bientôt.</span>
+              <span v-else>Votre profil a bien été créé ! Notre équipe la mettra en ligne bientôt.</span>
             </span>
             <span v-else>
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On n'a pas pu mettre à jour votre profil. Veuillez essayer plus tard.
@@ -600,9 +616,8 @@ export default {
       return validators
     },
     farmer() {
-      if (!this.farmerUrlComponent)
-        return undefined
-      return this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent) 
+      if (!this.farmerUrlComponent) return undefined
+      return this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
     },
     breadcrumbs() {
       return [
@@ -617,9 +632,7 @@ export default {
           href: "/#/compte"
         },
         {
-          text: this.farmer
-            ? this.farmer.name
-            : "Nouveau profil",
+          text: this.farmer ? this.farmer.name : "Nouveau profil",
           disabled: true
         }
       ]
@@ -641,10 +654,7 @@ export default {
       }
 
       if (this.farmer) {
-        const payload = utils.getObjectDiff(
-          this.farmer,
-          this.dummyFarmer
-        )
+        const payload = utils.getObjectDiff(this.farmer, this.dummyFarmer)
 
         this.$store.dispatch("patchFarmer", {
           farmer: this.farmer,
@@ -690,23 +700,46 @@ export default {
         })
       }
     },
+    changeProfileImage(file) {
+      this.hasChanged = true
+      if (!file) {
+        this.dummyFarmer.profile_image = undefined
+        return
+      }
+      utils.toBase64(file, base64 => {
+        this.dummyFarmer.profile_image = base64
+      })
+    },
     deleteImage(index) {
       this.dummyFarmer.images.splice(index, 1)
       this.hasChanged = true
     },
     addLink() {
-      this.dummyFarmer.links.push('')
+      this.dummyFarmer.links.push("")
       this.hasChanged = true
     },
     appendHttp(index) {
-      if (!this.dummyFarmer.links[index])
-        return
-      if (this.dummyFarmer.links[index].indexOf('http') !== 0)
-        this.dummyFarmer.links.splice(index, 1, `http://${this.dummyFarmer.links[index]}`)
+      if (!this.dummyFarmer.links[index]) return
+      if (this.dummyFarmer.links[index].indexOf("http") !== 0)
+        this.dummyFarmer.links.splice(
+          index,
+          1,
+          `http://${this.dummyFarmer.links[index]}`
+        )
     },
     deleteLink(index) {
       this.dummyFarmer.links.splice(index, 1)
       this.hasChanged = true
+    },
+    onProfilePhotoUploadClick() {
+      this.$refs.uploader.click()
+    },
+    onProfilePhotoChanged(e) {
+      if (e && e.target && e.target.files && e.target.files.length > 0) {
+        this.changeProfileImage(e.target.files[0])
+      } else {
+        this.changeProfileImage(undefined)
+      }
     }
   },
   beforeMount() {

@@ -268,6 +268,7 @@ class FarmImageSerializer(serializers.ModelSerializer):
 class FarmerSerializer(serializers.ModelSerializer):
     experiments = serializers.SerializerMethodField()
     images = MediaListSerializer(required=False, child=FarmImageSerializer(required=False))
+    profile_image = Base64ImageField(required=False, allow_null=True)
 
     def get_experiments(self, obj):
         request = self.context.get('request')
