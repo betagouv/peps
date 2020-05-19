@@ -1,44 +1,107 @@
 <!doctype html>
 <html lang="en" dir="ltr">
+
 <head>
-  <link rel="preload" href="/path/to/my.css" as="style">
   <link href="https://tabler.github.io/tabler/assets/css/dashboard.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+  <style type="text/css" media="screen">
+    header {
+      width: 100%;
+      background: #008763;
+      height: 64px;
+      padding: 4px 16px;
+    }
+
+    .header-logo {
+      font-size: 1.35rem;
+      line-height: 1.5;
+      white-space: nowrap;
+      color: white;
+      text-decoration: none;
+      outline: currentcolor none medium;
+      padding-top: 10px;
+    }
+
+    #breadcrumbs {
+      width: 100%;
+      background: #008763;
+      box-shadow: inset 0px 14px 10px -15px #333;
+      color: white;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      padding-top: 18px;
+      padding-left: 20px;
+      height: 58px;
+    }
+  </style>
 </head>
+
 <body style="background-color: #f2f2f2;">
-  <div class="page">
+  <header>
+    <div class="header-logo">
+      Peps</div>
+  </header>
+  <div id="breadcrumbs">
+    Accueil <span style="padding-left: 10px; padding-right: 10px;">></span> <span
+      style="opacity: 0.5;">S'identifier</span>
+  </div>
+  <div class="page" style="display: block; min-height: auto;">
     <div class="main-page">
       <div class="container">
         <div class="my-3 my-md-5">
-            <div class="text-center mb-6" style="margin-bottom:  15px !important;">
-                <div style="font-size: 2.5em; color: #008763; text-decoration: none; font-weight: bold; outline: currentcolor none medium;">Peps</div>
-              </div>
-          <div class="row row-cards">
-            <div class="col col-login col-6 mx-auto">
+          <div class="row row-cards" style="margin-top: 0px;">
+            <div class="col col-login col-8 mx-auto">
               <form class="card" method="post">
                 {% csrf_token %}
 
                 <div class="card-body p-4">
                   {% if messages %}
-                    <div class="text-center" role="alert">
-                      {% for message in messages %}
-                      <p {% if message.tags %}class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</p>
-                      {% endfor %}
-                    </div>
-                    {% endif %}
+                  <div class="text-center" role="alert">
+                    {% for message in messages %}
+                    <p {% if message.tags %}class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</p>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
 
-                    <div class="form-group">
-                      <label class="text-uppercase form-label">Se connecter</label>
-                      <input type="email" name="email" class="form-control {% if form.errors %}state-invalid {% endif %}"
-                             id="id_email" aria-describedby="emailHelp" placeholder="Votre email" required/>
-                      {% for error in form.email.errors %}
-                        <div class="warning alert-warning text-center">{{ error | safe }}</div>
-                      {% endfor %}
+                  <div class="form-group">
+                    <label class="text-uppercase form-label" style="text-align: center;">Je me connecte</label>
+
+                    <div class="card-body"
+                      style="font-weight: normal;font-family: 'Roboto', sans-serif; padding-top: 5px; padding-left: 0; padding-right: 0;">
+                      Une fois identifé, vous pourrez modifier vos informations et partager de nouvelles expériences.
+                      Une fois pour toutes ! Cette identification dure dans le temps, vous n'aurez pas à le faire à
+                      chaque
+                      fois.
                     </div>
-                    <div class="form-footer">
-                      <button type="submit" style="background-color: #008763;color: white;" class="btn btn-block">Valider</button>
+                    <div class="card-body"
+                      style="font-weight: normal;font-family: 'Roboto', sans-serif; padding-top: 5px; padding-left: 0; padding-right: 0;">
+                      Renseignez l'adresse email utilisée sur Peps, vous allez recevoir un email.
+                      Cliquez sur le lien et vous êtes identifié.
                     </div>
+                    <input type="email" name="email" class="form-control {% if form.errors %}state-invalid {% endif %}"
+                      id="id_email" aria-describedby="emailHelp" placeholder="Votre email" required />
+                    {% for error in form.email.errors %}
+                    <div class="warning alert-warning text-center">{{ error | safe }}</div>
+                    {% endfor %}
+                  </div>
+                  <div class="form-footer">
+                    <button type="submit" style="background-color: #008763;color: white;"
+                      class="btn btn-block">Valider</button>
+                  </div>
                 </div>
               </form>
+            </div>
+          </div>
+          <div class="row row-cards">
+            <div class="col col-login col-8 mx-auto">
+              <div class="card">
+                <label class="text-uppercase form-label" style="text-align: center; padding-top: 20px;">Pas encore de
+                  compte ?</label>
+                <div class="card-body" style="padding-top: 5px; font-weight: normal;font-family: 'Roboto', sans-serif;">
+                  Pour partager votre expérience vous devez être identifié. <a href="/#/contact">Contactez-nous</a> pour
+                  créer un compte
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -46,5 +109,5 @@
     </div>
   </div>
 </body>
-</html>
 
+</html>
