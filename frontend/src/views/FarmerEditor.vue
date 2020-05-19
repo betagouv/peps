@@ -17,10 +17,10 @@
       </v-toolbar>
 
       <v-form ref="form" v-model="formIsValid">
-        <!-- NAME -->
 
+        <!-- NAME -->
         <div class="field" style="margin-bottom: 0px;">
-          <div class="field-title title">Votre prénom et nom</div>
+          <div class="field-title title">* Votre prénom et nom</div>
           <v-text-field
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
@@ -41,7 +41,12 @@
             </v-avatar>
 
             <div style="position: absolute; top: -10px; left: -10px;">
-              <v-btn v-if="dummyFarmer.profile_image" fab small @click="changeProfileImage(undefined)">
+              <v-btn
+                v-if="dummyFarmer.profile_image"
+                fab
+                small
+                @click="changeProfileImage(undefined)"
+              >
                 <v-icon color="red">mdi-trash-can-outline</v-icon>
               </v-btn>
             </div>
@@ -156,10 +161,39 @@
           </v-row>
         </div>
 
+        <!-- INSTALLATION DATE -->
+
+        <div class="field">
+          <div class="field-title title">Quand vous êtes-vous installé sur l'exploitation ?</div>
+
+          <v-menu
+            ref="menu"
+            v-model="showDateModal"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                :value="formattedInstallationDate"
+                label="Date d'installation"
+                prepend-icon="mdi-calendar-blank-outline"
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker @change="onDatePickerChange" no-title scrollable>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="showDateModal = false">OK</v-btn>
+            </v-date-picker>
+          </v-menu>
+        </div>
+
         <!-- POSTAL CODE -->
 
         <div class="field">
-          <div class="field-title title">Le code postal de votre exploitation</div>
+          <div class="field-title title">* Le code postal de votre exploitation</div>
           <v-text-field
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
@@ -169,14 +203,12 @@
           ></v-text-field>
         </div>
 
-        <!-- INSTALLATION DATE -->
-
         <!-- PERSONNEL -->
 
         <div class="field">
           <div
             class="field-title title"
-          >Combien de personnes travaillen sur l'exploitation à temps plein ?</div>
+          >* Combien de personnes travaillen sur l'exploitation à temps plein ?</div>
           <div class="field-helper subtitle-2 grey--text">Comptez-vous et vos associés</div>
           <v-text-field
             :rules="[validators.notEmpty]"
@@ -190,7 +222,7 @@
         <!-- SURFACE -->
 
         <div class="field">
-          <div class="field-title title">La surface de votre exploitation (en ha.)</div>
+          <div class="field-title title">* La surface de votre exploitation (en ha.)</div>
           <v-text-field
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
@@ -203,7 +235,7 @@
         <!-- SURFACE CULTURES -->
 
         <div class="field">
-          <div class="field-title title">La surface en cultures (en ha.)</div>
+          <div class="field-title title">* La surface en cultures (en ha.)</div>
           <v-text-field
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
@@ -216,7 +248,7 @@
         <!-- SURFACE MEADOWS -->
 
         <div class="field">
-          <div class="field-title title">La surface en prairie et cultures fourragères (en ha.)</div>
+          <div class="field-title title">* La surface en prairie et cultures fourragères (en ha.)</div>
           <v-text-field
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
@@ -590,7 +622,8 @@ export default {
       },
       hasChanged: false,
       imagesToAdd: [],
-      formIsValid: true
+      formIsValid: true,
+      showDateModal: false
     }
   },
   computed: {
@@ -636,6 +669,33 @@ export default {
           disabled: true
         }
       ]
+    },
+    formattedInstallationDate() {
+      if (!this.dummyFarmer.installation_date) return ""
+
+      const dateElements = this.dummyFarmer.installation_date.split("-")
+      if (dateElements.length != 3) return ""
+
+      const year = dateElements[0]
+      const month = dateElements[1]
+      const day = dateElements[2]
+
+      const months = {
+        "01": "janvier",
+        "02": "février",
+        "03": "mars",
+        "04": "avril",
+        "05": "mai",
+        "06": "juin",
+        "07": "juillet",
+        "08": "août",
+        "09": "septembre",
+        "10": "octobre",
+        "11": "novembre",
+        "12": "décembre"
+      }
+
+      return `${day} ${months[month]}, ${year}`
     }
   },
   methods: {
@@ -740,6 +800,10 @@ export default {
       } else {
         this.changeProfileImage(undefined)
       }
+    },
+    onDatePickerChange(date) {
+      this.dummyFarmer.installation_date = date
+      this.hasChanged = true
     }
   },
   beforeMount() {
