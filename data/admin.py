@@ -138,6 +138,12 @@ class FarmImageInline(admin.TabularInline):
     fields = ('image', 'label')
 
 class FarmerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        if 'initial' not in kwargs:
+            kwargs['initial'] = {}
+        kwargs['initial'].update({'lat': 0.0, 'lon': 0.0})
+        super(FarmerForm, self).__init__(*args, **kwargs)
+
     class Meta:
         exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user', 'livestock_type')
         model = Farmer

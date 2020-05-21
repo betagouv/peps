@@ -73,6 +73,8 @@ class Farmer(models.Model):
     installation_date = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
+    cultures = models.TextField(null=True, blank=True)
+
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     lon = models.DecimalField(max_digits=9, decimal_places=6)
 
@@ -87,7 +89,6 @@ class Farmer(models.Model):
     livestock_types = ChoiceArrayField(models.TextField(choices=TYPE_LIVESTOCK), default=list, null=True, blank=True)
 
     livestock_number = models.TextField(null=True, blank=True)
-    cultures = models.TextField(null=True, blank=True)
     soil_type = models.TextField(null=True, blank=True)
     specificities = models.TextField(null=True, blank=True)
     contact_possible = models.BooleanField(default=False)
