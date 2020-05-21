@@ -139,9 +139,15 @@ class FarmImageInline(admin.TabularInline):
 
 class FarmerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        instance = kwargs['instance'] if 'instance' in kwargs else None
         if 'initial' not in kwargs:
             kwargs['initial'] = {}
-        kwargs['initial'].update({'lat': 0.0, 'lon': 0.0})
+        if 'lat' not in kwargs['initial']:
+            lat = instance.lat if instance and instance.lat else 0.0
+            kwargs['initial'].update({'lat': lat})
+        if 'lon' not in kwargs['initial']:
+            lon = instance.lon if instance and instance.lon else 0.0
+            kwargs['initial'].update({'lon': lon})
         super(FarmerForm, self).__init__(*args, **kwargs)
 
     class Meta:
