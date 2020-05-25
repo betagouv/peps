@@ -26,6 +26,12 @@ const routes = [
     name: 'Landing',
   },
   {
+    path: '/simulateur',
+    beforeEnter: (route, _, next) => {
+      next({ name: 'Landing' })
+    }
+  },
+  {
     path: '/resultats',
     name: 'Results',
     component: Results,
@@ -172,19 +178,19 @@ const routes = [
       if (!store.state.loggedUser) {
         next({ name: 'Landing' })
 
-      // This view is always accessible to superusers
+        // This view is always accessible to superusers
       } else if (store.state.loggedUser.is_superuser) {
         next()
 
-      // This view is not accessible to users without a farmer profile
+        // This view is not accessible to users without a farmer profile
       } else if (!store.state.loggedUser.farmer_id) {
         next({ name: 'Landing' })
 
-      // If we are creating a new XP, we an access the view
-      } else if (!route.query.xp){
+        // If we are creating a new XP, we an access the view
+      } else if (!route.query.xp) {
         next()
 
-      // If we are editing an existing XP, it must belong to the logged farmer
+        // If we are editing an existing XP, it must belong to the logged farmer
       } else {
         const farmer = store.getters.farmerWithId(
           store.state.loggedUser.farmer_id
