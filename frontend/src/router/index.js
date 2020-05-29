@@ -22,14 +22,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: Landing,
-    name: 'Landing',
+    component: Map,
+    name: 'Map',
   },
   {
     path: '/simulateur',
-    beforeEnter: (route, _, next) => {
-      next({ name: 'Landing' })
-    }
+    component: Landing,
+    name: 'Simulator',
   },
   {
     path: '/resultats',
@@ -55,7 +54,7 @@ const routes = [
     }),
     beforeEnter: (route, _, next) => {
       if (!store.state.categories.find(x => x.title === route.params.categoryTitle))
-        next({ name: 'Landing' })
+        next({ name: 'Simulator' })
       else
         next()
     }
@@ -69,7 +68,7 @@ const routes = [
     }),
     beforeEnter: (route, _, next) => {
       if (!store.getters.practiceWithShortTitle(route.params.practiceShortTitle))
-        next({ name: 'Landing' })
+        next({ name: 'Simulator' })
       else
         next()
     }
@@ -83,7 +82,7 @@ const routes = [
     }),
     beforeEnter: (route, _, next) => {
       if (!route.params.farmerUrlComponent) {
-        next({ name: 'Landing' })
+        next({ name: 'Map' })
         return
       }
 
@@ -96,7 +95,7 @@ const routes = [
       const farmerName = route.params.farmerUrlComponent
       const farmer = store.state.farmers.find(x => x.name === farmerName)
       if (!farmer) {
-        next({ name: 'Landing' })
+        next({ name: 'Map' })
         return
       }
       next({
@@ -119,7 +118,7 @@ const routes = [
     },
     beforeEnter: (route, _, next) => {
       if (!route.params.farmerUrlComponent || !route.params.experimentUrlComponent) {
-        next({ name: 'Landing' })
+        next({ name: 'Map' })
         return
       }
       const isValidFarmerComponent = route.params.farmerUrlComponent.indexOf('__') >= 0
@@ -136,7 +135,7 @@ const routes = [
         const farmerName = route.params.farmerUrlComponent
         const farmer = store.state.farmers.find(x => x.name === farmerName)
         if (!farmer) {
-          next({ name: 'Landing' })
+          next({ name: 'Map' })
           return
         }
         farmerUrlComponent = store.getters.farmerUrlComponent(farmer)
@@ -144,13 +143,13 @@ const routes = [
       if (!isValidXPComponent) {
         const xpFarmer = store.getters.farmerWithUrlComponent(farmerUrlComponent)
         if (!xpFarmer) {
-          next({ name: 'Landing' })
+          next({ name: 'Map' })
           return
         }
         const experimentName = route.params.experimentUrlComponent
         const experiment = xpFarmer.experiments.find(x => x.name === experimentName)
         if (!experiment) {
-          next({ name: 'Landing' })
+          next({ name: 'Map' })
           return
         }
         experimentUrlComponent = store.getters.experimentUrlComponent(experiment)
@@ -176,7 +175,7 @@ const routes = [
     beforeEnter: (route, _, next) => {
       // This view is not accessible to unlogged users
       if (!store.state.loggedUser) {
-        next({ name: 'Landing' })
+        next({ name: 'Map' })
 
         // This view is always accessible to superusers
       } else if (store.state.loggedUser.is_superuser) {
@@ -184,7 +183,7 @@ const routes = [
 
         // This view is not accessible to users without a farmer profile
       } else if (!store.state.loggedUser.farmer_id) {
-        next({ name: 'Landing' })
+        next({ name: 'Map' })
 
         // If we are creating a new XP, we an access the view
       } else if (!route.query.xp) {
@@ -199,7 +198,7 @@ const routes = [
         if (experiment) {
           next()
         } else {
-          next({ name: 'Landing' })
+          next({ name: 'Map' })
         }
       }
     }
@@ -269,8 +268,10 @@ const routes = [
   },
   {
     path: '/map',
-    component: Map,
-    name: 'Map',
+    beforeEnter: (route, _, next) => {
+      next({ name: 'Map' })
+    }
+
   },
   {
     path: '/compte',
@@ -287,7 +288,7 @@ const routes = [
   {
     path: '*',
     redirect: {
-      name: 'Landing'
+      name: 'Map'
     },
   },
 ]
