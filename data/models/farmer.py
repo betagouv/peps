@@ -66,6 +66,8 @@ class Farmer(models.Model):
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True)
 
+    cgu_approved = models.BooleanField(default=False)
+
     name = models.TextField(null=True, blank=True)
     email = models.EmailField(db_index=True, null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
@@ -75,8 +77,8 @@ class Farmer(models.Model):
 
     cultures = models.TextField(null=True, blank=True)
 
-    lat = models.DecimalField(max_digits=9, decimal_places=6)
-    lon = models.DecimalField(max_digits=9, decimal_places=6)
+    lat = models.DecimalField(null=True, blank=True, max_digits=9, decimal_places=6)
+    lon = models.DecimalField(null=True, blank=True, max_digits=9, decimal_places=6)
 
     production = ChoiceArrayField(models.CharField(max_length=100, choices=PRODUCTIONS), default=list, null=True, blank=True)
     groups = ChoiceArrayField(models.CharField(max_length=200, choices=GROUPS), default=list, null=True, blank=True)
