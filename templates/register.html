@@ -72,10 +72,12 @@
         }
     </style>
     <style type="text/css">
-    .js #fouc {display: none;}
+        .js #fouc {
+            display: none;
+        }
     </style>
     <script type="text/javascript">
-    document.documentElement.className = 'js'
+        document.documentElement.className = 'js'
     </script>
 </head>
 
@@ -85,8 +87,8 @@
             Peps</div>
     </header>
     <div id="breadcrumbs">
-        <a style="color: white;" href="/#/">Accueil</a> <span
-            style="padding-left: 10px; padding-right: 10px;">></span> <span style="opacity: 0.5;">Créer mon compte</span>
+        <a style="color: white;" href="/#/">Accueil</a> <span style="padding-left: 10px; padding-right: 10px;">></span>
+        <span style="opacity: 0.5;">Créer mon compte</span>
     </div>
     <div class="page" style="display: block; min-height: auto;">
         <div class="main-page">
@@ -117,7 +119,7 @@
                                         </div>
                                         <p>{{form.name}}</p>
                                         {% for error in form.name.errors %}
-                                            <p class="error-message">{{ error }}</p>
+                                        <p class="error-message">{{ error }}</p>
                                         {% endfor %}
 
                                         <div class="card-body"
@@ -126,11 +128,11 @@
                                         </div>
                                         <p>{{form.email}}</p>
                                         {% for error in form.email.errors %}
-                                            <p class="error-message">{{ error }}</p>
+                                        <p class="error-message">{{ error }}</p>
                                         {% endfor %}
                                         <p>{{form.email2}}</p>
                                         {% for error in form.email2.errors %}
-                                            <p class="error-message">{{ error }}</p>
+                                        <p class="error-message">{{ error }}</p>
                                         {% endfor %}
 
                                         <div class="card-body"
@@ -139,19 +141,35 @@
                                         </div>
                                         <p>{{form.phone_number}}</p>
                                         {% for error in form.phone_number.errors %}
-                                            <p class="error-message">{{ error }}</p>
+                                        <p class="error-message">{{ error }}</p>
                                         {% endfor %}
 
-                                        <br/>
+                                        <br />
                                         <p>{{ form.cgu_approved.label }} {{ form.cgu_approved }} </p>
                                         {% for error in form.cgu_approved.errors %}
-                                            <p class="error-message">{{ error }}</p>
+                                        <p class="error-message">{{ error }}</p>
                                         {% endfor %}
 
                                         <button type="submit" style="background-color: #008763;color: white;"
                                             class="btn btn-block">Valider</button>
                                     </div>
+                                </div>
                             </form>
+                        </div>
+                    </div>
+                    <div class="row row-cards">
+                        <div class="col col-login col-8 mx-auto">
+                            <div class="card">
+                                <label class="text-uppercase form-label"
+                                    style="text-align: center; padding-top: 20px;">J'ai
+                                    déjà un compte</label>
+                                <div class="card-body"
+                                    style="padding-top: 5px; font-weight: normal;font-family: 'Roboto', sans-serif;">
+                                    <button style="background-color: white;color: #008763; border: solid 1px;"
+                                        class="btn btn-block"
+                                        onclick="window.location.href='/login'">M'identifier</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -19,38 +19,45 @@
           class="overflow-y-auto"
         >
           <div v-if="needsAccount === undefined">
-            <v-card-title>Partager une expérience</v-card-title>
-            <v-card-text>Il est nécessaire d'avoir un compte pour partager une expérience.</v-card-text>
-            <v-card-text>Ce projet en est encore à ses débuts, dans un premier temps nous souhaitons créer votre compte avec vous.</v-card-text>
+            <v-card-title>Identifiez vous pour partager une expérience</v-card-title>
+
             <v-card-text>
-            <div style="text-align: right">
-                <v-btn
-                  class="text-none practice-buttons"
-                  style="margin-right: 10px;"
-                  @click="cancelImplementation()"
-                  text
-                >Annuler</v-btn>
-                <v-btn
-                  class="text-none practice-buttons"
-                  color="primary"
-                  style="margin-right: 10px; margin-left: 10px;"
-                  outlined
-                  href="/login"
-                >S'identifier</v-btn>
-                <v-btn
-                  class="text-none practice-buttons"
-                  color="primary"
-                  @click="needsAccount = true"
-                >Créer mon compte</v-btn>
-              </div>
+              <v-container>
+              <v-row style="text-align: center;">
+                <v-col cols="6" style="border-right: solid 1px #ccc;">
+                  J'ai déjà un compte
+                  
+                    <div style="text-align: center">
+                      <v-btn
+                        class="text-none practice-buttons"
+                        color="primary"
+                        style="margin-top: 10px"
+                        outlined
+                        href="/login"
+                      >S'identifier</v-btn>
+                    </div>
+
+                </v-col>
+                <v-col cols="6">
+                  Je n'ai pas de compte Peps
+                    <div style="text-align: center">
+                      <v-btn
+                        class="text-none practice-buttons"
+                        color="primary"
+                        style="margin-top: 10px"
+                        href="/register"
+                      >Créer mon compte</v-btn>
+                    </div>
+
+                </v-col>
+              </v-row>
+            </v-container>
             </v-card-text>
           </div>
 
           <div v-if="needsAccount === true">
             <v-card-title>Créer votre compte</v-card-title>
-            <v-card-text>
-              Laissez-nous vos coordonnées pour que nous prenions contact.
-            </v-card-text>
+            <v-card-text>Laissez-nous vos coordonnées pour que nous prenions contact.</v-card-text>
             <v-card-text>
               <Form
                 style="margin-bottom: 0px;"
@@ -91,11 +98,7 @@
             style="padding: 30px; color: #333;"
           >Merci ! Notre équipe vous contactera bientôt</v-card-text>
           <div style="padding: 10px; text-align: right">
-            <v-btn
-              class="text-none body-1 practice-buttons"
-              color="primary"
-              @click="close()"
-            >OK</v-btn>
+            <v-btn class="text-none body-1 practice-buttons" color="primary" @click="close()">OK</v-btn>
           </div>
         </v-card>
       </div>
