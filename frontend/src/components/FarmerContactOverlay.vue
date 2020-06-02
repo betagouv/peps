@@ -190,15 +190,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.v-overlay {
-  z-index: 99999 !important;
-}
-.close-overlay {
-  position: absolute;
-  right: -10px;
-  top: -20px;
-  z-index: 99999;
-}
-</style>

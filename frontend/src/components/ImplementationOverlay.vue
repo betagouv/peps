@@ -277,12 +277,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.close-overlay {
-  position: absolute;
-  right: -10px;
-  top: -20px;
-  z-index: 5;
-}
-</style>
