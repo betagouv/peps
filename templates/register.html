@@ -132,7 +132,7 @@
                                         {% endfor %}
                                         <p>{{form.email2}}</p>
                                         {% for error in form.email2.errors %}
-                                        <p class="error-message">{{ error }}</p>
+                                        <p class="error-message">{{ error | safe }}</p>
                                         {% endfor %}
 
                                         <div class="card-body"

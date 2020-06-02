@@ -22,14 +22,6 @@ class RegisterForm(forms.ModelForm):
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.label_suffix = ""
 
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        try:
-            user = User.objects.get(email=email)
-            raise forms.ValidationError("Il y a déjà un utilisateur avec cet adresse mail")
-        except Exception as _:
-            return email
-
     def clean_cgu_approved(self):
         if not self.cleaned_data.get("cgu_approved"):
             raise forms.ValidationError("Vous devez accepter les conditions d'utilisation")
@@ -44,6 +36,10 @@ class RegisterForm(forms.ModelForm):
                 'Les adresses email renseignés ne sont pas les mêmes',
                 code='email_mismatch',
             )
+
+        if User.objects.get(email=email2):
+            raise forms.ValidationError("Nous avons déjà un compte avec cet adresse mail. Voulez-vous <a href='/login'>vous identifier</a> ?")
+
         return email2
 
     def save(self, commit=True):
