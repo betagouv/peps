@@ -103,6 +103,8 @@ class Farmer(models.Model):
 
     output = models.TextField(null=True, blank=True)
 
+    onboarding_shown = models.BooleanField(default=False)
+
     @property
     def approved_experiments(self):
         return self.experiments.filter(approved=True)

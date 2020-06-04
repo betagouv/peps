@@ -269,6 +269,7 @@ class FarmerSerializer(serializers.ModelSerializer):
     experiments = serializers.SerializerMethodField()
     images = MediaListSerializer(required=False, child=FarmImageSerializer(required=False))
     profile_image = Base64ImageField(required=False, allow_null=True)
+    onboarding_shown = serializers.SerializerMethodField()
 
     def get_experiments(self, obj):
         request = self.context.get('request')
@@ -277,6 +278,14 @@ class FarmerSerializer(serializers.ModelSerializer):
         if user and hasattr(user, 'farmer') and user.farmer == obj:
             return ExperimentSerializer(obj.experiments, many=True).data
         return ExperimentSerializer(obj.approved_experiments, many=True).data
+
+    def get_onboarding_shown(self, obj):
+        request = self.context.get('request')
+        user = request.user if request else None
+
+        if user and hasattr(user, 'farmer') and user.farmer == obj:
+            return obj.onboarding_shown
+        return None
 
     class Meta:
         model = Farmer
@@ -313,6 +322,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'surface_cultures',
             'surface_meadows',
             'output',
+            'onboarding_shown',
         )
 
 class UserSerializer(serializers.ModelSerializer):
