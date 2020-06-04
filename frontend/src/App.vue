@@ -8,12 +8,12 @@
         :ctaAction="this.reload"
         :showCloseButton="false"
       />
-      <v-content>
+      <v-content style="padding-bottom: 300px;">
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
-        <Footer />
       </v-content>
+      <Footer />
     </div>
   </v-app>
 </template>
