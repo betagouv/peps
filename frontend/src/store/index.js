@@ -29,6 +29,7 @@ export default new Vuex.Store({
     farmersLoadingStatus: Constants.LoadingStatus.IDLE,
     experimentEditLoadingStatus: Constants.LoadingStatus.IDLE,
     farmerEditLoadingStatus: Constants.LoadingStatus.IDLE,
+    loggedUserLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
     contactFormDefinition: {},
@@ -120,6 +121,9 @@ export default new Vuex.Store({
     SET_LOGGED_USER(state, loggedUser) {
       state.loggedUser = loggedUser
     },
+    SET_LOGGED_USER_LOADING_STATUS(state, status) {
+      state.loggedUserLoadingStatus = status
+    },
     SET_EXPERIMENT_EDIT_LOADING_STATUS(state, status) {
       state.experimentEditLoadingStatus = status
     },
@@ -200,10 +204,13 @@ export default new Vuex.Store({
     },
 
     fetchLoggedUser(context) {
+      context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.LOADING)
       Vue.http.get('api/v1/loggedUser').then(response => {
         context.commit('SET_LOGGED_USER', response.body)
+        context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_LOGGED_USER', null)
+        context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
     },
     sendContactData(context) { // From contact page

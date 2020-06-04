@@ -277,13 +277,6 @@ const routes = [
     path: '/compte',
     component: Profile,
     name: 'Profile',
-    beforeEnter: (route, _, next) => {
-      if (!store.state.loggedUser) {
-        next({ name: 'Map' })
-      } else {
-        next()
-      }
-    }
   },
   {
     path: '*',

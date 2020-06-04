@@ -1,7 +1,12 @@
 <template>
   <div>
     <Title :title="title" :breadcrumbs="breadcrumbs" />
-    <v-container class="constrained">
+    <Loader
+      v-if="!userDataReady"
+      title="Chargement en cours"
+      text="Juste un instant s'il vous plaît."
+    />
+    <v-container v-else class="constrained">
       <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
       <!-- PROFILE -->
@@ -134,10 +139,12 @@ import Title from "@/components/Title.vue"
 import ExperimentCard from "@/components/ExperimentCard.vue"
 import AdminCard from "@/components/AdminCard.vue"
 import FarmerInfoBox from "@/components/FarmerInfoBox"
+import Loader from "@/components/Loader"
+import Constants from "@/constants"
 
 export default {
   name: "Profile",
-  components: { Title, ExperimentCard, AdminCard, FarmerInfoBox },
+  components: { Title, ExperimentCard, AdminCard, FarmerInfoBox, Loader },
   data() {
     return {
       title: "Mon compte",
@@ -155,6 +162,14 @@ export default {
     }
   },
   computed: {
+    userDataReady() {
+      return (
+        this.$store.state.loggedUserLoadingStatus ===
+          Constants.LoadingStatus.SUCCESS ||
+        this.$store.state.loggedUserLoadingStatus ===
+          Constants.LoadingStatus.ERROR
+      )
+    },
     loggedUser() {
       return this.$store.state.loggedUser
     },
@@ -220,6 +235,16 @@ export default {
         query: { agriculteur: farmerUrlComponent }
       })
     }
+  },
+  watch: {
+    userDataReady(isReady) {
+      if (isReady && !this.$store.state.loggedUser)
+        this.$router.push({ name: 'Map' })
+    }
+  },
+  mounted() {
+    if (this.userDataReady && !this.$store.state.loggedUser)
+      this.$router.push({ name: 'Map' })
   }
 }
 </script>

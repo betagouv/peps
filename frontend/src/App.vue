@@ -8,12 +8,12 @@
         :ctaAction="this.reload"
         :showCloseButton="false"
       />
-      <v-content>
+      <v-content style="padding-bottom: 300px;">
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
-        <Footer />
       </v-content>
+      <Footer />
     </div>
   </v-app>
 </template>
@@ -136,5 +136,16 @@ body .buorg .buorg-buttons {
 .leaflet-fade-anim .leaflet-tile,
 .leaflet-zoom-anim .leaflet-zoom-animated {
   will-change: auto !important;
+}
+
+.v-overlay {
+  z-index: 99999 !important;
+}
+
+.close-overlay {
+  position: absolute;
+  right: -10px;
+  top: -20px;
+  z-index: 99999;
 }
 </style>
