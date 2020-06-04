@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.core.mail import send_mail
 from magicauth.models import MagicToken
@@ -36,11 +37,11 @@ class RegisterForm(forms.ModelForm):
                 'Les adresses email renseignés ne sont pas les mêmes',
                 code='email_mismatch',
             )
-
-        if User.objects.get(email=email2):
+        try:
+            user = User.objects.get(email=email2)
             raise forms.ValidationError("Nous avons déjà un compte avec cet adresse mail. Voulez-vous <a href='/login'>vous identifier</a> ?")
-
-        return email2
+        except ObjectDoesNotExist as _:
+            return email2
 
     def save(self, commit=True):
         farmer = super(RegisterForm, self).save(commit=False)
