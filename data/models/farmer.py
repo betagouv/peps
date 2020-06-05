@@ -112,6 +112,8 @@ class Farmer(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.profile_image:
             self.profile_image = optimize_image(self.profile_image, self.profile_image.name)
+        if self.email:
+            self.email = get_user_model().objects.normalize_email(self.email)
         super(Farmer, self).save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
@@ -132,15 +134,15 @@ class FarmImage(models.Model):
 
 def create_user_if_needed(sender, instance, **kwargs):
     if sender == Farmer and instance.email:
-        instance.email = instance.email.strip().lower()
-        existing_user = get_user_model().objects.filter(email=instance.email).first()
+        email = get_user_model().objects.normalize_email(instance.email)
+        existing_user = get_user_model().objects.filter(email=email).first()
         if existing_user:
             instance.user = existing_user
         else:
             random_password = get_user_model().objects.make_random_password()
-            new_user = get_user_model().objects.create_user(email=instance.email, username=instance.email, password=random_password)
+            new_user = get_user_model().objects.create_user(email=email, username=email, password=random_password)
             instance.user = new_user
-    if sender == Farmer and not instance.email:
+    if sender == Farmer and not email:
         instance.user = None
 
 models.signals.pre_save.connect(create_user_if_needed, sender=Farmer)

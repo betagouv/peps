@@ -656,7 +656,7 @@ class TestEngine(TestCase):
     def test_balanced_rotation(self):
         """
         Summer cultures should be counted with the automn ones when
-        calculating the balance of the rotation. 
+        calculating the balance of the rotation.
         """
         # Printemps
         betterave = 'recKDNdfSiV33djzf'
