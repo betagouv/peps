@@ -115,11 +115,27 @@ class ExperimentInline(admin.TabularInline):
     show_change_link = True
     fields = ('name', 'approved', 'results')
     readonly_fields = ('name', 'approved', 'results')
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+    extra = 0
 
     def has_add_permission(self, request, obj):
+        return False
+
+
+class AddExperimentInline(admin.TabularInline):
+    model = Experiment
+    # show_change_link = True
+    fields = ('name', 'description', 'results')
+    extra = 0
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        if db_field.name == 'name':
+            kwargs['widget'] = forms.Textarea(attrs={'cols': 35, 'rows': 1})
+        return super(AddExperimentInline, self).formfield_for_dbfield(db_field, request, **kwargs)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_view_permission(self, request, obj=None):
         return False
 
 
@@ -179,5 +195,5 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'email', 'approved')
     search_fields = ('name', 'email')
     list_filter = (ApprovalFilter, )
-    inlines = (FarmImageInline, ExperimentInline)
+    inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
     form = FarmerForm

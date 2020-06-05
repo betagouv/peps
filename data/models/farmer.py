@@ -54,6 +54,10 @@ TYPE_LIVESTOCK = (
 )
 
 class Farmer(models.Model):
+
+    class Meta:
+        ordering = ['name']
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     external_id = models.CharField(max_length=100, db_index=True, null=True)
 
