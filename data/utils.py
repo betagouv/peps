@@ -54,7 +54,7 @@ def get_airtable_media_content_file(json_payload, field_name=None):
             pillow_image = _optimize_image(pillow_image)
 
             output = BytesIO()
-            pillow_image.save(output, optimize=True, format=image_format)
+            pillow_image.save(output, format=image_format)
             media_content = output.getvalue()
 
         if media_content:
@@ -165,7 +165,7 @@ def optimize_image(image, name):
         pillow_image = _remove_alpha_channel(pillow_image)
 
         output = BytesIO()
-        pillow_image.save(output, optimize=True, format=image_format)
+        pillow_image.save(output, format=image_format)
         media_content = output.getvalue()
 
         if media_content:
