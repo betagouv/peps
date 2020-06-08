@@ -168,6 +168,28 @@ class TestApi(TestCase):
         self.assertEqual(Experiment.objects.get(name="Allongement").images.count(), 1)
         self.assertEqual(Experiment.objects.get(name="Allongement").images.first().label, 'hello world')
 
+        images_json = response.data['images']
+        self.assertEqual(len(images_json), 1)
+        self.assertEqual(images_json[0]['label'], 'hello world')
+
+        # Add a second image
+        image_name = 'test-image-2.jpg'
+        image_base_64 = None
+        with open(CURRENT_DIR + '/' + image_name, 'rb') as image:
+            image_base_64 = base64.b64encode(image.read()).decode('utf-8')
+        images_json.append({'image': "data:image/png;base64," + image_base_64, 'label': 'new image!'})
+
+        payload = {'images': images_json}
+        response = self.client.patch(url, payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(Experiment.objects.get(name="Allongement").images.count(), 2)
+        self.assertEqual(Experiment.objects.get(name="Allongement").images.last().label, 'new image!')
+
+        images_json = response.data['images']
+        self.assertEqual(len(images_json), 2)
+        self.assertEqual(images_json[0]['label'], 'new image!')
+
         # Remove the image
         payload = {'images': []}
         response = self.client.patch(url, payload, format="json")

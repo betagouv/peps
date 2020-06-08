@@ -275,8 +275,8 @@ class FarmerSerializer(serializers.ModelSerializer):
         user = request.user if request else None
 
         if user and hasattr(user, 'farmer') and user.farmer == obj:
-            return ExperimentSerializer(obj.experiments, many=True).data
-        return ExperimentSerializer(obj.approved_experiments, many=True).data
+            return ExperimentSerializer(obj.experiments, context=self.context, many=True).data
+        return ExperimentSerializer(obj.approved_experiments, context=self.context, many=True).data
 
     class Meta:
         model = Farmer
