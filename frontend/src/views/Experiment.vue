@@ -14,7 +14,7 @@
         v-if="experiment.hasOwnProperty('images') && experiment.images.length > 0"
         :items="experiment.images"
         :visible="photoCarouselVisible"
-        :index="carouselIndex"
+        :index.sync="carouselIndex"
         @done="photoCarouselVisible = false"
       />
 

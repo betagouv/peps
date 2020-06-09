@@ -43,8 +43,7 @@ export default {
     }
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     carouselWidth() {
@@ -63,9 +62,29 @@ export default {
     }
   },
   methods: {
+    move(e) {
+      e = e || window.event
+      if (e.keyCode == "37") {
+        this.$emit(
+          "update:index",
+          this.index === 0 ? this.items.length - 1 : this.index - 1
+        )
+      } else if (e.keyCode == "39") {
+        this.$emit(
+          "update:index",
+          this.index === this.items.length - 1 ? 0 : this.index + 1
+        )
+      }
+    },
     close() {
       this.$emit("done")
     }
+  },
+  mounted() {
+    window.addEventListener("keydown", this.move)
+  },
+  beforeDestroy() {
+    window.removeEventListener("keydown", this.move)
   }
 }
 </script>

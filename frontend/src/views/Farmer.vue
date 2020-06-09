@@ -10,16 +10,17 @@
     <NotFound v-if="farmerNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="farmer">
+      <CarouselImageOverlay
+        v-if="farmer.hasOwnProperty('images') && farmer.images.length > 0"
+        :items="farmer.images"
+        :visible="photoCarouselVisible"
+        :index.sync="carouselIndex"
+        @done="photoCarouselVisible = false"
+      />
+
       <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
-          <!-- <v-img
-          class="white--text align-end"
-          height="110px"
-          :src="farmer.backgroundPhoto"
-          style="background: #CCC;"
-          />-->
-
           <div style="margin: 20px 15px 20px 15px;  " class="pa-0 d-flex">
             <v-avatar :size="isMobile ? 35 : 100" color="grey">
               <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
@@ -98,7 +99,6 @@
 
         <FarmerInfoBox v-if="farmer" :farmer="farmer" />
 
-
         <div
           class="body-1"
           style="margin-top: 20px; white-space: pre-wrap;"
@@ -131,9 +131,28 @@
             cols="6"
             sm="3"
           >
-            <v-card flat class="d-flex">
-              <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-            </v-card>
+            <v-hover v-slot:default="{ hover }">
+              <v-card flat class="d-flex" style="cursor: pointer;">
+                <v-img
+                  v-on:click="photoCarouselVisible = true; carouselIndex = index;"
+                  :src="photo"
+                  aspect-ratio="1"
+                  class="grey lighten-2"
+                >
+                  <div
+                    v-if="hover"
+                    class="d-flex display-3 white--text"
+                    style="height: 100%; background: #42424260;"
+                  >
+                    <v-icon
+                      color="white"
+                      size="30"
+                      style="margin-left: auto; margin-right: auto;"
+                    >mdi-magnify-plus-outline</v-icon>
+                  </div>
+                </v-img>
+              </v-card>
+            </v-hover>
           </v-col>
         </v-row>
       </v-container>
@@ -146,15 +165,25 @@ import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
-import FarmerInfoBox from '@/components/FarmerInfoBox'
+import FarmerInfoBox from "@/components/FarmerInfoBox"
 import Constants from "@/constants"
+import CarouselImageOverlay from "@/components/CarouselImageOverlay"
 
 export default {
   name: "Farmer",
-  components: { Title, ExperimentCard, FarmerContactOverlay, NotFound, FarmerInfoBox },
+  components: {
+    Title,
+    ExperimentCard,
+    FarmerContactOverlay,
+    NotFound,
+    FarmerInfoBox,
+    CarouselImageOverlay
+  },
   data() {
     return {
-      contactOverlayVisible: false
+      contactOverlayVisible: false,
+      photoCarouselVisible: false,
+      carouselIndex: 0
     }
   },
   props: {
@@ -192,7 +221,11 @@ export default {
       ]
     },
     approvedExperiments() {
-      if (!this.farmer || !this.farmer.experiments || this.farmer.experiments.length === 0)
+      if (
+        !this.farmer ||
+        !this.farmer.experiments ||
+        this.farmer.experiments.length === 0
+      )
         return []
       return this.farmer.experiments.filter(x => !!x.approved)
     }
