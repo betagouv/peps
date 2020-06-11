@@ -31,15 +31,13 @@
 
 <script>
 export default {
-  name: "ErrorMessage",
+  name: "OverlayMessage",
   props: {
     title: {
       type: String,
-      default: "Oups ! Une erreur est survenue"
     },
     body: {
       type: String,
-      default: "Veuillez réessayer plus tard"
     },
     visible: {
       type: Boolean,

@@ -237,6 +237,21 @@ export default new Vuex.Store({
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
+    sendShareXPDataTask(context, { experimentTitle, experimentDescription, name, email, phone }) {
+      const payload = {
+        email: email,
+        name: name + ' [PARTAGE XP SANS CRÉATION DE COMPTE]',
+        phone_number: phone,
+        reason: 'Veut partager un retour d\'expérience sans créer un compte',
+        problem: `Partage de l'expérience "${experimentTitle}" : ${experimentDescription}`
+      }
+      context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
     sendFarmerContactRequest(context, { farmer }) { // From farmer contact prompt
       let payload = this.getters.farmerContactPayload
       const airtableUrl = 'https://airtable.com/tblwbHvoVKo0o9C38/' + farmer.external_id

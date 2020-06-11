@@ -1,8 +1,10 @@
 <template>
   <div>
     <Loader v-if="loading" :title="loadingTitle" :loading="loading" />
-    <ErrorMessage 
+    <OverlayMessage 
       :visible="showErrorMessage"
+      ctaText="Recharger la page"
+      title="Oups ! Une erreur est survenue"
       @done="closeErrorMessage()"
     />
     <Title :title="title" :breadcrumbs="breadcrumbs" />
@@ -60,12 +62,12 @@
 <script>
 import Title from "@/components/Title.vue"
 import Loader from "@/components/Loader.vue"
-import ErrorMessage from "@/components/ErrorMessage.vue"
+import OverlayMessage from "@/components/OverlayMessage.vue"
 import Constants from "@/constants"
 
 export default {
   name: "Contact",
-  components: { Title, Loader, ErrorMessage },
+  components: { Title, Loader, OverlayMessage },
   data() {
     return {
       title: "Nous contacter",

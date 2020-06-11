@@ -25,5 +25,11 @@ export default {
     }
     const isValid = url.protocol === "http:" || url.protocol === "https:"
     return isValid ? true : errorMessage
+  },
+  isEmail(input) {
+    const errorMessage = 'Ce champ doit contenir un email valide'
+    if (typeof input === 'string' && /\S+@\S+\.\S+/.test(input))
+      return true
+    return errorMessage
   }
 }
