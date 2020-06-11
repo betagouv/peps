@@ -191,34 +191,39 @@
             >Images</div>
             <v-row v-if="experiment.images && experiment.images.length > 0">
               <v-col
-                v-for="(photo, index) in experiment.images.map(x => x.image)"
+                v-for="(image, index) in experiment.images"
                 :key="index"
                 class="d-flex child-flex"
                 cols="6"
                 sm="3"
+                style="position:relative"
               >
-                <v-hover v-slot:default="{ hover }">
-                  <v-card flat class="d-flex" style="cursor: pointer;">
-                    <v-img
-                      v-on:click="photoCarouselVisible = true; carouselIndex = index;"
-                      :src="photo"
-                      aspect-ratio="1"
-                      class="grey lighten-2"
-                    >
-                      <div
-                        v-if="hover"
-                        class="d-flex display-3 white--text"
-                        style="height: 100%; background: #42424260;"
+                <div>
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card flat class="d-flex" style="cursor: pointer;">
+                      <v-img
+                        v-on:click="photoCarouselVisible = true; carouselIndex = index;"
+                        :src="image.image"
+                        aspect-ratio="1"
+                        class="grey lighten-2"
                       >
-                        <v-icon
-                          color="white"
-                          size="30"
-                          style="margin-left: auto; margin-right: auto;"
-                        >mdi-magnify-plus-outline</v-icon>
-                      </div>
-                    </v-img>
-                  </v-card>
-                </v-hover>
+                        <div
+                          v-if="hover"
+                          class="d-flex display-3 white--text"
+                          style="height: 100%; background: #42424260;"
+                        >
+                          <v-icon
+                            color="white"
+                            size="30"
+                            style="margin-left: auto; margin-right: auto;"
+                          >mdi-magnify-plus-outline</v-icon>
+                        </div>
+                      </v-img>
+                    </v-card>
+                  </v-hover>
+
+                  <div class="caption" style="text-align: center;" v-if="image.label">{{image.label}}</div>
+                </div>
               </v-col>
             </v-row>
 

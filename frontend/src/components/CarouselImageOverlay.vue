@@ -19,7 +19,11 @@
           :width="carouselWidth"
           :src="item.image"
           contain
-        ></v-carousel-item>
+        >
+          <div class="image-label" v-if="item.label">
+            {{item.label}}
+          </div>
+        </v-carousel-item>
       </v-carousel>
     </v-overlay>
   </div>
@@ -88,3 +92,17 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.image-label {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 10px 10px 50px 10px;
+  background: #242424a6;
+  color: white;
+}
+</style>
