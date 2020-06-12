@@ -61,7 +61,7 @@
                         style="margin-top: 5px;"
                         class="text-none practice-buttons"
                         color="primary"
-                        href="/#/partage-experience"
+                        v-on:click="goToShare"
                       >Commencer</v-btn>
                     </div>
                   </v-col>
@@ -183,7 +183,6 @@ export default {
     close() {
       this.$store.dispatch("resetContactLoadingStatus")
       this.$emit("done")
-      this.needsAccount = undefined
     },
     cancelImplementation() {
       window.sendTrackingEvent("Landing", "shareXP cancel", "")
@@ -197,7 +196,9 @@ export default {
       this.windowHeight = window.innerHeight - 30
     },
     goToShare() {
-      this.router.go('/partage-experience')
+      this.$router.push({
+        name: "Share",
+      })
       this.close()
     }
   },
