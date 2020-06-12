@@ -2,9 +2,11 @@
   <v-app>
     <div id="app-wrapper">
       <Header />
-      <ErrorMessage
+      <OverlayMessage
         :visible="showErrorMessage"
         ctaText="Recharger la page"
+        title="Oups ! Une erreur est survenue"
+        body="Veuillez réessayer plus tard"
         :ctaAction="this.reload"
         :showCloseButton="false"
       />
@@ -22,14 +24,14 @@
 import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
-import ErrorMessage from "@/components/ErrorMessage.vue"
+import OverlayMessage from "@/components/OverlayMessage.vue"
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
-    ErrorMessage
+    OverlayMessage
   },
   mounted() {
     this.$store.dispatch("resetLoaders")

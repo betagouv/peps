@@ -16,6 +16,7 @@ import Contribution from '@/views/Contribution.vue'
 import Profile from '@/views/Profile.vue'
 import ExperimentEditor from '@/views/ExperimentEditor.vue'
 import FarmerEditor from '@/views/FarmerEditor.vue'
+import Share from '@/views/Share.vue'
 
 Vue.use(VueRouter)
 
@@ -164,7 +165,7 @@ const routes = [
     }
   },
   {
-    path: '/editeurXP/',
+    path: '/editeur-experience/',
     name: 'ExperimentEditor',
     component: ExperimentEditor,
     props: (route) => {
@@ -204,7 +205,7 @@ const routes = [
     }
   },
   {
-    path: '/editeurProfil/',
+    path: '/editeur-profil/',
     name: 'FarmerEditor',
     component: FarmerEditor,
     props: (route) => {
@@ -283,6 +284,11 @@ const routes = [
     redirect: {
       name: 'Map'
     },
+  },
+  {
+    path: '/partage-experience',
+    component: Share,
+    name: 'Share',
   },
 ]
 

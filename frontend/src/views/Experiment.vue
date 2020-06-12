@@ -10,18 +10,19 @@
     <NotFound v-if="experimentNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="experiment">
+      <CarouselImageOverlay
+        v-if="experiment.hasOwnProperty('images') && experiment.images.length > 0"
+        :items="experiment.images"
+        :visible="photoCarouselVisible"
+        :index.sync="carouselIndex"
+        @done="photoCarouselVisible = false"
+      />
+
       <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-row>
           <v-col cols="12" sm="7" md="9">
             <v-card style="margin-bottom: 20px" outlined shaped>
-              <!-- <v-img
-            class="white--text align-end"
-            height="110px"
-            :src="experiment.images && experiment.images.length > 0 ? experiment.images[0].image : ''"
-            style="background: #CCC;"
-              />-->
-
               <div style="margin: 20px 15px 20px 15px;" class="pa-0 d-flex">
                 <div>
                   <div style="float: left; margin-top: 3px;">
@@ -63,8 +64,13 @@
 
               <div class="subtitle-1" style="margin-bottom: 0px;">
                 Retour d'expérience par {{ farmer.name }}
-                <span v-if="farmer.postal_code" style="margin-top: 5px;" class="body-2">
-                  (<v-icon small style="padding-bottom: 3px;">mdi-map-marker</v-icon>
+                <span
+                  v-if="farmer.postal_code"
+                  style="margin-top: 5px;"
+                  class="body-2"
+                >
+                  (
+                  <v-icon small style="padding-bottom: 3px;">mdi-map-marker</v-icon>
                   {{ farmer.postal_code }})
                 </span>
                 <v-btn
@@ -185,15 +191,39 @@
             >Images</div>
             <v-row v-if="experiment.images && experiment.images.length > 0">
               <v-col
-                v-for="(photo, index) in experiment.images.map(x => x.image)"
+                v-for="(image, index) in experiment.images"
                 :key="index"
                 class="d-flex child-flex"
                 cols="6"
                 sm="3"
+                style="position:relative"
               >
-                <v-card flat class="d-flex">
-                  <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-                </v-card>
+                <div>
+                  <v-hover v-slot:default="{ hover }">
+                    <v-card flat class="d-flex" style="cursor: pointer;">
+                      <v-img
+                        v-on:click="photoCarouselVisible = true; carouselIndex = index;"
+                        :src="image.image"
+                        aspect-ratio="1"
+                        class="grey lighten-2"
+                      >
+                        <div
+                          v-if="hover"
+                          class="d-flex display-3 white--text"
+                          style="height: 100%; background: #42424260;"
+                        >
+                          <v-icon
+                            color="white"
+                            size="30"
+                            style="margin-left: auto; margin-right: auto;"
+                          >mdi-magnify-plus-outline</v-icon>
+                        </div>
+                      </v-img>
+                    </v-card>
+                  </v-hover>
+
+                  <div class="caption" style="text-align: center;" v-if="image.label">{{image.label}}</div>
+                </div>
               </v-col>
             </v-row>
 
@@ -249,10 +279,17 @@ import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 import FarmerCard from "@/components/FarmerCard.vue"
+import CarouselImageOverlay from "@/components/CarouselImageOverlay"
 
 export default {
   name: "Experiment",
-  components: { Title, NotFound, FarmerContactOverlay, FarmerCard },
+  components: {
+    Title,
+    NotFound,
+    FarmerContactOverlay,
+    FarmerCard,
+    CarouselImageOverlay
+  },
   data() {
     return {
       testImages: [
@@ -261,7 +298,9 @@ export default {
         "https://images.unsplash.com/photo-1464972377689-e7674c48d806?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
         "https://images.unsplash.com/photo-1436462020942-723a9ea097c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
       ],
-      contactOverlayVisible: false
+      contactOverlayVisible: false,
+      photoCarouselVisible: false,
+      carouselIndex: 0
     }
   },
   props: {
@@ -296,7 +335,10 @@ export default {
     },
     experiment() {
       if (!this.farmer) return
-      return this.$store.getters.experimentWithUrlComponent(this.farmer, this.experimentUrlComponent)
+      return this.$store.getters.experimentWithUrlComponent(
+        this.farmer,
+        this.experimentUrlComponent
+      )
     },
     experimentNotFound() {
       return this.$store.getters.experiments.length > 0 && !this.experiment

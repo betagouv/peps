@@ -18,69 +18,55 @@
           :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height:' + windowHeight + 'px'"
           class="overflow-y-auto"
         >
-          <div v-if="needsAccount === undefined">
-            <v-card-title>Identifiez vous pour partager une expérience</v-card-title>
-
-            <v-card-text>
-              <v-container>
-              <v-row style="text-align: center;">
-                <v-col cols="6" style="border-right: solid 1px #ccc;">
-                  J'ai déjà un compte
-                  
-                    <div style="text-align: center">
+          <div>
+            <v-card-title>Partager une expérience</v-card-title>
+            <v-card-text style="padding-bottom: 5px;">Avant de partager une expérience sur le site, nous avons besoin d'en savoir un peu plus sur vous.</v-card-text>
+            <v-card-text style="padding-top: 0px; padding-bottom: 20px;">
+              <v-container style="padding-top: 0px; padding-bottom: 0px;">
+                <v-row>
+                  <v-col cols="12" sm="5" :style="showBorder ? 'border-right: solid 1px #DDD;' : ''">
+                    <div class="subtitle-2">J'ai déjà un compte</div>
+                    <div style="margin-bottom: 20px;">
                       <v-btn
+                        style="margin-top: 5px;"
                         class="text-none practice-buttons"
                         color="primary"
-                        style="margin-top: 10px"
                         outlined
                         href="/login"
-                      >S'identifier</v-btn>
+                      >M'identifier</v-btn>
                     </div>
 
-                </v-col>
-                <v-col cols="6">
-                  Je n'ai pas de compte Peps
-                    <div style="text-align: center">
+                    <div class="subtitle-2">Je créé un compte</div>
+                    <div>
                       <v-btn
+                        style="margin-top: 5px;"
                         class="text-none practice-buttons"
                         color="primary"
-                        style="margin-top: 10px"
+                        outlined
                         href="/register"
                       >Créer mon compte</v-btn>
                     </div>
-
-                </v-col>
-              </v-row>
-            </v-container>
-            </v-card-text>
-          </div>
-
-          <div v-if="needsAccount === true">
-            <v-card-title>Créer votre compte</v-card-title>
-            <v-card-text>Laissez-nous vos coordonnées pour que nous prenions contact.</v-card-text>
-            <v-card-text>
-              <Form
-                style="margin-bottom: 0px;"
-                :elevation="0"
-                :schema="contactSchema"
-                :options="contactOptions"
-                updateActionName="addContactFormData"
-                storeDataName="contactFormData"
-              />
-              <div style="text-align: right">
-                <v-btn
-                  class="text-none practice-buttons"
-                  style="margin-right: 10px;"
-                  @click="cancelImplementation()"
-                  text
-                >Annuler</v-btn>
-                <v-btn
-                  class="text-none practice-buttons"
-                  color="primary"
-                  :disabled="!complete"
-                  @click="sendImplementation()"
-                >Confirmer</v-btn>
-              </div>
+                  </v-col>
+                  <v-col cols="12" sm="7" style="padding-left: 20px;">
+                    <div class="subtitle-2">
+                      Je continue sans compte
+                    </div>
+                    <div class="caption">
+                      L'équipe Peps vous facilite la tâche pour que cela vous prenne le moins de
+                      temps possible : après un court entretien téléphonique nous vous proposons
+                      un brouillon que vous validez avant publication
+                    </div>
+                    <div>
+                      <v-btn
+                        style="margin-top: 5px;"
+                        class="text-none practice-buttons"
+                        color="primary"
+                        v-on:click="goToShare"
+                      >Commencer</v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
             </v-card-text>
           </div>
         </v-card>
@@ -110,14 +96,12 @@
 import formutils from "@/formutils"
 import Constants from "@/constants"
 import Loader from "@/components/Loader.vue"
-import Form from "@/components/forms/Form.vue"
 
 export default {
   name: "ContributionOverlay",
-  components: { Loader, Form },
+  components: { Loader },
   data: () => ({
     windowHeight: window.innerHeight - 30,
-    needsAccount: undefined,
     contactSchema: {
       type: "object",
       properties: {
@@ -184,6 +168,9 @@ export default {
         this.contactOptions,
         this.$store.state.contactFormData
       )
+    },
+    showBorder() {
+      return this.$vuetify.breakpoint.name != 'xs'
     }
   },
   created() {
@@ -196,7 +183,6 @@ export default {
     close() {
       this.$store.dispatch("resetContactLoadingStatus")
       this.$emit("done")
-      this.needsAccount = undefined
     },
     cancelImplementation() {
       window.sendTrackingEvent("Landing", "shareXP cancel", "")
@@ -208,11 +194,17 @@ export default {
     },
     onWindowResize() {
       this.windowHeight = window.innerHeight - 30
+    },
+    goToShare() {
+      this.$router.push({
+        name: "Share",
+      })
+      this.close()
     }
   },
   watch: {
     sendingError(value) {
-      if (value) {
+      if (value && this.visible) {
         this.close()
       }
     }

@@ -276,8 +276,8 @@ class FarmerSerializer(serializers.ModelSerializer):
         user = request.user if request else None
 
         if user and hasattr(user, 'farmer') and user.farmer == obj:
-            return ExperimentSerializer(obj.experiments, many=True).data
-        return ExperimentSerializer(obj.approved_experiments, many=True).data
+            return ExperimentSerializer(obj.experiments, context=self.context, many=True).data
+        return ExperimentSerializer(obj.approved_experiments, context=self.context, many=True).data
 
     def get_onboarding_shown(self, obj):
         request = self.context.get('request')
@@ -324,6 +324,21 @@ class FarmerSerializer(serializers.ModelSerializer):
             'output',
             'onboarding_shown',
         )
+
+    def update(self, instance, validated_data):
+        if 'images' not in validated_data:
+            return super().update(instance, validated_data)
+
+        image_validated_data = validated_data.pop('images', None)
+        farmer = super().update(instance, validated_data)
+
+        if image_validated_data is not None:
+            farmer_image_serializer = self.fields['images']
+            for item in image_validated_data:
+                item['farmer'] = farmer
+            farmer_image_serializer.update(farmer.images.all(), image_validated_data)
+
+        return farmer
 
 class UserSerializer(serializers.ModelSerializer):
 

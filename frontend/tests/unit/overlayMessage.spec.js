@@ -1,10 +1,10 @@
 import Vuetify from 'vuetify'
 import { mount, createLocalVue } from '@vue/test-utils'
-import ErrorMessage from '@/components/ErrorMessage.vue'
+import OverlayMessage from '@/components/OverlayMessage.vue'
 
 const localVue = createLocalVue()
 
-describe('ErrorMessage.vue', () => {
+describe('OverlayMessage.vue', () => {
 
   let vuetify
 
@@ -13,7 +13,7 @@ describe('ErrorMessage.vue', () => {
   })
 
   it('does not render a retry button without an onRetry function', () => {
-    const wrapper = mount(ErrorMessage, {
+    const wrapper = mount(OverlayMessage, {
       localVue,
       vuetify,
       propsData: {
@@ -26,7 +26,7 @@ describe('ErrorMessage.vue', () => {
 
   it('renders a cta that triggers the ctaAction function', () => {
     const ctaAction = jest.fn()
-    const wrapper = mount(ErrorMessage, {
+    const wrapper = mount(OverlayMessage, {
       localVue,
       vuetify,
       propsData: {
