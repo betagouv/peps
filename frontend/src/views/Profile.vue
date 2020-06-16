@@ -9,142 +9,241 @@
     <v-container v-else class="constrained">
       <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
-      <!-- PROFILE -->
-      <div v-if="!!farmer">
-        <v-list-item class="flex-fix-item pa-0" style="margin: 5px 0 0px 0;">
-          <v-list-item-avatar :size="80" color="grey" style="margin-right: 10px; margin-top: 10px;">
-            <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
-            <v-icon v-else>mdi-account</v-icon>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title
-              class="title"
-              style="padding-left: 3px; margin-bottom: 0; margin-top: 0;"
-            >{{ farmer.name }}</v-list-item-title>
-            <v-list-item style="padding-left: 3px;">
+      <div class="ma-0">
+        <!-- PROFILE CARD -->
+        <v-row>
+          <v-col cols="12" md="8">
+            <v-card outlined class="d-flex align-center pa-3">
+              <div class="d-none d-sm-flex" style="margin-right: 20px;">
+                <v-avatar color="grey" size="70">
+                  <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
+                  <v-icon v-else>mdi-account</v-icon>
+                </v-avatar>
+              </div>
+              <div style="margin-right: 20px;" class="d-flex flex-column flex-grow-1">
+                <v-card-title class="ma-0 pa-0">{{displayName}}</v-card-title>
+                <div>Some email</div>
+              </div>
               <v-btn
-                outlined
-                color="primary"
+                text
                 class="text-none"
-                style="margin-top: 0px; margin-right: 10px;"
+                color="primary"
+                style="text-decoration: underline;"
+                @click="seePublicProfile"
+              >Voir le profil public</v-btn>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <!-- INFORMATIONS PERSONNELLES -->
+          <v-col cols="12" sm="6" md="4">
+            <v-hover>
+              <v-card
+                class="fill-height"
                 @click="editFarmer"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
               >
-                <v-icon style="margin-right: 10px;">mdi-account</v-icon>Modifier mon profil
-              </v-btn>
+                <v-card-title>
+                  Informations Personnelles
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle>Modifiez vos données et informations de contact</v-card-subtitle>
+              </v-card>
+            </v-hover>
+          </v-col>
 
-              <v-btn
+          <!-- EXPLOITATION -->
+          <v-col cols="12" sm="6" md="4">
+            <v-hover>
+              <v-card
                 outlined
-                color="primary"
-                class="text-none"
-                style="margin-top: 0px;"
-                @click="createXP"
+                class="fill-height d-flex flex-column"
+                @click="editFarmer"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
               >
-                <v-icon style="margin-right: 10px;">mdi-beaker-plus-outline</v-icon>Partager une nouvelle expérience
-              </v-btn>
-            </v-list-item>
-          </v-list-item-content>
-        </v-list-item>
+                <v-card-title>
+                  Exploitation
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle
+                  class="flex-grow-1"
+                >Mettez à jour le descriptif de votre exploitation et sa philisophie</v-card-subtitle>
+                <v-card-text v-if="!farmer.approved">
+                  <v-chip small outlined color="amber darken-2">
+                    <v-icon small style="margin-right: 5px;">mdi-clock-outline</v-icon>En attente de validation
+                  </v-chip>
+                </v-card-text>
+              </v-card>
+            </v-hover>
+          </v-col>
 
-        <v-alert dense text v-if="!farmer.approved" border="left" type="warning" class="body-2">
-          <span style="color: #333 !important;">
-            Votre profil est en attente de validation par notre équipe et il sera mis en ligne une fois approuvé.
-            Vous pouvez toutefois le modifier et rédiger des expériences à partager dès à présent.
-          </span>
-        </v-alert>
+          <!-- ABONNEMENTS ET NOTIFICATIONS -->
+          <v-col cols="12" sm="6" md="4">
+            <v-hover>
+              <v-card
+                outlined
+                class="fill-height"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                <v-card-title>
+                  Abonnements et notifications
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle>Reglez vos préférences de notifications et la manière d'être contacté</v-card-subtitle>
+              </v-card>
+            </v-hover>
+          </v-col>
 
-        <FarmerInfoBox :farmer="farmer" :compact="true" />
-      </div>
-
-      <!-- APPROVED EXPERIMENTS -->
-      <div v-if="farmer && approvedExperiments && approvedExperiments.length > 0">
-        <v-divider style="margin-top: 30px;" />
-
-        <div
-          class="title"
-          style="margin-top: 30px; margin-bottom: 0px;"
-        >Mes retours d'expérience en ligne</div>
-
-        <v-row>
+          <!-- RETOURS D'EXPÉRIENCE APPROUVÉS -->
           <v-col
-            v-for="(experiment, index) in approvedExperiments"
-            :key="index"
             cols="12"
             sm="6"
             md="4"
+            v-for="experiment in approvedExperiments"
+            :key="experiment.id"
           >
-            <v-btn
-              @click="editXP(experiment)"
-              class="text-none"
-              small
-              fab
-              style="position: relative; z-index: 9; top: 15px;"
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <ExperimentCard :experiment="experiment" />
+            <v-hover>
+              <v-card
+                outlined
+                class="fill-height d-flex flex-column"
+                @click="editXp(experiment)"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                <v-card-title>
+                  Retour d'expérience
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle class="flex-grow-1">{{ experiment.name }}</v-card-subtitle>
+                <v-card-text>
+                  <v-chip small outlined color="primary">
+                    <v-icon small style="margin-right: 5px;">mdi-check</v-icon>En ligne
+                  </v-chip>
+                </v-card-text>
+              </v-card>
+            </v-hover>
           </v-col>
-        </v-row>
-      </div>
 
-      <!-- APPROVED EXPERIMENTS -->
-      <div v-else>
-        <v-divider style="margin-top: 30px;" />
-        <div
-          class="title"
-          style="margin-top: 30px; margin-bottom: 0px;"
-        >Vous n'avez pas de retours d'expérience en ligne</div>
-      </div>
-
-      <!-- PENDING EXPERIMENTS -->
-      <div v-if="pendingExperiments && pendingExperiments.length > 0">
-        <v-divider style="margin-top: 30px;" />
-
-        <div
-          class="title"
-          style="margin-top: 30px; margin-bottom: 0px;"
-        >Mes retours d'expérience en attente de validation</div>
-
-        <div
-          class="body-2"
-          style="margin-top: 0px; margin-bottom: 0px;"
-        >Notre équipe validera bientôt les retours d'expérience ci-dessous.</div>
-
-        <v-row>
+          <!-- RETOURS D'EXPÉRIENCE EN ATTENTE -->
           <v-col
-            v-for="(experiment, index) in pendingExperiments"
-            :key="index"
             cols="12"
             sm="6"
             md="4"
+            v-for="experiment in pendingExperiments"
+            :key="experiment.id"
           >
-            <v-btn
-              @click="editXP(experiment)"
-              class="text-none"
-              small
-              fab
-              style="position: relative; z-index: 9; top: 15px;"
-            >
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <ExperimentCard :experiment="experiment" :disabled="true" :elevation="0" />
+            <v-hover>
+              <v-card
+                outlined
+                class="d-flex flex-column fill-height"
+                @click="editXp(experiment)"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                <v-card-title>
+                  Retour d'expérience
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle class="flex-grow-1">{{ experiment.name }}</v-card-subtitle>
+                <v-card-text>
+                  <v-chip small outlined color="amber darken-2">
+                    <v-icon small style="margin-right: 5px;">mdi-clock-outline</v-icon>En attente de validation
+                  </v-chip>
+                </v-card-text>
+              </v-card>
+            </v-hover>
+          </v-col>
+
+          <!-- AJOUTER UNE XP -->
+          <v-col cols="12" sm="6" md="4">
+            <v-hover>
+              <v-card
+                outlined
+                color="#E0F4EE"
+                class="fill-height d-flex"
+                @click="createXP"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                <v-card-title class="align-center">
+                  <v-avatar style="margin-right: 5px;" size="40" color="primary">
+                    <v-icon color="white">mdi-beaker-plus-outline</v-icon>
+                  </v-avatar>Ajouter une expérience
+                </v-card-title>
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <!-- AIDE -->
+          <v-col cols="12" sm="6" md="4">
+            <v-hover>
+              <v-card
+                outlined
+                @click="contactUs"
+                class="fill-height"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                <v-card-title>
+                  Aide
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle>Contactez-nous pour répondre à vos questions</v-card-subtitle>
+              </v-card>
+            </v-hover>
           </v-col>
         </v-row>
       </div>
+      <v-btn
+        @click="logout"
+        style="margin-top: 20px;"
+        outlined
+        color="deep-orange darken-4"
+        class="text-none"
+      >Se déconnecter</v-btn>
     </v-container>
   </div>
 </template>
 
 <script>
 import Title from "@/components/Title.vue"
-import ExperimentCard from "@/components/ExperimentCard.vue"
 import AdminCard from "@/components/AdminCard.vue"
-import FarmerInfoBox from "@/components/FarmerInfoBox"
 import Loader from "@/components/Loader"
 import Constants from "@/constants"
 
 export default {
   name: "Profile",
-  components: { Title, ExperimentCard, AdminCard, FarmerInfoBox, Loader },
+  components: { Title, AdminCard, Loader },
   data() {
     return {
       title: "Mon compte",
@@ -234,17 +333,38 @@ export default {
         name: "FarmerEditor",
         query: { agriculteur: farmerUrlComponent }
       })
+    },
+    contactUs() {
+      window.sendTrackingEvent("Profile", "Aide", "Contact")
+      this.$router.push({ name: "Contact" })
+    },
+    logout() {
+      if (window.confirm("Êtes-vous sur de vouloir fermer votre session ?")) {
+        window.sendTrackingEvent("Profile", "Logout", "logout")
+        window.location.href = "/logout"
+      }
+    },
+    seePublicProfile() {
+      window.sendTrackingEvent(
+        "Profile",
+        "Profile public",
+        "Voir le profil public"
+      )
+      this.$router.push({
+        name: "Farmer",
+        params: { farmerUrlComponent: this.$store.getters.farmerUrlComponent(this.farmer) }
+      })
     }
   },
   watch: {
     userDataReady(isReady) {
       if (isReady && !this.$store.state.loggedUser)
-        this.$router.push({ name: 'Map' })
+        this.$router.push({ name: "Map" })
     }
   },
   mounted() {
     if (this.userDataReady && !this.$store.state.loggedUser)
-      this.$router.push({ name: 'Map' })
+      this.$router.push({ name: "Map" })
   }
 }
 </script>
@@ -264,5 +384,8 @@ export default {
 }
 .body-2 {
   line-height: 1.375rem;
+}
+.v-card__title {
+  font-size: 1.1rem;
 }
 </style>
