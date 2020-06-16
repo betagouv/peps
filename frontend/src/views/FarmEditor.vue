@@ -18,58 +18,8 @@
 
       <v-form ref="form" v-model="formIsValid">
 
-        <!-- NAME -->
-        <div class="field" style="margin-bottom: 0px;">
-          <div class="field-title title">* Votre prénom et nom</div>
-          <v-text-field
-            :rules="[validators.notEmpty]"
-            @input="hasChanged = true"
-            outlined
-            dense
-            v-model="dummyFarmer.name"
-          ></v-text-field>
-        </div>
-
-        <!-- PROFILE IMAGE -->
-        <div class="field">
-          <div class="field-title title">Photo de profil</div>
-
-          <div style="position: relative; margin-left: 23px; margin-top: 10px;">
-            <v-avatar size="120" style="border: solid 3px #CCC">
-              <v-img v-if="dummyFarmer.profile_image" :src="dummyFarmer.profile_image"></v-img>
-              <v-icon size="80" v-else>mdi-account</v-icon>
-            </v-avatar>
-
-            <div style="position: absolute; top: -10px; left: -10px;">
-              <v-btn
-                v-if="dummyFarmer.profile_image"
-                fab
-                small
-                @click="changeProfileImage(undefined)"
-              >
-                <v-icon color="red">mdi-trash-can-outline</v-icon>
-              </v-btn>
-            </div>
-          </div>
-
-          <v-btn
-            class="text-none"
-            outlined
-            color="primary"
-            style="margin-top: 10px"
-            @click="onProfilePhotoUploadClick"
-          >Choisir une photo</v-btn>
-          <input
-            ref="uploader"
-            class="d-none"
-            type="file"
-            accept="image/*"
-            @change="onProfilePhotoChanged"
-          />
-        </div>
 
         <!-- PRODUCTIONS -->
-
         <div class="field">
           <div class="field-title title">Quelles productions sont présentes sur l'exploitation ?</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
@@ -132,7 +82,7 @@
         <!-- ADDITIONAL IMAGES -->
 
         <div class="field">
-          <div class="field-title title">Photos additionnelles</div>
+          <div class="field-title title">Photos</div>
           <v-file-input
             chips
             multiple
@@ -388,78 +338,11 @@
           ></v-textarea>
         </div>
 
-        <!-- GROUPS -->
-
-        <div class="field">
-          <div class="field-title title">Appartenez-vous à des groupes ?</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
-
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="DEPHY"
-            value="DEPHY"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="GIEE"
-            value="GIEE"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="30000"
-            value="30000"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="CETA"
-            value="CETA"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="Groupe de coopérative"
-            value="Groupe de coopérative"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="Groupe de négoce"
-            value="Groupe de négoce"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="Groupe de chambre d'agriculture"
-            value="Groupe de chambre d'agriculture"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="Groupe de voisins"
-            value="Groupe de voisins"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="CUMA"
-            value="CUMA"
-          ></v-checkbox>
-          <v-checkbox
-            @click.native="hasChanged = true"
-            v-model="dummyFarmer.groups"
-            label="Autre"
-            value="Autre"
-          ></v-checkbox>
-        </div>
 
         <!-- AGRICULTURE TYPES -->
 
         <div class="field">
-          <div class="field-title title">Appartenez-vous à des groupes ?</div>
+          <div class="field-title title">Choisissez les termes qui correspondent à l'agriculture que vous pratiquez</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -547,10 +430,6 @@
             <v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien
           </v-btn>
         </div>
-
-        <!-- PHONE NUMBER -->
-
-        <!-- EMAIL -->
       </v-form>
 
       <v-toolbar elevation="0">
@@ -604,7 +483,7 @@ import Loader from "@/components/Loader.vue"
 import Constants from "@/constants"
 
 export default {
-  name: "FarmerEditor",
+  name: "FarmEditor",
   components: { Title, Loader },
   props: {
     farmerUrlComponent: {
@@ -744,9 +623,6 @@ export default {
       this.dummyFarmer.images = this.farmer
         ? JSON.parse(JSON.stringify(this.farmer.images))
         : []
-      this.dummyFarmer.profile_image = this.farmer
-        ? JSON.parse(JSON.stringify(this.farmer.profile_image))
-        : null
     },
     addImages(files) {
       this.hasChanged = true
@@ -790,16 +666,6 @@ export default {
     deleteLink(index) {
       this.dummyFarmer.links.splice(index, 1)
       this.hasChanged = true
-    },
-    onProfilePhotoUploadClick() {
-      this.$refs.uploader.click()
-    },
-    onProfilePhotoChanged(e) {
-      if (e && e.target && e.target.files && e.target.files.length > 0) {
-        this.changeProfileImage(e.target.files[0])
-      } else {
-        this.changeProfileImage(undefined)
-      }
     },
     onDatePickerChange(date) {
       this.dummyFarmer.installation_date = date

@@ -64,7 +64,7 @@
               <v-card
                 outlined
                 class="fill-height d-flex flex-column"
-                @click="editFarmer"
+                @click="editFarm"
                 slot-scope="{ hover }"
                 :elevation="hover ? 4 : 2"
               >
@@ -334,13 +334,13 @@ export default {
         query: { agriculteur: farmerUrlComponent }
       })
     },
-    editFarmer() {
+    editFarm() {
       let farmerUrlComponent = this.$store.getters.farmerUrlComponent(
         this.farmer
       )
       window.sendTrackingEvent("Profile", "Edit Farmer", farmerUrlComponent)
       this.$router.push({
-        name: "FarmerEditor",
+        name: "FarmEditor",
         query: { agriculteur: farmerUrlComponent }
       })
     },

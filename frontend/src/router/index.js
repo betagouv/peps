@@ -15,7 +15,7 @@ import Experiment from '@/views/Experiment.vue'
 import Contribution from '@/views/Contribution.vue'
 import Profile from '@/views/Profile.vue'
 import ExperimentEditor from '@/views/ExperimentEditor.vue'
-import FarmerEditor from '@/views/FarmerEditor.vue'
+import FarmEditor from '@/views/FarmEditor.vue'
 import PersonalInfoEditor from '@/views/PersonalInfoEditor.vue'
 import Share from '@/views/Share.vue'
 
@@ -227,7 +227,7 @@ const routes = [
       // A logged used can only modify its own farmer profile
       if (!hasFarmerQuery) {
         next({
-          name: 'FarmerEditor',
+          name: 'FarmEditor',
           query: {
             agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
           }
@@ -237,7 +237,7 @@ const routes = [
         const requestedFarmer = store.getters.farmerWithUrlComponent(route.query.agriculteur)
         if (requestedFarmer != loggedFarmer) {
           next({
-            name: 'FarmerEditor',
+            name: 'FarmEditor',
             query: {
               agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
             }
@@ -250,8 +250,8 @@ const routes = [
   },
   {
     path: '/editeur-exploitation/',
-    name: 'FarmerEditor',
-    component: FarmerEditor,
+    name: 'FarmEditor',
+    component: FarmEditor,
     props: (route) => {
       return {
         farmerUrlComponent: route.query.agriculteur
@@ -270,7 +270,7 @@ const routes = [
       // A logged used can only modify its own farmer profile
       if (!hasFarmerQuery) {
         next({
-          name: 'FarmerEditor',
+          name: 'FarmEditor',
           query: {
             agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
           }
@@ -280,7 +280,7 @@ const routes = [
         const requestedFarmer = store.getters.farmerWithUrlComponent(route.query.agriculteur)
         if (requestedFarmer != loggedFarmer) {
           next({
-            name: 'FarmerEditor',
+            name: 'FarmEditor',
             query: {
               agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
             }
