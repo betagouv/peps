@@ -17,8 +17,6 @@
       </v-toolbar>
 
       <v-form ref="form" v-model="formIsValid">
-
-
         <!-- PRODUCTIONS -->
         <div class="field">
           <div class="field-title title">Quelles productions sont présentes sur l'exploitation ?</div>
@@ -338,11 +336,12 @@
           ></v-textarea>
         </div>
 
-
         <!-- AGRICULTURE TYPES -->
 
         <div class="field">
-          <div class="field-title title">Choisissez les termes qui correspondent à l'agriculture que vous pratiquez</div>
+          <div
+            class="field-title title"
+          >Choisissez les termes qui correspondent à l'agriculture que vous pratiquez</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -599,8 +598,6 @@ export default {
           farmer: this.farmer,
           changes: payload
         })
-      } else {
-        // Create farmer
       }
     },
     closeOverlay() {
@@ -670,10 +667,47 @@ export default {
     onDatePickerChange(date) {
       this.dummyFarmer.installation_date = date
       this.hasChanged = true
+    },
+    handleUnload(e) {
+      if (this.hasChanged) {
+        e.preventDefault()
+        e.returnValue = ''
+      } else {
+        delete e['returnValue']
+      }
+    }
+  },
+  watch: {
+    updateSucceeded(newValue) {
+      if (newValue) this.hasChanged = false
+    },
+    updateFailed(newValue) {
+      if (newValue) this.hasChanged = false
     }
   },
   beforeMount() {
     this.resetdummyFarmer()
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.handleUnload)
+  },
+  beforeDestroy() {
+    window.removeEventListener('beforeunload', this.handleUnload)
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!this.hasChanged) {
+      next()
+      return
+    }
+
+    const answer = window.confirm(
+      "Êtes-vous sûr de vouloir quitter cette page ? Vous avez des changements non-sauvegardés"
+    )
+    if (answer) {
+      next()
+    } else {
+      next(false)
+    }
   }
 }
 </script>

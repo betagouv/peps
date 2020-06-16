@@ -351,10 +351,47 @@ export default {
       } else {
         this.changeProfileImage(undefined)
       }
+    },
+    handleUnload(e) {
+      if (this.hasChanged) {
+        e.preventDefault()
+        e.returnValue = ''
+      } else {
+        delete e['returnValue']
+      }
+    }
+  },
+  watch: {
+    updateSucceeded(newValue) {
+      if (newValue) this.hasChanged = false
+    },
+    updateFailed(newValue) {
+      if (newValue) this.hasChanged = false
     }
   },
   beforeMount() {
     this.resetdummyFarmer()
+  },
+  mounted() {
+    window.addEventListener('beforeunload', this.handleUnload)
+  },
+  beforeDestroy() {
+    window.removeEventListener('beforeunload', this.handleUnload)
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!this.hasChanged) {
+      next()
+      return
+    }
+
+    const answer = window.confirm(
+      "Êtes-vous sûr de vouloir quitter cette page ? Vous avez des changements non-sauvegardés"
+    )
+    if (answer) {
+      next()
+    } else {
+      next(false)
+    }
   }
 }
 </script>
