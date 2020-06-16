@@ -265,11 +265,39 @@ class FarmImageSerializer(serializers.ModelSerializer):
             'id'
         )
 
+def get_writable_method_field(base_serializer_class):
+    """
+    Returns a SerializerMethod field that inherits the update
+    methods from another serializer class.
+    """
+    class WritableSerializerMethodField(base_serializer_class):
+        def __init__(self, method_name=None, **kwargs):
+            self.method_name = method_name
+            super().__init__(**kwargs)
+
+        def bind(self, field_name, parent):
+            default_method_name = 'get_{field_name}'.format(field_name=field_name)
+            if self.method_name is None:
+                self.method_name = default_method_name
+            super().bind(field_name, parent)
+
+        def to_representation(self, value):
+            method = getattr(self.parent, self.method_name)
+            return method(value)
+
+        def get_attribute(self, instance):
+            return instance
+    return WritableSerializerMethodField
+
+
 class FarmerSerializer(serializers.ModelSerializer):
     experiments = serializers.SerializerMethodField()
     images = MediaListSerializer(required=False, child=FarmImageSerializer(required=False))
     profile_image = Base64ImageField(required=False, allow_null=True)
-    onboarding_shown = serializers.SerializerMethodField()
+
+    onboarding_shown = get_writable_method_field(serializers.BooleanField)()
+    phone_number = get_writable_method_field(serializers.CharField)()
+    email = serializers.SerializerMethodField()
 
     def get_experiments(self, obj):
         request = self.context.get('request')
@@ -280,11 +308,20 @@ class FarmerSerializer(serializers.ModelSerializer):
         return ExperimentSerializer(obj.approved_experiments, context=self.context, many=True).data
 
     def get_onboarding_shown(self, obj):
+        return self._field_if_logged(obj, 'onboarding_shown')
+
+    def get_phone_number(self, obj):
+        return self._field_if_logged(obj, 'phone_number')
+
+    def get_email(self, obj):
+        return self._field_if_logged(obj, 'email')
+
+    def _field_if_logged(self, obj, field_name):
         request = self.context.get('request')
         user = request.user if request else None
 
         if user and hasattr(user, 'farmer') and user.farmer == obj:
-            return obj.onboarding_shown
+            return getattr(obj, field_name)
         return None
 
     class Meta:
@@ -323,6 +360,8 @@ class FarmerSerializer(serializers.ModelSerializer):
             'surface_meadows',
             'output',
             'onboarding_shown',
+            'phone_number',
+            'email',
         )
 
     def update(self, instance, validated_data):

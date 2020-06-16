@@ -242,6 +242,142 @@ class TestApi(TestCase):
         self.assertEqual(Farmer.objects.get(name="Philippe").images.count(), 0)
 
 
+    def test_email_serialization(self):
+        """
+        The email should be included in the serialization
+        if the farmer is logged. It should not be visible
+        for other farmers
+        """
+        # When not logged in, no farmer should have their email serialized
+        self.client.logout()
+        response = self.client.get(reverse('get_farmers'))
+        body = json.loads(response.content.decode())
+
+        for json_farmer in body:
+            self.assertIsNone(json_farmer['email'])
+
+        # When I login, my email should be shown for my farmer, but not for others
+        self.client.login(username='Edouard', password="12345")
+        response = self.client.get(reverse('get_farmers'))
+        body = json.loads(response.content.decode())
+
+        for json_farmer in body:
+            if json_farmer['name'] == 'Edouard':
+                self.assertEqual(json_farmer['email'], 'Edouard@farmer.com')
+            else:
+                self.assertIsNone(json_farmer['email'])
+
+
+    def test_phone_number_serialization(self):
+        """
+        The phone number should be included in the serialization
+        if the farmer is logged. It should not be visible
+        for other farmers
+        """
+        # When not logged in, no farmer should have their phone number serialized
+        self.client.logout()
+        response = self.client.get(reverse('get_farmers'))
+        body = json.loads(response.content.decode())
+
+        for json_farmer in body:
+            self.assertIsNone(json_farmer['phone_number'])
+
+        # When I login, my phone number should be shown for my farmer, but not for others
+        self.client.login(username='Edouard', password="12345")
+        response = self.client.get(reverse('get_farmers'))
+        body = json.loads(response.content.decode())
+
+        for json_farmer in body:
+            if json_farmer['name'] == 'Edouard':
+                self.assertEqual(json_farmer['phone_number'], '012345678')
+            else:
+                self.assertIsNone(json_farmer['phone_number'])
+
+
+    def test_onboarding_shown_serialization(self):
+        """
+        The onboarding shown should be included in the serialization
+        if the farmer is logged. It should not be visible
+        for other farmers
+        """
+        # When not logged in, no farmer should have the onboarding data serialized
+        self.client.logout()
+        response = self.client.get(reverse('get_farmers'))
+        body = json.loads(response.content.decode())
+
+        for json_farmer in body:
+            self.assertIsNone(json_farmer['onboarding_shown'])
+
+        # When I login, my onboarding status should be shown for my farmer, but not for others
+        self.client.login(username='Edouard', password="12345")
+        response = self.client.get(reverse('get_farmers'))
+        body = json.loads(response.content.decode())
+
+        for json_farmer in body:
+            if json_farmer['name'] == 'Edouard':
+                self.assertEqual(json_farmer['onboarding_shown'], False)
+            else:
+                self.assertIsNone(json_farmer['onboarding_shown'])
+
+    def test_email_read_only(self):
+        """
+        The email should not be modifiable with the API
+        """
+        self.client.logout()
+        self.client.login(username='Agnès', password="12345")
+
+        farmer = Farmer.objects.get(name="Agnès")
+        payload = {'email': 'new@email.com'}
+        url = reverse('farmer_update', kwargs={'pk':str(farmer.id)})
+        response = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Farmer.objects.get(name="Agnès").email, 'Agnès@farmer.com')
+
+    def test_update_phone_number(self):
+        """
+        The logged farmer can change his/her phone number
+        """
+        self.client.logout()
+        self.client.login(username='Agnès', password="12345")
+
+        farmer = Farmer.objects.get(name="Agnès")
+        payload = {'phone_number': '987654321'}
+        url = reverse('farmer_update', kwargs={'pk':str(farmer.id)})
+        response = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Farmer.objects.get(name="Agnès").phone_number, '987654321')
+
+    def test_update_onboarding_data(self):
+        """
+        The logged farmer can change his/her onboarding_shown property
+        """
+        self.client.logout()
+        self.client.login(username='Agnès', password="12345")
+
+        farmer = Farmer.objects.get(name="Agnès")
+        payload = {'onboarding_shown': True}
+        url = reverse('farmer_update', kwargs={'pk':str(farmer.id)})
+        response = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Farmer.objects.get(name="Agnès").onboarding_shown, True)
+
+    def test_set_null_onboarding_data(self):
+        """
+        The logged farmer can't set None to the onboarding_shown property
+        """
+        self.client.logout()
+        self.client.login(username='Agnès', password="12345")
+
+        farmer = Farmer.objects.get(name="Agnès")
+        payload = {'onboarding_shown': None}
+        url = reverse('farmer_update', kwargs={'pk':str(farmer.id)})
+        response = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 def _populate_database():
     User.objects.create_superuser(username='testsuperuser', password='12345')
 
@@ -266,6 +402,7 @@ def _populate_database():
         lat=0.0,
         lon=0.0,
         approved=False,
+        phone_number='012345678'
     ).save()
 
     # Approved experiments

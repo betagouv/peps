@@ -41,7 +41,7 @@
             <v-hover>
               <v-card
                 class="fill-height"
-                @click="editFarmer"
+                @click="editPersonalInformation"
                 slot-scope="{ hover }"
                 :elevation="hover ? 4 : 2"
               >
@@ -323,6 +323,16 @@ export default {
         "Partager une expérience"
       )
       this.$router.push({ name: "ExperimentEditor" })
+    },
+    editPersonalInformation() {
+      let farmerUrlComponent = this.$store.getters.farmerUrlComponent(
+        this.farmer
+      )
+      window.sendTrackingEvent("Profile", "Edit Personal Info", farmerUrlComponent)
+      this.$router.push({
+        name: "PersonalInfoEditor",
+        query: { agriculteur: farmerUrlComponent }
+      })
     },
     editFarmer() {
       let farmerUrlComponent = this.$store.getters.farmerUrlComponent(
