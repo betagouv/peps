@@ -51,15 +51,14 @@
 
         <v-menu v-if="isXPPage && loggedUser" left bottom>
           <template v-slot:activator="{ on }">
-            
-              <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
-                <v-badge dot color="amber" :value="profilePending">
+            <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
+              <v-badge dot color="amber" :value="profilePending">
                 <v-avatar size="40" v-if="profileImage">
                   <v-img :src="profileImage"></v-img>
                 </v-avatar>
                 <v-icon v-else>mdi-account</v-icon>
-                </v-badge>
-              </v-btn>
+              </v-badge>
+            </v-btn>
           </template>
 
           <AccountList />
@@ -110,7 +109,9 @@ export default {
         "Experiment",
         "Map",
         "Profile",
-        "ExperimentEditor"
+        "ExperimentEditor",
+        "PersonalInfoEditor",
+        "FarmEditor"
       ]
       return xpPages.indexOf(this.$route.name) > -1
     },

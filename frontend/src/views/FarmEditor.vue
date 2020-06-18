@@ -77,38 +77,6 @@
           ></v-checkbox>
         </div>
 
-        <!-- ADDITIONAL IMAGES -->
-
-        <div class="field">
-          <div class="field-title title">Photos</div>
-          <v-file-input
-            chips
-            multiple
-            @change="addImages"
-            prepend-icon="mdi-camera"
-            accept="image/*"
-            label="Ajoutez des images"
-          ></v-file-input>
-          <v-row v-if="dummyFarmer.images && dummyFarmer.images.length > 0">
-            <v-col
-              v-for="(photo, index) in dummyFarmer.images.map(x => x.image)"
-              :key="index"
-              class="d-flex child-flex"
-              cols="6"
-              sm="3"
-            >
-              <v-card flat class="d-flex">
-                <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-                <div style="position: absolute; top: 10px; left: 10px;">
-                  <v-btn fab small @click="deleteImage(index)">
-                    <v-icon color="red">mdi-trash-can-outline</v-icon>
-                  </v-btn>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
-        </div>
-
         <!-- INSTALLATION DATE -->
 
         <div class="field">
@@ -156,8 +124,8 @@
         <div class="field">
           <div
             class="field-title title"
-          >* Combien de personnes travaillen sur l'exploitation à temps plein ?</div>
-          <div class="field-helper subtitle-2 grey--text">Comptez-vous et vos associés</div>
+          >* Combien de personnes travaillent sur l'exploitation à temps plein ?</div>
+          <div class="field-helper subtitle-2 grey--text">Comptez-vous et vos associés, salariés et alternants</div>
           <v-text-field
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
@@ -209,7 +177,7 @@
         <!-- LIVESTOCK TYPES -->
 
         <div class="field">
-          <div class="field-title title">Quel type d'élevage avez-vous ?</div>
+          <div class="field-title title">Si vous avez de l'élevage, quel type d'élevage avez-vous ?</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.livestock_types"
@@ -428,6 +396,39 @@
           <v-btn class="text-none" @click="addLink()">
             <v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien
           </v-btn>
+        </div>
+
+        <!-- PHOTOS -->
+
+        <div class="field">
+          <div class="field-title title">Photos de votre exploitation</div>
+          <div class="field-helper subtitle-2 grey--text">Vous pouvez en ajouter plusieurs</div>
+          <v-file-input
+            chips
+            multiple
+            @change="addImages"
+            prepend-icon="mdi-camera"
+            accept="image/*"
+            label="Ajoutez des images"
+          ></v-file-input>
+          <v-row v-if="dummyFarmer.images && dummyFarmer.images.length > 0">
+            <v-col
+              v-for="(photo, index) in dummyFarmer.images.map(x => x.image)"
+              :key="index"
+              class="d-flex child-flex"
+              cols="6"
+              sm="3"
+            >
+              <v-card flat class="d-flex">
+                <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
+                <div style="position: absolute; top: 10px; left: 10px;">
+                  <v-btn fab small @click="deleteImage(index)">
+                    <v-icon color="red">mdi-trash-can-outline</v-icon>
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
         </div>
       </v-form>
 
@@ -671,9 +672,9 @@ export default {
     handleUnload(e) {
       if (this.hasChanged) {
         e.preventDefault()
-        e.returnValue = ''
+        e.returnValue = ""
       } else {
-        delete e['returnValue']
+        delete e["returnValue"]
       }
     }
   },
@@ -689,10 +690,10 @@ export default {
     this.resetdummyFarmer()
   },
   mounted() {
-    window.addEventListener('beforeunload', this.handleUnload)
+    window.addEventListener("beforeunload", this.handleUnload)
   },
   beforeDestroy() {
-    window.removeEventListener('beforeunload', this.handleUnload)
+    window.removeEventListener("beforeunload", this.handleUnload)
   },
   beforeRouteLeave(to, from, next) {
     if (!this.hasChanged) {
