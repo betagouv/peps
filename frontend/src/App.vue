@@ -150,4 +150,25 @@ body .buorg .buorg-buttons {
   top: -20px;
   z-index: 99999;
 }
+
+.field {
+  margin-bottom: 30px;
+}
+.field-helper {
+  margin-bottom: 5px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: normal;
+  font-size: 0.9em;
+  color: #888;
+}
+.parent-field {
+  margin-bottom: 10px;
+}
+.child-field {
+  padding-left: 30px;
+  margin-bottom: 10px;
+}
+.child-field:last-of-type {
+  margin-bottom: 30px;
+}
 </style>

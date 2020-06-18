@@ -62,6 +62,7 @@
             <div class="field" style="margin-bottom: 0px;">
               <div class="field-title title">* Votre prénom et nom</div>
               <v-text-field
+                hide-details="auto"
                 :rules="[validators.notEmpty]"
                 @input="hasChanged = true"
                 outlined
@@ -73,6 +74,7 @@
             <!-- EMAIL (READONLY) -->
             <div class="field" style="margin-bottom: 0px;">
               <v-text-field
+                hide-details="auto"
                 outlined
                 disabled
                 dense
@@ -88,6 +90,7 @@
         <div class="field" style="margin-bottom: 0px;">
           <div class="field-title title">* Votre numéro téléphone</div>
           <v-text-field
+            hide-details="auto"
             @input="hasChanged = true"
             outlined
             dense
@@ -397,12 +400,6 @@ export default {
 </script>
 
 <style scoped>
-.field {
-  margin-bottom: 30px;
-}
-.field-helper {
-  margin-bottom: 5px;
-}
 .v-input--checkbox {
   margin-top: 0;
   padding-top: 0;

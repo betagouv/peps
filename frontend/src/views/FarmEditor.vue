@@ -20,7 +20,7 @@
         <!-- PRODUCTIONS -->
         <div class="field">
           <div class="field-title title">Quelles productions sont présentes sur l'exploitation ?</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <div class="field-helper grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
@@ -92,6 +92,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                hide-details="auto"
                 :value="formattedInstallationDate"
                 label="Date d'installation"
                 prepend-icon="mdi-calendar-blank-outline"
@@ -111,6 +112,7 @@
         <div class="field">
           <div class="field-title title">* Le code postal de votre exploitation</div>
           <v-text-field
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
             outlined
@@ -125,8 +127,9 @@
           <div
             class="field-title title"
           >* Combien de personnes travaillent sur l'exploitation à temps plein ?</div>
-          <div class="field-helper subtitle-2 grey--text">Comptez-vous et vos associés, salariés et alternants</div>
+          <div class="field-helper grey--text">Comptez-vous et vos associés, salariés et alternants</div>
           <v-text-field
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
             outlined
@@ -136,44 +139,47 @@
         </div>
 
         <!-- SURFACE -->
+        <div>
+          <div class="field parent-field">
+            <div class="field-title title">* La surface de votre exploitation (en ha.)</div>
+            <v-text-field
+              hide-details="auto"
+              :rules="[validators.notEmpty]"
+              @input="hasChanged = true"
+              outlined
+              dense
+              v-model="dummyFarmer.surface"
+            ></v-text-field>
+          </div>
 
-        <div class="field">
-          <div class="field-title title">* La surface de votre exploitation (en ha.)</div>
-          <v-text-field
-            :rules="[validators.notEmpty]"
-            @input="hasChanged = true"
-            outlined
-            dense
-            v-model="dummyFarmer.surface"
-          ></v-text-field>
+          <!-- SURFACE CULTURES -->
+
+          <div class="field child-field">
+            <div class="field-title subtitle-2">* La surface en cultures (en ha.)</div>
+            <v-text-field
+              hide-details="auto"
+              :rules="[validators.notEmpty]"
+              @input="hasChanged = true"
+              outlined
+              dense
+              v-model="dummyFarmer.surface_cultures"
+            ></v-text-field>
+          </div>
+
+          <!-- SURFACE MEADOWS -->
+
+          <div class="field child-field">
+            <div class="field-title subtitle-2">* La surface en prairie et cultures fourragères (en ha.)</div>
+            <v-text-field
+              hide-details="auto"
+              :rules="[validators.notEmpty]"
+              @input="hasChanged = true"
+              outlined
+              dense
+              v-model="dummyFarmer.surface_meadows"
+            ></v-text-field>
+          </div>
         </div>
-
-        <!-- SURFACE CULTURES -->
-
-        <div class="field">
-          <div class="field-title title">* La surface en cultures (en ha.)</div>
-          <v-text-field
-            :rules="[validators.notEmpty]"
-            @input="hasChanged = true"
-            outlined
-            dense
-            v-model="dummyFarmer.surface_cultures"
-          ></v-text-field>
-        </div>
-
-        <!-- SURFACE MEADOWS -->
-
-        <div class="field">
-          <div class="field-title title">* La surface en prairie et cultures fourragères (en ha.)</div>
-          <v-text-field
-            :rules="[validators.notEmpty]"
-            @input="hasChanged = true"
-            outlined
-            dense
-            v-model="dummyFarmer.surface_meadows"
-          ></v-text-field>
-        </div>
-
         <!-- LIVESTOCK TYPES -->
 
         <div class="field">
@@ -221,6 +227,7 @@
         <div class="field">
           <div class="field-title title">Si vous avez de l'élevage, combien de bêtes avez-vous ?</div>
           <v-text-field
+            hide-details="auto"
             @input="hasChanged = true"
             outlined
             dense
@@ -230,12 +237,11 @@
 
         <!-- CULTURES -->
 
-        <div>
+        <div class="field">
           <div class="field-title title">Quelles cultures avez-vous sur l'exploitation ?</div>
-          <div
-            class="field-helper subtitle-2 grey--text"
-          >Lister les cultures et les espèces fourragères</div>
+          <div class="field-helper grey--text">Lister les cultures et les espèces fourragères</div>
           <v-textarea
+            hide-details="auto"
             rows="3"
             @input="hasChanged = true"
             auto-grow
@@ -247,9 +253,10 @@
 
         <!-- SOIL TYPE -->
 
-        <div>
+        <div class="field">
           <div class="field-title title">Quels types de sols sont présents sur l'exploitation ?</div>
           <v-textarea
+            hide-details="auto"
             rows="3"
             @input="hasChanged = true"
             auto-grow
@@ -265,17 +272,18 @@
           <div
             class="field-title title"
           >Quel est rendement moyen en blé tendre de l'exploitation (en quintaux / ha)</div>
-          <v-text-field @input="hasChanged = true" outlined dense v-model="dummyFarmer.output"></v-text-field>
+          <v-text-field hide-details="auto" @input="hasChanged = true" outlined dense v-model="dummyFarmer.output"></v-text-field>
         </div>
 
         <!-- DESCRIPTION -->
 
-        <div>
+        <div class="field">
           <div class="field-title title">Pouvez-vous décrire votre exploitation ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper grey--text"
           >Son histoire, son fonctionnement, ses particularités, la philosophie et le type d'agriculture pratiquée...</div>
           <v-textarea
+            hide-details="auto"
             rows="5"
             @input="hasChanged = true"
             auto-grow
@@ -287,14 +295,15 @@
 
         <!-- SPECIFICITIES -->
 
-        <div>
+        <div class="field">
           <div
             class="field-title title"
           >Si il y en a, quelles sont les spécificités de l'exploitation ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper grey--text"
           >Irrigation, drainage, zone protégée, captage d'eau, parcellaire...</div>
           <v-textarea
+            hide-details="auto"
             rows="5"
             @input="hasChanged = true"
             auto-grow
@@ -310,7 +319,7 @@
           <div
             class="field-title title"
           >Choisissez les termes qui correspondent à l'agriculture que vous pratiquez</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <div class="field-helper grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
@@ -372,10 +381,11 @@
         <div class="field">
           <div class="field-title title">Liens</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper grey--text"
             style="margin-bottom: 10px;"
           >Si vous le souhaitez, vous pouvez ajouter des liens vers votre site, vos profils de réseaux sociaux, ou autre</div>
           <v-text-field
+            hide-details="auto"
             :rules="[validators.isUrl]"
             @input="hasChanged = true"
             @blur="appendHttp(index)"
@@ -402,7 +412,7 @@
 
         <div class="field">
           <div class="field-title title">Photos de votre exploitation</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez en ajouter plusieurs</div>
+          <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
           <v-file-input
             chips
             multiple
@@ -716,12 +726,6 @@ export default {
 </script>
 
 <style scoped>
-.field {
-  margin-bottom: 30px;
-}
-.field-helper {
-  margin-bottom: 5px;
-}
 .v-input--checkbox {
   margin-top: 0;
   padding-top: 0;

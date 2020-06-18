@@ -20,9 +20,10 @@
         <div class="field">
           <div class="field-title title">Titre de l'expérience</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >Court et explicite, il doit donner l'idée générale</div>
           <v-text-field
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             @input="hasChanged = true"
             outlined
@@ -52,10 +53,11 @@
             class="field-title title"
           >Dans quels objectifs plus global de l'exploitation cela s'inscrit ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >Diversifier les sources de revenus, réduire l'utilisation d'herbicides, améliorer le structure du sol...
           </div>
           <v-textarea
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             rows="4"
             @input="hasChanged = true"
@@ -70,7 +72,7 @@
           <div
             class="field-title title"
           >Ajoutez les labels qui vous semblent pertinents pour ce retour d'expérience</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
@@ -136,7 +138,7 @@
         <div class="field">
           <div class="field-title title">L'expérience est-elle en cours aujourd'hui ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >Si l'expérience a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
           <v-radio-group
             @change="hasChanged = true"
@@ -153,8 +155,9 @@
           <div
             class="field-title title"
           >Quels investissements ont été nécessaires pour cette expérience ?</div>
-          <div class="field-helper subtitle-2 grey--text">En temps, en argent, en machines...</div>
+          <div class="field-helper">En temps, en argent, en machines...</div>
           <v-textarea
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             rows="1"
             @input="hasChanged = true"
@@ -169,8 +172,9 @@
           <div
             class="field-title title"
           >Quel matériel avez-vous utilisé pour mener cette expérience ?</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez ici être assez spécifique</div>
+          <div class="field-helper">Vous pouvez ici être assez spécifique</div>
           <v-textarea
+            hide-details="auto"
             rows="1"
             @input="hasChanged = true"
             auto-grow
@@ -183,9 +187,10 @@
         <div class="field">
           <div class="field-title title">Pouvez-vous décrire l'expérience ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
           <v-textarea
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             rows="4"
             @input="hasChanged = true"
@@ -199,7 +204,7 @@
         <div class="field">
           <div class="field-title title">Sur quelle surface portait l'expérience ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -235,6 +240,7 @@
         <div class="field">
           <div class="field-title title">Combien d'ha cela représente ?</div>
           <v-textarea
+            hide-details="auto"
             @change="hasChanged = true"
             rows="1"
             auto-grow
@@ -246,7 +252,7 @@
 
         <div class="field">
           <div class="field-title title">Avez-vous mis en place un témoin ?</div>
-          <div class="field-helper subtitle-2 grey--text">
+          <div class="field-helper">
             C'est à dire une surface similaire qui permet de valider les résultats obtenus.
             Si ce n'est pas pertinent, dites Non
           </div>
@@ -295,9 +301,10 @@
         <div class="field">
           <div class="field-title title">Pouvez-vous détailler les résultats ?</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >Vous pouvez ici donner des chiffres, détailler l'impact ressenti de cette expérience...</div>
           <v-textarea
+            hide-details="auto"
             rows="4"
             @input="hasChanged = true"
             auto-grow
@@ -310,10 +317,11 @@
         <div class="field">
           <div class="field-title title">Liens</div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
             style="margin-bottom: 10px;"
           >Si vous le souhaitez, vous pouvez ajouter des liens vers votre site, vos profils de réseaux sociaux, ou autre</div>
           <v-text-field
+            hide-details="auto"
             :rules="[validators.isUrl]"
             @input="hasChanged = true"
             @blur="appendHttp(index)"
@@ -643,12 +651,6 @@ export default {
 </script>
 
 <style scoped>
-.field {
-  margin-bottom: 30px;
-}
-.field-helper {
-  margin-bottom: 5px;
-}
 .v-input--checkbox {
   margin-top: 0;
   padding-top: 0;
