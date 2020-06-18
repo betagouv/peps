@@ -51,9 +51,13 @@
           <div
             class="field-title title"
           >Dans quels objectifs plus global de l'exploitation cela s'inscrit ?</div>
+          <div
+            class="field-helper subtitle-2 grey--text"
+          >Diversifier les sources de revenus, réduire l'utilisation d'herbicides, améliorer le structure du sol...
+          </div>
           <v-textarea
             :rules="[validators.notEmpty]"
-            rows="1"
+            rows="4"
             @input="hasChanged = true"
             auto-grow
             outlined
@@ -65,7 +69,7 @@
         <div class="field">
           <div
             class="field-title title"
-          >Ajoutez les labels qui vous sembles pertinents pour ce retour d'expérience</div>
+          >Ajoutez les labels qui vous semblent pertinents pour ce retour d'expérience</div>
           <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -183,7 +187,7 @@
           >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
           <v-textarea
             :rules="[validators.notEmpty]"
-            rows="1"
+            rows="4"
             @input="hasChanged = true"
             auto-grow
             outlined
@@ -258,7 +262,7 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Quels sont les résultats de cette expérience ?</div>
+          <div class="field-title title">Quel est le statut de cette expérience ?</div>
           <v-radio-group
             :rules="[validators.notEmpty]"
             @change="hasChanged = true"
@@ -266,23 +270,23 @@
             :mandatory="false"
           >
             <v-radio
-              label="XP qui fonctionne, elle est intégrée à l'exploitation"
+              label="Fonctionne, elle est intégrée à l'exploitation"
               value="XP qui fonctionne, elle est intégrée à l'exploitation"
             ></v-radio>
             <v-radio
-              label="XP prometteuse, en cours d'amélioration"
+              label="Prometteuse, en cours d'amélioration"
               value="XP prometteuse, en cours d'amélioration"
             ></v-radio>
             <v-radio
-              label="XP abandonnée, les résultats ne sont pas satisfaisants"
+              label="Abandonnée, les résultats ne sont pas satisfaisants"
               value="XP abandonnée, les résultats ne sont pas satisfaisants"
             ></v-radio>
             <v-radio
-              label="XP en suspens, les conditions ne sont plus réunies"
+              label="En suspens, les conditions ne sont plus réunies"
               value="XP en suspens, les conditions ne sont plus réunies"
             ></v-radio>
             <v-radio
-              label="XP qui commence, les premiers résultats sont à venir"
+              label="Commence, les premiers résultats sont à venir"
               value="XP qui commence, les premiers résultats sont à venir"
             ></v-radio>
           </v-radio-group>
@@ -292,9 +296,9 @@
           <div class="field-title title">Pouvez-vous détailler les résultats ?</div>
           <div
             class="field-helper subtitle-2 grey--text"
-          >Vous pouvez ici donner des chiffres, détailler les résultats des différents tests que vous avez fait si ça a été le cas...</div>
+          >Vous pouvez ici donner des chiffres, détailler l'impact ressenti de cette expérience...</div>
           <v-textarea
-            rows="1"
+            rows="4"
             @input="hasChanged = true"
             auto-grow
             outlined

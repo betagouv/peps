@@ -122,7 +122,7 @@
               <v-card
                 outlined
                 class="fill-height d-flex flex-column"
-                @click="editXp(experiment)"
+                @click="goToExperiment(experiment)"
                 slot-scope="{ hover }"
                 :elevation="hover ? 4 : 2"
               >
@@ -156,7 +156,7 @@
               <v-card
                 outlined
                 class="d-flex flex-column fill-height"
-                @click="editXp(experiment)"
+                @click="goToExperiment(experiment)"
                 slot-scope="{ hover }"
                 :elevation="hover ? 4 : 2"
               >
@@ -306,7 +306,7 @@ export default {
     }
   },
   methods: {
-    editXP(xp) {
+    goToExperiment(xp) {
       let experimentUrlComponent = this.$store.getters.experimentUrlComponent(
         xp
       )
