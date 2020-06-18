@@ -617,6 +617,7 @@ export default {
       this.hasChanged = true
     },
     addLink() {
+      this.dummyExperiment.links = this.dummyExperiment.links || []
       this.dummyExperiment.links.push('')
       this.hasChanged = true
     },

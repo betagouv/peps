@@ -497,7 +497,8 @@ export default {
         production: [],
         surface_meadows: [],
         groups: [],
-        agriculture_types: []
+        agriculture_types: [],
+        links: []
       },
       hasChanged: false,
       imagesToAdd: [],
@@ -649,6 +650,7 @@ export default {
       this.hasChanged = true
     },
     addLink() {
+      this.dummyFarmer.links = this.dummyFarmer.links || []
       this.dummyFarmer.links.push("")
       this.hasChanged = true
     },
