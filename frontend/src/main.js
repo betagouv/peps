@@ -7,6 +7,7 @@ import VueResource from 'vue-resource'
 import VueBrowserUpdate from 'vue-browserupdate'
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet'
+import UniqueId from 'vue-unique-id'
 
 import { Icon } from 'leaflet';
 
@@ -20,6 +21,7 @@ Icon.Default.mergeOptions({
 
 Vue.config.productionTip = false
 
+Vue.use(UniqueId)
 Vue.use(VueResource)
 Vue.use(VueBrowserUpdate, {
   options: {

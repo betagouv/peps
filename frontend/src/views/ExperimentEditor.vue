@@ -17,11 +17,10 @@
       </v-toolbar>
 
       <v-form ref="form" v-model="formIsValid">
+        <!-- NAME -->
         <div class="field">
           <div class="field-title title">Titre de l'expérience</div>
-          <div
-            class="field-helper"
-          >Court et explicite, il doit donner l'idée générale</div>
+          <div class="field-helper">Court et explicite, il doit donner l'idée générale</div>
           <v-text-field
             hide-details="auto"
             :rules="[validators.notEmpty]"
@@ -32,6 +31,7 @@
           ></v-text-field>
         </div>
 
+        <!-- XP_TYPE -->
         <div class="field">
           <div class="field-title title">De quel type d'expérience s'agit-il ?</div>
           <v-radio-group
@@ -48,14 +48,14 @@
           </v-radio-group>
         </div>
 
+        <!-- OBJECTIVES -->
         <div class="field">
           <div
             class="field-title title"
           >Dans quels objectifs plus global de l'exploitation cela s'inscrit ?</div>
           <div
             class="field-helper"
-          >Diversifier les sources de revenus, réduire l'utilisation d'herbicides, améliorer le structure du sol...
-          </div>
+          >Diversifier les sources de revenus, réduire l'utilisation d'herbicides, améliorer le structure du sol...</div>
           <v-textarea
             hide-details="auto"
             :rules="[validators.notEmpty]"
@@ -68,6 +68,7 @@
           ></v-textarea>
         </div>
 
+        <!-- TAGS -->
         <div class="field">
           <div
             class="field-title title"
@@ -135,6 +136,7 @@
           ></v-checkbox>
         </div>
 
+        <!-- ONGOING -->
         <div class="field">
           <div class="field-title title">L'expérience est-elle en cours aujourd'hui ?</div>
           <div
@@ -151,6 +153,7 @@
           </v-radio-group>
         </div>
 
+        <!-- INVESTMENT -->
         <div class="field">
           <div
             class="field-title title"
@@ -168,6 +171,7 @@
           ></v-textarea>
         </div>
 
+        <!-- EQUIPMENT -->
         <div class="field">
           <div
             class="field-title title"
@@ -184,6 +188,7 @@
           ></v-textarea>
         </div>
 
+        <!-- DESCRIPTION -->
         <div class="field">
           <div class="field-title title">Pouvez-vous décrire l'expérience ?</div>
           <div
@@ -201,6 +206,7 @@
           ></v-textarea>
         </div>
 
+        <!-- SURFACE TYPE -->
         <div class="field">
           <div class="field-title title">Sur quelle surface portait l'expérience ?</div>
           <div
@@ -237,6 +243,8 @@
             value="Des carrés"
           ></v-checkbox>
         </div>
+
+        <!-- SURFACE -->
         <div class="field">
           <div class="field-title title">Combien d'ha cela représente ?</div>
           <v-textarea
@@ -250,6 +258,7 @@
           ></v-textarea>
         </div>
 
+        <!-- CONTROL PRESENCE -->
         <div class="field">
           <div class="field-title title">Avez-vous mis en place un témoin ?</div>
           <div class="field-helper">
@@ -267,6 +276,7 @@
           </v-radio-group>
         </div>
 
+        <!-- RESULTS -->
         <div class="field">
           <div class="field-title title">Quel est le statut de cette expérience ?</div>
           <v-radio-group
@@ -298,6 +308,7 @@
           </v-radio-group>
         </div>
 
+        <!-- RESULTS DETAILS -->
         <div class="field">
           <div class="field-title title">Pouvez-vous détailler les résultats ?</div>
           <div
@@ -314,6 +325,7 @@
           ></v-textarea>
         </div>
 
+        <!-- LINKS -->
         <div class="field">
           <div class="field-title title">Liens</div>
           <div
@@ -332,79 +344,30 @@
             placeholder="https://..."
             style="max-width: 600px;"
             v-model="dummyExperiment.links[index]"
-
           >
             <template v-slot:prepend>
               <v-btn fab x-small style="margin-top: -3px;" @click="deleteLink(index)">
-                <v-icon color="red">
-                  mdi-trash-can-outline
-                </v-icon>
+                <v-icon color="red">mdi-trash-can-outline</v-icon>
               </v-btn>
             </template>
           </v-text-field>
-          <v-btn class="text-none" @click="addLink()"><v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien</v-btn>
+          <v-btn class="text-none" @click="addLink()">
+            <v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajoutez un lien
+          </v-btn>
         </div>
 
+        <!-- IMAGES  -->
         <div class="field">
           <div class="field-title title">Images</div>
-          <v-file-input
-            chips
-            multiple
-            @change="addImages"
-            prepend-icon="mdi-camera"
-            accept="image/*"
-            label="Ajoutez des images"
-          ></v-file-input>
-          <v-row v-if="dummyExperiment.images && dummyExperiment.images.length > 0">
-            <v-col
-              v-for="(photo, index) in dummyExperiment.images.map(x => x.image)"
-              :key="index"
-              class="d-flex child-flex"
-              cols="6"
-              sm="3"
-            >
-              <v-card flat class="d-flex">
-                <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-                <div style="position: absolute; top: 10px; left: 10px;">
-                  <v-btn fab small @click="deleteImage(index)">
-                    <v-icon color="red">mdi-trash-can-outline</v-icon>
-                  </v-btn>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
+          <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
+          <ImagesField :imageArray="dummyExperiment.images" @change="hasChanged = true" />
         </div>
 
+        <!-- VIDEOS -->
         <div class="field">
           <div class="field-title title">Vidéos</div>
-          <v-file-input
-            chips
-            multiple
-            prepend-icon="mdi-video"
-            @change="addVideos"
-            accept="video/*"
-            label="Ajoutez des vidéos"
-          ></v-file-input>
-          <v-row v-if="dummyExperiment.videos && dummyExperiment.videos.length > 0">
-            <v-col
-              v-for="(video, index) in dummyExperiment.videos.map(x => x.video)"
-              :key="index"
-              class="d-flex child-flex"
-              cols="12"
-              sm="6"
-            >
-              <v-card flat class="d-flex" height="250">
-                <video style="height: 100%; width: 100%; background: #333;" controls>
-                  <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
-                </video>
-                <div style="position: absolute; top: 10px; left: 10px;">
-                  <v-btn fab small @click="deleteVideo(index)">
-                    <v-icon color="red">mdi-trash-can-outline</v-icon>
-                  </v-btn>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
+          <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
+          <VideosField :videoArray="dummyExperiment.videos" @change="hasChanged = true" />
         </div>
       </v-form>
 
@@ -458,10 +421,12 @@ import validators from "@/validators"
 import utils from "@/utils"
 import Loader from "@/components/Loader.vue"
 import Constants from "@/constants"
+import ImagesField from '@/components/ImagesField.vue'
+import VideosField from '@/components/VideosField.vue'
 
 export default {
   name: "ExperimentEditor",
-  components: { Title, Loader },
+  components: { Title, Loader, ImagesField, VideosField },
   props: {
     experimentUrlComponent: {
       type: String,
@@ -476,8 +441,6 @@ export default {
         links: []
       },
       hasChanged: false,
-      imagesToAdd: [],
-      videosToAdd: [],
       formIsValid: true
     }
   },
@@ -510,9 +473,11 @@ export default {
       return farmer
     },
     experiment() {
-      if (!this.loggedFarmer || !this.experimentUrlComponent)
-        return undefined
-      return this.$store.getters.experimentWithUrlComponent(this.loggedFarmer, this.experimentUrlComponent) 
+      if (!this.loggedFarmer || !this.experimentUrlComponent) return undefined
+      return this.$store.getters.experimentWithUrlComponent(
+        this.loggedFarmer,
+        this.experimentUrlComponent
+      )
     },
     breadcrumbs() {
       return [
@@ -527,9 +492,7 @@ export default {
           href: "/#/compte"
         },
         {
-          text: this.experiment
-            ? this.experiment.name
-            : "Nouvelle expérience",
+          text: this.experiment ? this.experiment.name : "Nouvelle expérience",
           disabled: true
         }
       ]
@@ -543,16 +506,6 @@ export default {
         window.scrollTo(0, 0)
         window.alert("Merci de vérifier les champs en rouge et réessayer")
         return
-      }
-
-      for (let i = 0; i < this.imagesToAdd.length; i++) {
-        this.dummyExperiment.images = this.dummyExperiment.images || []
-        this.dummyExperiment.images.push(this.imagesToAdd[i])
-      }
-
-      for (let i = 0; i < this.videosToAdd.length; i++) {
-        this.dummyExperiment.videos = this.dummyExperiment.videos || []
-        this.dummyExperiment.videos.push(this.videosToAdd[i])
       }
 
       if (this.experiment) {
@@ -585,8 +538,11 @@ export default {
       this.$router.go(-1)
     },
     resetDummyExperiment() {
-      if (this.experiment)
+      if (this.experiment) {
         this.dummyExperiment = JSON.parse(JSON.stringify(this.experiment))
+        this.dummyExperiment.images = this.dummyExperiment.images || []
+        this.dummyExperiment.links = this.dummyExperiment.links || []
+      }
     },
     resetMediaFields() {
       this.dummyExperiment.images = this.experiment
@@ -596,26 +552,17 @@ export default {
         ? JSON.parse(JSON.stringify(this.experiment.videos))
         : []
     },
-    addImages(files) {
+    addImages(e) {
+      if (!e) return
+      const files = e.target.files
       this.hasChanged = true
-      this.imagesToAdd = []
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
         utils.toBase64(file, base64 => {
-          this.imagesToAdd.push({
-            image: base64
-          })
-        })
-      }
-    },
-    addVideos(files) {
-      this.hasChanged = true
-      this.videosToAdd = []
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        utils.toBase64(file, base64 => {
-          this.videosToAdd.push({
-            video: base64
+          this.dummyExperiment.images.push({
+            image: base64,
+            label: ""
           })
         })
       }
@@ -630,14 +577,17 @@ export default {
     },
     addLink() {
       this.dummyExperiment.links = this.dummyExperiment.links || []
-      this.dummyExperiment.links.push('')
+      this.dummyExperiment.links.push("")
       this.hasChanged = true
     },
     appendHttp(index) {
-      if (!this.dummyExperiment.links[index])
-        return
-      if (this.dummyExperiment.links[index].indexOf('http') !== 0)
-        this.dummyExperiment.links.splice(index, 1, `http://${this.dummyExperiment.links[index]}`)
+      if (!this.dummyExperiment.links[index]) return
+      if (this.dummyExperiment.links[index].indexOf("http") !== 0)
+        this.dummyExperiment.links.splice(
+          index,
+          1,
+          `http://${this.dummyExperiment.links[index]}`
+        )
     },
     deleteLink(index) {
       this.dummyExperiment.links.splice(index, 1)

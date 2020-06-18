@@ -404,7 +404,7 @@
             </template>
           </v-text-field>
           <v-btn class="text-none" @click="addLink()">
-            <v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajouter un lien
+            <v-icon small style="margin-right: 5px;">mdi-link-variant-plus</v-icon>Ajoutez un lien
           </v-btn>
         </div>
 
@@ -413,33 +413,9 @@
         <div class="field">
           <div class="field-title title">Photos de votre exploitation</div>
           <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
-          <v-file-input
-            chips
-            multiple
-            @change="addImages"
-            prepend-icon="mdi-camera"
-            accept="image/*"
-            label="Ajoutez des images"
-          ></v-file-input>
-          <v-row v-if="dummyFarmer.images && dummyFarmer.images.length > 0">
-            <v-col
-              v-for="(photo, index) in dummyFarmer.images.map(x => x.image)"
-              :key="index"
-              class="d-flex child-flex"
-              cols="6"
-              sm="3"
-            >
-              <v-card flat class="d-flex">
-                <v-img :src="photo" aspect-ratio="1" class="grey lighten-2"></v-img>
-                <div style="position: absolute; top: 10px; left: 10px;">
-                  <v-btn fab small @click="deleteImage(index)">
-                    <v-icon color="red">mdi-trash-can-outline</v-icon>
-                  </v-btn>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
+          <ImagesField :imageArray="dummyFarmer.images" @change="hasChanged = true" />
         </div>
+
       </v-form>
 
       <v-toolbar elevation="0">
@@ -491,10 +467,11 @@ import validators from "@/validators"
 import utils from "@/utils"
 import Loader from "@/components/Loader.vue"
 import Constants from "@/constants"
+import ImagesField from '@/components/ImagesField.vue'
 
 export default {
   name: "FarmEditor",
-  components: { Title, Loader },
+  components: { Title, Loader, ImagesField },
   props: {
     farmerUrlComponent: {
       type: String,
@@ -511,7 +488,6 @@ export default {
         links: []
       },
       hasChanged: false,
-      imagesToAdd: [],
       formIsValid: true,
       showDateModal: false
     }
@@ -598,11 +574,6 @@ export default {
         return
       }
 
-      for (let i = 0; i < this.imagesToAdd.length; i++) {
-        this.dummyFarmer.images = this.dummyFarmer.images || []
-        this.dummyFarmer.images.push(this.imagesToAdd[i])
-      }
-
       if (this.farmer) {
         const payload = utils.getObjectDiff(this.farmer, this.dummyFarmer)
 
@@ -625,25 +596,15 @@ export default {
       this.$router.go(-1)
     },
     resetdummyFarmer() {
-      if (this.farmer)
+      if (this.farmer) {
         this.dummyFarmer = JSON.parse(JSON.stringify(this.farmer))
+        this.dummyFarmer.images = this.dummyFarmer.images || []
+      }
     },
     resetMediaFields() {
       this.dummyFarmer.images = this.farmer
         ? JSON.parse(JSON.stringify(this.farmer.images))
         : []
-    },
-    addImages(files) {
-      this.hasChanged = true
-      this.imagesToAdd = []
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        utils.toBase64(file, base64 => {
-          this.imagesToAdd.push({
-            image: base64
-          })
-        })
-      }
     },
     changeProfileImage(file) {
       this.hasChanged = true
