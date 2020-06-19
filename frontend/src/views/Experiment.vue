@@ -10,18 +10,11 @@
     <NotFound v-if="experimentNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="experiment">
-      <CarouselImageOverlay
-        v-if="experiment.hasOwnProperty('images') && experiment.images.length > 0"
-        :items="experiment.images"
-        :visible="photoCarouselVisible"
-        :index.sync="carouselIndex"
-        @done="photoCarouselVisible = false"
-      />
 
       <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-row>
-          <v-col cols="12" sm="7" md="9">
+          <v-col cols="12" md="9">
             <v-card style="margin-bottom: 20px" outlined shaped>
               <div style="margin: 20px 15px 20px 15px;" class="pa-0 d-flex">
                 <div>
@@ -39,7 +32,7 @@
                   </div>
                   <div style="margin-left: 35px; margin-top: 10px;">
                     <v-btn
-                      class="text-none d-none d-sm-flex"
+                      class="text-none d-none d-md-flex"
                       @click="onContactClick"
                       color="primary"
                       :small="isMobile"
@@ -50,9 +43,11 @@
             </v-card>
 
             <div
-              class="d-flex d-sm-none"
+              class="d-flex d-md-none"
               style="margin-bottom: 20px; margin-left: 15px; margin-top: 0px;"
             >
+              <MiniMap style="padding-top: 15px; width: 120px; margin-right: 20px;" :size="100" class="d-none d-sm-flex" :lat='farmer.lat' :lon='farmer.lon' />
+              
               <v-avatar
                 style="margin-right: 10px; float: left; margin-top: 0px;"
                 size="35"
@@ -75,7 +70,6 @@
                 </span>
                 <v-btn
                   block
-                  small
                   class="text-none"
                   style="margin-bottom: 10px; margin-top: 5px;"
                   @click="onContactClick"
@@ -87,9 +81,9 @@
                   class="text-none"
                   color="primary"
                   outlined
-                  small
                   @click="goToFarmer()"
                 >Voir son profil</v-btn>
+                
               </div>
             </div>
 
@@ -189,43 +183,10 @@
               v-if="experiment.images && experiment.images.length > 0"
               style="margin-top: 20px;"
             >Images</div>
-            <v-row v-if="experiment.images && experiment.images.length > 0">
-              <v-col
-                v-for="(image, index) in experiment.images"
-                :key="index"
-                class="d-flex child-flex"
-                cols="6"
-                sm="3"
-                style="position:relative"
-              >
-                <div>
-                  <v-hover v-slot:default="{ hover }">
-                    <v-card flat class="d-flex" style="cursor: pointer;">
-                      <v-img
-                        v-on:click="photoCarouselVisible = true; carouselIndex = index;"
-                        :src="image.image"
-                        aspect-ratio="1"
-                        class="grey lighten-2"
-                      >
-                        <div
-                          v-if="hover"
-                          class="d-flex display-3 white--text"
-                          style="height: 100%; background: #42424260;"
-                        >
-                          <v-icon
-                            color="white"
-                            size="30"
-                            style="margin-left: auto; margin-right: auto;"
-                          >mdi-magnify-plus-outline</v-icon>
-                        </div>
-                      </v-img>
-                    </v-card>
-                  </v-hover>
-
-                  <div class="caption" style="text-align: center;" v-if="image.label">{{image.label}}</div>
-                </div>
-              </v-col>
-            </v-row>
+            <ImageGallery 
+              v-if="experiment.images && experiment.images.length > 0" 
+              :images="experiment.images" 
+            />
 
             <div
               class="title"
@@ -258,9 +219,9 @@
               >Contacter {{ farmer.name }}</v-btn>
             </div>
           </v-col>
-          <v-col style="padding-left: 0; padding-right: 0;" cols="12" sm="5" md="3">
+          <v-col style="padding-left: 0; padding-right: 0;" cols="12" md="3">
             <FarmerCard
-              class="d-none d-sm-flex"
+              class="d-none d-sm-none d-md-flex"
               :showMiniMap="true"
               :ctaSecondary="true"
               :avatarSize="30"
@@ -279,7 +240,8 @@ import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 import FarmerCard from "@/components/FarmerCard.vue"
-import CarouselImageOverlay from "@/components/CarouselImageOverlay"
+import ImageGallery from "@/components/ImageGallery.vue"
+import MiniMap from "@/components/MiniMap.vue"
 
 export default {
   name: "Experiment",
@@ -288,19 +250,12 @@ export default {
     NotFound,
     FarmerContactOverlay,
     FarmerCard,
-    CarouselImageOverlay
+    ImageGallery,
+    MiniMap
   },
   data() {
     return {
-      testImages: [
-        "https://images.unsplash.com/12/green.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-        "https://images.unsplash.com/40/yIdlmSvfSZCyGkCkLt0P_lucaslof_2.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjExMDk0fQ&auto=format&fit=crop&w=500&q=60",
-        "https://images.unsplash.com/photo-1464972377689-e7674c48d806?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-        "https://images.unsplash.com/photo-1436462020942-723a9ea097c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-      ],
       contactOverlayVisible: false,
-      photoCarouselVisible: false,
-      carouselIndex: 0
     }
   },
   props: {

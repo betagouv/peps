@@ -1,6 +1,5 @@
 <template>
-  <div style="background: #EEE; position:absolute; left: 0; right: 0; bottom: 0;">
-    <!-- <v-divider style="margin-bottom: 10px; margin-top: 25px;" /> -->
+  <div style="background: #EEE;">
 
     <div style="text-align:center;">
       <v-container class="constrained">

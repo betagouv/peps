@@ -68,16 +68,21 @@ export default {
   methods: {
     move(e) {
       e = e || window.event
-      if (e.keyCode == "37") {
+      const leftArrowCode = "37"
+      const rightArrowCode = "39"
+      const escapeCode = "27"
+      if (e.keyCode == leftArrowCode) {
         this.$emit(
           "update:index",
           this.index === 0 ? this.items.length - 1 : this.index - 1
         )
-      } else if (e.keyCode == "39") {
+      } else if (e.keyCode == rightArrowCode) {
         this.$emit(
           "update:index",
           this.index === this.items.length - 1 ? 0 : this.index + 1
         )
+      } else if (e.keyCode == escapeCode) {
+        this.close()
       }
     },
     close() {

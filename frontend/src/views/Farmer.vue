@@ -10,14 +10,6 @@
     <NotFound v-if="farmerNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="farmer">
-      <CarouselImageOverlay
-        v-if="farmer.hasOwnProperty('images') && farmer.images.length > 0"
-        :items="farmer.images"
-        :visible="photoCarouselVisible"
-        :index.sync="carouselIndex"
-        @done="photoCarouselVisible = false"
-      />
-
       <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-card style="margin-bottom: 20px" outlined shaped>
@@ -123,38 +115,10 @@
           v-if="farmer.images && farmer.images.length > 0"
           style="margin-top: 20px;"
         >Images</div>
-        <v-row v-if="farmer.images && farmer.images.length > 0">
-          <v-col
-            v-for="(photo, index) in farmer.images.map(x => x.image)"
-            :key="index"
-            class="d-flex child-flex"
-            cols="6"
-            sm="3"
-          >
-            <v-hover v-slot:default="{ hover }">
-              <v-card flat class="d-flex" style="cursor: pointer;">
-                <v-img
-                  v-on:click="photoCarouselVisible = true; carouselIndex = index;"
-                  :src="photo"
-                  aspect-ratio="1"
-                  class="grey lighten-2"
-                >
-                  <div
-                    v-if="hover"
-                    class="d-flex display-3 white--text"
-                    style="height: 100%; background: #42424260;"
-                  >
-                    <v-icon
-                      color="white"
-                      size="30"
-                      style="margin-left: auto; margin-right: auto;"
-                    >mdi-magnify-plus-outline</v-icon>
-                  </div>
-                </v-img>
-              </v-card>
-            </v-hover>
-          </v-col>
-        </v-row>
+        <ImageGallery 
+          v-if="farmer.images && farmer.images.length > 0" 
+          :images="farmer.images" 
+        />
       </v-container>
     </div>
   </div>
@@ -167,7 +131,7 @@ import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 import FarmerInfoBox from "@/components/FarmerInfoBox"
 import Constants from "@/constants"
-import CarouselImageOverlay from "@/components/CarouselImageOverlay"
+import ImageGallery from "@/components/ImageGallery.vue"
 
 export default {
   name: "Farmer",
@@ -177,13 +141,11 @@ export default {
     FarmerContactOverlay,
     NotFound,
     FarmerInfoBox,
-    CarouselImageOverlay
+    ImageGallery
   },
   data() {
     return {
-      contactOverlayVisible: false,
-      photoCarouselVisible: false,
-      carouselIndex: 0
+      contactOverlayVisible: false
     }
   },
   props: {

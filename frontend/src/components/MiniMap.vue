@@ -1,7 +1,9 @@
 <template>
   <div style="width: 100%;">
     <v-img
-      :width="size"
+      :max-width="size"
+      :max-height="size"
+      aspect-ratio="1"
       style="margin-left: auto; margin-right: auto;"
       src="/static/images/hexagone.png"
     >

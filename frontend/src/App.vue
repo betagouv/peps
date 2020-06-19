@@ -10,12 +10,12 @@
         :ctaAction="this.reload"
         :showCloseButton="false"
       />
-      <v-content style="padding-bottom: 300px;">
+      <v-content style="margin-bottom: 20px;">
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
       </v-content>
-      <Footer />
+      <Footer/>
     </div>
   </v-app>
 </template>
@@ -50,7 +50,7 @@ export default {
         this.$store.state.farmersLoadingStatus === error ||
         this.$store.state.implementationLoadingStatus === error
       )
-    }
+    },
   },
   methods: {
     reload() {
