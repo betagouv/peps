@@ -110,7 +110,10 @@
         <!-- POSTAL CODE -->
 
         <div class="field">
-          <div class="field-title title">* Le code postal de votre exploitation</div>
+          <div class="field-title title">
+            Le code postal de votre exploitation
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <v-text-field
             hide-details="auto"
             :rules="[validators.notEmpty]"
@@ -124,9 +127,10 @@
         <!-- PERSONNEL -->
 
         <div class="field">
-          <div
-            class="field-title title"
-          >* Combien de personnes travaillent sur l'exploitation à temps plein ?</div>
+          <div class="field-title title">
+            Combien de personnes travaillent sur l'exploitation à temps plein ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <div class="field-helper grey--text">Comptez-vous et vos associés, salariés et alternants</div>
           <v-text-field
             hide-details="auto"
@@ -141,7 +145,10 @@
         <!-- SURFACE -->
         <div>
           <div class="field parent-field">
-            <div class="field-title title">* La surface de votre exploitation (en ha.)</div>
+            <div class="field-title title">
+              La surface de votre exploitation (en ha.)
+              <span class="mandatory">- obligatoire</span>
+            </div>
             <v-text-field
               hide-details="auto"
               :rules="[validators.notEmpty]"
@@ -155,7 +162,10 @@
           <!-- SURFACE CULTURES -->
 
           <div class="field child-field">
-            <div class="field-title subtitle-2">* La surface en cultures (en ha.)</div>
+            <div class="field-title subtitle-2">
+              La surface en cultures (en ha.)
+              <span class="mandatory">- obligatoire</span>
+            </div>
             <v-text-field
               hide-details="auto"
               :rules="[validators.notEmpty]"
@@ -169,7 +179,10 @@
           <!-- SURFACE MEADOWS -->
 
           <div class="field child-field">
-            <div class="field-title subtitle-2">* La surface en prairie et cultures fourragères (en ha.)</div>
+            <div class="field-title subtitle-2">
+              La surface en prairie et cultures fourragères (en ha.)
+              <span class="mandatory">- obligatoire</span>
+            </div>
             <v-text-field
               hide-details="auto"
               :rules="[validators.notEmpty]"
@@ -272,7 +285,13 @@
           <div
             class="field-title title"
           >Quel est rendement moyen en blé tendre de l'exploitation (en quintaux / ha)</div>
-          <v-text-field hide-details="auto" @input="hasChanged = true" outlined dense v-model="dummyFarmer.output"></v-text-field>
+          <v-text-field
+            hide-details="auto"
+            @input="hasChanged = true"
+            outlined
+            dense
+            v-model="dummyFarmer.output"
+          ></v-text-field>
         </div>
 
         <!-- DESCRIPTION -->
@@ -415,7 +434,6 @@
           <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
           <ImagesField :imageArray="dummyFarmer.images" @change="hasChanged = true" />
         </div>
-
       </v-form>
 
       <v-toolbar elevation="0">
@@ -467,7 +485,7 @@ import validators from "@/validators"
 import utils from "@/utils"
 import Loader from "@/components/Loader.vue"
 import Constants from "@/constants"
-import ImagesField from '@/components/ImagesField.vue'
+import ImagesField from "@/components/ImagesField.vue"
 
 export default {
   name: "FarmEditor",

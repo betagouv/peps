@@ -59,8 +59,8 @@
           </v-col>
           <v-col cols="12" sm="9" md="10" class="d-flex flex-column">
             <!-- NAME -->
-            <div class="field" style="margin-bottom: 0px;">
-              <div class="field-title title">* Votre prénom et nom</div>
+            <div class="field" style="margin-bottom: 5px;">
+              <div class="field-title title">Votre prénom et nom <span class="mandatory">- obligatoire</span></div>
               <v-text-field
                 hide-details="auto"
                 :rules="[validators.notEmpty]"
@@ -87,8 +87,8 @@
         </v-row>
 
         <!-- PHONE NUMBER -->
-        <div class="field" style="margin-bottom: 0px;">
-          <div class="field-title title">* Votre numéro téléphone</div>
+        <div class="field">
+          <div class="field-title title">Votre numéro téléphone <span class="mandatory">- obligatoire</span></div>
           <v-text-field
             hide-details="auto"
             @input="hasChanged = true"
@@ -101,8 +101,8 @@
 
         <!-- CONTACT POSSIBLE -->
 
-        <div class="field" style="margin-bottom: 0px;">
-          <div class="field-title title">* Contact</div>
+        <div class="field">
+          <div class="field-title title">Contact <span class="mandatory">- obligatoire</span></div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.contact_possible"

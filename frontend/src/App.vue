@@ -171,4 +171,10 @@ body .buorg .buorg-buttons {
 .child-field:last-of-type {
   margin-bottom: 30px;
 }
+.field .mandatory {
+  color: #d74c4c;
+  text-transform: uppercase;
+  font-size: 0.6em;
+  letter-spacing: 2px;
+}
 </style>

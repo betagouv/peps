@@ -19,7 +19,7 @@
       <v-form ref="form" v-model="formIsValid">
         <!-- NAME -->
         <div class="field">
-          <div class="field-title title">Titre de l'expérience</div>
+          <div class="field-title title">Titre de l'expérience <span class="mandatory">- obligatoire</span></div>
           <div class="field-helper">Court et explicite, il doit donner l'idée générale</div>
           <v-text-field
             hide-details="auto"
@@ -33,7 +33,7 @@
 
         <!-- XP_TYPE -->
         <div class="field">
-          <div class="field-title title">De quel type d'expérience s'agit-il ?</div>
+          <div class="field-title title">De quel type d'expérience s'agit-il ? <span class="mandatory">- obligatoire</span></div>
           <v-radio-group
             @change="hasChanged = true"
             v-model="dummyExperiment.xp_type"
@@ -52,7 +52,7 @@
         <div class="field">
           <div
             class="field-title title"
-          >Dans quels objectifs plus global de l'exploitation cela s'inscrit ?</div>
+          >Dans quels objectifs plus global de l'exploitation cela s'inscrit ? <span class="mandatory">- obligatoire</span></div>
           <div
             class="field-helper"
           >Diversifier les sources de revenus, réduire l'utilisation d'herbicides, améliorer le structure du sol...</div>
@@ -138,7 +138,7 @@
 
         <!-- ONGOING -->
         <div class="field">
-          <div class="field-title title">L'expérience est-elle en cours aujourd'hui ?</div>
+          <div class="field-title title">L'expérience est-elle en cours aujourd'hui ? <span class="mandatory">- obligatoire</span></div>
           <div
             class="field-helper"
           >Si l'expérience a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
@@ -157,7 +157,7 @@
         <div class="field">
           <div
             class="field-title title"
-          >Quels investissements ont été nécessaires pour cette expérience ?</div>
+          >Quels investissements ont été nécessaires pour cette expérience ? <span class="mandatory">- obligatoire</span></div>
           <div class="field-helper">En temps, en argent, en machines...</div>
           <v-textarea
             hide-details="auto"
@@ -190,7 +190,7 @@
 
         <!-- DESCRIPTION -->
         <div class="field">
-          <div class="field-title title">Pouvez-vous décrire l'expérience ?</div>
+          <div class="field-title title">Pouvez-vous décrire l'expérience ? <span class="mandatory">- obligatoire</span></div>
           <div
             class="field-helper"
           >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
@@ -260,7 +260,7 @@
 
         <!-- CONTROL PRESENCE -->
         <div class="field">
-          <div class="field-title title">Avez-vous mis en place un témoin ?</div>
+          <div class="field-title title">Avez-vous mis en place un témoin ? <span class="mandatory">- obligatoire</span></div>
           <div class="field-helper">
             C'est à dire une surface similaire qui permet de valider les résultats obtenus.
             Si ce n'est pas pertinent, dites Non
@@ -278,7 +278,7 @@
 
         <!-- RESULTS -->
         <div class="field">
-          <div class="field-title title">Quel est le statut de cette expérience ?</div>
+          <div class="field-title title">Quel est le statut de cette expérience ? <span class="mandatory">- obligatoire</span></div>
           <v-radio-group
             :rules="[validators.notEmpty]"
             @change="hasChanged = true"
