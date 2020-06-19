@@ -22,7 +22,7 @@
               </div>
               <div style="margin-right: 20px;" class="d-flex flex-column flex-grow-1">
                 <v-card-title class="ma-0 pa-0">{{displayName}}</v-card-title>
-                <div>Some email</div>
+                <div>{{farmer.email}}</div>
               </div>
               <v-btn
                 text
@@ -37,7 +37,7 @@
 
         <v-row>
           <!-- INFORMATIONS PERSONNELLES -->
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
               <v-card
                 class="fill-height"
@@ -59,7 +59,7 @@
           </v-col>
 
           <!-- EXPLOITATION -->
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
               <v-card
                 outlined
@@ -89,7 +89,7 @@
           </v-col>
 
           <!-- ABONNEMENTS ET NOTIFICATIONS -->
-          <v-col cols="12" sm="6" md="4">
+          <!-- <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
               <v-card
                 outlined
@@ -108,7 +108,7 @@
                 <v-card-subtitle>Reglez vos préférences de notifications et la manière d'être contacté</v-card-subtitle>
               </v-card>
             </v-hover>
-          </v-col>
+          </v-col> -->
 
           <!-- RETOURS D'EXPÉRIENCE APPROUVÉS -->
           <v-col
@@ -117,6 +117,7 @@
             md="4"
             v-for="experiment in approvedExperiments"
             :key="experiment.id"
+            style="min-height: 180px;"
           >
             <v-hover>
               <v-card
@@ -151,6 +152,7 @@
             md="4"
             v-for="experiment in pendingExperiments"
             :key="experiment.id"
+            style="min-height: 180px;"
           >
             <v-hover>
               <v-card
@@ -179,7 +181,7 @@
           </v-col>
 
           <!-- AJOUTER UNE XP -->
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
               <v-card
                 outlined
@@ -201,7 +203,7 @@
 
         <v-row>
           <!-- AIDE -->
-          <v-col cols="12" sm="6" md="4">
+          <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
               <v-card
                 outlined
