@@ -193,21 +193,7 @@
               v-if="experiment.videos && experiment.videos.length > 0"
               style="margin-top: 20px;"
             >Vidéos</div>
-            <v-row v-if="experiment.videos && experiment.videos.length > 0">
-              <v-col
-                v-for="(video, index) in experiment.videos.map(x => x.video)"
-                :key="index"
-                class="d-flex child-flex"
-                cols="12"
-                sm="6"
-              >
-                <v-card flat class="d-flex" height="250">
-                  <video style="height: 100%; width: 100%; background: #333;" controls>
-                    <source type="video/mp4" :src="video" />Votre navigateur ne peut pas afficher des vidéos.
-                  </video>
-                </v-card>
-              </v-col>
-            </v-row>
+            <VideoGallery v-if="experiment.videos && experiment.videos.length > 0" :videos="experiment.videos" />
 
             <div class="body-1" style="margin-top: 30px;">
               Pour plus d'informations sur cette expérience :
@@ -241,6 +227,7 @@ import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 import FarmerCard from "@/components/FarmerCard.vue"
 import ImageGallery from "@/components/ImageGallery.vue"
+import VideoGallery from "@/components/VideoGallery.vue"
 import MiniMap from "@/components/MiniMap.vue"
 
 export default {
@@ -251,6 +238,7 @@ export default {
     FarmerContactOverlay,
     FarmerCard,
     ImageGallery,
+    VideoGallery,
     MiniMap
   },
   data() {
