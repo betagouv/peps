@@ -73,6 +73,7 @@ class Farmer(models.Model):
     cgu_approved = models.BooleanField(default=False)
 
     name = models.TextField(null=True, blank=True)
+    farm_name = models.TextField(null=True, blank=True)
     email = models.EmailField(db_index=True, null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True, blank=True)
 

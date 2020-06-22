@@ -336,6 +336,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'external_id',
             'approved',
             'name',
+            'farm_name',
             'production',
             'groups',
             'agriculture_types',

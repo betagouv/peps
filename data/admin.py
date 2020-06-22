@@ -171,6 +171,7 @@ class FarmerForm(forms.ModelForm):
         model = Farmer
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'farm_name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'personnel': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'livestock_number': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'cultures': forms.Textarea(attrs={'cols': 55, 'rows': 3}),

@@ -17,6 +17,18 @@
       </v-toolbar>
 
       <v-form ref="form" v-model="formIsValid">
+        <!-- FARM NAME -->
+        <div class="field">
+          <div class="field-title title">Le nom de votre exploitation</div>
+          <v-text-field
+            hide-details="auto"
+            @input="hasChanged = true"
+            outlined
+            dense
+            v-model="dummyFarmer.farm_name"
+          ></v-text-field>
+        </div>
+
         <!-- PRODUCTIONS -->
         <div class="field">
           <div class="field-title title">Quelles productions sont présentes sur l'exploitation ?</div>
