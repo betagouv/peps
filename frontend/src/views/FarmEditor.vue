@@ -93,30 +93,17 @@
 
         <div class="field">
           <div class="field-title title">Quand vous êtes-vous installé sur l'exploitation ?</div>
+          <div class="field-helper grey--text">Renseignez l'année (par exemple, 2001)</div>
 
-          <v-menu
-            ref="menu"
-            v-model="showDateModal"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                hide-details="auto"
-                :value="formattedInstallationDate"
-                label="Date d'installation"
-                prepend-icon="mdi-calendar-blank-outline"
-                readonly
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker @change="onDatePickerChange" no-title scrollable>
-              <v-spacer></v-spacer>
-              <v-btn text color="primary" @click="showDateModal = false">OK</v-btn>
-            </v-date-picker>
-          </v-menu>
+          <v-text-field
+            hide-details="auto"
+            @input="onInstallationYearChange"
+            :rules="[validators.isYear]"
+            outlined
+            dense
+            :value="installationYear"
+          ></v-text-field>
+
         </div>
 
         <!-- POSTAL CODE -->
@@ -566,33 +553,14 @@ export default {
         }
       ]
     },
-    formattedInstallationDate() {
+    installationYear() {
       if (!this.dummyFarmer.installation_date) return ""
 
       const dateElements = this.dummyFarmer.installation_date.split("-")
       if (dateElements.length != 3) return ""
 
-      const year = dateElements[0]
-      const month = dateElements[1]
-      const day = dateElements[2]
-
-      const months = {
-        "01": "janvier",
-        "02": "février",
-        "03": "mars",
-        "04": "avril",
-        "05": "mai",
-        "06": "juin",
-        "07": "juillet",
-        "08": "août",
-        "09": "septembre",
-        "10": "octobre",
-        "11": "novembre",
-        "12": "décembre"
-      }
-
-      return `${day} ${months[month]}, ${year}`
-    }
+      return dateElements[0]
+    },
   },
   methods: {
     updateFarmer() {
@@ -672,6 +640,11 @@ export default {
       this.dummyFarmer.installation_date = date
       this.hasChanged = true
     },
+    onInstallationYearChange(year) {
+      year = year.trim()
+      this.dummyFarmer.installation_date = `${year}-01-01`
+      this.hasChanged = true
+    },
     handleUnload(e) {
       if (this.hasChanged) {
         e.preventDefault()
@@ -683,9 +656,6 @@ export default {
   },
   watch: {
     updateSucceeded(newValue) {
-      if (newValue) this.hasChanged = false
-    },
-    updateFailed(newValue) {
       if (newValue) this.hasChanged = false
     }
   },

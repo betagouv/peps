@@ -31,5 +31,11 @@ export default {
     if (typeof input === 'string' && /\S+@\S+\.\S+/.test(input))
       return true
     return errorMessage
+  },
+  isYear(input) {
+    const errorMessage = 'Ce champ doit contenir une année (par exemple, 2001)'
+    if (typeof input === 'string' && /^[12][0-9]{3}$/.test(input.trim()))
+      return true
+    return errorMessage
   }
 }
