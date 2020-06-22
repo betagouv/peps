@@ -23,10 +23,12 @@
           <div class="field-helper">Court et explicite, il doit donner l'idée générale</div>
           <v-text-field
             hide-details="auto"
-            :rules="[validators.notEmpty]"
+            :rules="[validators.notEmpty, validators.maxCharsXPName]"
             @input="hasChanged = true"
             outlined
             dense
+            counter
+            maxlength="70"
             v-model="dummyExperiment.name"
           ></v-text-field>
         </div>

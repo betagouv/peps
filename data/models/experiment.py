@@ -52,7 +52,7 @@ class Experiment(models.Model):
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
     approved = models.BooleanField(default=False, db_index=True)
     tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list, blank=True, null=True)
-    name = models.TextField()
+    name = models.TextField(max_length=70)
     objectives = models.TextField(null=True, blank=True)
     equipment = models.TextField(null=True, blank=True)
     control_presence = models.BooleanField(null=True, blank=True)

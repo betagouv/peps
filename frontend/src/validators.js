@@ -37,5 +37,8 @@ export default {
     if (typeof input === 'string' && /^[12][0-9]{3}$/.test(input.trim()))
       return true
     return errorMessage
+  },
+  maxCharsXPName(input) {
+    return input.length <= 70 || 'Ce champ ne doit pas dépasser les 70 caractères'
   }
 }
