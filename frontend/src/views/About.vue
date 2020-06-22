@@ -139,6 +139,12 @@ import Title from "@/components/Title.vue"
 export default {
   name: "About",
   components: { Title },
+  metaInfo() {
+    return {
+      title: "Peps - une Startup d'État autonome financée par le plan Ecophyto",
+      meta: [{ description: "Le projet se construit à partir des retours du terrain, avec et pour les agriculteurs. Notre équipe est à votre écoute pour répondre à vos besoins" }]
+    }
+  },
   data() {
     return {
       title: 'Qui sommes-nous ?',

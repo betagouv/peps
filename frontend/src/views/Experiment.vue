@@ -232,6 +232,21 @@ import MiniMap from "@/components/MiniMap.vue"
 
 export default {
   name: "Experiment",
+  metaInfo() {
+    const titleMaxLength = 70
+    const descriptionMaxLength = 150
+    let title = this.experiment ? this.experiment.name : 'Retour d\'expérience'
+    if (title.length >= titleMaxLength) {
+      title = title.substring(0, titleMaxLength - 1) + '…'
+    }
+    let tags = this.experiment && this.experiment.tags ? 'Thèmes : ' + this.experiment.tags.join(', ') + '. ' : ''
+    let descriptionLength = descriptionMaxLength - tags.length
+    let description = this.experiment && this.experiment.description ? this.experiment.description.substring(0, descriptionLength - 1) + '…' : ''
+    return {
+      title: title,
+      meta: [{ description: `${tags} ${description}` }]
+    }
+  },
   components: {
     Title,
     NotFound,

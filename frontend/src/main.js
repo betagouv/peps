@@ -8,6 +8,7 @@ import VueBrowserUpdate from 'vue-browserupdate'
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet'
 import UniqueId from 'vue-unique-id'
+import VueMeta from 'vue-meta'
 
 import { Icon } from 'leaflet';
 
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 
 Vue.use(UniqueId)
 Vue.use(VueResource)
+Vue.use(VueMeta)
 Vue.use(VueBrowserUpdate, {
   options: {
     required: { i: 11 },

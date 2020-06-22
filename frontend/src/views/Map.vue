@@ -1,6 +1,9 @@
 <template>
   <div>
-    <ContributionOverlay :visible="showContributionOverlay" @done="showContributionOverlay = false"/>
+    <ContributionOverlay
+      :visible="showContributionOverlay"
+      @done="showContributionOverlay = false"
+    />
     <v-container class="constrained">
       <div class="pa-0" style="margin-top: 10px;">
         <div class="display-1">
@@ -65,11 +68,7 @@
           </l-map>
         </v-col>
         <v-col cols="12" sm="4">
-          <FarmerCard
-            :showMapPin="true"
-            :farmer="selectedFarmer"
-            v-if="!!selectedFarmer"
-          />
+          <FarmerCard :showMapPin="true" :farmer="selectedFarmer" v-if="!!selectedFarmer" />
           <div v-else class="hidden-sm-and-down">
             <div
               class="title"
@@ -109,6 +108,18 @@ import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
 export default {
   name: "Map",
+  metaInfo() {
+    return {
+      title:
+        "Peps, les expériences d'agriculteurs - adventices ravageurs maladies",
+      meta: [
+        {
+          description:
+            "Grâce aux essais d’agriculteurs, trouvez des réponses à vos questions sur de nombreux thèmes (réduction des charges, autonomie fourragère, maladies…)"
+        }
+      ]
+    }
+  },
   components: {
     LMap,
     LMarker,
@@ -182,13 +193,15 @@ export default {
       return this.$store.state.loggedUser
     },
     mapHeight() {
-      return this.$vuetify.breakpoint.name === 'xs' ? '180px' : '520px'
+      return this.$vuetify.breakpoint.name === "xs" ? "180px" : "520px"
     },
     searchIcon() {
-      return this.$vuetify.breakpoint.name === 'xs' ? undefined : 'mdi-map-search-outline'
+      return this.$vuetify.breakpoint.name === "xs"
+        ? undefined
+        : "mdi-map-search-outline"
     },
     subtitleClass() {
-      return this.$vuetify.breakpoint.name === 'xs' ? 'subtitle-2' : 'title'
+      return this.$vuetify.breakpoint.name === "xs" ? "subtitle-2" : "title"
     },
     options() {
       return {
@@ -221,21 +234,18 @@ export default {
       }
     },
     onShareXPClick() {
-      window.sendTrackingEvent(
-        "Header",
-        "shareXP",
-        "Partager une expérience"
-      )
+      window.sendTrackingEvent("Header", "shareXP", "Partager une expérience")
       if (this.loggedUser && this.loggedUser.farmer_id)
         this.$router.push({ name: "ExperimentEditor" })
       else if (this.loggedUser)
-        window.alert('Vous n\'avez pas un profil agriculteur sur notre site')
-      else
-        this.showContributionOverlay = true
+        window.alert("Vous n'avez pas un profil agriculteur sur notre site")
+      else this.showContributionOverlay = true
     },
     refreshMapMarkers() {
       this.markersInfo = []
-      for (const farmer of this.$store.state.farmers.filter(x => !!x.approved)) {
+      for (const farmer of this.$store.state.farmers.filter(
+        x => !!x.approved
+      )) {
         this.markersInfo.push(
           Object.assign(
             {},

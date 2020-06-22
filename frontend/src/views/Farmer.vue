@@ -143,6 +143,28 @@ export default {
     FarmerInfoBox,
     ImageGallery
   },
+  metaInfo() {
+    let title = ''
+    let description = ''
+    let descriptionMaxLength = 150
+    if (this.farmer) {
+      if (this.farmer.name) {
+        title = `Exploitation de ${this.farmer.name}, ${this.farmer.postal_code ? this.farmer.postal_code : ''}.`
+      }
+      if (this.farmer.production && this.farmer.production.length > 0) {
+        description += `Production de ${this.farmer.production.join(', ')}. `
+      }
+      if (this.farmer.description) {
+        description += this.farmer.description
+        if (description.length > descriptionMaxLength)
+          description = description.substring(0, descriptionMaxLength - 1) + '…'
+      }
+    }
+    return {
+      title: title,
+      meta: [{ description: description }]
+    }
+  },
   data() {
     return {
       contactOverlayVisible: false

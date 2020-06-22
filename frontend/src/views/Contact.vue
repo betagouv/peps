@@ -68,6 +68,12 @@ import Constants from "@/constants"
 export default {
   name: "Contact",
   components: { Title, Loader, OverlayMessage },
+  metaInfo() {
+    return {
+      title: "Peps - Questions ou suggestions, contactez nous",
+      meta: [{ description: 'Si vous souhaitez en savoir plus sur la démarche ou le produit, laissez nous vos coordonnées, nous vous contacterons dans les plus bref délais' }]
+    }
+  },
   data() {
     return {
       title: "Nous contacter",
