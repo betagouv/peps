@@ -17,6 +17,7 @@
       </v-toolbar>
 
       <v-form ref="form" v-model="formIsValid">
+
         <!-- FARM NAME -->
         <div class="field">
           <div class="field-title title">Le nom de votre exploitation</div>
