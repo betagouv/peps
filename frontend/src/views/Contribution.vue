@@ -47,7 +47,7 @@ export default {
         {
           text: "Carte de retours d'expérience",
           disabled: false,
-          href: "/#/map"
+          href: "/map"
         },
         {
           text: "Partager une expérience",

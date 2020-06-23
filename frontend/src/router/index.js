@@ -337,6 +337,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes,
   previousRoute: null,
   scrollBehavior() {
@@ -350,6 +351,15 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   router.previousRoute = from
+
+  // Since we migrated to history mode, we need to ensure old routes
+  // redirect to the new URLs
+  if (to.fullPath.substr(0, 2) === '/#') {
+    const path = to.fullPath.substr(2)
+    next(path)
+    return
+  }
+
   next()
 })
 router.afterEach((route, previousRoute) => {

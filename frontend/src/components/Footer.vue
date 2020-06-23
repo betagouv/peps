@@ -38,13 +38,13 @@
                 <a target="_blank" href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
               </li>
               <li>
-                <a href="/#/qui-sommes-nous">En savoir plus</a>
+                <a href="/qui-sommes-nous">En savoir plus</a>
               </li>
               <li>
-                <a href="/#/contact">Contact</a>
+                <a href="/contact">Contact</a>
               </li>
               <li>
-                <a href="/#/politique-de-confidentialite">Politique de confidentialité</a>
+                <a href="/politique-de-confidentialite">Politique de confidentialité</a>
               </li>
             </ul>
           </v-col>

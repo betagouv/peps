@@ -26,12 +26,12 @@
           </v-btn>
         </v-badge>
 
-        <v-btn text elevation="0" href="/#/qui-sommes-nous">
+        <v-btn text elevation="0" href="/qui-sommes-nous">
           <v-icon class="d-flex d-sm-none">mdi-information</v-icon>
           <span class="caption text-none d-none d-sm-flex">En savoir plus</span>
         </v-btn>
 
-        <v-btn text elevation="0" href="/#/contact">
+        <v-btn text elevation="0" href="/contact">
           <v-icon class="d-flex d-sm-none">mdi-email</v-icon>
           <span class="caption text-none d-none d-sm-flex">Contact</span>
         </v-btn>

@@ -541,12 +541,12 @@ export default {
         {
           text: "Carte de retours d'expérience",
           disabled: false,
-          href: "/#/map"
+          href: "/map"
         },
         {
           text: "Mon compte",
           disabled: false,
-          href: "/#/compte"
+          href: "/compte"
         },
         {
           text: this.farmer ? this.farmer.name : "Nouveau profil",

@@ -163,7 +163,7 @@ export default new Vuex.Store({
   actions: {
     fetchFormDefinitions(context) {
       context.commit('SET_FORM_SCHEMAS_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.get('api/v1/formSchema').then(response => {
+      Vue.http.get('/api/v1/formSchema').then(response => {
         context.commit('SET_FORM_SCHEMAS_LOADING', Constants.LoadingStatus.SUCCESS)
         context.commit('SET_FORM_SCHEMAS', response.body)
       }).catch(() => {
@@ -172,7 +172,7 @@ export default new Vuex.Store({
     },
     fetchSuggestions(context) {
       context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/calculateRankings', this.getters.suggestionsPayload, { headers }).then(response => {
+      Vue.http.post('/api/v1/calculateRankings', this.getters.suggestionsPayload, { headers }).then(response => {
         context.commit('SET_SUGGESTIONS_LOADING', Constants.LoadingStatus.SUCCESS)
         context.commit('SET_SUGGESTIONS', response.body.suggestions)
       }).catch(() => {
@@ -181,7 +181,7 @@ export default new Vuex.Store({
     },
     fetchCategories(context) {
       context.commit('SET_CATEGORIES_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.get('api/v1/categories').then(response => {
+      Vue.http.get('/api/v1/categories').then(response => {
         context.commit('SET_CATEGORIES_LOADING', Constants.LoadingStatus.SUCCESS)
         context.commit('SET_CATEGORIES', response.body)
       }).catch(() => {
@@ -190,7 +190,7 @@ export default new Vuex.Store({
     },
     fetchFarmersAndExperiments(context) {
       context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.get('api/v1/farmers').then(response => {
+      Vue.http.get('/api/v1/farmers').then(response => {
         const body = response.body
         body.forEach(x => {
           if (x.experiments)
@@ -205,7 +205,7 @@ export default new Vuex.Store({
 
     fetchLoggedUser(context) {
       context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.LOADING)
-      Vue.http.get('api/v1/loggedUser').then(response => {
+      Vue.http.get('/api/v1/loggedUser').then(response => {
         context.commit('SET_LOGGED_USER', response.body)
         context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
@@ -215,7 +215,7 @@ export default new Vuex.Store({
     },
     sendContactData(context) { // From contact page
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -223,7 +223,7 @@ export default new Vuex.Store({
     },
     sendUsageData(context) { // From form usage
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', this.getters.usagePayload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', this.getters.usagePayload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -231,7 +231,7 @@ export default new Vuex.Store({
     },
     sendContributionInfo(context) { // From share XP prompt
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', this.getters.contributionPayload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', this.getters.contributionPayload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -246,7 +246,7 @@ export default new Vuex.Store({
         problem: `Partage de l'expérience "${experimentTitle}" : ${experimentDescription}`
       }
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', payload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -258,7 +258,7 @@ export default new Vuex.Store({
       payload.reason = 'Veut se mettre en contact avec ' + farmer.name + ' (' + airtableUrl + ')'
 
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', payload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -268,7 +268,7 @@ export default new Vuex.Store({
       context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.LOADING)
       let payload = this.getters.implementationPayload
       payload.practice_id = practice.external_id
-      Vue.http.post('api/v1/sendTask', payload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', payload, { headers }).then(() => {
         context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_IMPLEMENTATION_LOADING', Constants.LoadingStatus.ERROR)
@@ -307,7 +307,7 @@ export default new Vuex.Store({
     },
     patchExperiment(context, { experiment, changes }) {
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
-      Vue.http.patch('api/v1/experiments/' + experiment.id, changes, { headers }).then(response => {
+      Vue.http.patch('/api/v1/experiments/' + experiment.id, changes, { headers }).then(response => {
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
         context.commit('UPDATE_XP', response.body)
       }).catch(() => {
@@ -316,7 +316,7 @@ export default new Vuex.Store({
     },
     createExperiment(context, { payload, farmer }) {
       context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
-      Vue.http.post('api/v1/experiments/', payload, { headers }).then(response => {
+      Vue.http.post('/api/v1/experiments/', payload, { headers }).then(response => {
         context.commit('SET_EXPERIMENT_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
         context.commit('ADD_XP_TO_FARMER', { newExperiment: response.body, farmer: farmer })
       }).catch(() => {
@@ -328,7 +328,7 @@ export default new Vuex.Store({
     },
     patchFarmer(context, { farmer, changes }) {
       context.commit('SET_FARMER_EDIT_LOADING_STATUS', Constants.LoadingStatus.LOADING)
-      Vue.http.patch('api/v1/farmers/' + farmer.id, changes, { headers }).then(response => {
+      Vue.http.patch('/api/v1/farmers/' + farmer.id, changes, { headers }).then(response => {
         context.commit('SET_FARMER_EDIT_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
         context.commit('UPDATE_FARMER', response.body)
       }).catch(() => {

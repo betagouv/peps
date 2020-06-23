@@ -30,7 +30,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/#/"
+          href: "/"
         },
         {
           text: this.category.title,

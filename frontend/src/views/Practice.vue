@@ -117,25 +117,25 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/#/"
+          href: "/"
         }
       ]
       if (provenance && provenance.name === 'Category') {
         breadcrumbs.push({
           text: provenance.params.categoryTitle,
           disabled: false,
-          href: "/#" + provenance.path
+          href: "/" + provenance.path
         })
       } else if (provenance && provenance.name === 'Results') {
         breadcrumbs.push({
           text: 'Simulateur',
           disabled: false,
-          href: "/#/formulaire"
+          href: "/formulaire"
         })
         breadcrumbs.push({
           text: 'Résultats',
           disabled: false,
-          href: "/#/resultats"
+          href: "/resultats"
         })
       }
       breadcrumbs.push({

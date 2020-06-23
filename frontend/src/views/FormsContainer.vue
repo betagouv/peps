@@ -71,7 +71,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/#/"
+          href: "/"
         },
         {
           text: "Simulateur",

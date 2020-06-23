@@ -10,13 +10,13 @@
       <v-btn style="margin-top: 50px;" color="primary" href="/" class="text-none">Revenir à l'accueil</v-btn>
     </div>
     <div>
-      <v-btn color="primary" outlined elevation="0" style="margin-top: 30px;" href="/#/contact">
+      <v-btn color="primary" outlined elevation="0" style="margin-top: 30px;" href="/contact">
         <v-icon style="margin-right: 5px; padding-top: 2px;" small>mdi-email</v-icon>
         <span class="text-none">Contact</span>
       </v-btn>
     </div>
     <div>
-      <v-btn color="primary" outlined elevation="0" style="margin-top: 10px;" href="/#/qui-sommes-nous">
+      <v-btn color="primary" outlined elevation="0" style="margin-top: 10px;" href="/qui-sommes-nous">
         <v-icon style="margin-right: 5px; padding-top: 2px;" small>mdi-information</v-icon>
         <span class="text-none">En savoir plus</span>
       </v-btn>

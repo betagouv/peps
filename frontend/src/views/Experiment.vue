@@ -325,12 +325,12 @@ export default {
         {
           text: "Carte de retours d'expérience",
           disabled: false,
-          href: "/#/map"
+          href: "/map"
         },
         {
           text: this.farmer.name,
           disabled: false,
-          href: "/#/agriculteur/" + this.farmer.name
+          href: "/agriculteur/" + this.farmer.name
         },
         {
           text: this.experiment.name,

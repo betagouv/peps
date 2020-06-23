@@ -206,7 +206,7 @@ MAGICAUTH_EMAIL_HTML_TEMPLATE = 'email.html'
 MAGICAUTH_EMAIL_TEXT_TEMPLATE = 'email.txt'
 MAGICAUTH_LOGIN_VIEW_TEMPLATE = 'login-magicauth.html'
 MAGICAUTH_EMAIL_SENT_VIEW_TEMPLATE = 'email-sent.html'
-MAGICAUTH_EMAIL_UNKNOWN_MESSAGE = 'Nous n\'avons pas trouvé un utilisateur avec cet email. <a href="/#/contact">Contactez-nous</a> pour faire partie des testeurs Peps !'
+MAGICAUTH_EMAIL_UNKNOWN_MESSAGE = 'Nous n\'avons pas trouvé un utilisateur avec cet email. <a href="/contact">Contactez-nous</a> pour faire partie des testeurs Peps !'
 
 EMAIL_BACKEND = os.getenv('PEPS_EMAIL_BACKEND')
 

@@ -90,7 +90,7 @@
         </div>
 
         <div class="body-1">
-          Si vous êtes agriculteurs et souhaitez participer au test de ce prototype, <a href="/#/contact" target="_blank">contactez nous</a>.
+          Si vous êtes agriculteurs et souhaitez participer au test de ce prototype, <a href="/contact" target="_blank">contactez nous</a>.
         </div>
 
         <div class="display-1 primary--text">Historique</div>
@@ -151,7 +151,7 @@ export default {
       breadcrumbs: [{
         text: 'Accueil',
         disabled: false,
-        href: '/#/'
+        href: '/'
       }, {
         text: 'Qui sommes-nous ?',
         disabled: true,
