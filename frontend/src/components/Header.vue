@@ -7,7 +7,10 @@
     <div style="position: absolute; width:100%;">
       <v-app-bar app absolute color="primary" dark>
         <v-toolbar-title>
-          <div style="color:white; text-decoration:none; font-weight: bold; outline: none;">Peps</div>
+          <a
+            href="/"
+            style="color:white; text-decoration:none; font-weight: bold; outline: none;"
+          >Peps</a>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-badge
