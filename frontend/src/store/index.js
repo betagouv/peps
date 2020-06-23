@@ -20,6 +20,7 @@ export default new Vuex.Store({
     selectedFarmerId: null,
     selectedDepartment: null,
     loggedUser: null,
+    geojson: null,
 
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     experimentEditLoadingStatus: Constants.LoadingStatus.IDLE,
     farmerEditLoadingStatus: Constants.LoadingStatus.IDLE,
     loggedUserLoadingStatus: Constants.LoadingStatus.IDLE,
+    geojsonLoadingStatus: Constants.LoadingStatus.IDLE,
 
     miaFormDefinition: {},
     contactFormDefinition: {},
@@ -159,6 +161,12 @@ export default new Vuex.Store({
     UPDATE_FILTERS(state, filters) {
       Vue.set(state, 'xpSelectionFilters', filters)
     },
+    SET_GEOJSON(state, geojson) {
+      Vue.set(state, 'geojson', geojson)
+    },
+    SET_GEOJSON_LOADING_STATUS(state, status) {
+      state.geojsonLoadingStatus = status
+    }
   },
   actions: {
     fetchFormDefinitions(context) {
@@ -343,6 +351,16 @@ export default new Vuex.Store({
     },
     updateFilters(context, { filters }) {
       context.commit('UPDATE_FILTERS', filters)
+    },
+    fetchGeojson(context) {
+      context.commit('SET_GEOJSON_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.get('/api/v1/geojson').then(response => {
+        context.commit('SET_GEOJSON', response.body)
+        context.commit('SET_GEOJSON_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_GEOJSON', null)
+        context.commit('SET_GEOJSON_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
     }
   },
   modules: {

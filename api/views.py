@@ -3,6 +3,7 @@ import asana
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.views.decorators.cache import cache_control
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
@@ -13,6 +14,7 @@ from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
 from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
 from api.formschema import get_form_schema
+from api.geojson import get_geojson
 from api.models import Response
 from api.permissions import IsExperimentAuthor, IsFarmer, IsProfileOwner
 from api.utils import AsanaUtils
@@ -67,6 +69,15 @@ class FormSchemaView(APIView):
 
     def get(self, request):
         return JsonResponse(get_form_schema())
+
+class GeojsonView(APIView):
+    """
+    This view will return the geojson with France's departments
+    """
+
+    @cache_control(max_age=31536000)
+    def get(self, request):
+        return JsonResponse(get_geojson())
 
 
 class SendTaskView(APIView):

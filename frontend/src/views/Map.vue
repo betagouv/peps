@@ -57,7 +57,7 @@
             :center="center"
             :style="'height: ' + mapHeight + ';border: solid 1px #DDD;'"
           >
-            <l-geo-json :geojson="geojson" :options="options" :options-style="styleOptions" />
+            <l-geo-json v-if="geojson" :geojson="geojson" :options="options" :options-style="styleOptions" />
             <l-marker
               v-for="(farmer, index) in markersInfo"
               :key="index"
@@ -102,7 +102,6 @@ import { latLng, latLngBounds, polygon, icon } from "leaflet"
 import L from "leaflet"
 import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
-import geojson from "../resources/departments.json"
 import Constants from "@/constants"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
 
@@ -136,7 +135,6 @@ export default {
       showParagraph: false,
       zoom: 5.6,
       center: latLng(46.61322, 2.7),
-      geojson: geojson,
       maxBounds: latLngBounds(
         latLng(51.581167, -6.811523),
         latLng(40.868665, 11.513672)
@@ -169,6 +167,9 @@ export default {
     }
   },
   computed: {
+    geojson() {
+      return this.$store.state.geojson
+    },
     selectedFarmer() {
       return this.$store.getters.selectedFarmer
     },
@@ -187,7 +188,7 @@ export default {
       return this.$store.state.farmers
     },
     departments() {
-      return this.geojson.features.map(x => x.properties)
+      return this.geojson ? this.geojson.features.map(x => x.properties) : []
     },
     loggedUser() {
       return this.$store.state.loggedUser
@@ -266,6 +267,8 @@ export default {
       return latLng(latitude, longitude)
     },
     geolocate() {
+      if (!this.geojson)
+        return
       const self = this
       function showPosition(position) {
         const lng = position.coords.longitude
@@ -292,7 +295,7 @@ export default {
   },
   watch: {
     selectedDepartment(newValue) {
-      if (!newValue) return
+      if (!newValue || !this.geojson) return
       const geojsonFeature = this.geojson.features.find(
         x => x.properties.code == newValue.code
       )
@@ -320,6 +323,10 @@ export default {
     farmersLoadingStatus(newValue) {
       if (newValue === Constants.LoadingStatus.SUCCESS) this.refreshMapMarkers()
     }
+  },
+  mounted() {
+    if (!this.geojson && this.$store.state.geojsonLoadingStatus !== Constants.LoadingStatus.LOADING)
+      this.$store.dispatch("fetchGeojson")
   }
 }
 </script>
