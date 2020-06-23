@@ -503,6 +503,7 @@ export default {
         surface_meadows: [],
         groups: [],
         agriculture_types: [],
+        images: [],
         links: []
       },
       hasChanged: false,
@@ -589,7 +590,6 @@ export default {
         this.$router.push({
           name: "Profile"
         })
-      else this.resetMediaFields()
     },
     cancelEdit() {
       this.$router.go(-1)
@@ -599,11 +599,6 @@ export default {
         this.dummyFarmer = JSON.parse(JSON.stringify(this.farmer))
         this.dummyFarmer.images = this.dummyFarmer.images || []
       }
-    },
-    resetMediaFields() {
-      this.dummyFarmer.images = this.farmer
-        ? JSON.parse(JSON.stringify(this.farmer.images))
-        : []
     },
     changeProfileImage(file) {
       this.hasChanged = true

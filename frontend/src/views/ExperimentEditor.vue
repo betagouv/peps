@@ -440,7 +440,9 @@ export default {
       dummyExperiment: {
         tags: [],
         surface_type: [],
-        links: []
+        links: [],
+        images: [],
+        videos: []
       },
       hasChanged: false,
       formIsValid: true
@@ -534,7 +536,6 @@ export default {
         this.$router.push({
           name: "Profile"
         })
-      else this.resetMediaFields()
     },
     cancelEdit() {
       this.$router.go(-1)
@@ -543,16 +544,9 @@ export default {
       if (this.experiment) {
         this.dummyExperiment = JSON.parse(JSON.stringify(this.experiment))
         this.dummyExperiment.images = this.dummyExperiment.images || []
+        this.dummyExperiment.videos = this.dummyExperiment.videos || []
         this.dummyExperiment.links = this.dummyExperiment.links || []
       }
-    },
-    resetMediaFields() {
-      this.dummyExperiment.images = this.experiment
-        ? JSON.parse(JSON.stringify(this.experiment.images))
-        : []
-      this.dummyExperiment.videos = this.experiment
-        ? JSON.parse(JSON.stringify(this.experiment.videos))
-        : []
     },
     addImages(e) {
       if (!e) return

@@ -39,6 +39,8 @@ export default {
     return errorMessage
   },
   maxCharsXPName(input) {
+    if (!input)
+      return true
     return input.length <= 70 || 'Ce champ ne doit pas dépasser les 70 caractères'
   }
 }
