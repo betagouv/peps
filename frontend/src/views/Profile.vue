@@ -9,7 +9,7 @@
     <v-container v-else class="constrained">
       <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
 
-      <div class="ma-0">
+      <div class="ma-0" v-if="farmer">
         <!-- PROFILE CARD -->
         <v-row>
           <v-col cols="12" md="8">
