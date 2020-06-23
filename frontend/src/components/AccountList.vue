@@ -24,10 +24,6 @@
       </v-badge>
     </v-list-item>
 
-    <v-list-item v-if="loggedUser" @click="logout">
-      <v-list-item-title class="body-2" style="padding-left: 3px;">Fermer ma session</v-list-item-title>
-    </v-list-item>
-
     <v-list-item v-if="!loggedUser" @click="login">
       <v-list-item-title class="body-2" style="padding-left: 3px;">M'identifier</v-list-item-title>
     </v-list-item>

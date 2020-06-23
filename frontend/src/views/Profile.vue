@@ -32,14 +32,7 @@
                 v-if="farmer.approved"
                 @click="seePublicProfile"
               >Voir le profil public</v-btn>
-              <v-btn
-                text
-                class="text-none"
-                color="grey-darken-2"
-                v-else
-                disabled
-              >Profil non publié</v-btn>
-
+              <v-btn text class="text-none" color="grey-darken-2" v-else disabled>Profil non publié</v-btn>
             </v-card>
           </v-col>
         </v-row>
@@ -117,8 +110,10 @@
                 <v-card-subtitle>Reglez vos préférences de notifications et la manière d'être contacté</v-card-subtitle>
               </v-card>
             </v-hover>
-          </v-col> -->
+          </v-col>-->
+        </v-row>
 
+        <v-row>
           <!-- RETOURS D'EXPÉRIENCE APPROUVÉS -->
           <v-col
             cols="12"
@@ -339,7 +334,11 @@ export default {
       let farmerUrlComponent = this.$store.getters.farmerUrlComponent(
         this.farmer
       )
-      window.sendTrackingEvent("Profile", "Edit Personal Info", farmerUrlComponent)
+      window.sendTrackingEvent(
+        "Profile",
+        "Edit Personal Info",
+        farmerUrlComponent
+      )
       this.$router.push({
         name: "PersonalInfoEditor",
         query: { agriculteur: farmerUrlComponent }
@@ -373,7 +372,11 @@ export default {
       )
       this.$router.push({
         name: "Farmer",
-        params: { farmerUrlComponent: this.$store.getters.farmerUrlComponent(this.farmer) }
+        params: {
+          farmerUrlComponent: this.$store.getters.farmerUrlComponent(
+            this.farmer
+          )
+        }
       })
     }
   },
