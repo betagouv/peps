@@ -232,6 +232,18 @@ import Constants from "@/constants"
 export default {
   name: "PersonalInfoEditor",
   components: { Title, Loader },
+  metaInfo() {
+    return {
+      title:
+        "Peps - Mettez à jour vos données personnelles",
+      meta: [
+        {
+          description:
+            "Modifiez vos données personnelles et votre information de contact"
+        }
+      ]
+    }
+  },
   props: {
     farmerUrlComponent: {
       type: String,

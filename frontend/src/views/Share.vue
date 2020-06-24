@@ -112,6 +112,18 @@ import OverlayMessage from "@/components/OverlayMessage.vue"
 export default {
   name: "Share",
   components: { Title, OverlayMessage, Loader },
+  metaInfo() {
+    return {
+      title:
+        "Peps - Partager mon expérience rapidement",
+      meta: [
+        {
+          description:
+            "Remplissez ces informations et faites vous rappeler par l'équipe Peps"
+        }
+      ]
+    }
+  },
   data() {
     return {
       title: "Partager mon expérience",

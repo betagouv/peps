@@ -250,6 +250,18 @@ import Constants from "@/constants"
 export default {
   name: "Profile",
   components: { Title, AdminCard, Loader },
+  metaInfo() {
+    return {
+      title:
+        "Peps - Profil utilisateur",
+      meta: [
+        {
+          description:
+            "Modifiez et ajoutez des informations sur votre profil, vos retours d'expériences, vos préférences"
+        }
+      ]
+    }
+  },
   data() {
     return {
       title: "Mon compte",

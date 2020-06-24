@@ -89,6 +89,18 @@ import Title from "@/components/Title.vue"
 export default {
   name: "PolitiqueConfidentialite",
   components: { Title },
+  metaInfo() {
+    return {
+      title:
+        "Politique de confidentialité - conditions générales d’utilisation",
+      meta: [
+        {
+          description:
+            "Voici la politique de confidentialité, les conditions générales d’utilisation et la politique des données & cookies"
+        }
+      ]
+    }
+  },
   data() {
     return {
       title: "Politique de confidentialité",

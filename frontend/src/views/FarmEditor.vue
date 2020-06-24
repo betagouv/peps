@@ -490,6 +490,18 @@ import ImagesField from "@/components/ImagesField.vue"
 export default {
   name: "FarmEditor",
   components: { Title, Loader, ImagesField },
+  metaInfo() {
+    return {
+      title:
+        "Peps - Mettez à jour les données de votre exploitation",
+      meta: [
+        {
+          description:
+            "Modifiez le descriptif de votre exploitation, les données associées et la philosophie"
+        }
+      ]
+    }
+  },
   props: {
     farmerUrlComponent: {
       type: String,
