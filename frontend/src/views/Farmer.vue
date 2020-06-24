@@ -132,6 +132,7 @@ import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
 import FarmerInfoBox from "@/components/FarmerInfoBox"
 import Constants from "@/constants"
 import ImageGallery from "@/components/ImageGallery.vue"
+import utils from "@/utils"
 
 export default {
   name: "Farmer",
@@ -144,22 +145,21 @@ export default {
     ImageGallery
   },
   metaInfo() {
-    let title = ''
+    if (!this.farmer)
+      return {}
+
+    let title = `Exploitation de ${this.farmer.name}, ${this.departmentRegion}`
     let description = ''
     let descriptionMaxLength = 150
-    if (this.farmer) {
-      if (this.farmer.name) {
-        title = `Exploitation de ${this.farmer.name}, ${this.farmer.postal_code ? this.farmer.postal_code : ''}.`
-      }
-      if (this.farmer.production && this.farmer.production.length > 0) {
-        description += `Production de ${this.farmer.production.join(', ')}. `
-      }
-      if (this.farmer.description) {
-        description += this.farmer.description
-        if (description.length > descriptionMaxLength)
-          description = description.substring(0, descriptionMaxLength - 1) + '…'
-      }
+    
+    if (this.farmer.production && this.farmer.production.length > 0) {
+      description += `Production de ${this.farmer.production.join(', ')}. `
     }
+    
+    description += this.farmer.description || ''
+    if (description.length > descriptionMaxLength)
+      description = description.substring(0, descriptionMaxLength - 1) + '…'
+  
     return {
       title: title,
       meta: [{ description: description }]
@@ -179,6 +179,11 @@ export default {
   computed: {
     farmer() {
       return this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
+    },
+    departmentRegion() {
+      if (this.farmer && this.farmer.postal_code)
+        return utils.postalCodeToDepartmentRegion(this.farmer.postal_code)
+      return ''
     },
     farmerNotFound() {
       return (
