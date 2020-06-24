@@ -52,7 +52,7 @@
       </div>
       <div class="body-2">
         <a href="https://www.facebook.com/pepsagriculture/" target="_blank">
-          <v-icon size="24px" style="margin-right: 10px;">mdi-facebook-box</v-icon>@pepsagriculture
+          <v-icon size="24px" style="margin-right: 10px;">mdi-facebook</v-icon>@pepsagriculture
         </a>
       </div>
     </v-container>
@@ -77,6 +77,9 @@ export default {
   data() {
     return {
       title: "Nous contacter",
+      name: '',
+      email: '',
+      phoneNumber: '',
       breadcrumbs: [
         {
           text: "Accueil",
@@ -92,36 +95,6 @@ export default {
     }
   },
   computed: {
-    name: {
-      get() {
-        if (this.$store.state.contactFormData && this.$store.state.contactFormData.name)
-          return this.$store.state.contactFormData.name
-        return undefined
-      },
-      set(value) {
-        this.$store.dispatch('addContactFormData', { fieldId: 'name', fieldValue: value })
-      }
-    },
-    email: {
-      get() {
-        if (this.$store.state.contactFormData && this.$store.state.contactFormData.email)
-          return this.$store.state.contactFormData.email
-        return undefined
-      },
-      set(value) {
-        this.$store.dispatch('addContactFormData', { fieldId: 'email', fieldValue: value })
-      }
-    },
-    phoneNumber: {
-      get() {
-        if (this.$store.state.contactFormData && this.$store.state.contactFormData.phone)
-          return this.$store.state.contactFormData.phone
-        return undefined
-      },
-      set(value) {
-        this.$store.dispatch('addContactFormData', { fieldId: 'phone', fieldValue: value })
-      }
-    },
     loading() {
       return (
         this.$store.state.contactLoadingStatus ===
@@ -133,15 +106,48 @@ export default {
         this.$store.state.contactLoadingStatus ===
         Constants.LoadingStatus.ERROR
       )
+    },
+    loggedUser() {
+      return this.$store.state.loggedUser
     }
   },
   methods: {
     sendContactData() {
-      this.$store.dispatch("sendContactData")
+      this.$store.dispatch("sendContactData", {
+        name: this.name,
+        email: this.email,
+        phoneNumber: this.phoneNumber
+      })
     },
     closeErrorMessage() {
       this.$store.dispatch("resetContactLoadingStatus")
+    },
+    getInitialName() {
+      if (this.loggedUser && this.loggedUser.farmer_id)
+        return this.$store.getters.farmerWithId(this.loggedUser.farmer_id).name
+      if (this.$store.state.lastContactInfo && this.$store.state.lastContactInfo.name)
+        return this.$store.state.lastContactInfo.name
+      return null
+    },
+    getInitialEmail() {
+      if (this.loggedUser)
+        return this.loggedUser.email
+      if (this.$store.state.lastContactInfo && this.$store.state.lastContactInfo.email)
+        return this.$store.state.lastContactInfo.email
+      return null
+    },
+    getInitialPhoneNumber() {
+      if (this.loggedUser && this.loggedUser.farmer_id)
+        return this.$store.getters.farmerWithId(this.loggedUser.farmer_id).phone_number
+      if (this.$store.state.lastContactInfo && this.$store.state.lastContactInfo.phoneNumber)
+        return this.$store.state.lastContactInfo.phoneNumber
+      return null
     }
+  },
+  mounted() {
+    this.name = this.getInitialName()
+    this.email = this.getInitialEmail()
+    this.phoneNumber = this.getInitialPhoneNumber()
   }
 }
 </script>

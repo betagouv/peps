@@ -47,7 +47,9 @@ export default new Vuex.Store({
     categories: [],
     defaultPracticeImageUrl: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
     xpPaginationPage: 1,
-    xpSelectionFilters: []
+    xpSelectionFilters: [],
+
+    lastContactInfo: {},
   },
   mutations: {
     SET_FORM_SCHEMAS_LOADING(state, status) {
@@ -166,6 +168,9 @@ export default new Vuex.Store({
     },
     SET_GEOJSON_LOADING_STATUS(state, status) {
       state.geojsonLoadingStatus = status
+    },
+    SET_LAST_CONTACT_INFO(state, contactInfo) {
+      Vue.set(state, 'lastContactInfo', contactInfo)
     }
   },
   actions: {
@@ -221,9 +226,12 @@ export default new Vuex.Store({
         context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
     },
-    sendContactData(context) { // From contact page
+    sendContactData(context, { name, email, phoneNumber }) { // From contact page
+      context.commit('SET_LAST_CONTACT_INFO', { name, email, phoneNumber })
+      let reason = 'A partagé ses coordonnées pour être contacté'
+      let payload = { email, name: name + ' [PARTAGE CONTACT]', phone_number: phoneNumber, reason: reason }
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
-      Vue.http.post('/api/v1/sendTask', this.getters.contactPayload, { headers }).then(() => {
+      Vue.http.post('/api/v1/sendTask', payload, { headers }).then(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
@@ -260,8 +268,10 @@ export default new Vuex.Store({
         context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
-    sendFarmerContactRequest(context, { farmer }) { // From farmer contact prompt
-      let payload = this.getters.farmerContactPayload
+    sendFarmerContactRequest(context, { farmer, name, email, phoneNumber }) { // From farmer contact prompt
+      context.commit('SET_LAST_CONTACT_INFO', { name, email, phoneNumber })
+
+      let payload = { email, name: name + ' [CONTACT AGRI]', phone_number: phoneNumber }
       const airtableUrl = 'https://airtable.com/tblwbHvoVKo0o9C38/' + farmer.external_id
       payload.reason = 'Veut se mettre en contact avec ' + farmer.name + ' (' + airtableUrl + ')'
 
@@ -387,16 +397,7 @@ export default new Vuex.Store({
         problem: reasons.join(', ')
       }
     },
-    contactPayload(state, getters) {
-      return {
-        email: state.contactFormData ? state.contactFormData.email : '',
-        name: (state.contactFormData ? state.contactFormData.name : '') + ' [PARTAGE CONTACT]',
-        phone_number: state.contactFormData ? state.contactFormData.phone : '',
-        answers: getters.humanReadableMiaAnswers,
-        reason: 'A partagé ses coordonnées pour être contacté',
-        practice_id: '',
-      }
-    },
+
     usagePayload(state, getters) {
       return {
         email: state.contactFormData ? state.contactFormData.email : '',
@@ -415,13 +416,6 @@ export default new Vuex.Store({
         answers: getters.humanReadableMiaAnswers,
         reason: 'Veut partager une expérimentation',
         practice_id: '',
-      }
-    },
-    farmerContactPayload(state) {
-      return {
-        email: state.contactFormData ? state.contactFormData.email : '',
-        name: (state.contactFormData ? state.contactFormData.name : '') + ' [CONTACT AGRI]',
-        phone_number: state.contactFormData ? state.contactFormData.phone : '',
       }
     },
     humanReadableMiaAnswers(state) {

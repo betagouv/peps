@@ -114,7 +114,7 @@
 
         <div class="field">
           <div class="field-title title">Appartenez-vous à des groupes ?</div>
-          <div class="field-helper subtitle-2 grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <div class="field-helper subtitle-2">Vous pouvez en sélectionner plusieurs</div>
 
           <v-checkbox
             @click.native="hasChanged = true"
