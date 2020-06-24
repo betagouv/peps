@@ -33,7 +33,7 @@
         <!-- PRODUCTIONS -->
         <div class="field">
           <div class="field-title title">Quelles productions sont présentes sur l'exploitation ?</div>
-          <div class="field-helper grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
@@ -94,7 +94,7 @@
 
         <div class="field">
           <div class="field-title title">Quand vous êtes-vous installé sur l'exploitation ?</div>
-          <div class="field-helper grey--text">Renseignez l'année (par exemple, 2001)</div>
+          <div class="field-helper">Renseignez l'année (par exemple, 2001)</div>
 
           <v-text-field
             hide-details="auto"
@@ -131,7 +131,7 @@
             Combien de personnes travaillent sur l'exploitation à temps plein ?
             <span class="mandatory">- obligatoire</span>
           </div>
-          <div class="field-helper grey--text">Comptez-vous et vos associés, salariés et alternants</div>
+          <div class="field-helper">Comptez-vous et vos associés, salariés et alternants</div>
           <v-text-field
             hide-details="auto"
             :rules="[validators.notEmpty]"
@@ -252,7 +252,7 @@
 
         <div class="field">
           <div class="field-title title">Quelles cultures avez-vous sur l'exploitation ?</div>
-          <div class="field-helper grey--text">Lister les cultures et les espèces fourragères</div>
+          <div class="field-helper">Lister les cultures et les espèces fourragères</div>
           <v-textarea
             hide-details="auto"
             rows="3"
@@ -299,7 +299,7 @@
         <div class="field">
           <div class="field-title title">Pouvez-vous décrire votre exploitation ?</div>
           <div
-            class="field-helper grey--text"
+            class="field-helper"
           >Son histoire, son fonctionnement, ses particularités, la philosophie et le type d'agriculture pratiquée...</div>
           <v-textarea
             hide-details="auto"
@@ -319,7 +319,7 @@
             class="field-title title"
           >Si il y en a, quelles sont les spécificités de l'exploitation ?</div>
           <div
-            class="field-helper grey--text"
+            class="field-helper"
           >Irrigation, drainage, zone protégée, captage d'eau, parcellaire...</div>
           <v-textarea
             hide-details="auto"
@@ -338,7 +338,7 @@
           <div
             class="field-title title"
           >Choisissez les termes qui correspondent à l'agriculture que vous pratiquez</div>
-          <div class="field-helper grey--text">Vous pouvez en sélectionner plusieurs</div>
+          <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
@@ -400,7 +400,7 @@
         <div class="field">
           <div class="field-title title">Liens</div>
           <div
-            class="field-helper grey--text"
+            class="field-helper"
             style="margin-bottom: 10px;"
           >Si vous le souhaitez, vous pouvez ajouter des liens vers votre site, vos profils de réseaux sociaux, ou autre</div>
           <v-text-field
@@ -431,7 +431,7 @@
 
         <div class="field">
           <div class="field-title title">Photos de votre exploitation</div>
-          <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
+          <div class="field-helper">Vous pouvez en ajouter plusieurs</div>
           <ImagesField :imageArray="dummyFarmer.images" @change="hasChanged = true" />
         </div>
       </v-form>

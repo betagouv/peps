@@ -27,11 +27,12 @@
 
       <v-form ref="form" v-model="formIsValid">
         <div class="field">
-          <div class="field-title title">Titre de l'expérience</div>
+          <div class="field-title title">Titre de l'expérience <span class="mandatory">- obligatoire</span></div>
           <div
-            class="field-helper subtitle-2 grey--text"
+            class="field-helper"
           >Court et explicite, il doit donner l'idée générale</div>
           <v-text-field
+            hide-details="auto"
             style="max-width: 450px;"
             :rules="[validators.notEmpty]"
             outlined
@@ -41,11 +42,12 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Pouvez-vous décrire l'expérience ?</div>
+          <div class="field-title title">Explication rapide <span class="mandatory">- obligatoire</span></div>
           <div
-            class="field-helper subtitle-2 grey--text"
-          >Dites comment cela s'est déroulé, ce que vous avez observé, les choses que vous avez apprises...</div>
+            class="field-helper"
+          >Dites nous en quelques mots de quoi il s'agit</div>
           <v-textarea
+            hide-details="auto"
             :rules="[validators.notEmpty]"
             :rows="4"
             auto-grow
@@ -56,8 +58,9 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Prénom et nom</div>
+          <div class="field-title title">Prénom et nom <span class="mandatory">- obligatoire</span></div>
           <v-text-field
+            hide-details="auto"
             style="max-width: 350px;"
             :rules="[validators.notEmpty]"
             outlined
@@ -67,8 +70,9 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Adresse email</div>
+          <div class="field-title title">Adresse email <span class="mandatory">- obligatoire</span></div>
           <v-text-field
+            hide-details="auto"
             style="max-width: 350px;"
             :rules="[validators.isEmail]"
             outlined
@@ -78,9 +82,10 @@
         </div>
 
         <div class="field">
-          <div class="field-title title">Numéro téléphone</div>
+          <div class="field-title title">Numéro téléphone <span class="mandatory">- obligatoire</span></div>
           <v-text-field
-            style="max-width: 350px;"
+            hide-details="auto"
+            style="max-width: 350px; margin-bottom: 20px;"
             :rules="[validators.notEmpty]"
             outlined
             dense
@@ -186,7 +191,7 @@ export default {
 
 <style scoped>
 .field {
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 }
 .field-helper {
   margin-bottom: 5px;
