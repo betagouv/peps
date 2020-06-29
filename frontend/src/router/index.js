@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import store from '@/store/index'
 import FormsContainer from '@/views/FormsContainer.vue'
 import Results from '@/views/Results.vue'
-import PolitiqueConfidentialite from '@/views/PolitiqueConfidentialite.vue'
+import CGU from '@/views/Cgu.vue'
 import Landing from '@/views/Landing.vue'
 import Category from '@/views/Category.vue'
 import Practice from '@/views/Practice.vue'
@@ -293,8 +293,14 @@ const routes = [
   },
   {
     path: '/politique-de-confidentialite',
-    name: 'PolitiqueConfidentialite',
-    component: PolitiqueConfidentialite,
+    beforeEnter: (route, _, next) => {
+      next({ name: 'CGU' })
+    }
+  },
+  {
+    path: '/conditions-generales-d-utilisation',
+    name: 'CGU',
+    component: CGU
   },
   {
     path: '/qui-sommes-nous',

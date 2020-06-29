@@ -44,7 +44,7 @@
                 <a href="/contact">Contact</a>
               </li>
               <li>
-                <a href="/politique-de-confidentialite">Politique de confidentialité</a>
+                <a href="/conditions-generales-d-utilisation">CGU</a>
               </li>
             </ul>
           </v-col>

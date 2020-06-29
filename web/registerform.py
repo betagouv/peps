@@ -4,16 +4,17 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.core.mail import send_mail
+from django.utils.safestring import mark_safe
 from magicauth.models import MagicToken
 from data.models import Farmer
-from django.contrib.auth.forms import UserCreationForm
+
 
 class RegisterForm(forms.ModelForm):
     email = forms.EmailField(label="", widget=forms.EmailInput(attrs={'placeholder': 'Votre email'}))
     email2 = forms.EmailField(label="", widget=forms.EmailInput(attrs={'placeholder': 'Confirmez votre email'}))
     name = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Nom et prénom'}))
     phone_number = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Votre numéro téléphone'}))
-    cgu_approved = forms.BooleanField(label="J'ai lu et j'accepte les conditions d'utilisation")
+    cgu_approved = forms.BooleanField(label=mark_safe('J\'ai lu et j\'accepte les <a href="/conditions-generales-d-utilisation" target="_blank">conditions d\'utilisation</a>'))
 
     class Meta:
         model = Farmer
