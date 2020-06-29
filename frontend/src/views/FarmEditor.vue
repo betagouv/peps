@@ -20,86 +20,104 @@
 
         <!-- FARM NAME -->
         <div class="field">
-          <div class="field-title title">Le nom de votre exploitation</div>
+          <div class="field-title title">Le nom de votre exploitation <span class="mandatory">- obligatoire</span></div>
           <v-text-field
             hide-details="auto"
             @input="hasChanged = true"
             outlined
             dense
             v-model="dummyFarmer.farm_name"
+            :rules="[validators.notEmpty]"
           ></v-text-field>
         </div>
 
         <!-- PRODUCTIONS -->
         <div class="field">
-          <div class="field-title title">Quelles productions sont présentes sur l'exploitation ?</div>
+          <div class="field-title title">Quelles productions sont présentes sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
           <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Grandes cultures"
             value="Grandes cultures"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Cultures industrielles"
             value="Cultures industrielles"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Élevage allaitant"
             value="Élevage allaitant"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Élevage laitier"
             value="Élevage laitier"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Élevage engraissement"
             value="Élevage engraissement"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Élevage poule"
             value="Élevage poule"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Cultures légumières"
             value="Cultures légumières"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Vigne"
             value="Vigne"
+            hide-details
+            :rules="[hasProductions]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
             label="Autre"
             value="Autre"
+            :rules="[hasProductions]"
           ></v-checkbox>
         </div>
 
         <!-- INSTALLATION DATE -->
 
         <div class="field">
-          <div class="field-title title">Quand vous êtes-vous installé sur l'exploitation ?</div>
+          <div class="field-title title">Quand vous êtes-vous installé sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
           <div class="field-helper">Renseignez l'année (par exemple, 2001)</div>
 
           <v-text-field
             hide-details="auto"
             @input="onInstallationYearChange"
-            :rules="[validators.isYear]"
+            :rules="[validators.isYear, validators.notEmpty]"
             outlined
             dense
             :value="installationYear"
@@ -164,11 +182,9 @@
           <div class="field child-field">
             <div class="field-title subtitle-2">
               La surface en cultures (en ha.)
-              <span class="mandatory">- obligatoire</span>
             </div>
             <v-text-field
               hide-details="auto"
-              :rules="[validators.notEmpty]"
               @input="hasChanged = true"
               outlined
               dense
@@ -181,11 +197,9 @@
           <div class="field child-field">
             <div class="field-title subtitle-2">
               La surface en prairie et cultures fourragères (en ha.)
-              <span class="mandatory">- obligatoire</span>
             </div>
             <v-text-field
               hide-details="auto"
-              :rules="[validators.notEmpty]"
               @input="hasChanged = true"
               outlined
               dense
@@ -251,7 +265,7 @@
         <!-- CULTURES -->
 
         <div class="field">
-          <div class="field-title title">Quelles cultures avez-vous sur l'exploitation ?</div>
+          <div class="field-title title">Quelles cultures avez-vous sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
           <div class="field-helper">Lister les cultures et les espèces fourragères</div>
           <v-textarea
             hide-details="auto"
@@ -261,13 +275,14 @@
             outlined
             dense
             v-model="dummyFarmer.cultures"
+            :rules="[validators.notEmpty]"
           ></v-textarea>
         </div>
 
         <!-- SOIL TYPE -->
 
         <div class="field">
-          <div class="field-title title">Quels types de sols sont présents sur l'exploitation ?</div>
+          <div class="field-title title">Quels types de sols sont présents sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
           <v-textarea
             hide-details="auto"
             rows="3"
@@ -275,6 +290,7 @@
             auto-grow
             outlined
             dense
+            :rules="[validators.notEmpty]"
             v-model="dummyFarmer.soil_type"
           ></v-textarea>
         </div>
@@ -297,7 +313,7 @@
         <!-- DESCRIPTION -->
 
         <div class="field">
-          <div class="field-title title">Pouvez-vous décrire votre exploitation ?</div>
+          <div class="field-title title">Pouvez-vous décrire votre exploitation ? <span class="mandatory">- obligatoire</span></div>
           <div
             class="field-helper"
           >Son histoire, son fonctionnement, ses particularités, la philosophie et le type d'agriculture pratiquée...</div>
@@ -307,6 +323,7 @@
             @input="hasChanged = true"
             auto-grow
             outlined
+            :rules="[validators.notEmpty]"
             dense
             v-model="dummyFarmer.description"
           ></v-textarea>
@@ -575,6 +592,12 @@ export default {
 
       return dateElements[0]
     },
+    hasProductions() {
+      const errorMessage = "Vous devez en selectionner au moins une production"
+      if (!this.dummyFarmer || !this.dummyFarmer.production)
+        return errorMessage
+      return this.dummyFarmer.production.length > 0 || errorMessage
+    }
   },
   methods: {
     updateFarmer() {

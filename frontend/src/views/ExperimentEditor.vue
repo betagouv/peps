@@ -149,7 +149,6 @@
         <div class="field">
           <div class="field-title title">
             L'expérience est-elle en cours aujourd'hui ?
-            <span class="mandatory">- obligatoire</span>
           </div>
           <div
             class="field-helper"
@@ -158,7 +157,6 @@
             @change="hasChanged = true"
             v-model="dummyExperiment.ongoing"
             :mandatory="false"
-            :rules="[validators.notEmpty]"
           >
             <v-radio label="Oui" :value="true"></v-radio>
             <v-radio label="Non" :value="false"></v-radio>
@@ -169,12 +167,10 @@
         <div class="field">
           <div class="field-title title">
             Quels investissements ont été nécessaires pour cette expérience ?
-            <span class="mandatory">- obligatoire</span>
           </div>
           <div class="field-helper">En temps, en argent, en machines...</div>
           <v-textarea
             hide-details="auto"
-            :rules="[validators.notEmpty]"
             rows="1"
             @input="hasChanged = true"
             auto-grow
@@ -224,7 +220,7 @@
 
         <!-- SURFACE TYPE -->
         <div class="field">
-          <div class="field-title title">Sur quelle surface portait l'expérience ?</div>
+          <div class="field-title title">Sur quelle surface portait l'expérience ? <span class="mandatory">- obligatoire</span></div>
           <div
             class="field-helper"
           >"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
@@ -233,30 +229,39 @@
             v-model="dummyExperiment.surface_type"
             label="Toutes les surfaces"
             value="Toutes les surfaces"
+            hide-details
+            :rules="[hasSurfaceType]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Plusieurs parcelles"
             value="Plusieurs parcelles"
+            hide-details
+            :rules="[hasSurfaceType]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Une parcelle"
             value="Une parcelle"
+            hide-details
+            :rules="[hasSurfaceType]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Des bandes"
             value="Des bandes"
+            hide-details
+            :rules="[hasSurfaceType]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.surface_type"
             label="Des carrés"
             value="Des carrés"
+            :rules="[hasSurfaceType]"
           ></v-checkbox>
         </div>
 
@@ -534,6 +539,12 @@ export default {
           disabled: true
         }
       ]
+    },
+    hasSurfaceType() {
+      const errorMessage = "Vous devez en selectionner au moins une surface"
+      if (!this.dummyExperiment || !this.dummyExperiment.surface_type)
+        return errorMessage
+      return this.dummyExperiment.surface_type.length > 0 || errorMessage
     }
   },
   methods: {
