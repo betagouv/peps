@@ -56,6 +56,20 @@
             ],
             "justMyCode": false,
             "django": true
+        },
+        {
+            "name": "Migrate",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "pythonPath": "${workspaceRoot}/venv/bin/python",
+            "program": "${workspaceFolder}/manage.py",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "migrate",
+            ],
+            "justMyCode": false,
+            "django": true
         }
-    ]
+    ],
 }

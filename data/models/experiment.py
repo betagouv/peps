@@ -1,6 +1,6 @@
 import uuid
 from django.utils import timezone
-from django.db import models
+from django.db import models, connection
 from django.contrib.postgres.fields import JSONField
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer
@@ -42,8 +42,21 @@ SURFACE_TYPE = (
     ("Des carrés", "Des carrés"),
 )
 
+def get_next_increment():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT nextval('experiment_sequence_number')")
+        result = cursor.fetchone()
+        return result[0]
+
 class Experiment(models.Model):
+    # These two are unique values. UUIDs were chosen initially as IDs as they
+    # allow client ID generation, less issues when working with multiple DBs, etc.
+    # However, they are cumbersome to use on some situations (e.g., URLs), so we
+    # also benefit from a short sequential ID that uses a Postgres sequence.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    sequence_number = models.IntegerField(default=get_next_increment, editable=False, unique=True)
+    #############################################################################
+
     external_id = models.CharField(max_length=100, db_index=True, null=True)
     modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)

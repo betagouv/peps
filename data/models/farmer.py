@@ -1,11 +1,12 @@
 import uuid
 from django.utils import timezone
 from django.contrib.auth import get_user_model
-from django.db import models
+from django.db import models, connection
 from django.contrib.postgres.fields import JSONField
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.utils import optimize_image
 from data.forms import ChoiceArrayField
+
 
 PRODUCTIONS = (
     ('Grandes cultures', 'Grandes cultures'),
@@ -53,12 +54,25 @@ TYPE_LIVESTOCK = (
     ('Autre', 'Autre'),
 )
 
+def get_next_increment():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT nextval('farmer_sequence_number')")
+        result = cursor.fetchone()
+        return result[0]
+
 class Farmer(models.Model):
 
     class Meta:
         ordering = ['name']
 
+    # These two are unique values. UUIDs were chosen initially as IDs as they
+    # allow client ID generation, less issues when working with multiple DBs, etc.
+    # However, they are cumbersome to use on some situations (e.g., URLs), so we
+    # also benefit from a short sequential ID that uses a Postgres sequence.
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    sequence_number = models.IntegerField(default=get_next_increment, editable=False, unique=True)
+    #############################################################################
+
     external_id = models.CharField(max_length=100, db_index=True, null=True)
 
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, null=True)
