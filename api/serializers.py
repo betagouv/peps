@@ -185,10 +185,12 @@ class ExperimentSerializer(serializers.ModelSerializer):
         model = Experiment
         read_only_fields = [
             'id',
+            'sequence_number',
             'external_id',
         ]
         fields = (
             'id',
+            'sequence_number',
             'external_id',
             'tags',
             'approved',
@@ -330,9 +332,11 @@ class FarmerSerializer(serializers.ModelSerializer):
             'id',
             'external_id',
             'experiments',
+            'sequence_number',
         ]
         fields = (
             'id',
+            'sequence_number',
             'external_id',
             'approved',
             'name',

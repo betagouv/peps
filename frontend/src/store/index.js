@@ -272,8 +272,7 @@ export default new Vuex.Store({
       context.commit('SET_LAST_CONTACT_INFO', { name, email, phoneNumber })
 
       let payload = { email, name: name + ' [CONTACT AGRI]', phone_number: phoneNumber }
-      const airtableUrl = 'https://airtable.com/tblwbHvoVKo0o9C38/' + farmer.external_id
-      payload.reason = 'Veut se mettre en contact avec ' + farmer.name + ' (' + airtableUrl + ')'
+      payload.reason = 'Veut se mettre en contact avec ' + farmer.name + ' (' + farmer.id + ')'
 
       context.commit('SET_CONTACT_LOADING', Constants.LoadingStatus.LOADING)
       Vue.http.post('/api/v1/sendTask', payload, { headers }).then(() => {
@@ -438,11 +437,18 @@ export default new Vuex.Store({
         return undefined
       })
     },
-    farmerWithUrlComponent(state) {
+    farmerWithLegacyUrlComponent(state) {
       return (farmerUrlComponent => {
         let shortenedId = farmerUrlComponent.split('__')[1]
         let uuid = short().toUUID(shortenedId)
         return state.farmers.find(x => x.id === uuid)
+      })
+    },
+    farmerWithUrlComponent(state) {
+      return (farmerUrlComponent => {
+        let sequenceNumber = parseInt(farmerUrlComponent.split('--')[1])
+        if (!isNaN(sequenceNumber))
+          return state.farmers.find(x => x.sequence_number === sequenceNumber)
       })
     },
     experimentWithUrlComponent() {
@@ -456,7 +462,7 @@ export default new Vuex.Store({
       return (farmerId => state.farmers.find(x => x.id === farmerId))
     },
     farmerUrlComponent() {
-      return (farmer => `${farmer.name}__${short().fromUUID(farmer.id)}`)
+      return (farmer => `${farmer.name}--${farmer.sequence_number}`)
     },
     experimentUrlComponent() {
       return (experiment => `${experiment.name}__${short().fromUUID(experiment.id)}`)
