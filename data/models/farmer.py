@@ -151,7 +151,7 @@ def create_user_if_needed(sender, instance, **kwargs):
             random_password = get_user_model().objects.make_random_password()
             new_user = get_user_model().objects.create_user(email=email, username=email, password=random_password)
             instance.user = new_user
-    if sender == Farmer and not email:
+    if sender == Farmer and not instance.email:
         instance.user = None
 
 models.signals.pre_save.connect(create_user_if_needed, sender=Farmer)
