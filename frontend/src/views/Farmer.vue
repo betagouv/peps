@@ -199,9 +199,9 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: "Carte de retours d'expérience",
+          text: "Accueil",
           disabled: false,
-          href: "/map"
+          to: { name: "Map" }
         },
         {
           text: this.farmer.name,

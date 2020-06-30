@@ -267,9 +267,9 @@ export default {
       title: "Mon compte",
       breadcrumbs: [
         {
-          text: "Carte de retours d'expérience",
+          text: "Accueil",
           disabled: false,
-          href: "/map"
+          to: { name: "Map" }
         },
         {
           text: "Mon compte",

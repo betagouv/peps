@@ -30,7 +30,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/"
+          to: { name: "Map" }
         },
         {
           text: this.category.title,

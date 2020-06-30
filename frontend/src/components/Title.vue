@@ -1,7 +1,7 @@
 <template>
   <div class="title-container">
     <v-container class="constrained">
-      <v-breadcrumbs dark v-if="breadcrumbs" :items="breadcrumbs" class="body-1 pa-0 d-none d-sm-flex">
+      <v-breadcrumbs dark v-if="breadcrumbs" :items="desktopBreadcrumbs" class="body-1 pa-0 d-none d-sm-flex">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
@@ -37,6 +37,19 @@ export default {
     breakpoint() {
       return this.$vuetify.breakpoint
     },
+    desktopBreadcrumbs() {
+      if (!this.breadcrumbs)
+        return []
+
+      return this.breadcrumbs.map(breadcrumbItem => {
+        return {
+          text: breadcrumbItem.text,
+          disabled: breadcrumbItem.disabled,
+          to: breadcrumbItem.to,
+          exact: true
+        }
+      })
+    },
     mobileBreadcrumbs() {
       if (!this.breadcrumbs)
         return []
@@ -52,7 +65,8 @@ export default {
         return {
           text: processMobileText(breadcrumbItem.text),
           disabled: breadcrumbItem.disabled,
-          href: breadcrumbItem.href,
+          to: breadcrumbItem.to,
+          exact: true
         }
       })
       return mobileBreadcrumbs.slice(0, -1)

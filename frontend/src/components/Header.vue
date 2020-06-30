@@ -7,10 +7,10 @@
     <div style="position: absolute; width:100%;">
       <v-app-bar app absolute color="primary" dark>
         <v-toolbar-title>
-          <a
-            href="/"
+          <router-link
+            :to="{ name: 'Map' }"
             style="color:white; text-decoration:none; font-weight: bold; outline: none;"
-          >Peps</a>
+          >Peps</router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-badge
@@ -29,12 +29,12 @@
           </v-btn>
         </v-badge>
 
-        <v-btn text elevation="0" href="/qui-sommes-nous">
+        <v-btn text elevation="0" :to="{ name: 'QuiSommesNous' }">
           <v-icon class="d-flex d-sm-none">mdi-information</v-icon>
           <span class="caption text-none d-none d-sm-flex">En savoir plus</span>
         </v-btn>
 
-        <v-btn text elevation="0" href="/contact">
+        <v-btn text elevation="0" :to="{ name: 'Contact' }">
           <v-icon class="d-flex d-sm-none">mdi-email</v-icon>
           <span class="caption text-none d-none d-sm-flex">Contact</span>
         </v-btn>

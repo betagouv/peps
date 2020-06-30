@@ -84,7 +84,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/"
+          to: { name: "Map" }
         },
         {
           text: "Contact",

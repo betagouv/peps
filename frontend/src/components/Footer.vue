@@ -38,13 +38,13 @@
                 <a target="_blank" href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
               </li>
               <li>
-                <a href="/qui-sommes-nous">En savoir plus</a>
+                <router-link :to="{ name: 'QuiSommesNous' }">En savoir plus</router-link>
               </li>
               <li>
-                <a href="/contact">Contact</a>
+                <router-link :to="{ name: 'Contact' }">Contact</router-link>
               </li>
               <li>
-                <a href="/conditions-generales-d-utilisation">CGU</a>
+                <router-link :to="{ name: 'CGU' }">CGU</router-link>
               </li>
             </ul>
           </v-col>

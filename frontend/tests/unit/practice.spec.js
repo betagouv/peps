@@ -48,6 +48,15 @@ describe('Practice.vue', () => {
     vuetify = new Vuetify()
   })
 
+  const router = new VueRouter({
+    routes: [
+      {
+        path: '/',
+        name: 'Map',
+      }
+    ]
+  })
+
   it('displays the practice title', () => {
     const wrapper = mount(Practice, {
       localVue,
@@ -55,7 +64,7 @@ describe('Practice.vue', () => {
       propsData: {
         practice: practice,
       },
-      router: new VueRouter(),
+      router: router,
       store: new Vuex.Store(),
     })
     expect(wrapper.findAll('.title').length).toBe(1)
@@ -69,7 +78,7 @@ describe('Practice.vue', () => {
       propsData: {
         practice: practice,
       },
-      router: new VueRouter(),
+      router: router,
       store: new Vuex.Store(),
     })
     expect(wrapper.findAll('.practice-description').length).toBe(1)

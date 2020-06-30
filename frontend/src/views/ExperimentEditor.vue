@@ -525,14 +525,14 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: "Carte de retours d'expérience",
+          text: "Accueil",
           disabled: false,
-          href: "/map"
+          to: { name: "Map" }
         },
         {
           text: "Mon compte",
           disabled: false,
-          href: "/compte"
+          to: { name: "Profile" }
         },
         {
           text: this.experiment ? this.experiment.name : "Nouvelle expérience",

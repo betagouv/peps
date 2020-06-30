@@ -69,12 +69,12 @@ export default {
       {
         text: "Accueil",
         disabled: false,
-        href: "/"
+        to: { name: "Simulator" }
       },
       {
         text: "Simulateur",
         disabled: false,
-        href: "/formulaire"
+        to: { name: "FormsContainer" }
       },
       {
         text: "Résultats",

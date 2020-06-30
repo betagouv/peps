@@ -108,7 +108,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/"
+          to: { name: "Map" }
         },
         {
           text: "Politique de confidentialité",

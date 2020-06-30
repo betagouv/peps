@@ -138,7 +138,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          href: "/"
+          to: { name: "Map" }
         },
         {
           text: "Partager mon expérience",

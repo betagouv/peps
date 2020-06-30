@@ -10,7 +10,6 @@
     <NotFound v-if="experimentNotFound" style="padding-top: 40px; padding-bottom: 50px;" />
 
     <div v-else-if="experiment">
-
       <Title :breadcrumbs="breadcrumbs" />
       <v-container class="constrained" style="padding-top: 10px;">
         <v-row>
@@ -46,8 +45,14 @@
               class="d-flex d-md-none"
               style="margin-bottom: 20px; margin-left: 15px; margin-top: 0px;"
             >
-              <MiniMap style="padding-top: 15px; width: 120px; margin-right: 20px;" :size="100" class="d-none d-sm-flex" :lat='farmer.lat' :lon='farmer.lon' />
-              
+              <MiniMap
+                style="padding-top: 15px; width: 120px; margin-right: 20px;"
+                :size="100"
+                class="d-none d-sm-flex"
+                :lat="farmer.lat"
+                :lon="farmer.lon"
+              />
+
               <v-avatar
                 style="margin-right: 10px; float: left; margin-top: 0px;"
                 size="35"
@@ -83,7 +88,6 @@
                   outlined
                   @click="goToFarmer()"
                 >Voir son profil</v-btn>
-                
               </div>
             </div>
 
@@ -183,9 +187,9 @@
               v-if="experiment.images && experiment.images.length > 0"
               style="margin-top: 20px;"
             >Images</div>
-            <ImageGallery 
-              v-if="experiment.images && experiment.images.length > 0" 
-              :images="experiment.images" 
+            <ImageGallery
+              v-if="experiment.images && experiment.images.length > 0"
+              :images="experiment.images"
             />
 
             <div
@@ -193,7 +197,10 @@
               v-if="experiment.videos && experiment.videos.length > 0"
               style="margin-top: 20px;"
             >Vidéos</div>
-            <VideoGallery v-if="experiment.videos && experiment.videos.length > 0" :videos="experiment.videos" />
+            <VideoGallery
+              v-if="experiment.videos && experiment.videos.length > 0"
+              :videos="experiment.videos"
+            />
 
             <div class="body-1" style="margin-top: 30px;">
               Pour plus d'informations sur cette expérience :
@@ -235,13 +242,19 @@ export default {
   metaInfo() {
     const titleMaxLength = 70
     const descriptionMaxLength = 150
-    let title = this.experiment ? this.experiment.name : 'Retour d\'expérience'
+    let title = this.experiment ? this.experiment.name : "Retour d'expérience"
     if (title.length >= titleMaxLength) {
-      title = title.substring(0, titleMaxLength - 1) + '…'
+      title = title.substring(0, titleMaxLength - 1) + "…"
     }
-    let tags = this.experiment && this.experiment.tags ? 'Thèmes : ' + this.experiment.tags.join(', ') + '. ' : ''
+    let tags =
+      this.experiment && this.experiment.tags
+        ? "Thèmes : " + this.experiment.tags.join(", ") + ". "
+        : ""
     let descriptionLength = descriptionMaxLength - tags.length
-    let description = this.experiment && this.experiment.description ? this.experiment.description.substring(0, descriptionLength - 1) + '…' : ''
+    let description =
+      this.experiment && this.experiment.description
+        ? this.experiment.description.substring(0, descriptionLength - 1) + "…"
+        : ""
     return {
       title: title,
       meta: [{ description: `${tags} ${description}` }]
@@ -258,7 +271,7 @@ export default {
   },
   data() {
     return {
-      contactOverlayVisible: false,
+      contactOverlayVisible: false
     }
   },
   props: {
@@ -323,14 +336,21 @@ export default {
     breadcrumbs() {
       return [
         {
-          text: "Carte de retours d'expérience",
+          text: "Accueil",
           disabled: false,
-          href: "/map"
+          to: { name: "Map" }
         },
         {
           text: this.farmer.name,
           disabled: false,
-          href: "/agriculteur/" + this.farmer.name
+          to: {
+            name: "Farmer",
+            params: {
+              farmerUrlComponent: this.$store.getters.farmerUrlComponent(
+                this.farmer
+              )
+            }
+          }
         },
         {
           text: this.experiment.name,
