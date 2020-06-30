@@ -1,5 +1,5 @@
 import LegacyFarmer from '@/views/LegacyFarmer.vue'
-import store from '@/store/index'
+import LegacyExperiment from '@/views/LegacyExperiment.vue'
 
 export default [
   {
@@ -29,21 +29,34 @@ export default [
       const isValidComponent = route.params.legacyFarmerUrlComponent.indexOf('__') >= 0
       if (isValidComponent) {
         next()
-        return
+      } else {
+        next({ name: 'Map' })
       }
-
-      const farmerName = route.params.legacyFarmerUrlComponent
-      const farmer = store.state.farmers.find(x => x.name === farmerName)
-      if (!farmer) {
+    }
+  },
+  {
+    path: '/agriculteur/:legacyFarmerUrlComponent/experimentation/:legacyExperimentUrlComponent',
+    name: 'DeprecatedExperiment',
+    component: LegacyExperiment,
+    props: (route) => {
+      return {
+        legacyFarmerUrlComponent: route.params.legacyFarmerUrlComponent,
+        legacyExperimentUrlComponent: route.params.legacyExperimentUrlComponent
+      }
+    },
+    beforeEnter: (route, _, next) => {
+      if (!route.params.legacyFarmerUrlComponent || !route.params.legacyExperimentUrlComponent) {
         next({ name: 'Map' })
         return
       }
-      next({
-        name: 'Farmer',
-        params: {
-          legacyFarmerUrlComponent: store.getters.legacyFarmerUrlComponent(farmer)
-        }
-      })
+      const isValidFarmerComponent = route.params.legacyFarmerUrlComponent.indexOf('__') >= 0
+      const isValidXPComponent = route.params.legacyExperimentUrlComponent.indexOf('__') >= 0
+
+      if (isValidFarmerComponent && isValidXPComponent) {
+        next()
+      } else {
+        next({ name: 'Map' })
+      }
     }
   },
 ]

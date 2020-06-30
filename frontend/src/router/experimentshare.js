@@ -35,7 +35,7 @@ export default [
     }
   },
   {
-    path: '/agriculteur/:farmerUrlComponent/experimentation/:experimentUrlComponent',
+    path: '/exploitation/:farmerUrlComponent/expérience/:experimentUrlComponent',
     name: 'Experiment',
     component: Experiment,
     props: (route) => {
@@ -49,46 +49,14 @@ export default [
         next({ name: 'Map' })
         return
       }
-      const isValidFarmerComponent = route.params.farmerUrlComponent.indexOf('__') >= 0
-      const isValidXPComponent = route.params.experimentUrlComponent.indexOf('__') >= 0
+      const isValidFarmerComponent = route.params.farmerUrlComponent.indexOf('--') >= 0
+      const isValidXPComponent = route.params.experimentUrlComponent.indexOf('--') >= 0
 
       if (isValidFarmerComponent && isValidXPComponent) {
         next()
-        return
+      } else {
+        next({ name: 'Map' })
       }
-
-      let farmerUrlComponent = route.params.farmerUrlComponent
-      let experimentUrlComponent = route.params.experimentUrlComponent
-      if (!isValidFarmerComponent) {
-        const farmerName = route.params.farmerUrlComponent
-        const farmer = store.state.farmers.find(x => x.name === farmerName)
-        if (!farmer) {
-          next({ name: 'Map' })
-          return
-        }
-        farmerUrlComponent = store.getters.farmerUrlComponent(farmer)
-      }
-      if (!isValidXPComponent) {
-        const xpFarmer = store.getters.farmerWithUrlComponent(farmerUrlComponent)
-        if (!xpFarmer) {
-          next({ name: 'Map' })
-          return
-        }
-        const experimentName = route.params.experimentUrlComponent
-        const experiment = xpFarmer.experiments.find(x => x.name === experimentName)
-        if (!experiment) {
-          next({ name: 'Map' })
-          return
-        }
-        experimentUrlComponent = store.getters.experimentUrlComponent(experiment)
-      }
-      next({
-        name: 'Experiment',
-        params: {
-          farmerUrlComponent,
-          experimentUrlComponent
-        }
-      })
     }
   },
   {

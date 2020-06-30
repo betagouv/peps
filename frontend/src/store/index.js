@@ -451,11 +451,18 @@ export default new Vuex.Store({
           return state.farmers.find(x => x.sequence_number === sequenceNumber)
       })
     },
-    experimentWithUrlComponent() {
+    experimentWithLegacyUrlComponent() {
       return ((farmer, experimentUrlComponent) => {
         let shortenedId = experimentUrlComponent.split('__')[1]
         let uuid = short().toUUID(shortenedId)
         return farmer.experiments.find(x => x.id === uuid)
+      })
+    },
+    experimentWithUrlComponent() {
+      return ((farmer, experimentUrlComponent) => {
+        let sequenceNumber = parseInt(experimentUrlComponent.split('--')[1])
+        if (!isNaN(sequenceNumber))
+          return farmer.experiments.find(x => x.sequence_number === sequenceNumber)
       })
     },
     farmerWithId(state) {
@@ -465,7 +472,7 @@ export default new Vuex.Store({
       return (farmer => `${farmer.name}--${farmer.sequence_number}`)
     },
     experimentUrlComponent() {
-      return (experiment => `${experiment.name}__${short().fromUUID(experiment.id)}`)
+      return (experiment => `${experiment.name}--${experiment.sequence_number}`)
     },
     selectedFarmer(state) {
       return state.farmers.find(x => x.id === state.selectedFarmerId)
