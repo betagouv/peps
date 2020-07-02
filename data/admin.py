@@ -97,22 +97,23 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
     readonly_fields = ('html_link', )
     fields = [
         'html_link',
-        'name',
-        'farmer',
         'approved',
+        'farmer',
+
+        'name',
         'xp_type',
         'objectives',
-        'description',
-        'results',
-        'results_details',
         'tags',
-        'control_presence',
         'ongoing',
-        'equipment',
-        'links',
         'investment',
+        'equipment',
+        'description',
         'surface_type',
         'surface',
+        'control_presence',
+        'results',
+        'results_details',
+        'links',
     ]
     inlines = (ExperimentImageInline, ExperimentVideoInline)
     form = ExperimentForm
@@ -207,36 +208,47 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'email', 'approved')
     search_fields = ('name', 'email')
     readonly_fields = ('html_link', )
-    fields = (
-        'html_link',
-        'approved',
-        'cgu_approved',
-        'name',
-        'farm_name',
-        'email',
-        'phone_number',
-        'installation_date',
-        'description',
-        'cultures',
-        'lat',
-        'lon',
-        'production',
-        'groups',
-        'agriculture_types',
-        'profile_image',
-        'postal_code',
-        'personnel',
-        'livestock_types',
-        'livestock_number',
-        'soil_type',
-        'specificities',
-        'contact_possible',
-        'links',
-        'surface',
-        'surface_cultures',
-        'surface_meadows',
-        'output',
-        'onboarding_shown',
+    fieldsets = (
+        ('', {
+            'fields': (
+                'html_link',
+                'approved',
+                'cgu_approved',
+            )
+        }),
+        ('Informations Personnelles', {
+            'fields': (
+                'name',
+                'email',
+                'phone_number',
+                'profile_image',
+                'contact_possible',
+                'groups',
+            )
+        }),
+        ('L\'exploitation', {
+            'fields': (
+                'farm_name',
+                'production',
+                'installation_date',
+                'postal_code',
+                'lat',
+                'lon',
+                'personnel',
+                'surface',
+                'surface_cultures',
+                'surface_meadows',
+                'livestock_types',
+                'livestock_number',
+                'cultures',
+                'soil_type',
+                'output',
+                'description',
+                'specificities',
+                'agriculture_types',
+                'links',
+            )
+        }),
     )
     list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
