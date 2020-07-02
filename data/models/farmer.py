@@ -1,8 +1,10 @@
 import uuid
+from urllib.parse import quote
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.db import models, connection
 from django.contrib.postgres.fields import JSONField
+from django.utils.html import mark_safe
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.utils import optimize_image
 from data.forms import ChoiceArrayField
@@ -138,6 +140,22 @@ class Farmer(models.Model):
         if self.email:
             self.email = get_user_model().objects.normalize_email(self.email)
         super(Farmer, self).save(force_insert, force_update, using, update_fields)
+
+    @property
+    def url_path(self):
+        url_name = quote(self.farm_name or self.name)
+        return f'/exploitation/{url_name}--{self.sequence_number or ""}'
+
+    @property
+    def html_link(self):
+        """
+        This is used in the admin panel to link to the farmer's page
+        """
+        if self.sequence_number and self.approved:
+            unescaped_url = f'/exploitation/{self.farm_name or self.name}--{self.sequence_number}'
+            return mark_safe(f'<a href="{self.url_path}" target="_blank">{unescaped_url}</a>')
+        else:
+            return 'Pas encore live'
 
     def __str__(self):
         return self.name

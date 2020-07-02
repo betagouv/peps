@@ -1,7 +1,9 @@
 import uuid
+from urllib.parse import quote
 from django.utils import timezone
 from django.db import models, connection
 from django.contrib.postgres.fields import JSONField
+from django.utils.html import mark_safe
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer
 from data.utils import optimize_image
@@ -82,6 +84,21 @@ class Experiment(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def url_path(self):
+        if not self.farmer:
+            return ''
+        url_name = quote(self.name)
+        return f'{self.farmer.url_path}/{quote("expérience")}/{url_name}--{self.sequence_number or ""}'
+
+    @property
+    def html_link(self):
+        if self.sequence_number and self.approved:
+            unescaped_url = f'/exploitation/{self.farmer.farm_name or self.farmer.name}--{self.farmer.sequence_number}/expérience/{self.name}--{self.sequence_number}'
+            return mark_safe(f'<a href="{self.url_path}" target="_blank">{unescaped_url}</a>')
+        else:
+            return 'Pas encore live'
 
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields

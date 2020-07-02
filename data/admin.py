@@ -39,23 +39,14 @@ class ExperimentVideoInline(admin.TabularInline):
 
 class ExperimentForm(forms.ModelForm):
     class Meta:
-        fields = [
-            'name',
-            'farmer',
-            'approved',
-            'xp_type',
-            'objectives',
-            'description',
-            'results',
-            'results_details',
-            'tags',
-            'control_presence',
-            'ongoing',
-            'equipment',
-            'links',
-            'investment',
-            'surface_type',
-            'surface',
+        exclude = [
+            'id',
+            'sequence_number',
+            'external_id',
+            'modification_date',
+            'airtable_json',
+            'airtable_url',
+            'creation_date',
         ]
         model = Experiment
         widgets = {
@@ -103,6 +94,26 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'author', 'xp_type', 'results', 'approved')
     list_filter = (ApprovalFilter, AuthorFilter)
     search_fields = ('name', )
+    readonly_fields = ('html_link', )
+    fields = [
+        'html_link',
+        'name',
+        'farmer',
+        'approved',
+        'xp_type',
+        'objectives',
+        'description',
+        'results',
+        'results_details',
+        'tags',
+        'control_presence',
+        'ongoing',
+        'equipment',
+        'links',
+        'investment',
+        'surface_type',
+        'surface',
+    ]
     inlines = (ExperimentImageInline, ExperimentVideoInline)
     form = ExperimentForm
 
@@ -167,8 +178,8 @@ class FarmerForm(forms.ModelForm):
         super(FarmerForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user', 'livestock_type')
         model = Farmer
+        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user', 'livestock_type')
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'farm_name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
@@ -195,6 +206,38 @@ class FarmerForm(forms.ModelForm):
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'postal_code', 'email', 'approved')
     search_fields = ('name', 'email')
+    readonly_fields = ('html_link', )
+    fields = (
+        'html_link',
+        'approved',
+        'cgu_approved',
+        'name',
+        'farm_name',
+        'email',
+        'phone_number',
+        'installation_date',
+        'description',
+        'cultures',
+        'lat',
+        'lon',
+        'production',
+        'groups',
+        'agriculture_types',
+        'profile_image',
+        'postal_code',
+        'personnel',
+        'livestock_types',
+        'livestock_number',
+        'soil_type',
+        'specificities',
+        'contact_possible',
+        'links',
+        'surface',
+        'surface_cultures',
+        'surface_meadows',
+        'output',
+        'onboarding_shown',
+    )
     list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
     form = FarmerForm
