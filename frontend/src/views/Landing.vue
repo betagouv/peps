@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader :loading="true" v-if="showLoader" />
     <div id="landing-image">
       <v-container class="constrained">
         <v-card id="landing-main" class="pa-5" style="margin-top: 10px; max-width: 650px;">
@@ -51,6 +52,7 @@ import CategoriesCards from "@/components/grids/CategoriesCards.vue"
 import DescriptionCards from "@/components/grids/DescriptionCards.vue"
 import FeedbackCards from "@/components/grids/FeedbackCards.vue"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
+import Loader from '@/components/Loader.vue'
 
 export default {
   name: "Landing",
@@ -58,7 +60,8 @@ export default {
     CategoriesCards,
     DescriptionCards,
     FeedbackCards,
-    ContributionOverlay
+    ContributionOverlay,
+    Loader
   },
   data() {
     return {
@@ -66,6 +69,11 @@ export default {
       backgroundImageHeight: 0,
       showContributionOverlay: false
     }
+  },
+  computed: {
+    showLoader() {
+      return !this.$store.state.miaFormData
+    },
   },
   methods: {
     goToForm() {
@@ -75,8 +83,14 @@ export default {
     contribute() {
       window.sendTrackingEvent(this.$route.name, "contribute", 'Je contribue !')
       this.showContributionOverlay = true
-    }
-  }
+    },
+  },
+  mounted() {
+    if (!this.$store.state.miaFormData)
+      this.$store.dispatch("fetchFormDefinitions")
+    if (!this.$store.state.categories)
+      this.$store.dispatch("fetchCategories")
+  },
 }
 </script>
 
