@@ -39,12 +39,12 @@ class WebSitemap(Sitemap):
     def items(self):
         return [
             {
-                'location': '/login/',
+                'location': '/login',
                 'changefreq': 'yearly',
                 'priority': 0.4
             },
             {
-                'location': '/register/',
+                'location': '/register',
                 'changefreq': 'yearly',
                 'priority': 0.7
             },

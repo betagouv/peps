@@ -51,6 +51,7 @@ class ExperimentForm(forms.ModelForm):
         model = Experiment
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'short_name': forms.Textarea(attrs={'cols': 25, 'rows': 1}),
             'objectives': forms.Textarea(attrs={'cols': 55, 'rows': 2}),
             'equipment': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'results_details': forms.Textarea(attrs={'cols': 55, 'rows': 6}),
@@ -101,6 +102,7 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
         'farmer',
 
         'name',
+        'short_name',
         'xp_type',
         'objectives',
         'tags',

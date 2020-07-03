@@ -68,6 +68,7 @@ class Experiment(models.Model):
     approved = models.BooleanField(default=False, db_index=True)
     tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list, blank=True, null=True)
     name = models.TextField(max_length=70)
+    short_name = models.TextField(max_length=40, null=True, blank=True, help_text='Si ce champ est présent, il sera utilisé pour l\'URL')
     objectives = models.TextField(null=True, blank=True)
     equipment = models.TextField(null=True, blank=True)
     control_presence = models.BooleanField(null=True, blank=True)
@@ -89,13 +90,13 @@ class Experiment(models.Model):
     def url_path(self):
         if not self.farmer:
             return ''
-        url_name = quote(self.name)
+        url_name = quote(self.short_name or self.name)
         return f'{self.farmer.url_path}/{quote("expérience")}/{url_name}--{self.sequence_number or ""}'
 
     @property
     def html_link(self):
         if self.sequence_number and self.approved:
-            unescaped_url = f'/exploitation/{self.farmer.farm_name or self.farmer.name}--{self.farmer.sequence_number}/expérience/{self.name}--{self.sequence_number}'
+            unescaped_url = f'/exploitation/{self.farmer.farm_name or self.farmer.name}--{self.farmer.sequence_number}/expérience/{self.short_name or self.name}--{self.sequence_number}'
             return mark_safe(f'<a href="{self.url_path}" target="_blank">{unescaped_url}</a>')
         else:
             return 'Pas encore live'
