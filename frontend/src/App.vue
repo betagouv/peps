@@ -2,6 +2,7 @@
   <v-app>
     <div id="app-wrapper">
       <Header />
+      <Loader v-if="initialCallsLoading" :loading="true" />
       <OverlayMessage
         :visible="showErrorMessage"
         ctaText="Recharger la page"
@@ -25,13 +26,15 @@ import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
 import OverlayMessage from "@/components/OverlayMessage.vue"
+import Loader from  "@/components/Loader.vue"
 
 export default {
   name: "App",
   components: {
     Header,
     Footer,
-    OverlayMessage
+    OverlayMessage,
+    Loader
   },
   mounted() {
     this.$store.dispatch("resetLoaders")
@@ -49,6 +52,13 @@ export default {
         this.$store.state.implementationLoadingStatus === error
       )
     },
+    initialCallsLoading() {
+      const loading = Constants.LoadingStatus.LOADING
+      return (
+        this.$store.state.loggedUserLoadingStatus === loading ||
+        this.$store.state.farmersLoadingStatus === loading
+      )
+    }
   },
   methods: {
     reload() {
