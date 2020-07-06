@@ -469,10 +469,10 @@ export default new Vuex.Store({
       return (farmerId => state.farmers.find(x => x.id === farmerId))
     },
     farmerUrlComponent() {
-      return (farmer => `${farmer.name}--${farmer.sequence_number}`)
+      return (farmer => `${farmer.farm_name || farmer.name}--${farmer.sequence_number}`)
     },
     experimentUrlComponent() {
-      return (experiment => `${experiment.name}--${experiment.sequence_number}`)
+      return (experiment => `${experiment.short_name || experiment.name}--${experiment.sequence_number}`)
     },
     selectedFarmer(state) {
       return state.farmers.find(x => x.id === state.selectedFarmerId)

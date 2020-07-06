@@ -195,6 +195,7 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'tags',
             'approved',
             'name',
+            'short_name',
             'objectives',
             'equipment',
             'control_presence',
