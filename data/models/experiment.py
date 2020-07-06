@@ -68,7 +68,7 @@ class Experiment(models.Model):
     approved = models.BooleanField(default=False, db_index=True)
     tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list, blank=True, null=True)
     name = models.TextField(max_length=70)
-    short_name = models.TextField(max_length=40, null=True, blank=True, help_text='Si ce champ est présent, il sera utilisé pour l\'URL')
+    short_name = models.TextField(max_length=30, null=True, blank=True, help_text='Si ce champ est présent, il sera utilisé pour l\'URL')
     objectives = models.TextField(null=True, blank=True)
     equipment = models.TextField(null=True, blank=True)
     control_presence = models.BooleanField(null=True, blank=True)
