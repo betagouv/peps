@@ -209,6 +209,8 @@ MAGICAUTH_LOGIN_VIEW_TEMPLATE = 'login-magicauth.html'
 MAGICAUTH_EMAIL_SENT_VIEW_TEMPLATE = 'email-sent.html'
 MAGICAUTH_EMAIL_UNKNOWN_MESSAGE = 'Nous n\'avons pas trouvé un utilisateur avec cet email. <a href="/contact">Contactez-nous</a> pour faire partie des testeurs Peps !'
 
+SESSION_COOKIE_AGE = 31536000
+
 EMAIL_BACKEND = os.getenv('PEPS_EMAIL_BACKEND')
 
 ANYMAIL = {
