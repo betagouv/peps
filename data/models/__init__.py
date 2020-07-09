@@ -16,3 +16,4 @@ from .farmer import Farmer, FarmImage
 from .experiment import Experiment, ExperimentImage, ExperimentVideo
 from .groupcount import GroupCount
 from .referercount import RefererCount
+from .message import Message

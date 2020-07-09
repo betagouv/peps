@@ -6,13 +6,15 @@ from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_control
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import UpdateAPIView, ListCreateAPIView
 from rest_framework import permissions, authentication
 from data.adapters import PracticesAirtableAdapter
-from data.models import Category, Farmer, Experiment
+from data.models import Category, Farmer, Experiment, Message
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
 from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
+from api.serializers import MessageSerializer
 from api.formschema import get_form_schema
 from api.geojson import get_geojson
 from api.models import Response
@@ -201,3 +203,20 @@ class FarmerView(UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+class UpdateMessageView(UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated & IsFarmer]
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        farmer = self.request.user.farmer
+        return Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
+
+class ListCreateMessageView(ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated & IsFarmer]
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        farmer = self.request.user.farmer
+        return Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
+

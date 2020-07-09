@@ -90,6 +90,24 @@ export default {
       reader.onerror = error
   },
 
+  toReadableDate(date) {
+    const todayOptions = { hour: '2-digit', minute:'2-digit' }
+    const closeDateOptions = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+    const farDateOptions = { year: 'numeric', month: 'short', day: 'numeric' }
+
+    date = new Date(date)
+
+    const today = new Date()
+    const isSameYear = date.getFullYear() === today.getFullYear()
+    const isToday = date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && isSameYear
+
+    if (isToday)
+      return date.toLocaleDateString('fr-FR', todayOptions).slice(-5).trim()
+    if (isSameYear)
+      return date.toLocaleDateString('fr-FR', closeDateOptions)
+    return date.toLocaleDateString('fr-FR', farDateOptions)
+  },
+
   postalCodeToDepartmentRegion(postalCode) {
     if (!postalCode || !postalCode.length || !postalCode.length > 1)
       return ''

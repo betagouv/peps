@@ -16,7 +16,7 @@
           <router-view />
         </transition>
       </v-content>
-      <Footer/>
+      <Footer v-if="!removeFooter"/>
     </div>
   </v-app>
 </template>
@@ -58,6 +58,9 @@ export default {
         this.$store.state.loggedUserLoadingStatus === loading ||
         this.$store.state.farmersLoadingStatus === loading
       )
+    },
+    removeFooter() {
+      return this.$route.name === 'Messages'
     }
   },
   methods: {

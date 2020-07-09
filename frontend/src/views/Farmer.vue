@@ -115,10 +115,7 @@
           v-if="farmer.images && farmer.images.length > 0"
           style="margin-top: 20px;"
         >Images</div>
-        <ImageGallery 
-          v-if="farmer.images && farmer.images.length > 0" 
-          :images="farmer.images" 
-        />
+        <ImageGallery v-if="farmer.images && farmer.images.length > 0" :images="farmer.images" />
       </v-container>
     </div>
   </div>
@@ -145,21 +142,20 @@ export default {
     ImageGallery
   },
   metaInfo() {
-    if (!this.farmer)
-      return {}
+    if (!this.farmer) return {}
 
     let title = `Exploitation de ${this.farmer.name}, ${this.departmentRegion}`
-    let description = ''
+    let description = ""
     let descriptionMaxLength = 150
-    
+
     if (this.farmer.production && this.farmer.production.length > 0) {
-      description += `Production de ${this.farmer.production.join(', ')}. `
+      description += `Production de ${this.farmer.production.join(", ")}. `
     }
-    
-    description += this.farmer.description || ''
+
+    description += this.farmer.description || ""
     if (description.length > descriptionMaxLength)
-      description = description.substring(0, descriptionMaxLength - 1) + '…'
-  
+      description = description.substring(0, descriptionMaxLength - 1) + "…"
+
     return {
       title: title,
       meta: [{ description: description }]
@@ -183,7 +179,7 @@ export default {
     departmentRegion() {
       if (this.farmer && this.farmer.postal_code)
         return utils.postalCodeToDepartmentRegion(this.farmer.postal_code)
-      return ''
+      return ""
     },
     farmerNotFound() {
       return (
@@ -243,12 +239,22 @@ export default {
       return "primary"
     },
     onContactClick() {
-      window.sendTrackingEvent(
-        this.$route.name,
-        "contact",
-        this.farmerUrlComponent
-      )
-      this.contactOverlayVisible = true
+      if (this.$store.state.loggedUser && this.$store.state.loggedUser.farmer_id) {
+        this.$router.push({
+          name: "Messages",
+          params: {
+            farmerUrlComponent: this.farmerUrlComponent
+          }
+        })
+        
+      } else {
+        window.sendTrackingEvent(
+          this.$route.name,
+          "contact",
+          this.farmerUrlComponent
+        )
+        this.contactOverlayVisible = true
+      }
     }
   }
 }

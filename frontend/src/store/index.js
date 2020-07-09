@@ -32,6 +32,9 @@ export default new Vuex.Store({
     farmerEditLoadingStatus: Constants.LoadingStatus.IDLE,
     loggedUserLoadingStatus: Constants.LoadingStatus.IDLE,
     geojsonLoadingStatus: Constants.LoadingStatus.IDLE,
+    messagesLoadingStatus: Constants.LoadingStatus.IDLE,
+
+    messages: [],
 
     miaFormDefinition: {},
     contactFormDefinition: {},
@@ -171,7 +174,16 @@ export default new Vuex.Store({
     },
     SET_LAST_CONTACT_INFO(state, contactInfo) {
       Vue.set(state, 'lastContactInfo', contactInfo)
-    }
+    },
+    SET_MESSAGES(state, messages) {
+      Vue.set(state, 'messages', messages)
+    },
+    ADD_MESSAGE(state, message) {
+      state.messages.push(message)
+    },
+    SET_MESSAGES_LOADING_STATUS(state, status) {
+      state.messagesLoadingStatus = status
+    },
   },
   actions: {
     fetchFormDefinitions(context) {
@@ -369,6 +381,25 @@ export default new Vuex.Store({
       }).catch(() => {
         context.commit('SET_GEOJSON', null)
         context.commit('SET_GEOJSON_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    fetchMessages(context) {
+      context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.get('/api/v1/messages').then(response => {
+        context.commit('SET_MESSAGES', response.body)
+        context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_MESSAGES', [])
+        context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    createMessage(context, {body, recipient}) {
+      context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.post('/api/v1/messages', {body, recipient}, { headers }).then(response => {
+        context.commit('ADD_MESSAGE', response.body)
+        context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
     }
   },

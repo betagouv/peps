@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from api.views import RankingsApiView, RefreshDataApiView, FormSchemaView, GeojsonView
 from api.views import SendTaskView, DiscardActionView, CategoriesView
 from api.views import FarmersView, LoggedUserView, ExperimentView, FarmerView
-from api.views import ExperimentCreateView
+from api.views import ExperimentCreateView, UpdateMessageView, ListCreateMessageView
 
 urlpatterns = {
     url(r'^calculateRankings/?$', RankingsApiView.as_view(), name='calculate_rankings'),
@@ -20,6 +20,8 @@ urlpatterns = {
     path('farmers/<uuid:pk>', FarmerView.as_view(), name='farmer_update'),
     url(r'^geojson/?$', GeojsonView.as_view(), name='geojson'),
 
+    url(r'^messages/?$', ListCreateMessageView.as_view(), name='messages'),
+    path('messages/<uuid:pk>', UpdateMessageView.as_view(), name='update_message'),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)

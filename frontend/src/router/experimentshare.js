@@ -6,6 +6,7 @@ import FarmEditor from '@/views/FarmEditor.vue'
 import PersonalInfoEditor from '@/views/PersonalInfoEditor.vue'
 import Profile from '@/views/Profile.vue'
 import Share from '@/views/Share.vue'
+import Messages from '@/views/Messages.vue'
 import store from '@/store/index'
 
 export default [
@@ -194,5 +195,15 @@ export default [
     path: '/partage-experience',
     component: Share,
     name: 'Share',
+  },
+  {
+    path: '/messages/:farmerUrlComponent?',
+    name: 'Messages',
+    component: Messages,
+    props: (route) => {
+      return {
+        farmerUrlComponent: route.params ? route.params.farmerUrlComponent : undefined,
+      }
+    },
   },
 ]
