@@ -184,6 +184,13 @@ export default new Vuex.Store({
     SET_MESSAGES_LOADING_STATUS(state, status) {
       state.messagesLoadingStatus = status
     },
+    MARK_AS_READ(state, messages) {
+      for (let i = 0; i < messages.length; i++) {
+        const message = state.messages.find(x => x.id === messages[i].id)
+        if (message)
+          message.new = false
+      }
+    }
   },
   actions: {
     fetchFormDefinitions(context) {
@@ -400,6 +407,13 @@ export default new Vuex.Store({
         context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
       }).catch(() => {
         context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    markAsRead(context, {messages}) {
+      const messageIds = messages.map(x => x.id)
+      Vue.http.post('/api/v1/messages/markAsRead', messageIds, { headers }).then(response => {
+        context.commit('MARK_AS_READ', response.body)
+      }).catch(() => {
       })
     }
   },

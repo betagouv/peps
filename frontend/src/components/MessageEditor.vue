@@ -85,6 +85,11 @@ export default {
       const correspondent = this.activeCorrespondent.id
       this.$store.dispatch("createMessage", { body, recipient: correspondent })
       this.messageText = ''
+    },
+    markAsRead() {
+      const unreadMessages = this.messages.filter(x => x.new && !this.userIsSender(x))
+      if (unreadMessages.length > 0)
+        this.$store.dispatch("markAsRead", {messages: unreadMessages})
     }
   },
   mounted() {
@@ -94,6 +99,7 @@ export default {
   updated() {
     const elem = this.$refs.messageContainer
     elem.scrollTop = elem.scrollHeight
+    this.markAsRead()
   }
 }
 </script>

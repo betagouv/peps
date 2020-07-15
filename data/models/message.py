@@ -2,41 +2,6 @@ from django.db import models
 from data.models import Farmer
 from django.utils import timezone
 
-class MessageManager(models.Manager):
-
-    def inbox_for(self, farmer):
-        """
-        Returns all messages that were received by the given farmer and are not
-        marked as deleted.
-        """
-        return self.filter(
-            recipient=farmer,
-            recipient_deleted_at__isnull=True,
-        )
-
-    def outbox_for(self, farmer):
-        """
-        Returns all messages that were sent by the given farmer and are not
-        marked as deleted.
-        """
-        return self.filter(
-            sender=farmer,
-            sender_deleted_at__isnull=True,
-        )
-
-    def trash_for(self, farmer):
-        """
-        Returns all messages that were either received or sent by the given
-        farmer and are marked as deleted.
-        """
-        return self.filter(
-            recipient=farmer,
-            recipient_deleted_at__isnull=False,
-        ) | self.filter(
-            sender=farmer,
-            sender_deleted_at__isnull=False,
-        )
-
 
 class Message(models.Model):
     subject = models.TextField(null=True, blank=True)
@@ -49,8 +14,7 @@ class Message(models.Model):
     sender_deleted_at = models.DateTimeField(null=True, blank=True)
     recipient_deleted_at = models.DateTimeField(null=True, blank=True)
 
-    objects = MessageManager()
-
+    @property
     def new(self):
         """returns whether the recipient has read the message or not"""
         return self.read_at is None

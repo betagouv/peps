@@ -4,11 +4,13 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_control
+from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.generics import UpdateAPIView, ListCreateAPIView
-from rest_framework import permissions, authentication
+from rest_framework.exceptions import MethodNotAllowed
+from rest_framework import permissions, authentication, status
 from data.adapters import PracticesAirtableAdapter
 from data.models import Category, Farmer, Experiment, Message
 from api.engine import Engine
@@ -220,3 +222,19 @@ class ListCreateMessageView(ListCreateAPIView):
         farmer = self.request.user.farmer
         return Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
 
+class MarkAsReadMessageView(APIView):
+    permission_classes = [permissions.IsAuthenticated & IsFarmer]
+
+    def post(self, request):
+        message_ids = request.data
+        if not isinstance(message_ids, list):
+            return JsonResponse('The request must contain an array of IDs', status.HTTP_400_BAD_REQUEST)
+
+        message_queryset = (Message
+                            .objects
+                            .filter(pk__in=message_ids, recipient=request.user.farmer, read_at__isnull=True))
+        modified_messages_id = list(message_queryset.values_list('id', flat=True))
+        message_queryset.update(read_at=timezone.now())
+
+        response_data = JSONRenderer().render(MessageSerializer(Message.objects.filter(pk__in=modified_messages_id), many=True).data)
+        return HttpResponse(response_data, content_type="application/json")
