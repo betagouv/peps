@@ -24,7 +24,7 @@ class Message(models.Model):
         return self.replied_at is not None
 
     def __str__(self):
-        return f'Message "{self.subject}"'
+        return f'Message from {self.sender.name} to {self.recipient.name}'
 
     class Meta:
         ordering = ['-sent_at']
