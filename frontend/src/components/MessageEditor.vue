@@ -1,5 +1,12 @@
 <template>
   <div ref="root" class="flex-column d-flex" v-resize="onResize">
+    <OverlayMessage
+      :visible="messageFailed"
+      title="Oups ! Une erreur est survenue"
+      body="Veuillez réessayer plus tard"
+      :showCloseButton="true"
+      @done="resetLoadingError"
+    />
     <div class="title">Conversation avec {{activeCorrespondent.name}}</div>
     <div v-if="activeCorrespondent.farm_name" class="caption">{{activeCorrespondent.farm_name}}</div>
     <v-divider style="margin-bottom: 10px"></v-divider>
@@ -50,12 +57,23 @@
 
 <script>
 import utils from "@/utils"
+import Constants from "@/constants"
+import OverlayMessage from "@/components/OverlayMessage.vue"
 
 export default {
   name: "MessageEditor",
+  components: {
+    OverlayMessage,
+  },
   data() {
     return {
       messageText: ''
+    }
+  },
+  metaInfo() {
+    return {
+      title: "Peps - Messages",
+      meta: [{description: ""}]
     }
   },
   props: {
@@ -66,6 +84,11 @@ export default {
     activeCorrespondent: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    messageFailed() {
+      return this.$store.state.messagesLoadingStatus === Constants.LoadingStatus.ERROR
     }
   },
   methods: {
@@ -90,6 +113,9 @@ export default {
       const unreadMessages = this.messages.filter(x => x.new && !this.userIsSender(x))
       if (unreadMessages.length > 0)
         this.$store.dispatch("markAsRead", {messages: unreadMessages})
+    },
+    resetLoadingError() {
+      this.$store.dispatch('resetMessagesLoadingStatus')
     }
   },
   mounted() {

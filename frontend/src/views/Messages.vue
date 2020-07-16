@@ -2,19 +2,25 @@
   <div ref="root" v-resize="onResize" class="messages-data-table">
     <Title :breadcrumbs="breadcrumbs" />
     <v-container style="height: 100%;">
-      <v-row style="height: 100%;">
+      <v-row style="height: 100%; border: 1px solid #EEE;">
         <v-col
           cols="3"
-          style="border-right: 1px solid #EEE; height: 100%; overflow-y: auto; padding-right: 0;"
+          style="border-right: 1px solid #EEE; height: 100%; overflow-y: auto; padding: 0; background: #f9f9f9;"
         >
-          <v-list dense>
+          <v-list dense v-if="conversations.length > 0" style="padding: 0;">
             <v-list-item
               v-for="conversation in conversations"
               :key="conversation.correspondent.id"
               @click="goToConversation(conversation)"
-              style="padding-right:0;"
+              style="padding-right:0; border-bottom: 1px solid #EEE;"
               :class="{active: activeCorrespondent && activeCorrespondent.id === conversation.correspondent.id}"
             >
+              <v-badge
+                v-if="$vuetify.breakpoint.name === 'xs' && unreadMessagesNumber(conversation.messages) > 0"
+                color="primary"
+                overlap
+                dot
+              ></v-badge>
               <v-list-item-avatar color="grey">
                 <v-img
                   :src="conversation.correspondent.profile_image"
@@ -22,10 +28,17 @@
                 ></v-img>
                 <v-icon v-else>mdi-account</v-icon>
               </v-list-item-avatar>
+
               <v-list-item-content class="d-none d-sm-flex">
                 <v-list-item-title style="padding-left: 0px;">{{ conversation.correspondent.name }}</v-list-item-title>
               </v-list-item-content>
-              <v-badge color="primary" inline :content="unreadMessagesNumber(conversation.messages)" v-if="unreadMessagesNumber(conversation.messages) > 0"></v-badge>
+              <v-badge
+                class="d-none d-sm-inline"
+                color="primary"
+                inline
+                :content="unreadMessagesNumber(conversation.messages)"
+                v-if="unreadMessagesNumber(conversation.messages) > 0"
+              ></v-badge>
             </v-list-item>
           </v-list>
         </v-col>
@@ -34,8 +47,9 @@
           <MessageEditor
             :messages="shownMessages"
             :activeCorrespondent="activeCorrespondent"
-            v-if="activeCorrespondent"
+            v-if="activeCorrespondent && conversations.length > 0"
           />
+          <MessagesEmptyView v-else />
         </v-col>
       </v-row>
     </v-container>
@@ -47,10 +61,11 @@ import Title from "@/components/Title.vue"
 import MessageEditor from "@/components/MessageEditor.vue"
 import utils from "@/utils"
 import Constants from "@/constants"
+import MessagesEmptyView from "@/components/MessagesEmptyView.vue"
 
 export default {
   name: "Messages",
-  components: { Title, MessageEditor },
+  components: { Title, MessageEditor, MessagesEmptyView },
   props: {
     farmerUrlComponent: {
       type: String
@@ -248,11 +263,12 @@ export default {
     },
     unreadMessagesNumber(messages) {
       /*
-      * Counts the unread messages for which the logged user is the recipient
-      */
-      if (!this.loggedFarmerId)
-        return 0
-      return messages.filter(x => x.recipient.id === this.loggedFarmerId && x.new).length
+       * Counts the unread messages for which the logged user is the recipient
+       */
+      if (!this.loggedFarmerId) return 0
+      return messages.filter(
+        x => x.recipient.id === this.loggedFarmerId && x.new
+      ).length
     }
   },
   beforeCreate() {
@@ -283,6 +299,9 @@ export default {
 .v-list-item.active {
   border-left: 4px solid #008763;
   background: #e0f4ee;
+}
+.v-badge--dot {
+  margin-top: -30px;
 }
 </style>
 <style>

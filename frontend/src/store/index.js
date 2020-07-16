@@ -118,6 +118,10 @@ export default new Vuex.Store({
       state.farmersLoadingStatus = Constants.LoadingStatus.IDLE
       state.experimentEditLoadingStatus = Constants.LoadingStatus.IDLE
       state.farmerEditLoadingStatus = Constants.LoadingStatus.IDLE
+      state.messagesLoadingStatus = Constants.LoadingStatus.IDLE
+    },
+    RESET_MESSAGES_LOADING_STATUS(state){
+      state.messagesLoadingStatus = Constants.LoadingStatus.IDLE
     },
     SET_SELECTED_FARMER(state, { farmerId }) {
       state.selectedFarmerId = farmerId
@@ -334,6 +338,9 @@ export default new Vuex.Store({
     },
     resetLoaders(context) {
       context.commit('RESET_LOADERS')
+    },
+    resetMessagesLoadingStatus(context) {
+      context.commit('RESET_MESSAGES_LOADING_STATUS')
     },
     setSelectedFarmer(context, { farmerId }) {
       context.commit('SET_SELECTED_FARMER', { farmerId })
