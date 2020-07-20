@@ -77,8 +77,9 @@ export default {
     },
     createMessageSocket() {
       this.clearMessageSocket()
+      const scheme = window.location.protocol == "https:" ? "wss" : "ws";
       this.webSocket = new WebSocket(
-        "ws://" + window.location.host + "/ws/messages/" + this.loggedUser.farmer_id + "/"
+        scheme + "://" + window.location.host + "/ws/messages/" + this.loggedUser.farmer_id + "/"
       )
       this.webSocket.addEventListener('message', this.onWebSocketMessage)
     },

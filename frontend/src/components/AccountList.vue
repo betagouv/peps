@@ -77,7 +77,6 @@ export default {
       })
     },
     goToMessages() {
-      console.log('go to messages')
       if (this.$route.name === "Messages") return
       window.sendTrackingEvent("Header", "Messages", this.loggedUser.email)
       this.$router.push({
