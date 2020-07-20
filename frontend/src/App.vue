@@ -16,7 +16,7 @@
           <router-view />
         </transition>
       </v-content>
-      <Footer v-if="!removeFooter"/>
+      <Footer v-if="!removeFooter" />
     </div>
   </v-app>
 </template>
@@ -26,7 +26,7 @@ import Header from "@/components/Header.vue"
 import Footer from "@/components/Footer.vue"
 import Constants from "@/constants"
 import OverlayMessage from "@/components/OverlayMessage.vue"
-import Loader from  "@/components/Loader.vue"
+import Loader from "@/components/Loader.vue"
 
 export default {
   name: "App",
@@ -35,6 +35,11 @@ export default {
     Footer,
     OverlayMessage,
     Loader
+  },
+  data() {
+    return {
+      webSocket: null
+    }
   },
   mounted() {
     this.$store.dispatch("resetLoaders")
@@ -60,12 +65,41 @@ export default {
       )
     },
     removeFooter() {
-      return this.$route.name === 'Messages'
+      return this.$route.name === "Messages"
+    },
+    loggedUser() {
+      return this.$store.state.loggedUser
     }
   },
   methods: {
     reload() {
       location.reload()
+    },
+    createMessageSocket() {
+      this.clearMessageSocket()
+      this.webSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/messages/" + this.loggedUser.farmer_id + "/"
+      )
+      this.webSocket.addEventListener('message', this.onWebSocketMessage)
+    },
+    clearMessageSocket() {
+      if (!this.webSocket)
+        return
+      this.webSocket.removeEventListener('onmessage', this.onWebSocketMessage)
+      this.webSocket.close()
+      this.webSocket = null
+    },
+    onWebSocketMessage() {
+      this.$store.dispatch("fetchMessages")
+    }
+  },
+  watch: {
+    loggedUser(value) {
+      if (value && value.farmer_id) {
+        this.createMessageSocket()
+      } else {
+        this.clearMessageSocket()
+      }
     }
   }
 }
@@ -167,7 +201,7 @@ body .buorg .buorg-buttons {
 }
 .field-helper {
   margin-bottom: 5px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: normal;
   font-size: 0.9em;
   color: #888;

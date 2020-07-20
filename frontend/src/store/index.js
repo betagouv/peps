@@ -531,6 +531,15 @@ export default new Vuex.Store({
     },
     experiments(state) {
       return state.farmers.flatMap(x => x.experiments).filter(x => !!x)
+    },
+    hasUnreadMessages(state) {
+      const loggedUser = state.loggedUser
+      if (!loggedUser)
+        return false
+      const loggedFarmerId = loggedUser.farmer_id
+      if (!loggedFarmerId)
+        return false
+      return state.messages.some(x => x.recipient.id === loggedFarmerId && x.new)
     }
   }
 })

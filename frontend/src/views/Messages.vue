@@ -1,7 +1,7 @@
 <template>
   <div ref="root" v-resize="onResize" class="messages-data-table">
     <Title :breadcrumbs="breadcrumbs" />
-    <v-container style="height: 100%;">
+    <v-container style="height: 100%;" v-if="$store.state.farmers.length > 0">
       <v-row style="height: 100%; border: 1px solid #EEE;">
         <v-col
           cols="3"
@@ -165,9 +165,7 @@ export default {
       // communicated, we add this to the very top of the array with an empty messages array.
       // This is for the case of the first message to someone
       if (this.farmerUrlComponent) {
-        const farmer = this.$store.getters.farmerWithUrlComponent(
-          this.farmerUrlComponent
-        )
+        const farmer = this.farmerWithUrlComponent(this.farmerUrlComponent)
         const element = conversations.find(
           x => x.correspondent.id === farmer.id
         )
@@ -207,9 +205,7 @@ export default {
       return utils.toReadableDate(date)
     },
     goToConversation(conversation) {
-      const farmer = this.$store.getters.farmerWithId(
-        conversation.correspondent.id
-      )
+      const farmer = conversation.correspondent
       const urlComponent = this.$store.getters.farmerUrlComponent(farmer)
       this.$router
         .push({
@@ -237,9 +233,9 @@ export default {
 
       if (this.farmerUrlComponent) {
         // If the farmer specified in the URL does not exist, we fallback to the first conversation
-        const farmer = this.$store.getters.farmerWithUrlComponent(
-          this.farmerUrlComponent
-        )
+
+        // TODO: check farmers in messages too, they might not be approved yet
+        const farmer = this.farmerWithUrlComponent(this.farmerUrlComponent)
         if (!farmer && this.conversations.length > 0) {
           this.goToConversation(this.conversations[0])
           return
@@ -269,6 +265,20 @@ export default {
       return messages.filter(
         x => x.recipient.id === this.loggedFarmerId && x.new
       ).length
+    },
+    farmerWithUrlComponent(urlComponent) {
+      let farmer = this.$store.getters.farmerWithUrlComponent(
+        urlComponent
+      )
+      if (farmer)
+        return farmer
+      const sequenceNumber = parseInt(urlComponent.split('--')[1])
+      if (!isNaN(sequenceNumber)) {
+        let senders = this.messages.map(x => x.sender)
+        let recipients = this.messages.map(x => x.recipient)
+        farmer = senders.concat(recipients).find(x => x.sequence_number === sequenceNumber)
+      }
+      return farmer
     }
   },
   beforeCreate() {

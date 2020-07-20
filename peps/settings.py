@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'api',
     'data',
     'magicauth',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -217,3 +218,16 @@ ANYMAIL = {
 }
 DEFAULT_FROM_EMAIL = "peps@beta.gouv.fr"
 SERVER_EMAIL = "peps@beta.gouv.fr"
+
+ASGI_APPLICATION = "peps.routing.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": ['redis://:{0}@{1}:{2}/0'.format(os.getenv('REDIS_PASSWORD'), os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
+        },
+    },
+}
+
+REDIS_MESSAGE_PREPEND = os.getenv('REDIS_MESSAGE_PREPEND')

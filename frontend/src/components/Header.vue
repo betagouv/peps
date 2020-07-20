@@ -55,12 +55,14 @@
         <v-menu v-if="loggedUser" left bottom>
           <template v-slot:activator="{ on }">
             <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
-              <v-badge dot color="amber" :value="profilePending">
+
+              <v-badge dot :color="hasUnreadMessages ? 'red' : 'amber'" :value="profilePending || hasUnreadMessages">
                 <v-avatar size="40" v-if="profileImage">
                   <v-img :src="profileImage"></v-img>
                 </v-avatar>
                 <v-icon v-else>mdi-account</v-icon>
               </v-badge>
+
             </v-btn>
           </template>
 
@@ -115,6 +117,9 @@ export default {
     },
     profilePending() {
       return this.farmer && !this.farmer.approved
+    },
+    hasUnreadMessages() {
+      return this.$store.getters.hasUnreadMessages
     }
   },
   methods: {

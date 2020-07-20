@@ -222,6 +222,18 @@ class ListCreateMessageView(ListCreateAPIView):
         farmer = self.request.user.farmer
         return Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
 
+    def perform_create(self, serializer):
+        from peps.consumers import MessageConsumer
+
+        serializer.save()
+        try:
+            recipient = self.request.data.get('recipient', None)
+            if recipient:
+                MessageConsumer.notify_farmer(recipient)
+        except Exception as _:
+            pass
+
+
 class MarkAsReadMessageView(APIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer]
 
