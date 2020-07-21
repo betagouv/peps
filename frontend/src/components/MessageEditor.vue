@@ -15,8 +15,8 @@
         <v-card
           outlined
           style="margin-bottom: 10px; width: 90%"
-          :class="{'is-receiver': !userIsSender(message)}"
-          :color="userIsSender(message) ? '#EEE' : '#E0F4EE'"
+          :class="{'user-message': userIsSender(message)}"
+          :color="userIsSender(message) ? '#E0F4EE' : '#EEE'"
         >
           <v-card-text class="pa-2 body-2 black--text">{{message.body}}</v-card-text>
           <v-card-subtitle
@@ -130,7 +130,7 @@ export default {
 }
 </script>
 <style scoped>
-.is-receiver {
+.user-message {
   margin-left: 10%;
 }
 </style>
