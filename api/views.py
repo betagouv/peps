@@ -1,4 +1,5 @@
 import dateutil.parser
+import datetime
 import asana
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
@@ -9,7 +10,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.generics import UpdateAPIView, ListCreateAPIView
-from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.exceptions import MethodNotAllowed, ValidationError
 from rest_framework import permissions, authentication, status
 from data.adapters import PracticesAirtableAdapter
 from data.models import Category, Farmer, Experiment, Message
@@ -220,18 +221,15 @@ class ListCreateMessageView(ListCreateAPIView):
 
     def get_queryset(self):
         farmer = self.request.user.farmer
-        return Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
-
-    def perform_create(self, serializer):
-        from peps.consumers import MessageConsumer
-
-        serializer.save()
-        try:
-            recipient = self.request.data.get('recipient', None)
-            if recipient:
-                MessageConsumer.notify_farmer(recipient)
-        except Exception as _:
-            pass
+        queryset = Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
+        if self.request.method == "GET" and self.request.GET.get('since'):
+            try:
+                date_string = self.request.GET.get('since')
+                date = dateutil.parser.isoparse(date_string)
+                queryset = queryset & Message.objects.filter(sent_at__gte=date)
+            except Exception as _:
+                raise ValidationError('Invalid date querystring parameter')
+        return queryset
 
 
 class MarkAsReadMessageView(APIView):

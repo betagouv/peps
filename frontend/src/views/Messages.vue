@@ -281,9 +281,6 @@ export default {
       return farmer
     }
   },
-  beforeCreate() {
-    this.$store.dispatch("fetchMessages")
-  },
   mounted() {
     if (!this.activeCorrespondent) this.autoSelectConversation()
   },

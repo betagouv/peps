@@ -35,6 +35,7 @@ export default new Vuex.Store({
     messagesLoadingStatus: Constants.LoadingStatus.IDLE,
 
     messages: [],
+    lastMessagesRequest: null,
 
     miaFormDefinition: {},
     contactFormDefinition: {},
@@ -185,6 +186,17 @@ export default new Vuex.Store({
     ADD_MESSAGE(state, message) {
       state.messages.push(message)
     },
+    MERGE_MESSAGES(state, messages) {
+      for (let i = 0; i < messages.length; i++) {
+        const serverMessage = messages[i]
+        const index = state.messages.findIndex(x => x.id === serverMessage.id)
+        if (index > -1) {
+          state.messages.splice(index, 1, serverMessage)
+        } else {
+          state.messages.push(serverMessage)
+        }
+      }
+    },
     SET_MESSAGES_LOADING_STATUS(state, status) {
       state.messagesLoadingStatus = status
     },
@@ -194,6 +206,9 @@ export default new Vuex.Store({
         if (message)
           message.new = false
       }
+    },
+    SET_LAST_MESSAGES_REQUEST(state, date) {
+      state.lastMessagesRequest = date.toISOString()
     }
   },
   actions: {
@@ -402,9 +417,21 @@ export default new Vuex.Store({
       Vue.http.get('/api/v1/messages').then(response => {
         context.commit('SET_MESSAGES', response.body)
         context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+        context.commit('SET_LAST_MESSAGES_REQUEST', new Date())
       }).catch(() => {
         context.commit('SET_MESSAGES', [])
         context.commit('SET_MESSAGES_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    fetchNewMessages(context) {
+      let url = '/api/v1/messages'
+      if (context.state.lastMessagesRequest)
+        url += `?since=${context.state.lastMessagesRequest}`
+      Vue.http.get(url).then(response => {
+        context.commit('MERGE_MESSAGES', response.body)
+        context.commit('SET_LAST_MESSAGES_REQUEST', new Date())
+      }).catch(() => {
+        // Fail silently
       })
     },
     createMessage(context, {body, recipient}) {

@@ -1,5 +1,8 @@
 import json
 import os
+import datetime
+import pytz
+from urllib.parse import quote_plus
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey
@@ -42,6 +45,39 @@ class TestApiMessages(TestCase):
         self.assertEqual(message['subject'], 'Hello Philippe')
         self.assertEqual(message['body'], 'How you doin?')
         self.assertEqual(message['recipient']['name'], 'Philippe')
+
+    def test_get_messages_since(self):
+        """
+        We can get the messages for a user since a specific date. For Edouard,
+        he should only have one message since 2020-01-01.
+        """
+        self.client.logout()
+        self.client.login(username="Edouard", password="12345")
+
+        date = datetime.datetime(2019, 1, 1, 1, tzinfo=pytz.timezone('Europe/Paris'))
+        url = "{0}?since={1}".format(reverse('messages'), quote_plus(date.isoformat()))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+        self.assertEqual(len(body), 1)
+
+        message = body[0]
+        self.assertEqual(message['subject'], 'Hello Philippe')
+        self.assertEqual(message['body'], 'How you doin?')
+        self.assertEqual(message['recipient']['name'], 'Philippe')
+
+    def test_get_messages_since_bad_date(self):
+        """
+        We can get the messages for a user since a specific date, but we will
+        obtain a Bar Request if we don't specify a parseable date
+        """
+        self.client.logout()
+        self.client.login(username="Edouard", password="12345")
+
+        url = "{0}?since={1}".format(reverse('messages'), quote_plus('This is a bad date'))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
     def test_send_message(self):
@@ -159,6 +195,7 @@ class TestApiMessages(TestCase):
         self.assertEqual(len(body), 0)
 
 
+
 def _populate_database():
     User.objects.create_superuser(username='testsuperuser', password='12345')
 
@@ -203,5 +240,6 @@ def _populate_database():
         sender=edouard,
         recipient=agnes,
         subject="Hello Agnès",
-        body="Everything OK?"
+        body="Everything OK?",
+        sent_at=datetime.datetime(2019, 1, 1, tzinfo=pytz.timezone('Europe/Paris'))
     ).save()

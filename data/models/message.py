@@ -4,6 +4,13 @@ from django.utils import timezone
 
 
 class Message(models.Model):
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['sent_at']),
+        ]
+        ordering = ['-sent_at']
+
     subject = models.TextField(null=True, blank=True)
     body = models.TextField(null=True, blank=True)
     sender = models.ForeignKey(Farmer, on_delete=models.PROTECT, related_name="sent_messages", verbose_name="Sender")
@@ -25,6 +32,3 @@ class Message(models.Model):
 
     def __str__(self):
         return f'Message from {self.sender.name} to {self.recipient.name}'
-
-    class Meta:
-        ordering = ['-sent_at']

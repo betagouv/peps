@@ -61,10 +61,6 @@ PEPS_FORCE_HTTPS='False'
 PEPS_ANALYTICS_ID=''
 PEPS_ANALYTICS_DOMAIN=''
 PEPS_EMAIL_BACKEND='django.core.mail.backends.console.EmailBackendS'
-REDIS_HOST='127.0.0.1'
-REDIS_PORT='6379'
-REDIS_PASSWORD=''
-REDIS_MESSAGE_PREPEND='dev'
 ```
 
 ### Make initial migration and create super user

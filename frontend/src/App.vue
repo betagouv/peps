@@ -38,13 +38,14 @@ export default {
   },
   data() {
     return {
-      webSocket: null
+      messageRequestInterval: null
     }
   },
   mounted() {
     this.$store.dispatch("resetLoaders")
     this.$store.dispatch("fetchLoggedUser")
     this.$store.dispatch("fetchFarmersAndExperiments")
+    this.$store.dispatch("fetchMessages")
   },
   computed: {
     showErrorMessage() {
@@ -75,31 +76,23 @@ export default {
     reload() {
       location.reload()
     },
-    createMessageSocket() {
-      this.clearMessageSocket()
-      const scheme = window.location.protocol == "https:" ? "wss" : "ws";
-      this.webSocket = new WebSocket(
-        scheme + "://" + window.location.host + "/ws/messages/" + this.loggedUser.farmer_id + "/"
-      )
-      this.webSocket.addEventListener('message', this.onWebSocketMessage)
+    createMessageInterval() {
+      this.clearMessageInterval()
+      this.messageRequestInterval = setInterval(() => this.$store.dispatch('fetchNewMessages'), 15000)
     },
-    clearMessageSocket() {
-      if (!this.webSocket)
+    clearMessageInterval() {
+      if (!this.messageRequestInterval)
         return
-      this.webSocket.removeEventListener('onmessage', this.onWebSocketMessage)
-      this.webSocket.close()
-      this.webSocket = null
+      this.clearMessageInterval(this.messageRequestInterval)
+      this.messageRequestInterval = null
     },
-    onWebSocketMessage() {
-      this.$store.dispatch("fetchMessages")
-    }
   },
   watch: {
     loggedUser(value) {
       if (value && value.farmer_id) {
-        this.createMessageSocket()
+        this.createMessageInterval()
       } else {
-        this.clearMessageSocket()
+        this.clearMessageInterval()
       }
     }
   }
