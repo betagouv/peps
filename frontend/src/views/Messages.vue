@@ -126,7 +126,13 @@ export default {
        * The messages are returned in chronological order
        */
       const storeMessages = this.$store.state.messages || []
-      return [...storeMessages].sort((a, b) => a.sent_at < b.sent_at)
+      return [...storeMessages].sort((a, b) => {
+        if (a.sent_at < b.sent_at)
+          return 1
+        if (a.sent_at > b.sent_at)
+          return -1
+        return 0
+      })
     },
     conversations() {
       /*
