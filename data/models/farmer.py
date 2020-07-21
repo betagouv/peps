@@ -142,9 +142,14 @@ class Farmer(models.Model):
         super(Farmer, self).save(force_insert, force_update, using, update_fields)
 
     @property
+    def url_slug(self):
+        url_name = quote(self.farm_name or self.name)
+        return f'{url_name}--{self.sequence_number or ""}'
+
+    @property
     def url_path(self):
         url_name = quote(self.farm_name or self.name)
-        return f'/exploitation/{url_name}--{self.sequence_number or ""}'
+        return f'/exploitation/{self.url_slug}'
 
     @property
     def html_link(self):

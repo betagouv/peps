@@ -1,7 +1,8 @@
 import dateutil.parser
-import datetime
 import asana
 from django.http import HttpResponse, JsonResponse
+from django.template import loader
+from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_control
@@ -10,7 +11,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.generics import UpdateAPIView, ListCreateAPIView
-from rest_framework.exceptions import MethodNotAllowed, ValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework import permissions, authentication, status
 from data.adapters import PracticesAirtableAdapter
 from data.models import Category, Farmer, Experiment, Message
@@ -230,6 +231,38 @@ class ListCreateMessageView(ListCreateAPIView):
             except Exception as _:
                 raise ValidationError('Invalid date querystring parameter')
         return queryset
+
+    def perform_create(self, serializer):
+        serializer.save()
+        try:
+            self.send_email()
+        except Exception as _:
+            pass 
+
+    def send_email(self):
+        recipient_id = self.request.data.get('recipient')
+        farmer = Farmer.objects.get(pk=recipient_id)
+        email_address = farmer.user.email
+        email_subject = "Nouveau message de {0} sur Peps".format(farmer.name)
+        html_template = 'email-message.html'
+        text_template = 'email-message.txt'
+        context = {
+            'recipient_name': self.request.user.farmer.name,
+            'sender_name': farmer.name,
+            'body': self.request.data.get('body'),
+            'link': '/messages/{0}'.format(farmer.url_slug),
+            'site': self.request.site
+        }
+        text_message = loader.render_to_string(text_template, context)
+        html_message = loader.render_to_string(html_template, context)
+        send_mail(
+            subject=email_subject,
+            message=text_message,
+            from_email='peps@beta.gouv.fr',
+            html_message=html_message,
+            recipient_list=[email_address],
+            fail_silently=False,
+        )
 
 
 class MarkAsReadMessageView(APIView):
