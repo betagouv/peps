@@ -116,6 +116,8 @@ class Farmer(models.Model):
     specificities = models.TextField(null=True, blank=True)
     contact_possible = models.BooleanField(default=False)
 
+    email_for_messages_allowed = models.BooleanField(default=True)
+
     links = ArrayField(models.TextField(), default=list, blank=True, null=True)
 
     surface = models.TextField(null=True, blank=True)

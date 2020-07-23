@@ -225,6 +225,7 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
                 'phone_number',
                 'profile_image',
                 'contact_possible',
+                'email_for_messages_allowed',
                 'groups',
             )
         }),

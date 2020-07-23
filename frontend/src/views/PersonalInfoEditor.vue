@@ -110,6 +110,17 @@
           ></v-checkbox>
         </div>
 
+        <!-- EMAIL POSSIBLE -->
+
+        <div class="field">
+          <div class="field-title title">Email <span class="mandatory"></span></div>
+          <v-checkbox
+            @click.native="hasChanged = true"
+            v-model="dummyFarmer.email_for_messages_allowed"
+            label="Lors qu'un agriculteur vous envoie un message, acceptez-vous de recevoir un e-mail pour vous le faire savoir ?"
+          ></v-checkbox>
+        </div>
+
         <!-- GROUPS -->
 
         <div class="field">

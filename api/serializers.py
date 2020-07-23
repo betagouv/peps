@@ -363,6 +363,7 @@ class FarmerSerializer(serializers.ModelSerializer):
             'description',
             'specificities',
             'contact_possible',
+            'email_for_messages_allowed',
             'links',
             'surface',
             'surface_cultures',

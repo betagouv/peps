@@ -242,6 +242,10 @@ class ListCreateMessageView(ListCreateAPIView):
     def send_email(self):
         recipient_id = self.request.data.get('recipient')
         recipient_farmer = Farmer.objects.get(pk=recipient_id)
+
+        if not recipient_farmer.email_for_messages_allowed:
+            return
+
         sender_farmer = self.request.user.farmer
         email_address = recipient_farmer.user.email
         email_subject = "Nouveau message de {0} sur Peps".format(sender_farmer.name)
