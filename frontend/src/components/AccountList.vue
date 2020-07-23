@@ -25,7 +25,7 @@
     </v-list-item>
 
     <v-list-item v-if="loggedUser && loggedUser.farmer_id" @click="goToMessages">
-      <v-badge color="red" dot :value="hasUnreadMessages">
+      <v-badge color="amber" dot :value="hasUnreadMessages">
         <v-list-item-title class="body-2" style="padding-left: 3px;">Mes messages</v-list-item-title>
       </v-badge>
     </v-list-item>

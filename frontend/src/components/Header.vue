@@ -56,7 +56,7 @@
           <template v-slot:activator="{ on }">
             <v-btn style="margin-left: 10px; margin-right: 0px;" icon v-on="on">
 
-              <v-badge dot :color="hasUnreadMessages ? 'red' : 'amber'" :value="profilePending || hasUnreadMessages">
+              <v-badge dot color="amber" :value="profilePending || hasUnreadMessages">
                 <v-avatar size="40" v-if="profileImage">
                   <v-img :src="profileImage"></v-img>
                 </v-avatar>
