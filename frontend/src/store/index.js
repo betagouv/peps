@@ -567,6 +567,15 @@ export default new Vuex.Store({
       if (!loggedFarmerId)
         return false
       return state.messages.some(x => x.recipient.id === loggedFarmerId && x.new)
+    },
+    unreadMessageCount(state) {
+      const loggedUser = state.loggedUser
+      if (!loggedUser)
+        return 0
+      const loggedFarmerId = loggedUser.farmer_id
+      if (!loggedFarmerId)
+        return 0
+      return state.messages.filter(x => x.recipient.id === loggedFarmerId && x.new).length
     }
   }
 })

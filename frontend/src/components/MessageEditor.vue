@@ -121,6 +121,7 @@ export default {
   mounted() {
     const elem = this.$refs.messageContainer
     elem.scrollTop = elem.scrollHeight
+    this.markAsRead()
   },
   updated() {
     const elem = this.$refs.messageContainer

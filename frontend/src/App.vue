@@ -78,7 +78,7 @@ export default {
     },
     createMessageInterval() {
       this.clearMessageInterval()
-      this.messageRequestInterval = setInterval(() => this.$store.dispatch('fetchNewMessages'), 15000)
+      this.messageRequestInterval = setInterval(() => this.$store.dispatch('fetchNewMessages'), 30000)
     },
     clearMessageInterval() {
       if (!this.messageRequestInterval)

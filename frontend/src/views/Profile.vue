@@ -206,6 +206,39 @@
         </v-row>
 
         <v-row>
+          <!-- MESSAGES -->
+          <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
+            <v-hover>
+              <v-card
+                outlined
+                class="fill-height"
+                @click="goToMessages"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                
+                <v-card-title>
+                  Messages
+                  <span v-if="unreadMessageCount > 0" style="margin-left: 5px;">({{unreadMessageCount}})</span>
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                  <v-badge
+                  dot
+                  v-if="unreadMessageCount > 0"
+                  color="amber"
+                  style="position: absolute;top: 13px;left: 7px;"
+                ></v-badge>
+                </v-card-title>
+
+                <v-card-subtitle v-if="unreadMessageCount > 0">Accèder à votre messagerie</v-card-subtitle>
+                <v-card-subtitle v-else>Vous n'avez pas de nouveaux messages</v-card-subtitle>
+              </v-card>
+            </v-hover>
+          </v-col>
+
           <!-- AIDE -->
           <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
@@ -252,14 +285,13 @@ export default {
   components: { Title, AdminCard, Loader },
   metaInfo() {
     return {
-      title:
-        "Peps - Profil utilisateur",
+      title: "Peps - Profil utilisateur",
       meta: [
         {
           description:
-            "Modifiez et ajoutez des informations sur votre profil, vos retours d'expériences, vos préférences"
-        }
-      ]
+            "Modifiez et ajoutez des informations sur votre profil, vos retours d'expériences, vos préférences",
+        },
+      ],
     }
   },
   data() {
@@ -269,13 +301,13 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Map" }
+          to: { name: "Map" },
         },
         {
           text: "Mon compte",
-          disabled: true
-        }
-      ]
+          disabled: true,
+        },
+      ],
     }
   },
   computed: {
@@ -311,7 +343,7 @@ export default {
         this.farmer.experiments.length === 0
       )
         return []
-      return this.farmer.experiments.filter(x => !x.approved)
+      return this.farmer.experiments.filter((x) => !x.approved)
     },
     approvedExperiments() {
       if (
@@ -320,8 +352,11 @@ export default {
         this.farmer.experiments.length === 0
       )
         return []
-      return this.farmer.experiments.filter(x => !!x.approved)
-    }
+      return this.farmer.experiments.filter((x) => !!x.approved)
+    },
+    unreadMessageCount() {
+      return this.$store.getters.unreadMessageCount
+    },
   },
   methods: {
     goToExperiment(xp) {
@@ -331,7 +366,7 @@ export default {
       window.sendTrackingEvent("Profile", "Edit XP", experimentUrlComponent)
       this.$router.push({
         name: "ExperimentEditor",
-        query: { xp: experimentUrlComponent }
+        query: { xp: experimentUrlComponent },
       })
     },
     createXP() {
@@ -353,7 +388,7 @@ export default {
       )
       this.$router.push({
         name: "PersonalInfoEditor",
-        query: { agriculteur: farmerUrlComponent }
+        query: { agriculteur: farmerUrlComponent },
       })
     },
     editFarm() {
@@ -363,12 +398,18 @@ export default {
       window.sendTrackingEvent("Profile", "Edit Farmer", farmerUrlComponent)
       this.$router.push({
         name: "FarmEditor",
-        query: { agriculteur: farmerUrlComponent }
+        query: { agriculteur: farmerUrlComponent },
       })
     },
     contactUs() {
       window.sendTrackingEvent("Profile", "Aide", "Contact")
       this.$router.push({ name: "Contact" })
+    },
+    goToMessages() {
+      window.sendTrackingEvent("Profile", "Messages", this.loggedUser.email)
+      this.$router.push({
+        name: "Messages",
+      })
     },
     logout() {
       if (window.confirm("Êtes-vous sur de vouloir fermer votre session ?")) {
@@ -387,21 +428,21 @@ export default {
         params: {
           farmerUrlComponent: this.$store.getters.farmerUrlComponent(
             this.farmer
-          )
-        }
+          ),
+        },
       })
-    }
+    },
   },
   watch: {
     userDataReady(isReady) {
       if (isReady && !this.$store.state.loggedUser)
         this.$router.push({ name: "Map" })
-    }
+    },
   },
   mounted() {
     if (this.userDataReady && !this.$store.state.loggedUser)
       this.$router.push({ name: "Map" })
-  }
+  },
 }
 </script>
 
