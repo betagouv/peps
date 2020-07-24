@@ -293,8 +293,22 @@ export default {
       })
     },
     onContactClick() {
-      window.sendTrackingEvent(this.$route.name, "contact", this.farmer.name)
-      this.contactOverlayVisible = true
+      if (this.$store.state.loggedUser && this.$store.state.loggedUser.farmer_id) {
+        this.$router.push({
+          name: "Messages",
+          params: {
+            farmerUrlComponent: this.farmerUrlComponent
+          }
+        })
+        
+      } else {
+        window.sendTrackingEvent(
+          this.$route.name,
+          "contact",
+          this.farmerUrlComponent
+        )
+        this.contactOverlayVisible = true
+      }
     }
   },
   computed: {

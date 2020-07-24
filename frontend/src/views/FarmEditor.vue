@@ -12,7 +12,7 @@
         </v-btn>
 
         <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateFarmer">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder les changements
+          <v-icon>mdi-content-save</v-icon>Sauvegarder
         </v-btn>
       </v-toolbar>
 
@@ -493,7 +493,7 @@
         </v-btn>
 
         <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateFarmer">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder les changements
+          <v-icon>mdi-content-save</v-icon>Sauvegarder
         </v-btn>
       </v-toolbar>
     </v-container>

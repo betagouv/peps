@@ -1,6 +1,6 @@
 <template>
   <div class="title-container">
-    <v-container class="constrained">
+    <v-container :class="{constrained: true, 'pa-1': $vuetify.breakpoint.name === 'xs' }">
       <v-breadcrumbs dark v-if="breadcrumbs" :items="desktopBreadcrumbs" class="body-1 pa-0 d-none d-sm-flex">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>

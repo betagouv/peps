@@ -1,10 +1,11 @@
 <template>
   <div ref="root" v-resize="onResize" class="messages-data-table">
     <Title :breadcrumbs="breadcrumbs" />
-    <v-container style="height: 100%;" v-if="$store.state.farmers.length > 0">
+    <v-container style="height: 100%; padding-top: 5px; padding-bottom: 0;" v-if="$store.state.farmers.length > 0">
       <v-row style="height: 100%; border: 1px solid #EEE;">
         <v-col
-          cols="3"
+          cols="2"
+          sm="3"
           style="border-right: 1px solid #EEE; height: 100%; overflow-y: auto; padding: 0; background: #f9f9f9;"
         >
           <v-list dense v-if="conversations.length > 0" style="padding: 0;">
@@ -12,7 +13,7 @@
               v-for="conversation in conversations"
               :key="conversation.correspondent.id"
               @click="goToConversation(conversation)"
-              style="padding-right:0; border-bottom: 1px solid #EEE;"
+              :style="`padding-right:0; ${$vuetify.breakpoint.name === 'xs' ? 'padding-left: 5px; ' : ''}border-bottom: 1px solid #EEE;`"
               :class="{active: activeCorrespondent && activeCorrespondent.id === conversation.correspondent.id}"
             >
               <v-badge
@@ -43,7 +44,7 @@
           </v-list>
         </v-col>
 
-        <v-col cols="9" style="padding-top: 0;">
+        <v-col cols="10" sm="9" style="padding-top: 0; padding-bottom: 0;">
           <MessageEditor
             :messages="shownMessages"
             :activeCorrespondent="activeCorrespondent"
@@ -224,7 +225,7 @@ export default {
     },
     onResize() {
       const navBarHeight = 64
-      const titleHeight = 60
+      const titleHeight = this.$vuetify.breakpoint.name === 'xs' ? 40 : 60
       this.$refs.root.style.height = `${window.innerHeight -
         navBarHeight -
         titleHeight}px`
