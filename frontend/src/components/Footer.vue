@@ -35,9 +35,6 @@
             <ul class="text-left caption">
               <li class="font-weight-bold">Peps</li>
               <li>
-                <a target="_blank" href="https://stats.data.gouv.fr/index.php?idSite=107">Statistiques</a>
-              </li>
-              <li>
                 <router-link :to="{ name: 'QuiSommesNous' }">En savoir plus</router-link>
               </li>
               <li>
