@@ -29,16 +29,6 @@
           </v-btn>
         </v-badge>
 
-        <v-btn text elevation="0" :to="{ name: 'QuiSommesNous' }">
-          <v-icon class="d-flex d-sm-none">mdi-information</v-icon>
-          <span class="caption text-none d-none d-sm-flex">En savoir plus</span>
-        </v-btn>
-
-        <v-btn text elevation="0" :to="{ name: 'Contact' }">
-          <v-icon class="d-flex d-sm-none">mdi-email</v-icon>
-          <span class="caption text-none d-none d-sm-flex">Contact</span>
-        </v-btn>
-
         <v-btn color="white" @click="onShareXPClick">
           <v-icon color="primary" class="d-flex d-sm-none">mdi-beaker-plus-outline</v-icon>
           <span
