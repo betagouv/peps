@@ -19,6 +19,8 @@ PRODUCTIONS = (
     ('Élevage poule pondeuses', 'Élevage poule pondeuses'),
     ('Cultures légumières', 'Cultures légumières'),
     ('Vigne', 'Vigne'),
+    ('Cultures spécialisées', 'Cultures spécialisées'),
+    ('Apiculture', 'Apiculture'),
     ('Autre', 'Autre'),
 )
 
@@ -32,6 +34,7 @@ GROUPS = (
     ('Groupe de chambre d\'agriculture', 'Groupe de chambre d\'agriculture'),
     ('Groupe de voisins', 'Groupe de voisins'),
     ('CUMA', 'CUMA'),
+    ('Civam', 'Civam'),
     ('Autre', 'Autre'),
 )
 
@@ -44,6 +47,7 @@ TYPE_AGRICULTURE = (
     ('Conventionnel', 'Conventionnel'),
     ('Cahier des charges industriel', 'Cahier des charges industriel'),
     ('Label qualité', 'Label qualité'),
+    ('Label environnemental (HVE)', 'Label environnemental (HVE)'),
     ('Autre', 'Autre'),
 )
 

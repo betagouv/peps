@@ -102,6 +102,22 @@
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.production"
+            label="Cultures spécialisées"
+            value="Cultures spécialisées"
+            hide-details
+            :rules="[hasProductions]"
+          ></v-checkbox>
+          <v-checkbox
+            @click.native="hasChanged = true"
+            v-model="dummyFarmer.production"
+            label="Apiculture"
+            value="Apiculture"
+            hide-details
+            :rules="[hasProductions]"
+          ></v-checkbox>
+          <v-checkbox
+            @click.native="hasChanged = true"
+            v-model="dummyFarmer.production"
             label="Autre"
             value="Autre"
             :rules="[hasProductions]"
@@ -357,54 +373,70 @@
           >Choisissez les termes qui correspondent à l'agriculture que vous pratiquez</div>
           <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Agriculture Biologique"
             value="Agriculture Biologique"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Agriculture de Conservation des Sols"
             value="Agriculture de Conservation des Sols"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Techniques Culturales Simplifiées"
             value="Techniques Culturales Simplifiées"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Labour occasionnel"
             value="Labour occasionnel"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Agroforesterie"
             value="Agroforesterie"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Conventionnel"
             value="Conventionnel"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Cahier des charges industriel"
             value="Cahier des charges industriel"
           ></v-checkbox>
           <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Label qualité"
             value="Label qualité"
           ></v-checkbox>
           <v-checkbox
+            hide-details
+            @click.native="hasChanged = true"
+            v-model="dummyFarmer.agriculture_types"
+            label="Label environnemental (HVE)"
+            value="Label environnemental (HVE)"
+          ></v-checkbox>
+          <v-checkbox
+            hide-details
             @click.native="hasChanged = true"
             v-model="dummyFarmer.agriculture_types"
             label="Autre"

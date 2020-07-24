@@ -184,6 +184,12 @@
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.groups"
+            label="Civam"
+            value="Civam"
+          ></v-checkbox>
+          <v-checkbox
+            @click.native="hasChanged = true"
+            v-model="dummyFarmer.groups"
             label="Autre"
             value="Autre"
           ></v-checkbox>
