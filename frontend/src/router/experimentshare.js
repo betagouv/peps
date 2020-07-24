@@ -122,7 +122,7 @@ export default [
       // A logged used can only modify its own farmer profile
       if (!hasFarmerQuery) {
         next({
-          name: 'FarmEditor',
+          name: 'PersonalInfoEditor',
           query: {
             agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
           }
@@ -132,7 +132,7 @@ export default [
         const requestedFarmer = store.getters.farmerWithUrlComponent(route.query.agriculteur)
         if (requestedFarmer != loggedFarmer) {
           next({
-            name: 'FarmEditor',
+            name: 'PersonalInfoEditor',
             query: {
               agriculteur: store.getters.farmerUrlComponent(loggedFarmer)
             }
