@@ -4,7 +4,7 @@
     <v-overlay :value="visible" :dark="false">
       <div>
         <v-btn
-          @click="cancelImplementation()"
+          @click="close()"
           class="close-overlay"
           fab
           dark
@@ -87,7 +87,6 @@ export default {
   },
   methods: {
     close() {
-      this.$store.dispatch("resetContactLoadingStatus")
       this.$emit("done")
     },
     onWindowResize() {
