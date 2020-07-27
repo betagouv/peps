@@ -225,8 +225,9 @@ export default {
     },
     onResize() {
       const navBarHeight = 64
-      const titleHeight = this.$vuetify.breakpoint.name === 'xs' ? 40 : 60
-      this.$refs.root.style.height = `${window.innerHeight -
+      const titleHeight = this.$vuetify.breakpoint.name === 'xs' ? 36 : 60
+      const screenHeight = this.$vuetify.breakpoint.name === 'xs' ? window.screen.availHeight : window.innerHeight
+      this.$refs.root.style.height = `${screenHeight -
         navBarHeight -
         titleHeight}px`
     },
