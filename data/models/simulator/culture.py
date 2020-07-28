@@ -31,10 +31,10 @@ class Culture(models.Model):
     modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
 
+    display_text = models.TextField(null=True, blank=True)
+
     airtable_json = JSONField(null=True, blank=True)
     airtable_url = models.TextField(null=True, blank=True)
-
-    display_text = models.TextField(null=True, blank=True)
 
     # 1-12 (for January through December)
     sowing_months = ArrayField(models.IntegerField(), blank=True, null=True)

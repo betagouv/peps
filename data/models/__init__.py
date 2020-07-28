@@ -1,19 +1,20 @@
-from .practice import Practice
-from .culture import Culture
-from .pest import Pest
-from .practicetype import PracticeType, PracticeTypeCategory
-from .problem import Problem
-from .soiltype import SoilType
-from .weed import Weed
-from .practicegroup import PracticeGroup
-from .mechanism import Mechanism
-from .resource import Resource, ResourceType
-from .pepsenum import PepsEnum
-from .glyphosateuses import GlyphosateUses
-from .discardaction import DiscardAction
-from .category import Category
+from .simulator.practice import Practice
+from .simulator.culture import Culture
+from .simulator.pest import Pest
+from .simulator.practicetype import PracticeType, PracticeTypeCategory
+from .simulator.problem import Problem
+from .simulator.soiltype import SoilType
+from .simulator.weed import Weed
+from .simulator.practicegroup import PracticeGroup
+from .simulator.mechanism import Mechanism
+from .simulator.resource import Resource, ResourceType
+from .simulator.pepsenum import PepsEnum
+from .simulator.glyphosateuses import GlyphosateUses
+from .simulator.discardaction import DiscardAction
+from .simulator.category import Category
+from .simulator.groupcount import GroupCount
+from .simulator.referercount import RefererCount
+
 from .farmer import Farmer, FarmImage
 from .experiment import Experiment, ExperimentImage, ExperimentVideo
-from .groupcount import GroupCount
-from .referercount import RefererCount
 from .message import Message
