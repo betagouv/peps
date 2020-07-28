@@ -83,7 +83,7 @@ export default {
     clearMessageInterval() {
       if (!this.messageRequestInterval)
         return
-      this.clearMessageInterval(this.messageRequestInterval)
+      clearInterval(this.messageRequestInterval)
       this.messageRequestInterval = null
     },
   },
