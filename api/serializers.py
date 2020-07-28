@@ -213,6 +213,8 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'xp_type',
             'images',
             'videos',
+            'cultures',
+            'modification_date',
         )
 
     def create(self, validated_data):

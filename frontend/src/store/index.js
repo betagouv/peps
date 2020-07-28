@@ -557,7 +557,13 @@ export default new Vuex.Store({
       return state.farmers.find(x => x.id === state.selectedFarmerId)
     },
     experiments(state) {
-      return state.farmers.flatMap(x => x.experiments).filter(x => !!x)
+      return state.farmers.flatMap(x => x.experiments).filter(x => !!x).sort((a, b) => {
+        if (a.modification_date < b.modification_date)
+          return 1
+        if (a.modification_date > b.modification_date)
+          return -1
+        return 0
+      })
     },
     hasUnreadMessages(state) {
       const loggedUser = state.loggedUser
