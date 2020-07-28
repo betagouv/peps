@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from django.core.exceptions import ValidationError
 from data.models import Experiment, Farmer, ExperimentImage, ExperimentVideo, FarmImage
+from data.models import CULTURES
 
 admin.site.site_header = 'Administration Peps'
 
@@ -49,6 +50,7 @@ class ExperimentForm(forms.ModelForm):
             'creation_date',
         ]
         model = Experiment
+
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'short_name': forms.Textarea(attrs={'cols': 25, 'rows': 1}),
@@ -58,6 +60,7 @@ class ExperimentForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'cols': 55, 'rows': 8}),
             'investment': forms.Textarea(attrs={'cols': 55, 'rows': 2}),
             'surface': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'cultures': forms.CheckboxSelectMultiple(choices=CULTURES),
         }
 
 class ApprovalFilter(admin.SimpleListFilter):
@@ -96,27 +99,37 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_filter = (ApprovalFilter, AuthorFilter)
     search_fields = ('name', )
     readonly_fields = ('html_link', )
-    fields = [
-        'html_link',
-        'approved',
-        'farmer',
 
-        'name',
-        'short_name',
-        'xp_type',
-        'objectives',
-        'tags',
-        'ongoing',
-        'investment',
-        'equipment',
-        'description',
-        'surface_type',
-        'surface',
-        'control_presence',
-        'results',
-        'results_details',
-        'links',
-    ]
+    fieldsets = (
+        ('', {
+            'fields': (
+                'html_link',
+                'approved',
+                'farmer',
+                'name',
+                'short_name',
+                'xp_type',
+                'objectives',
+                'tags',
+                'ongoing',
+                'investment',
+                'equipment',
+                'description',
+                'surface_type',
+                'surface',
+                'control_presence',
+                'results',
+                'results_details',
+                'links',
+            )
+        }),
+        ('Cultures', {
+            'classes': ('collapse',),
+            'fields': (
+                'cultures',
+            )
+        }),
+    )
     inlines = (ExperimentImageInline, ExperimentVideoInline)
     form = ExperimentForm
 

@@ -1,6 +1,6 @@
 from django.conf import settings
 from data.models import PracticeType, Weed, Pest, Resource
-from data.models import Culture, Practice, PracticeGroup, Mechanism, Category
+from data.models import SimulatorCulture, Practice, PracticeGroup, Mechanism, Category
 from data.utils import _get_airtable_data
 from data.airtablevalidators import validate_practices, validate_practice_types, validate_weeds
 from data.airtablevalidators import validate_pests, validate_cultures, validate_glyphosate_uses
@@ -119,8 +119,8 @@ class PracticesAirtableAdapter:
             pest.save()
 
         accepted_sectors = ['Grande culture']
-        cultures = [Culture.create_from_airtable(x) for x in json_cultures if x['fields'].get('Filière') in accepted_sectors]
-        Culture.objects.all().delete()
+        cultures = [SimulatorCulture.create_from_airtable(x) for x in json_cultures if x['fields'].get('Filière') in accepted_sectors]
+        SimulatorCulture.objects.all().delete()
         for culture in cultures:
             culture.save()
 

@@ -1,5 +1,5 @@
 from .simulator.practice import Practice
-from .simulator.culture import Culture
+from .simulator.simulatorculture import SimulatorCulture
 from .simulator.pest import Pest
 from .simulator.practicetype import PracticeType, PracticeTypeCategory
 from .simulator.problem import Problem
@@ -18,3 +18,4 @@ from .simulator.referercount import RefererCount
 from .farmer import Farmer, FarmImage
 from .experiment import Experiment, ExperimentImage, ExperimentVideo
 from .message import Message
+from .cultures import CULTURES

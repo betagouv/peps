@@ -83,6 +83,8 @@ class Experiment(models.Model):
     surface = models.TextField(null=True, blank=True)
     surface_type = ChoiceArrayField(models.TextField(choices=SURFACE_TYPE), default=list, blank=True, null=True)
 
+    cultures = ArrayField(models.TextField(), default=list)
+
     def __str__(self):
         return self.name
 

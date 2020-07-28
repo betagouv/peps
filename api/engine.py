@@ -1,5 +1,5 @@
 from data.models import Problem
-from data.models import Practice, Culture, PracticeTypeCategory
+from data.models import Practice, SimulatorCulture, PracticeTypeCategory
 from api.utils import AlpacaUtils
 from api.models import ResponseItem
 
@@ -333,12 +333,12 @@ class Engine:
         unbalanced_multiplier = 2
         threshold = 0.25
 
-        spring = Culture.CulturesSowingPeriod.PRINTEMPS.value
-        fall = Culture.CulturesSowingPeriod.AUTOMNE.value
-        summer = Culture.CulturesSowingPeriod.ETE.value
-        end_summer = Culture.CulturesSowingPeriod.FIN_ETE.value
+        spring = SimulatorCulture.CulturesSowingPeriod.PRINTEMPS.value
+        fall = SimulatorCulture.CulturesSowingPeriod.AUTOMNE.value
+        summer = SimulatorCulture.CulturesSowingPeriod.ETE.value
+        end_summer = SimulatorCulture.CulturesSowingPeriod.FIN_ETE.value
 
-        form_cultures = list(Culture.objects.filter(external_id__in=self.form.cultures))
+        form_cultures = list(SimulatorCulture.objects.filter(external_id__in=self.form.cultures))
         spring_cultures = list(filter(lambda x: x.sowing_period == spring, form_cultures))
         fall_cultures = list(filter(lambda x: x.sowing_period == fall, form_cultures))
         summer_cultures = list(filter(lambda x: x.sowing_period == summer, form_cultures))

@@ -3,7 +3,7 @@ from unittest.mock import Mock
 import requests
 from django.test import TestCase, override_settings
 from api.engine import Engine
-from data.models import Problem, Weed, Pest, Culture
+from data.models import Problem, Weed, Pest, SimulatorCulture
 from data.adapters import PracticesAirtableAdapter
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -35,7 +35,7 @@ class TestEngine(TestCase):
         the engine should set practices introducing to that culture to zero.
         """
         practice_title = 'Introduire le chanvre dans la rotation'
-        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+        chanvre = SimulatorCulture.objects.filter(display_text='Chanvre').first()
 
         # If we have a problem with weeds we expect to have the chanvre practice
         # with a ranking above 0
@@ -60,9 +60,9 @@ class TestEngine(TestCase):
         If the user says their problem are weeds (adventices), the three suggestions
         must address weeds.
         """
-        ble = Culture.objects.filter(display_text='Blé dur').first()
-        mais = Culture.objects.filter(display_text='Maïs').first()
-        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
+        mais = SimulatorCulture.objects.filter(display_text='Maïs').first()
+        chanvre = SimulatorCulture.objects.filter(display_text='Chanvre').first()
 
         answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id, chanvre.external_id, mais.external_id]}
         engine = Engine(answers, [], [])
@@ -81,9 +81,9 @@ class TestEngine(TestCase):
         It is possible to blacklist individual practices, this test
         ensures that blacklisted practices end up with a score of zero.
         """
-        ble = Culture.objects.filter(display_text='Blé dur').first()
-        mais = Culture.objects.filter(display_text='Maïs').first()
-        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
+        mais = SimulatorCulture.objects.filter(display_text='Maïs').first()
+        chanvre = SimulatorCulture.objects.filter(display_text='Chanvre').first()
 
         # We make a call to get suggestions
         answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id, chanvre.external_id, mais.external_id]}
@@ -114,9 +114,9 @@ class TestEngine(TestCase):
         ensures that practices belonging to blacklisted practice types
         have a score of zero.
         """
-        ble = Culture.objects.filter(display_text='Blé dur').first()
-        mais = Culture.objects.filter(display_text='Maïs').first()
-        chanvre = Culture.objects.filter(display_text='Chanvre').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
+        mais = SimulatorCulture.objects.filter(display_text='Maïs').first()
+        chanvre = SimulatorCulture.objects.filter(display_text='Chanvre').first()
 
         # We make a call to get suggestions
         answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id, chanvre.external_id, mais.external_id]}
@@ -148,7 +148,7 @@ class TestEngine(TestCase):
         practice_title = "Faucher une culture fourragère"
         rumex = Weed.objects.filter(display_text='Rumex').first()
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
-        ble = Culture.objects.filter(display_text='Blé dur').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
 
         # First we check the weignt without using RUMEX. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -179,7 +179,7 @@ class TestEngine(TestCase):
         practice_title = "Faucher une culture fourragère"
         rumex = Weed.objects.filter(display_text='Rumex').first()
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
-        ble = Culture.objects.filter(display_text='Blé dur').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
 
         answers = {
             "problem":"DESHERBAGE",
@@ -227,7 +227,7 @@ class TestEngine(TestCase):
         practice_title = "Profiter de l'action des auxiliaires sur le puceron de l'épi"
         chardon_multiplier = 0.6
         chardon = Weed.objects.filter(display_text='Chardon des champs').first()
-        ble = Culture.objects.filter(display_text='Blé dur').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
 
         # First we check the weignt without using CHARDON in the response
         answers = {"problem":"DESHERBAGE", "rotation": [ble.external_id]}
@@ -259,7 +259,7 @@ class TestEngine(TestCase):
         """
         practice_title = "Lutter contre la pyrale du maïs au moyen de lâchers de trichogrammes"
         pyrales = Pest.objects.filter(display_text='Pyrales').first()
-        mais = Culture.objects.filter(display_text='Maïs').first()
+        mais = SimulatorCulture.objects.filter(display_text='Maïs').first()
 
         # First we check the weignt without using PYRALES. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -293,7 +293,7 @@ class TestEngine(TestCase):
         """
         practice_title = "Associer un colza avec un couvert de légumineuses compagnes"
         charancon = Pest.objects.filter(display_text='Charançons').first()
-        colza = Culture.objects.filter(display_text='Colza').first()
+        colza = SimulatorCulture.objects.filter(display_text='Colza').first()
         charancon_multiplier = 1.21
 
         # First we check the weignt without using CHARANCONS in the response
@@ -330,8 +330,8 @@ class TestEngine(TestCase):
         """
         practice_title = "Détruire les résidus de cannes de maïs"
         pyrales = Pest.objects.filter(display_text='Pyrales').first()
-        ble = Culture.objects.filter(display_text='Blé dur').first()
-        mais = Culture.objects.filter(display_text='Maïs').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
+        mais = SimulatorCulture.objects.filter(display_text='Maïs').first()
 
         # First we check the weight without using MAIS. We expect the weight to be
         # zero since the whitelist is not upheld
@@ -368,7 +368,7 @@ class TestEngine(TestCase):
         multiplier is taken into account by the engine.
         """
         practice_title = "Semer l'inter-rang pour réduire la place disponible aux adventices"
-        colza = Culture.objects.filter(display_text='Colza').first()
+        colza = SimulatorCulture.objects.filter(display_text='Colza').first()
         colza_multiplier = 1.2
 
         # First we check the weignt without using COLZA in the response
@@ -398,7 +398,7 @@ class TestEngine(TestCase):
         "Défanner les pommes des terre avec un produit de biocontrôle"
         """
         practice_title = 'Défanner les pommes des terre avec un produit de biocontrôle'
-        pomme_de_terre = Culture.objects.filter(display_text='Pomme de terre').first()
+        pomme_de_terre = SimulatorCulture.objects.filter(display_text='Pomme de terre').first()
 
         # First we make a request without specifying glyphosate as the main problem
         answers = {"problem":"DESHERBAGE", "rotation": [pomme_de_terre.external_id]}
@@ -425,7 +425,7 @@ class TestEngine(TestCase):
         glyphosate_bonus = 1.4
         practice_title = 'Déchaumages répétés'
         rumex = Weed.objects.filter(display_text='Rumex').first()
-        lin_hiver = Culture.objects.filter(display_text='Lin hiver').first()
+        lin_hiver = SimulatorCulture.objects.filter(display_text='Lin hiver').first()
 
         # First we make a request without specifying the use of glyphosate
         answers = {
@@ -522,9 +522,9 @@ class TestEngine(TestCase):
         shallow_tillage_practice_title = 'Désherbage mécanique en plein en début de saison pour cultures de printemps'
 
         rumex = Weed.objects.filter(display_text='Rumex').first()
-        ble = Culture.objects.filter(display_text='Blé dur').first()
-        lin_hiver = Culture.objects.filter(display_text='Lin hiver').first()
-        ble_printemps = Culture.objects.filter(display_text='Blé tendre de printemps').first()
+        ble = SimulatorCulture.objects.filter(display_text='Blé dur').first()
+        lin_hiver = SimulatorCulture.objects.filter(display_text='Lin hiver').first()
+        ble_printemps = SimulatorCulture.objects.filter(display_text='Blé tendre de printemps').first()
 
         # If the user can't do any tillage, both practices should be at zero score
         answers = {
@@ -778,7 +778,7 @@ class TestEngine(TestCase):
         For now, we will only accept cultures from the Grandes Cultures sector.
         Other cultures should not be saved.
         """
-        self.assertEqual(Culture.objects.filter(display_text='Vigne').count(), 0)
+        self.assertEqual(SimulatorCulture.objects.filter(display_text='Vigne').count(), 0)
 
 
 def _populate_database():
