@@ -1,5 +1,9 @@
 
 CULTURES = [(
+    'Pas de culture', [
+        ('Pas de culture', 'Pas de culture')
+    ],
+),(
     'Céréales', [
         ("Avoine d’hiver", "Avoine d’hiver"),
         ("Avoine de printemps", "Avoine de printemps"),
