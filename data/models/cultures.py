@@ -55,14 +55,6 @@ CULTURES = [(
         ("Sorgho fourrager", "Sorgho fourrager"),
     ]
 ), (
-    'Maïs et Sorgho', [
-        ("Maïs doux", "Maïs doux"),
-        ("Maïs grain", "Maïs grain"),
-        ("Maïs ensilage", "Maïs ensilage"),
-        ("Sorgho grain", "Sorgho grain"),
-        ("Sorgho fourrager", "Sorgho fourrager"),
-    ]
-), (
     'Oléagineux', [
         ("Arachides", "Arachides"),
         ("Colza", "Colza"),
