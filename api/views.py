@@ -183,6 +183,8 @@ class ExperimentCreateView(CreateAPIView):
             task_name = 'Nouvelle XP créée par ' + str(farmer.name) + ' en attente de validation'
             notes = 'Une nouvelle XP est en attente de validation.'
             AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, None)
+        except Exception as _:
+            pass
         finally:
             serializer.save(farmer=farmer)
 
