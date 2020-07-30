@@ -1,77 +1,102 @@
 <template>
   <div>
-    <v-row style="padding: 0 16px 0 16px;">
-      <v-col cols="12" sm="10">
-        <v-chip-group show-arrows>
+    <div class=""></div>
+    <v-container class="pa-0" style="border: 1px solid rgba(51, 51, 51, 0.11); border-radius: 5px; margin-top: 5px;">
+      <v-row style="padding: 0 16px 0 16px;">
+        <v-col cols="12" sm="10">
+          <v-chip-group show-arrows>
+            <v-chip
+              small
+              @click="toggleFilter(filter)"
+              class="ma-2"
+              v-for="(filter, index) in filters"
+              :key="index"
+              :outlined="selectedFilters.indexOf(filter) === -1"
+              :dark="selectedFilters.indexOf(filter) > -1"
+              :color="selectedFilters.indexOf(filter) > -1 ? 'primary' : '#999'"
+            >{{filter}}</v-chip>
+          </v-chip-group>
+        </v-col>
+        <v-col cols="12" sm="2">
           <v-chip
-            small
-            @click="toggleFilter(filter)"
-            class="ma-2"
-            v-for="(filter, index) in filters"
-            :key="index"
-            :outlined="selectedFilters.indexOf(filter) === -1"
-            :dark="selectedFilters.indexOf(filter) > -1"
-            :color="selectedFilters.indexOf(filter) > -1 ? 'primary' : '#999'"
-          >{{filter}}</v-chip>
-        </v-chip-group>
-      </v-col>
-      <v-col cols="12" sm="2">
-        <v-chip
-          style="height: 48px; border-radius: 24px;"
-          :outlined="!showFilterArea"
-          :color="showFilterArea ? 'rgb(224, 244, 238)' : '#999'"
-          @click="showFilterArea = !showFilterArea"
-        >
-          <v-badge dot color="amber" offset-y="5" offset-x="3" :value="!!filteredDepartment">
-            <v-icon>mdi-filter-variant</v-icon>Filtrer
+            style="height: 48px; border-radius: 24px;"
+            :outlined="!showFilterArea"
+            :color="showFilterArea ? 'rgb(224, 244, 238)' : '#999'"
+            @click="showFilterArea = !showFilterArea"
+          >
+            <v-badge
+              dot
+              color="amber"
+              offset-y="5"
+              offset-x="3"
+              :value="filteredDepartments.length > 0 || filteredAgricultureTypes.length > 0 || filterLivestockOnly"
+            >
+              <v-icon>mdi-filter-variant</v-icon>Filtrer
+            </v-badge>
+          </v-chip>
+        </v-col>
+      </v-row>
+      <v-row v-if="showFilterArea" style="padding-left: 20px; padding-right: 20px;">
+        <!-- Filter Department -->
+        <v-col cols="12" sm="6" md="3">
+          <v-badge dot color="amber" :value="filteredDepartments.length > 0">
+            <div class="filter-title">Département de l'exploitation</div>
           </v-badge>
-        </v-chip>
-      </v-col>
-    </v-row>
-    <v-row v-if="showFilterArea" style="padding-left: 20px; padding-right: 20px;">
-      <!-- Filter Department -->
-      <v-col cols="12" sm="6" md="3">
-        <v-badge dot color="amber" :value="!!filteredDepartment">
-          <div class="filter-title">Département de l'exploitation</div>
-        </v-badge>
-        <v-select
-          hide-details
-          :items="departments"
-          :item-text="departmentDisplayText"
-          item-value="code"
-          outlined
-          clearable
-          dense
-          placeholder="Tous les départements"
-          class="filter-select caption"
-          v-model="filteredDepartment"
-        ></v-select>
-      </v-col>
+          <v-select
+            hide-details
+            :items="departments"
+            :item-text="departmentDisplayText"
+            item-value="code"
+            outlined
+            clearable
+            multiple
+            dense
+            placeholder="Tous les départements"
+            class="filter-select caption"
+            v-model="filteredDepartments"
+          ></v-select>
+        </v-col>
 
-      <!-- Filter Cultures -->
-      <v-col cols="12" sm="6" md="3">
-        <v-badge dot color="amber" :value="false">
-          <div class="filter-title">Cultures</div>
-        </v-badge>
-        <v-select hide-details outlined dense class="filter-select"></v-select>
-      </v-col>
+        <!-- Filter Cultures -->
+        <v-col cols="12" sm="6" md="3">
+          <v-badge dot color="amber" :value="false">
+            <div class="filter-title">Cultures</div>
+          </v-badge>
+          <v-select hide-details outlined dense class="filter-select"></v-select>
+        </v-col>
 
-      <!-- Filter Agriculture type -->
-      <v-col cols="12" sm="6" md="3">
-        <v-badge dot color="amber" :value="false">
-          <div class="filter-title">Type d'agriculture</div>
-        </v-badge>
-        <v-select hide-details outlined dense class="filter-select"></v-select>
-      </v-col>
+        <!-- Filter Agriculture type -->
+        <v-col cols="12" sm="6" md="3">
+          <v-badge dot color="amber" :value="filteredAgricultureTypes.length > 0">
+            <div class="filter-title">Type d'agriculture</div>
+          </v-badge>
+          <v-select
+            hide-details
+            outlined
+            clearable
+            dense
+            multiple
+            placeholder="Tous les types d'agriculture"
+            :items="agricultureTypes"
+            class="filter-select caption"
+            v-model="filteredAgricultureTypes"
+          ></v-select>
+        </v-col>
 
-      <!-- Filter Livestock -->
-      <v-col cols="12" sm="6" md="3">
-        <v-badge dot color="amber" :value="false">
-          <div class="filter-title">Uniquement l'élevage</div>
-        </v-badge>
-        <v-checkbox hide-details label="Oui" style="margin-top: 3px;"></v-checkbox>
-      </v-col>
-    </v-row>
+        <!-- Filter Livestock -->
+        <v-col cols="12" sm="6" md="3">
+          <v-badge dot color="amber" :value="filterLivestockOnly">
+            <div class="filter-title">Uniquement l'élevage</div>
+          </v-badge>
+          <v-checkbox
+            hide-details
+            label="Oui"
+            style="margin-top: 3px;"
+            v-model="filterLivestockOnly"
+          ></v-checkbox>
+        </v-col>
+      </v-row>
+    </v-container>
 
     <ExperimentsCards v-if="filteredExperiments.length > 0" :experiments="filteredExperiments" />
     <div
@@ -98,7 +123,21 @@ export default {
     return {
       selectedFilters: [],
       showFilterArea: false,
-      filteredDepartment: null,
+      filteredDepartments: [],
+      filteredAgricultureTypes: [],
+      filterLivestockOnly: false,
+      agricultureTypes: [
+        "Agriculture Biologique",
+        "Agriculture de Conservation des Sols",
+        "Techniques Culturales Simplifiées",
+        "Labour occasionnel",
+        "Agroforesterie",
+        "Conventionnel",
+        "Cahier des charges industriel",
+        "Label qualité",
+        "Label environnemental (HVE)",
+        "Autre",
+      ],
     }
   },
   computed: {
@@ -109,10 +148,24 @@ export default {
           this.selectedFilters.length === 0 ||
           (!!x.tags && x.tags.some((y) => this.selectedFilters.indexOf(y) > -1))
         const departmentSelected =
-          !this.filteredDepartment ||
-          x.postal_code.substr(0, 2) === this.filteredDepartment
+          this.filteredDepartments.length === 0 ||
+          this.filteredDepartments.indexOf(x.postal_code.substr(0, 2)) !== -1
+        const agricultureTypeSelected =
+          this.filteredAgricultureTypes.length === 0 ||
+          this.filteredAgricultureTypes.some(
+            (y) => x.agriculture_types.indexOf(y) > -1
+          )
+        const livestockSelected =
+          !this.filterLivestockOnly ||
+          (x.livestock_types && x.livestock_types.length > 0)
 
-        return isApproved && tagSelected && departmentSelected
+        return (
+          isApproved &&
+          tagSelected &&
+          departmentSelected &&
+          agricultureTypeSelected &&
+          livestockSelected
+        )
       })
     },
     filters() {

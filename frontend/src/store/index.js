@@ -13,6 +13,13 @@ const headers = {
   'Content-Type': 'application/json',
 }
 
+function addFarmerFieldsToExperiment(experiment, farmer) {
+  experiment.farmerId = farmer.id
+  experiment.postal_code = farmer.postal_code
+  experiment.agriculture_types = farmer.agriculture_types
+  experiment.livestock_types = farmer.livestock_types
+}
+
 export default new Vuex.Store({
   plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
   state: {
@@ -147,7 +154,7 @@ export default new Vuex.Store({
         const farmer = state.farmers[i]
         const experimentIndex = farmer.experiments.findIndex(x => x.id === newExperiment.id)
         if (experimentIndex > -1) {
-          newExperiment.farmerId = farmer.id
+          addFarmerFieldsToExperiment(newExperiment, farmer)
           farmer.experiments[experimentIndex] = newExperiment
           break
         }
@@ -157,12 +164,13 @@ export default new Vuex.Store({
       const farmerIndex = state.farmers.findIndex(x => x.id === updatedFarmer.id)
       if (farmerIndex > -1) {
         if (updatedFarmer.experiments)
-          updatedFarmer.experiments.forEach(y => y.farmerId = updatedFarmer.id)
+          updatedFarmer.experiments.forEach(y => addFarmerFieldsToExperiment(y, updatedFarmer))
         state.farmers.splice(farmerIndex, 1, updatedFarmer)
       }
     },
     ADD_XP_TO_FARMER(state, { newExperiment, farmer }) {
       farmer.experiments = farmer.experiments || []
+      addFarmerFieldsToExperiment(newExperiment, farmer)
       farmer.experiments.push(newExperiment)
     },
     UPDATE_PAGINATION(state, page) {
@@ -245,10 +253,7 @@ export default new Vuex.Store({
         const body = response.body
         body.forEach(x => {
           if (x.experiments)
-            x.experiments.forEach(y => {
-              y.farmerId = x.id
-              y.postal_code = x.postal_code
-            })
+            x.experiments.forEach(y => addFarmerFieldsToExperiment(y, x))
         })
         context.commit('SET_FARMERS', body)
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
