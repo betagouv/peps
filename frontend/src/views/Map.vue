@@ -79,7 +79,7 @@
         </v-col>
       </v-row>
       <v-divider style="margin: 30px 0 0px 0;" />
-      <v-card-text class="title" style="padding: 16px 16px 0px 16px;">Trouvez un retour d'expérience</v-card-text>
+      <v-card-text class="title" style="padding: 16px 16px 0px 16px;">Explorez les retours d'expérience</v-card-text>
       <ExperimentFilter />
 
       <div style="margin: 20px 0 0px 15px;">
