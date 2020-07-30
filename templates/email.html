@@ -317,6 +317,14 @@
                             </tr>
                           </tbody>
                         </table>
+                        <p style="margin-bottom: 20px;">Pour protéger votre compte, le lien d'authentification
+                          contenu dans ce mail n'est valide que pendant 3 heures.
+                        </p>
+                        <p>Si ce délai est dépassé,
+                          veuillez recommencer votre identification sur le site de Peps en suivant 
+                          <a href="https://{{ site.domain }}{% url 'magicauth-login' %}?next={{ next_view }}">ce lien</a>
+                        </p>
+
                         <p>Bonne journée,</p>
                         <p>L'équipe de Peps</p>
                       </td>
