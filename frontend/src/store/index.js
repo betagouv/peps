@@ -245,7 +245,10 @@ export default new Vuex.Store({
         const body = response.body
         body.forEach(x => {
           if (x.experiments)
-            x.experiments.forEach(y => y.farmerId = x.id)
+            x.experiments.forEach(y => {
+              y.farmerId = x.id
+              y.postal_code = x.postal_code
+            })
         })
         context.commit('SET_FARMERS', body)
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)

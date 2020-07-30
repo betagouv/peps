@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row style="padding: 0 16px 0 16px;">
-      <v-col cols="12" md="10">
+      <v-col cols="12" sm="10">
         <v-chip-group show-arrows>
           <v-chip
             small
@@ -15,44 +15,76 @@
           >{{filter}}</v-chip>
         </v-chip-group>
       </v-col>
-      <v-col cols="12" md="2">
+      <v-col cols="12" sm="2">
         <v-chip
           style="height: 48px; border-radius: 24px;"
           :outlined="!showFilterArea"
           :color="showFilterArea ? 'rgb(224, 244, 238)' : '#999'"
           @click="showFilterArea = !showFilterArea"
         >
-          <v-icon>mdi-filter-variant</v-icon>Filtrer
+          <v-badge dot color="amber" offset-y="5" offset-x="3" :value="!!filteredDepartment">
+            <v-icon>mdi-filter-variant</v-icon>Filtrer
+          </v-badge>
         </v-chip>
       </v-col>
     </v-row>
     <v-row v-if="showFilterArea" style="padding-left: 20px; padding-right: 20px;">
       <!-- Filter Department -->
       <v-col cols="12" sm="6" md="3">
-        <div class="filter-title">Département de l'exploitation</div>
-        <v-select outlined dense class="filter-select"></v-select>
+        <v-badge dot color="amber" :value="!!filteredDepartment">
+          <div class="filter-title">Département de l'exploitation</div>
+        </v-badge>
+        <v-select
+          hide-details
+          :items="departments"
+          :item-text="departmentDisplayText"
+          item-value="code"
+          outlined
+          clearable
+          dense
+          placeholder="Tous les départements"
+          class="filter-select caption"
+          v-model="filteredDepartment"
+        ></v-select>
       </v-col>
 
       <!-- Filter Cultures -->
       <v-col cols="12" sm="6" md="3">
-        <div class="filter-title">Cultures</div>
-        <v-select outlined dense class="filter-select"></v-select>
+        <v-badge dot color="amber" :value="false">
+          <div class="filter-title">Cultures</div>
+        </v-badge>
+        <v-select hide-details outlined dense class="filter-select"></v-select>
       </v-col>
 
       <!-- Filter Agriculture type -->
       <v-col cols="12" sm="6" md="3">
-        <div class="filter-title">Type d'agriculture</div>
-        <v-select outlined dense class="filter-select"></v-select>
+        <v-badge dot color="amber" :value="false">
+          <div class="filter-title">Type d'agriculture</div>
+        </v-badge>
+        <v-select hide-details outlined dense class="filter-select"></v-select>
       </v-col>
 
       <!-- Filter Livestock -->
       <v-col cols="12" sm="6" md="3">
-        <div class="filter-title">Uniquement l'élevage</div>
-        <v-checkbox label="Oui" style="margin-top: 3px;"></v-checkbox>
+        <v-badge dot color="amber" :value="false">
+          <div class="filter-title">Uniquement l'élevage</div>
+        </v-badge>
+        <v-checkbox hide-details label="Oui" style="margin-top: 3px;"></v-checkbox>
       </v-col>
     </v-row>
 
-    <ExperimentsCards :experiments="filteredExperiments" />
+    <ExperimentsCards v-if="filteredExperiments.length > 0" :experiments="filteredExperiments" />
+    <div
+      v-else
+      class="d-flex flex-column align-center pa-5 ma-5"
+      style="background: #eee; border-radius: 5px;"
+    >
+      <v-icon class="pa-3" color="#999">mdi-beaker-remove-outline</v-icon>
+      <p
+        class="pa-3 caption"
+        style="color: #999;"
+      >Nous n'avons pas trouvé des retours d'expérience avec les filtres indiqués</p>
+    </div>
   </div>
 </template>
 
@@ -66,18 +98,22 @@ export default {
     return {
       selectedFilters: [],
       showFilterArea: false,
+      filteredDepartment: null,
     }
   },
   computed: {
     filteredExperiments() {
-      let approvedXps = this.$store.getters.experiments.filter(
-        (x) => !!x.approved
-      )
-      if (this.selectedFilters.length === 0) return approvedXps
-      return approvedXps.filter(
-        (x) =>
-          !!x.tags && x.tags.some((y) => this.selectedFilters.indexOf(y) > -1)
-      )
+      return this.$store.getters.experiments.filter((x) => {
+        const isApproved = !!x.approved
+        const tagSelected =
+          this.selectedFilters.length === 0 ||
+          (!!x.tags && x.tags.some((y) => this.selectedFilters.indexOf(y) > -1))
+        const departmentSelected =
+          !this.filteredDepartment ||
+          x.postal_code.substr(0, 2) === this.filteredDepartment
+
+        return isApproved && tagSelected && departmentSelected
+      })
     },
     filters() {
       return [
@@ -88,6 +124,11 @@ export default {
             .filter((x) => !!x)
         ),
       ]
+    },
+    departments() {
+      return this.$store.state.geojson
+        ? this.$store.state.geojson.features.map((x) => x.properties)
+        : []
     },
   },
   methods: {
@@ -110,6 +151,9 @@ export default {
         )
       }
     },
+    departmentDisplayText(department) {
+      return `${department.code} - ${department.nom}`
+    },
   },
   watch: {
     selectedFilters(newFilters) {
@@ -126,13 +170,12 @@ export default {
 .filter-title {
   font-size: 0.85em;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 </style>
 <style>
-
 .v-slide-group__next {
-  box-shadow: -8px 0px 5px -6px #3E3E3E6B;
+  box-shadow: -8px 0px 5px -6px #3e3e3e6b;
   background: rgb(224, 244, 238);
   border-top-left-radius: 0%;
   border-top-right-radius: 50%;
@@ -141,10 +184,10 @@ export default {
 }
 .v-slide-group__next.v-slide-group__next--disabled {
   box-shadow: none;
-  background: #EEE;
+  background: #eee;
 }
 .v-slide-group__prev {
-  box-shadow: 8px 0px 5px -6px #3E3E3E6B;
+  box-shadow: 8px 0px 5px -6px #3e3e3e6b;
   background: rgb(224, 244, 238);
   border-top-left-radius: 50%;
   border-top-right-radius: 0%;
@@ -153,6 +196,6 @@ export default {
 }
 .v-slide-group__prev.v-slide-group__prev--disabled {
   box-shadow: none;
-  background: #EEE;
+  background: #eee;
 }
 </style>
