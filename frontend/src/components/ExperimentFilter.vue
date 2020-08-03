@@ -1,98 +1,94 @@
 <template>
   <div>
-    <div class=""></div>
-    <v-container class="pa-0" style="border: 1px solid rgba(51, 51, 51, 0.11); border-radius: 5px; margin-top: 5px;">
-      <v-row style="padding: 0 16px 0 16px;">
-        <v-col cols="12" sm="10">
-          <v-chip-group show-arrows>
-            <v-chip
-              small
-              @click="toggleFilter(filter)"
-              class="ma-2"
-              v-for="(filter, index) in filters"
-              :key="index"
-              :outlined="selectedFilters.indexOf(filter) === -1"
-              :dark="selectedFilters.indexOf(filter) > -1"
-              :color="selectedFilters.indexOf(filter) > -1 ? 'primary' : '#999'"
-            >{{filter}}</v-chip>
-          </v-chip-group>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-chip
-            style="height: 48px; border-radius: 24px;"
-            :outlined="!showFilterArea"
-            :color="showFilterArea ? 'rgb(224, 244, 238)' : '#999'"
-            @click="showFilterArea = !showFilterArea"
-          >
-            <v-badge
-              dot
-              color="amber"
-              offset-y="5"
-              offset-x="3"
-              :value="filteredDepartments.length > 0 || filteredAgricultureTypes.length > 0 || filterLivestockOnly"
-            >
-              <v-icon>mdi-filter-variant</v-icon>Filtrer
-            </v-badge>
-          </v-chip>
-        </v-col>
-      </v-row>
-      <v-row v-if="showFilterArea" style="padding-left: 20px; padding-right: 20px;">
-        <!-- Filter Department -->
-        <v-col cols="12" sm="6" md="3">
-          <v-badge dot color="amber" :value="filteredDepartments.length > 0">
-            <div class="filter-title">Département de l'exploitation</div>
-          </v-badge>
+    <v-container
+      v-if="true"
+      style="padding-top: 10px; padding-bottom: 10px; border: 1px solid rgba(51, 51, 51, 0.11); border-radius: 5px; margin-top: 10px; min-width: 100%;"
+    >
+      <v-row class="pa-0 ma-0">
+        <!-- Filter Thématique -->
+        <v-col class="filter" cols="12" sm="6" md="5">
+          <div class="filter-title">Thématique</div>
           <v-select
             hide-details
+            chips
+            deletable-chips
+            small-chips
+            :items="experimentTags"
+            outlined
+            multiple
+            placeholder="Toutes les thématiques"
+            class="filter-select caption"
+            v-model="activeFilters.tags"
+            @change="(x) => sendFilterChangeEvent('tags', x)"
+          ></v-select>
+        </v-col>
+
+        <!-- Filter Department -->
+        <v-col class="filter" cols="12" sm="6" md="5">
+          <div class="filter-title">Département de l'exploitation</div>
+          <v-select
+            hide-details
+            chips
+            deletable-chips
+            small-chips
             :items="departments"
             :item-text="departmentDisplayText"
             item-value="code"
             outlined
-            clearable
             multiple
-            dense
             placeholder="Tous les départements"
             class="filter-select caption"
-            v-model="filteredDepartments"
+            v-model="activeFilters.departments"
+            @change="(x) => sendFilterChangeEvent('departments', x)"
           ></v-select>
         </v-col>
 
         <!-- Filter Cultures -->
-        <v-col cols="12" sm="6" md="3">
-          <v-badge dot color="amber" :value="false">
-            <div class="filter-title">Cultures</div>
-          </v-badge>
-          <v-select hide-details outlined dense class="filter-select"></v-select>
+        <v-col class="filter" cols="12" sm="6" md="5">
+          <div class="filter-title">Cultures</div>
+
+          <v-select
+            hide-details
+            chips
+            deletable-chips
+            small-chips
+            multiple
+            outlined
+            class="filter-select caption"
+            :items="cultures"
+            v-model="activeFilters.cultures"
+            placeholder="Toutes les cultures"
+            @change="(x) => sendFilterChangeEvent('cultures', x)"
+          ></v-select>
         </v-col>
 
         <!-- Filter Agriculture type -->
-        <v-col cols="12" sm="6" md="3">
-          <v-badge dot color="amber" :value="filteredAgricultureTypes.length > 0">
-            <div class="filter-title">Type d'agriculture</div>
-          </v-badge>
+        <v-col class="filter" cols="12" sm="6" md="5">
+          <div class="filter-title">Type d'agriculture</div>
           <v-select
             hide-details
+            chips
+            deletable-chips
+            small-chips
             outlined
-            clearable
-            dense
             multiple
             placeholder="Tous les types d'agriculture"
             :items="agricultureTypes"
             class="filter-select caption"
-            v-model="filteredAgricultureTypes"
+            v-model="activeFilters.agricultureTypes"
+            @change="(x) => sendFilterChangeEvent('agriculture types', x)"
           ></v-select>
         </v-col>
 
         <!-- Filter Livestock -->
-        <v-col cols="12" sm="6" md="3">
-          <v-badge dot color="amber" :value="filterLivestockOnly">
-            <div class="filter-title">Uniquement l'élevage</div>
-          </v-badge>
+        <v-col cols="12" sm="6" md="2">
+          <div class="filter-title">Uniquement l'élevage</div>
           <v-checkbox
             hide-details
             label="Oui"
             style="margin-top: 3px;"
-            v-model="filterLivestockOnly"
+            v-model="activeFilters.livestock"
+            @mouseup="sendFilterChangeEvent('livestock', [`${!activeFilters.livestock}`])"
           ></v-checkbox>
         </v-col>
       </v-row>
@@ -121,23 +117,13 @@ export default {
   components: { ExperimentsCards },
   data() {
     return {
-      selectedFilters: [],
       showFilterArea: false,
-      filteredDepartments: [],
-      filteredAgricultureTypes: [],
-      filterLivestockOnly: false,
-      agricultureTypes: [
-        "Agriculture Biologique",
-        "Agriculture de Conservation des Sols",
-        "Techniques Culturales Simplifiées",
-        "Labour occasionnel",
-        "Agroforesterie",
-        "Conventionnel",
-        "Cahier des charges industriel",
-        "Label qualité",
-        "Label environnemental (HVE)",
-        "Autre",
-      ],
+      activeFilters: {
+        tags: [],
+        departments: [],
+        agricultureTypes: [],
+        livestock: false,
+      },
     }
   },
   computed: {
@@ -145,18 +131,25 @@ export default {
       return this.$store.getters.experiments.filter((x) => {
         const isApproved = !!x.approved
         const tagSelected =
-          this.selectedFilters.length === 0 ||
-          (!!x.tags && x.tags.some((y) => this.selectedFilters.indexOf(y) > -1))
+          this.activeFilters.tags.length === 0 ||
+          (!!x.tags &&
+            x.tags.some((y) => this.activeFilters.tags.indexOf(y) > -1))
         const departmentSelected =
-          this.filteredDepartments.length === 0 ||
-          this.filteredDepartments.indexOf(x.postal_code.substr(0, 2)) !== -1
+          this.activeFilters.departments.length === 0 ||
+          this.activeFilters.departments.indexOf(x.postal_code.substr(0, 2)) !==
+            -1
         const agricultureTypeSelected =
-          this.filteredAgricultureTypes.length === 0 ||
-          this.filteredAgricultureTypes.some(
+          this.activeFilters.agricultureTypes.length === 0 ||
+          this.activeFilters.agricultureTypes.some(
             (y) => x.agriculture_types.indexOf(y) > -1
           )
+        const cultureSelected =
+          this.activeFilters.cultures.length === 0 ||
+          this.activeFilters.cultures.some(
+            (y) => !!x.cultures && x.cultures.indexOf(y) > -1
+          )
         const livestockSelected =
-          !this.filterLivestockOnly ||
+          !this.activeFilters.livestock ||
           (x.livestock_types && x.livestock_types.length > 0)
 
         return (
@@ -164,20 +157,47 @@ export default {
           tagSelected &&
           departmentSelected &&
           agricultureTypeSelected &&
+          cultureSelected &&
           livestockSelected
         )
       })
     },
-    filters() {
+
+    experimentTags() {
       return [
         ...new Set(
           this.$store.getters.experiments
             .filter((x) => !!x.approved)
             .flatMap((x) => x.tags)
             .filter((x) => !!x)
+            .sort()
         ),
       ]
     },
+    cultures() {
+      return [
+        ...new Set(
+          this.$store.getters.experiments
+            .filter((x) => !!x.approved)
+            .flatMap((x) => x.cultures)
+            .filter((x) => !!x)
+            .sort()
+        ),
+      ]
+    },
+
+    agricultureTypes() {
+      return [
+        ...new Set(
+          this.$store.getters.experiments
+            .filter((x) => !!x.approved)
+            .flatMap((x) => x.agriculture_types)
+            .filter((x) => !!x)
+            .sort()
+        ),
+      ]
+    },
+
     departments() {
       return this.$store.state.geojson
         ? this.$store.state.geojson.features.map((x) => x.properties)
@@ -185,36 +205,34 @@ export default {
     },
   },
   methods: {
-    toggleFilter(filter) {
-      const index = this.selectedFilters.indexOf(filter)
-      const itemIsSelected = index > -1
-      if (itemIsSelected) {
-        this.selectedFilters.splice(index, 1)
-        window.sendTrackingEvent(
-          this.$route.name,
-          "filter",
-          "deselected-" + filter
-        )
-      } else {
-        this.selectedFilters.push(filter)
-        window.sendTrackingEvent(
-          this.$route.name,
-          "filter",
-          "selected-" + filter
-        )
-      }
-    },
     departmentDisplayText(department) {
       return `${department.code} - ${department.nom}`
     },
+    departmentNumberToDisplayText(departmentNumber) {
+      const department = this.departments.find(
+        (x) => x.code === departmentNumber
+      )
+      if (department) {
+        return this.departmentDisplayText(department)
+      }
+      return ""
+    },
+    sendFilterChangeEvent(parameter, value) {
+      const newFilter = value && value.length > 0 ? value.join(', ') : 'None'
+      window.sendTrackingEvent(
+        this.$route.name,
+        "filter change",
+        `${parameter} - ${newFilter}`
+      )
+    }
   },
   watch: {
-    selectedFilters(newFilters) {
+    activeFilters(newFilters) {
       this.$store.dispatch("updateFilters", { filters: newFilters })
     },
   },
   beforeMount() {
-    this.selectedFilters = this.$store.state.xpSelectionFilters
+    this.activeFilters = this.$store.state.xpSelectionFilters
   },
 }
 </script>
@@ -224,6 +242,9 @@ export default {
   font-size: 0.85em;
   font-weight: bold;
   margin-bottom: 10px;
+}
+.filter {
+  padding: 5px 5px 5px 5px;
 }
 </style>
 <style>
@@ -251,4 +272,5 @@ export default {
   box-shadow: none;
   background: #eee;
 }
+
 </style>

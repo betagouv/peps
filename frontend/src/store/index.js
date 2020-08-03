@@ -7,7 +7,7 @@ import short from 'short-uuid'
 
 Vue.use(Vuex)
 
-const dataVersion = '1'
+const dataVersion = '2'
 const headers = {
   'X-CSRFToken': window.CSRF_TOKEN || '',
   'Content-Type': 'application/json',
@@ -58,7 +58,12 @@ export default new Vuex.Store({
     categories: [],
     defaultPracticeImageUrl: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
     xpPaginationPage: 1,
-    xpSelectionFilters: [],
+    xpSelectionFilters: {
+      tags: [],
+      departments: [],
+      agricultureTypes: [],
+      livestock: false
+    },
 
     lastContactInfo: {},
   },
