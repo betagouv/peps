@@ -21,10 +21,11 @@ TAGS = (
     ("Adventices", "Adventices"),
     ("Environnement & biodiversité", "Environnement & biodiversité"),
     ("Diversification", "Diversification"),
-    ("Autonomie fourragère", "Autonomie fourragère"),
+    ("Autonomie fourragère", "Autonomie"),
     ("Productivité", "Productivité"),
     ("Organisation du travail", "Organisation du travail"),
     ("Réduction des charges", "Réduction des charges"),
+    ("Sol et fertilisation", "Sol et fertilisation"),
     ("Autre", "Autre"),
 )
 
