@@ -32,6 +32,7 @@ CULTURES = [(
         ("Pois d'hiver", "Pois d'hiver"),
         ("Pois de printemps", "Pois de printemps"),
         ("Pomme de terre", "Pomme de terre"),
+        ("Quinoa", "Quinoa"),
         ("Riz", "Riz"),
         ("Sarrasin", "Sarrasin"),
         ("Seigle", "Seigle"),
