@@ -20,6 +20,7 @@ CULTURES = [(
         ("Lupin blanc", "Lupin blanc"),
         ("Luzerne", "Luzerne"),
         ("Epeautre", "Epeautre"),
+        ("Fétuque", "Fétuque"),
         ("Féverole", "Féverole"),
         ("Maïs grain", "Maïs grain"),
         ("Maïs ensilage", "Maïs ensilage"),
