@@ -7,7 +7,7 @@
       :length="pages"
       color="#333"
     ></v-pagination>
-    <transition-group name="list" tag="div" class="row" mode="out-in">
+    <transition-group name="list" tag="div" class="row" mode="out-in" style="margin-left: -24px; margin-right: -24px;">
       <v-col
         v-for="experiment in paginatedExperiments"
         :key="experiment.id"

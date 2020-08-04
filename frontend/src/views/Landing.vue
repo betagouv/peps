@@ -5,49 +5,74 @@
       @done="showContributionOverlay = false"
     />
     <v-container class="constrained">
-      <div class="pa-0" style="margin-top: 10px;">
-        <div class="display-1">
-          Le savoir partagé
-          <span
-            class="cursive"
-            style="font-size: 38px; letter-spacing: 0em;"
-          >entre agriculteurs</span>
-        </div>
-        <v-card-text
-          :class="subtitleClass"
-          style="padding: 16px 16px 0px 0;"
-        >Trouvez des exemples près de chez vous</v-card-text>
-        <v-row style="padding: 0 16px 0 16px;">
-          <v-autocomplete
-            style="z-index: 9999;"
-            :items="departments"
-            hide-no-data
-            hide-selected
-            hide-details
-            item-text="nom"
-            item-value="code"
-            v-model="selectedDepartment"
-            placeholder="Trouvez votre département"
-            :prepend-icon="searchIcon"
-            return-object
-          ></v-autocomplete>
-          <v-btn
-            v-if="showGeolocation"
-            outlined
-            @click="geolocate()"
-            color="primary"
-            class="text-none"
-            style="margin: 10px 0 0 10px;"
-          >
-            <v-icon small style="margin: 0 5px 0 0;">mdi-crosshairs-gps</v-icon>
-            <span class="d-none d-sm-flex">Me localiser</span>
+      <!-- Intro top -->
+      <v-row>
+        <v-col cols="12" md="9">
+          <div class="display-1">
+            Le savoir partagé
+            <span
+              class="cursive"
+              style="font-size: 38px; letter-spacing: 0em;"
+            >entre agriculteurs</span>
+          </div>
+          <v-card-text
+            class="body-1"
+            style="padding: 16px 16px 0px 0;"
+          >Voir et partager ses expériences de pratiques agricoles, se mettre en relation et échanger</v-card-text>
+          <v-card-text
+            class="body-1"
+            style="padding: 16px 16px 20px 0;"
+          >Peps est un service public qui permet que les retours de chacun bénéficient aux autres dans la construction d'une agriculture plus durable pour l'environnement et les Hommes</v-card-text>
+          <v-btn color="primary" style="margin-bottom: 20px;" href="#explore-xp">
+            <v-icon small style="margin-right: 5px;">mdi-beaker-outline</v-icon>
+            <span class="text-none">Explorer les expériences</span>
           </v-btn>
-          <v-spacer class="hidden-sm-and-down" />
-        </v-row>
-      </div>
-    </v-container>
+        </v-col>
 
-    <v-container class="constrained" style="padding-top:0;">
+        <v-col cols="3" class="d-none d-md-flex">
+          <v-img src="/static/images/agriculteurs-discussion-salade.jpg"></v-img>
+        </v-col>
+      </v-row>
+
+      <v-divider style="margin: 30px 0 0px 0;" />
+
+      <!-- Experiment filters -->
+      <h2 class="title pa-0" id="explore-xp" style="margin: 16px 0px;">Explorez les retours d'expérience</h2>
+      <ExperimentFilter />
+
+      <v-divider style="margin: 30px 0 0px 0;" />
+
+      <!-- Experiments by location -->
+      <h2 class="title pa-0" style="margin: 16px 0px;">Des exploitations sur tout le territoire</h2>
+      <p class="body-1 pa-0" style="margin: 16px 0px;">Ces exploitantes et exploitants partagent leurs retours d'expériences sur des pratiques agricoles et leurs évolutions</p>
+      <v-row style="padding: 0 16px 0 16px;">
+        <v-autocomplete
+          style="z-index: 9999;"
+          :items="departments"
+          hide-no-data
+          hide-selected
+          hide-details
+          item-text="nom"
+          item-value="code"
+          v-model="selectedDepartment"
+          placeholder="Trouvez votre département"
+          :prepend-icon="searchIcon"
+          return-object
+        ></v-autocomplete>
+        <v-btn
+          v-if="showGeolocation"
+          outlined
+          @click="geolocate()"
+          color="primary"
+          class="text-none"
+          style="margin: 10px 0 0 10px;"
+        >
+          <v-icon small style="margin: 0 5px 0 0;">mdi-crosshairs-gps</v-icon>
+          <span class="d-none d-sm-flex">Me localiser</span>
+        </v-btn>
+        <v-spacer class="hidden-sm-and-down" />
+      </v-row>
+
       <v-row>
         <v-col cols="12" sm="8">
           <l-map
@@ -57,7 +82,12 @@
             :center="center"
             :style="'height: ' + mapHeight + ';border: solid 1px #DDD;'"
           >
-            <l-geo-json v-if="geojson" :geojson="geojson" :options="options" :options-style="styleOptions" />
+            <l-geo-json
+              v-if="geojson"
+              :geojson="geojson"
+              :options="options"
+              :options-style="styleOptions"
+            />
             <l-marker
               v-for="(farmer, index) in markersInfo"
               :key="index"
@@ -78,10 +108,10 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider style="margin: 30px 0 0px 0;" />
-      <v-card-text class="title" style="padding: 16px 0px 0px 0px;">Explorez les retours d'expérience</v-card-text>
-      <ExperimentFilter />
 
+      <v-divider style="margin: 30px 0 0px 0;" />
+
+      <!-- Contribution proposal -->
       <div style="margin: 20px 0 0px 15px;">
         Vous souhaitez partager votre expérience ?
         <v-btn
@@ -114,9 +144,9 @@ export default {
       meta: [
         {
           description:
-            "Grâce aux essais d’agriculteurs, trouvez des réponses à vos questions sur de nombreux thèmes (réduction des charges, autonomie fourragère, maladies…)"
-        }
-      ]
+            "Grâce aux essais d’agriculteurs, trouvez des réponses à vos questions sur de nombreux thèmes (réduction des charges, autonomie fourragère, maladies…)",
+        },
+      ],
     }
   },
   components: {
@@ -125,7 +155,7 @@ export default {
     LGeoJson,
     FarmerCard,
     ExperimentFilter,
-    ContributionOverlay
+    ContributionOverlay,
   },
   data() {
     return {
@@ -146,7 +176,7 @@ export default {
         iconSize: [28, 38],
         iconAnchor: [14, 38],
         popupAnchor: [0, -32],
-        shadowSize: [38, 38]
+        shadowSize: [38, 38],
       }),
       selectedMarkerIcon: icon({
         iconUrl: "/static/images/marker-icon-2x-red.png",
@@ -155,15 +185,15 @@ export default {
         iconSize: [28, 38],
         iconAnchor: [14, 38],
         popupAnchor: [0, -32],
-        shadowSize: [38, 38]
+        shadowSize: [38, 38],
       }),
       styleOptions: {
         weight: 1,
         color: "#777",
         opacity: 1,
         fillColor: "#fff",
-        fillOpacity: 1
-      }
+        fillOpacity: 1,
+      },
     }
   },
   computed: {
@@ -179,7 +209,7 @@ export default {
       },
       set(department) {
         this.$store.dispatch("setSelectedDepartment", { department })
-      }
+      },
     },
     farmersLoadingStatus() {
       return this.$store.state.farmersLoadingStatus
@@ -188,7 +218,7 @@ export default {
       return this.$store.state.farmers
     },
     departments() {
-      return this.geojson ? this.geojson.features.map(x => x.properties) : []
+      return this.geojson ? this.geojson.features.map((x) => x.properties) : []
     },
     loggedUser() {
       return this.$store.state.loggedUser
@@ -200,9 +230,6 @@ export default {
       return this.$vuetify.breakpoint.name === "xs"
         ? undefined
         : "mdi-map-search-outline"
-    },
-    subtitleClass() {
-      return this.$vuetify.breakpoint.name === "xs" ? "subtitle-2" : "title"
     },
     options() {
       return {
@@ -219,17 +246,17 @@ export default {
                   ? "#A6E4D3"
                   : "#FFF"
               currentLayer.setStyle({ fillColor: color })
-            }
+            },
           })
-        }
+        },
       }
-    }
+    },
   },
   methods: {
     onMapDepartmentClick(feature) {
       return () => {
         const department = this.departments.find(
-          x => x.code === feature.properties.code
+          (x) => x.code === feature.properties.code
         )
         this.selectedDepartment = department
       }
@@ -245,7 +272,7 @@ export default {
     refreshMapMarkers() {
       this.markersInfo = []
       for (const farmer of this.$store.state.farmers.filter(
-        x => !!x.approved
+        (x) => !!x.approved
       )) {
         this.markersInfo.push(
           Object.assign(
@@ -254,7 +281,7 @@ export default {
               lat: farmer.lat,
               lon: farmer.lon,
               name: farmer.name,
-              id: farmer.id
+              id: farmer.id,
             }
           )
         )
@@ -267,20 +294,19 @@ export default {
       return latLng(latitude, longitude)
     },
     geolocate() {
-      if (!this.geojson)
-        return
+      if (!this.geojson) return
       const self = this
       function showPosition(position) {
         const lng = position.coords.longitude
         const lat = position.coords.latitude
 
-        const geojsonFeature = self.geojson.features.find(x => {
+        const geojsonFeature = self.geojson.features.find((x) => {
           // Note we reverse lat and lon in the L.latLng object because of
           // https://stackoverflow.com/questions/43549199/leaflet-how-to-swap-coordinates-received-from-an-ajax-call/43549799
           return L.polygon(x.geometry.coordinates).contains(L.latLng(lng, lat))
         })
         const department = self.departments.find(
-          x => x.code === geojsonFeature.properties.code
+          (x) => x.code === geojsonFeature.properties.code
         )
         self.selectedDepartment = department
       }
@@ -288,16 +314,16 @@ export default {
         console.log(error)
       }
       window.navigator.geolocation.getCurrentPosition(showPosition, handleError)
-    }
+    },
   },
-  created: function() {
+  created: function () {
     this.refreshMapMarkers()
   },
   watch: {
     selectedDepartment(newValue) {
       if (!newValue || !this.geojson) return
       const geojsonFeature = this.geojson.features.find(
-        x => x.properties.code == newValue.code
+        (x) => x.properties.code == newValue.code
       )
       if (geojsonFeature && geojsonFeature.geometry) {
         const bounds = polygon(geojsonFeature.geometry.coordinates).getBounds()
@@ -310,10 +336,10 @@ export default {
         // If we wanted animation we would have to use flyToBounds but there is the render lag problem
         this.$refs.map.mapObject.fitBounds(leafletBounds, {
           padding: [70, 70],
-          animate: false
+          animate: false,
         })
       }
-      Object.values(this.$refs.map.mapObject._layers).forEach(x => {
+      Object.values(this.$refs.map.mapObject._layers).forEach((x) => {
         if (!x.setStyle) return
         x.id === this.selectedDepartment.code
           ? x.setStyle({ fillColor: "#A6E4D3" })
@@ -322,12 +348,15 @@ export default {
     },
     farmersLoadingStatus(newValue) {
       if (newValue === Constants.LoadingStatus.SUCCESS) this.refreshMapMarkers()
-    }
+    },
   },
   mounted() {
-    if (!this.geojson && this.$store.state.geojsonLoadingStatus !== Constants.LoadingStatus.LOADING)
+    if (
+      !this.geojson &&
+      this.$store.state.geojsonLoadingStatus !== Constants.LoadingStatus.LOADING
+    )
       this.$store.dispatch("fetchGeojson")
-  }
+  },
 }
 </script>
 

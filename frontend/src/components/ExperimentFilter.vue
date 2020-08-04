@@ -349,9 +349,7 @@ export default {
       return ""
     },
     sendFilterChangeEvent(parameter, value) {
-      console.log(value)
       const newFilter = value && value.length > 0 ? value.join(", ") : "None"
-      console.log(`${parameter} - ${newFilter}`)
       window.sendTrackingEvent(
         this.$route.name,
         "filter change",
