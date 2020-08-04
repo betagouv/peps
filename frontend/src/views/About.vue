@@ -151,7 +151,7 @@ export default {
       breadcrumbs: [{
         text: 'Accueil',
         disabled: false,
-        to: { name: "Map" }
+        to: { name: "Landing" }
       }, {
         text: 'Qui sommes-nous ?',
         disabled: true,

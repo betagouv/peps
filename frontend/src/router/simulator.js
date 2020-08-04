@@ -1,4 +1,4 @@
-import Landing from '@/views/Landing.vue'
+import SimulatorLanding from '@/views/SimulatorLanding.vue'
 import Results from '@/views/Results.vue'
 import FormsContainer from '@/views/FormsContainer.vue'
 import Category from '@/views/Category.vue'
@@ -8,7 +8,7 @@ import store from '@/store/index'
 export default [
   {
     path: '/simulateur',
-    component: Landing,
+    component: SimulatorLanding,
     name: 'Simulator',
   },
   {
@@ -52,6 +52,6 @@ export default [
   {
     path: '/pratiques',
     name: 'Practices',
-    component: Landing,
+    component: SimulatorLanding,
   },
 ]

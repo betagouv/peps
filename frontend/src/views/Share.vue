@@ -138,7 +138,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Map" }
+          to: { name: "Landing" }
         },
         {
           text: "Partager mon expérience",
@@ -195,7 +195,7 @@ export default {
     },
     closeSuccessMessage() {
       this.$store.dispatch("resetContactLoadingStatus")
-      this.$router.push({ name: 'Map' })
+      this.$router.push({ name: 'Landing' })
     }
   }
 }

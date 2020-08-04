@@ -7,7 +7,7 @@
       Vérifiez que l'URL que vous avez saisie est correcte puis réessayez.
       </div>
     <div>
-      <v-btn style="margin-top: 50px;" color="primary" :to="{ name: 'Map' }" class="text-none">Revenir à l'accueil</v-btn>
+      <v-btn style="margin-top: 50px;" color="primary" :to="{ name: 'Landing' }" class="text-none">Revenir à l'accueil</v-btn>
     </div>
     <div>
       <v-btn color="primary" outlined elevation="0" style="margin-top: 30px;" :to="{ name: 'Contact' }">

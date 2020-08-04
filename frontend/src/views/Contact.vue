@@ -84,7 +84,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Map" }
+          to: { name: "Landing" }
         },
         {
           text: "Contact",

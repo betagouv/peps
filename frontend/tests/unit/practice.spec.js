@@ -52,7 +52,7 @@ describe('Practice.vue', () => {
     routes: [
       {
         path: '/',
-        name: 'Map',
+        name: 'Landing',
       }
     ]
   })

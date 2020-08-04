@@ -29,7 +29,7 @@ const baseRoutes = [
   {
     path: '*',
     redirect: {
-      name: 'Map'
+      name: 'Landing'
     },
   },
 ]

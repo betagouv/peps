@@ -301,7 +301,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Map" },
+          to: { name: "Landing" },
         },
         {
           text: "Mon compte",
@@ -436,12 +436,12 @@ export default {
   watch: {
     userDataReady(isReady) {
       if (isReady && !this.$store.state.loggedUser)
-        this.$router.push({ name: "Map" })
+        this.$router.push({ name: "Landing" })
     },
   },
   mounted() {
     if (this.userDataReady && !this.$store.state.loggedUser)
-      this.$router.push({ name: "Map" })
+      this.$router.push({ name: "Landing" })
   },
 }
 </script>

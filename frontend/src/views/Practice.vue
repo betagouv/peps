@@ -117,7 +117,7 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Map" }
+          to: { name: "Landing" }
         }
       ]
       if (provenance && provenance.name === 'Category') {

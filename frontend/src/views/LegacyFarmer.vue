@@ -46,7 +46,7 @@ export default {
   methods: {
     redirectToNewUrl() {
       if (!this.farmerNotFound) {
-        this.$router.push({ name: "Map" })
+        this.$router.push({ name: "Landing" })
       }
       if (this.farmer) {
         this.$router.push({

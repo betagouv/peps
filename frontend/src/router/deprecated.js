@@ -11,7 +11,7 @@ export default [
   {
     path: '/map',
     beforeEnter: (route, _, next) => {
-      next({ name: 'Map' })
+      next({ name: 'Landing' })
     }
   }, {
     path: '/agriculteur/:legacyFarmerUrlComponent',
@@ -22,7 +22,7 @@ export default [
     }),
     beforeEnter: (route, _, next) => {
       if (!route.params.legacyFarmerUrlComponent) {
-        next({ name: 'Map' })
+        next({ name: 'Landing' })
         return
       }
 
@@ -30,7 +30,7 @@ export default [
       if (isValidComponent) {
         next()
       } else {
-        next({ name: 'Map' })
+        next({ name: 'Landing' })
       }
     }
   },
@@ -46,7 +46,7 @@ export default [
     },
     beforeEnter: (route, _, next) => {
       if (!route.params.legacyFarmerUrlComponent || !route.params.legacyExperimentUrlComponent) {
-        next({ name: 'Map' })
+        next({ name: 'Landing' })
         return
       }
       const isValidFarmerComponent = route.params.legacyFarmerUrlComponent.indexOf('__') >= 0
@@ -55,7 +55,7 @@ export default [
       if (isValidFarmerComponent && isValidXPComponent) {
         next()
       } else {
-        next({ name: 'Map' })
+        next({ name: 'Landing' })
       }
     }
   },

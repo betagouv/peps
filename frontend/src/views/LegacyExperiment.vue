@@ -55,7 +55,7 @@ export default {
   methods: {
     redirectToNewUrl() {
       if (!this.experimentNotFound) {
-        this.$router.push({ name: "Map" })
+        this.$router.push({ name: "Landing" })
       }
       if (this.experiment) {
         this.$router.push({

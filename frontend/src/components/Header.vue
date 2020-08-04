@@ -8,7 +8,7 @@
       <v-app-bar app absolute color="primary" dark>
         <v-toolbar-title>
           <router-link
-            :to="{ name: 'Map' }"
+            :to="{ name: 'Landing' }"
             style="color:white; text-decoration:none; font-weight: bold; outline: none;"
           >Peps</router-link>
         </v-toolbar-title>
