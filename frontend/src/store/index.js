@@ -7,7 +7,7 @@ import short from 'short-uuid'
 
 Vue.use(Vuex)
 
-const dataVersion = '2'
+const dataVersion = '3'
 const headers = {
   'X-CSRFToken': window.CSRF_TOKEN || '',
   'Content-Type': 'application/json',
@@ -62,6 +62,7 @@ export default new Vuex.Store({
       tags: [],
       departments: [],
       agricultureTypes: [],
+      cultures: [],
       livestock: false
     },
 

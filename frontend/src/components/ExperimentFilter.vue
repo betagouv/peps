@@ -122,6 +122,7 @@ export default {
         tags: [],
         departments: [],
         agricultureTypes: [],
+        cultures: [],
         livestock: false,
       },
     }
