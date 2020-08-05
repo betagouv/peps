@@ -369,8 +369,20 @@ export default {
     },
   },
   watch: {
-    activeFilters(newFilters) {
-      this.$store.dispatch("updateFilters", { filters: newFilters })
+    'activeFilters.tags': function() {
+      this.$store.dispatch("updateFilters", { filters: this.activeFilters })
+    },
+    'activeFilters.departments': function() {
+      this.$store.dispatch("updateFilters", { filters: this.activeFilters })
+    },
+    'activeFilters.agricultureTypes': function() {
+      this.$store.dispatch("updateFilters", { filters: this.activeFilters })
+    },
+    'activeFilters.cultures': function() {
+      this.$store.dispatch("updateFilters", { filters: this.activeFilters })
+    },
+    'activeFilters.livestock': function() {
+      this.$store.dispatch("updateFilters", { filters: this.activeFilters })
     },
   },
   beforeMount() {
