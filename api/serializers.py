@@ -4,9 +4,10 @@ from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User
 from drf_base64.fields import Base64ImageField, Base64FileField
 from data.models import Practice, Mechanism, Resource, PracticeType
-from data.models import DiscardAction, Category, Farmer, Experiment
+from data.models import DiscardAction, Category, Farmer, Experiment, TAGS
 from data.models import ExperimentImage, ExperimentVideo, FarmImage
 from data.models import Message
+from api.fields import MultipleListChoiceField
 
 class MechanismSerializer(serializers.ModelSerializer):
 
@@ -179,10 +180,10 @@ class MediaListSerializer(serializers.ListSerializer):
         return media
 
 
-
 class ExperimentSerializer(serializers.ModelSerializer):
     images = MediaListSerializer(required=False, child=ExperimentImageSerializer(required=False))
     videos = MediaListSerializer(required=False, child=ExperimentVideoSerializer(required=False))
+    tags = MultipleListChoiceField(choices=TAGS, allow_blank=True, allow_null=True, required=False)
 
     class Meta:
         model = Experiment

@@ -14,9 +14,8 @@
           <div class="d-flex" style="min-width: 100%;">
             <v-chip-group column>
               <v-chip
-                small
                 @click="toggleTagFilter(filter)"
-                class="ma-2"
+                class="ma-1"
                 v-for="(filter, index) in experimentTags.slice(0, 5)"
                 :key="index"
                 :outlined="activeFilters.tags.indexOf(filter) === -1"
@@ -34,9 +33,9 @@
                     :value="hiddenTagFilters"
                     overlap
                     offset-x="20"
-                    offset-y="20"
+                    offset-y="18"
                   >
-                    <v-chip v-bind="attrs" v-on="on" small class="ma-2" outlined color="primary">
+                    <v-chip v-bind="attrs" v-on="on" class="ma-1" outlined :color="hiddenTagFilters > 0 ? 'primary' : '#999'">
                       <v-icon small>mdi-plus</v-icon>Plus
                     </v-chip>
                   </v-badge>
@@ -61,17 +60,16 @@
             <v-badge
               color="primary"
               :content="hiddenFilters"
-              :value="hiddenFilters && !showFilterArea"
+              :value="hiddenFilters"
               overlap
-              offset-x="20"
-              offset-y="20"
+              offset-x="10"
+              offset-y="15"
             >
               <v-btn
-                small
                 outlined
-                :color="showFilterArea ? '#AAA' : 'primary'"
+                :color="showFilterArea || hiddenFilters > 0 ? 'primary' : '#999'"
                 class="text-none ml-auto"
-                style="margin-top: 10px;"
+                style="margin-top: 6px;"
                 @click="showFilterArea = !showFilterArea"
               >
                 <v-icon>mdi-filter-variant</v-icon>Filtrer
@@ -114,7 +112,7 @@
             outlined
             multiple
             placeholder="Toutes les thématiques"
-            class="filter-select caption"
+            class="filter-select"
             v-model="activeFilters.tags"
             @change="(x) => sendFilterChangeEvent('tags', x)"
           ></v-select>
@@ -134,7 +132,7 @@
             outlined
             multiple
             placeholder="Tous les départements"
-            class="filter-select caption"
+            class="filter-select"
             v-model="activeFilters.departments"
             @change="(x) => sendFilterChangeEvent('departments', x)"
           ></v-select>
@@ -151,7 +149,7 @@
             small-chips
             multiple
             outlined
-            class="filter-select caption"
+            class="filter-select"
             :items="cultures"
             v-model="activeFilters.cultures"
             placeholder="Toutes les cultures"
@@ -171,7 +169,7 @@
             multiple
             placeholder="Tous les types d'agriculture"
             :items="agricultureTypes"
-            class="filter-select caption"
+            class="filter-select"
             v-model="activeFilters.agricultureTypes"
             @change="(x) => sendFilterChangeEvent('agriculture types', x)"
           ></v-select>

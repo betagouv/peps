@@ -71,12 +71,14 @@ class TestApi(TestCase):
         self.client.login(username='Pierre', password='12345')
 
         experiment = Experiment.objects.get(name='Allongement')
-        payload = {'objectives': 'Lorem ipsum'}
+        payload = {'objectives': 'Lorem ipsum', 'tags': ['Autonomie fourragère', 'Adventices']}
         url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
 
         response = self.client.patch(url, payload, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Experiment.objects.get(name='Allongement').objectives, 'Lorem ipsum')
+        self.assertIn('Autonomie fourragère', Experiment.objects.get(name='Allongement').tags)
+        self.assertIn('Adventices', Experiment.objects.get(name='Allongement').tags)
 
     def test_xp_post_unauthenticated(self):
         """

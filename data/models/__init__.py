@@ -16,6 +16,6 @@ from .simulator.groupcount import GroupCount
 from .simulator.referercount import RefererCount
 
 from .farmer import Farmer, FarmImage
-from .experiment import Experiment, ExperimentImage, ExperimentVideo
+from .experiment import Experiment, ExperimentImage, ExperimentVideo, TAGS
 from .message import Message
 from .cultures import CULTURES

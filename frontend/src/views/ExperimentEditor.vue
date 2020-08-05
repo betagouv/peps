@@ -116,7 +116,7 @@
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
-            label="Autonomie fourragère"
+            label="Autonomie"
             value="Autonomie fourragère"
           ></v-checkbox>
           <v-checkbox

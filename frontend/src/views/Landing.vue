@@ -18,11 +18,12 @@
           <v-card-text
             class="body-1"
             style="padding: 16px 16px 0px 0;"
-          >Voir et partager ses expériences de pratiques agricoles, se mettre en relation et échanger</v-card-text>
+          >
+          <span style="font-weight: bold;">Voir et partager</span> ses expériences de pratiques agricoles, se <span style="font-weight: bold;">mettre en relation et échanger</span></v-card-text>
           <v-card-text
             class="body-1"
             style="padding: 16px 16px 20px 0;"
-          >Peps est un service public qui permet que les retours de chacun bénéficient aux autres dans la construction d'une agriculture plus durable pour l'environnement et les Hommes</v-card-text>
+          >Peps est un <span style="font-weight: bold;">service public</span> qui permet que les retours de chacun bénéficient aux autres dans la construction d'une agriculture <span style="font-weight: bold;">plus durable pour l'environnement et les Hommes</span></v-card-text>
           <v-btn color="primary" style="margin-bottom: 20px;" href="#explore-xp">
             <v-icon small style="margin-right: 5px;">mdi-beaker-outline</v-icon>
             <span class="text-none">Explorer les expériences</span>
@@ -34,13 +35,9 @@
         </v-col>
       </v-row>
 
-      <v-divider style="margin: 30px 0 0px 0;" />
-
       <!-- Experiment filters -->
       <h2 class="title pa-0" id="explore-xp" style="margin: 16px 0px;">Explorez les retours d'expérience</h2>
       <ExperimentFilter />
-
-      <v-divider style="margin: 30px 0 0px 0;" />
 
       <!-- Experiments by location -->
       <h2 class="title pa-0" style="margin: 16px 0px;">Des exploitations sur tout le territoire</h2>
@@ -108,8 +105,6 @@
           </div>
         </v-col>
       </v-row>
-
-      <v-divider style="margin: 30px 0 0px 0;" />
 
       <!-- Contribution proposal -->
       <div style="margin: 20px 0 0px 15px;">
