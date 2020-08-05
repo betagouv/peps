@@ -1,6 +1,12 @@
-const BundleTracker = require("webpack-bundle-tracker");
+const BundleTracker = require("webpack-bundle-tracker")
+const CompressionPlugin = require('compression-webpack-plugin')
 const debug = !process.env.PEPS_DEBUG || process.env.PEPS_DEBUG === 'True'
 const publicPath = debug ? "http://0.0.0.0:8080/" : "/static/"
+
+const myCompressionPlugin = new CompressionPlugin({
+  algorithm: 'gzip',
+  test: /\.(js|css)$/i,
+})
 
 module.exports = {
   pwa: {
@@ -45,6 +51,10 @@ module.exports = {
     config
       .plugin('BundleTracker')
       .use(BundleTracker, [{ filename: '../frontend/webpack-stats.json' }])
+
+    config
+      .plugin('CompressionPlugin')
+      .use(myCompressionPlugin)
 
     config.resolve.alias
       .set('__STATIC__', 'static')
