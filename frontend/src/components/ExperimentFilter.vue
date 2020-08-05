@@ -82,12 +82,12 @@
           <v-badge
             color="primary"
             :content="hiddenFilters"
-            :value="hiddenFilters && !showFilterArea"
+            :value="hiddenFilters"
             overlap
           >
             <v-btn
               outlined
-              :color="showFilterArea ? '#AAA' : 'primary'"
+              :color="showFilterArea || hiddenFilters > 0 ? 'primary' : '#999'"
               class="text-none"
               @click="showFilterArea = !showFilterArea"
             >
