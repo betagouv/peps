@@ -36,12 +36,12 @@
       </v-row>
 
       <!-- Experiment filters -->
-      <h2 class="title pa-0" id="explore-xp" style="margin: 16px 0px;">Explorez les retours d'expérience</h2>
+      <h2 class="title pa-0" id="explore-xp" style="margin: 16px 0px 10px 0px;">Explorez les retours d'expérience</h2>
       <ExperimentFilter />
 
       <!-- Experiments by location -->
-      <h2 class="title pa-0" style="margin: 16px 0px;">Des exploitations sur tout le territoire</h2>
-      <p class="body-1 pa-0" style="margin: 16px 0px;">Ces exploitantes et exploitants partagent leurs retours d'expériences sur des pratiques agricoles et leurs évolutions</p>
+      <h2 class="title pa-0" style="margin: 16px 0px 5px 0px;">Des exploitations sur tout le territoire</h2>
+      <p class="body-1 pa-0" style="margin: 5px 0px;">Ces exploitantes et exploitants partagent leurs retours d'expériences sur des pratiques agricoles et leurs évolutions</p>
       <v-row style="padding: 0 16px 0 16px;">
         <v-autocomplete
           style="z-index: 9999;"
@@ -69,7 +69,6 @@
         </v-btn>
         <v-spacer class="hidden-sm-and-down" />
       </v-row>
-
       <v-row>
         <v-col cols="12" sm="8">
           <l-map
@@ -106,6 +105,11 @@
         </v-col>
       </v-row>
 
+      <!-- About us cards -->
+      <h2 class="title pa-0" id="explore-xp" style="margin: 20px 0px 5px 0px;">Le projet Peps, qu'est-ce que c'est ?</h2>
+      <p class="body-1 pa-0" style="margin: 5px 0px;">Une philosophie, des personnes et une envie de travailler pour vous</p>
+      <AboutUsCards />
+
       <!-- Contribution proposal -->
       <div style="margin: 20px 0 0px 15px;">
         Vous souhaitez partager votre expérience ?
@@ -129,6 +133,7 @@ import FarmerCard from "@/components/FarmerCard.vue"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import Constants from "@/constants"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
+import AboutUsCards from "@/components/AboutUsCards.vue"
 
 export default {
   name: "Landing",
@@ -151,6 +156,7 @@ export default {
     FarmerCard,
     ExperimentFilter,
     ContributionOverlay,
+    AboutUsCards
   },
   data() {
     return {
