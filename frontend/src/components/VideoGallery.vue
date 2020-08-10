@@ -5,6 +5,11 @@
         <video style="height: 230px; width: 100%; background: #333;" controls="controls">
           <source type="video/mp4" :src="video.video" />Votre navigateur ne peut pas afficher des vidéos.
         </video>
+        <v-card-subtitle
+          v-if="video.copyright"
+          class="caption gray--text"
+          style="padding: 5px 5px 0 5px;"
+        >{{video.copyright}}</v-card-subtitle>
         <v-card-subtitle class="caption" style="padding: 5px;">{{video.label}}</v-card-subtitle>
       </v-card>
     </v-col>
@@ -12,14 +17,13 @@
 </template>
 
 <script>
-
 export default {
   name: "VideoGallery",
   props: {
     videos: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>

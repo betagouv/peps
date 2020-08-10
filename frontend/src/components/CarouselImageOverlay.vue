@@ -20,7 +20,10 @@
           :src="item.image"
           contain
         >
-          <div class="image-label" v-if="item.label">
+          <div class="image-label" v-if="item.label || item.copyright">
+            <span class="caption grey--text" v-if="item.copyright">
+              {{item.copyright}}<br />
+            </span>
             {{item.label}}
           </div>
         </v-carousel-item>

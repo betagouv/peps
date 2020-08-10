@@ -14,13 +14,14 @@ class ExperimentImageForm(forms.ModelForm):
         exclude = []
         widgets = {
             'label': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'copyright': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
         }
 
 class ExperimentImageInline(admin.TabularInline):
     model = ExperimentImage
     form = ExperimentImageForm
     extra = 0
-    fields = ('image', 'label')
+    fields = ('image', 'label', 'copyright')
 
 
 class ExperimentVideoForm(forms.ModelForm):
@@ -29,13 +30,14 @@ class ExperimentVideoForm(forms.ModelForm):
         exclude = []
         widgets = {
             'label': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'copyright': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
         }
 
 class ExperimentVideoInline(admin.TabularInline):
     model = ExperimentVideo
     form = ExperimentVideoForm
     extra = 0
-    fields = ('video', 'label')
+    fields = ('video', 'label', 'copyright')
 
 
 class ExperimentForm(forms.ModelForm):
@@ -172,13 +174,14 @@ class FarmImageForm(forms.ModelForm):
         exclude = []
         widgets = {
             'label': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'copyright': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
         }
 
 class FarmImageInline(admin.TabularInline):
     model = FarmImage
     form = FarmImageForm
     extra = 0
-    fields = ('image', 'label')
+    fields = ('image', 'label', 'copyright')
 
 class FarmerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

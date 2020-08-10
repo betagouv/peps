@@ -111,6 +111,7 @@ class ExperimentImage(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='images', on_delete=models.CASCADE, null=True)
     image = models.ImageField()
     label = models.TextField(null=True, blank=True)
+    copyright = models.TextField(null=True, blank=True)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.image = optimize_image(self.image, self.image.name)
@@ -123,3 +124,4 @@ class ExperimentVideo(models.Model):
     experiment = models.ForeignKey(Experiment, related_name='videos', on_delete=models.CASCADE, null=True)
     video = models.FileField(upload_to='videos/')
     label = models.TextField(null=True, blank=True)
+    copyright = models.TextField(null=True, blank=True)
