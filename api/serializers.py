@@ -135,6 +135,7 @@ class ExperimentImageSerializer(serializers.ModelSerializer):
         fields = (
             'image',
             'label',
+            'copyright',
             'id',
         )
 
@@ -147,6 +148,7 @@ class ExperimentVideoSerializer(serializers.ModelSerializer):
         fields = (
             'video',
             'label',
+            'copyright',
             'id'
         )
 
@@ -271,6 +273,7 @@ class FarmImageSerializer(serializers.ModelSerializer):
         fields = (
             'image',
             'label',
+            'copyright',
             'id'
         )
 
