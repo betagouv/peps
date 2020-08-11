@@ -8,7 +8,7 @@ we should avoid suggesting both at the same time.
 import uuid
 from django.db import models
 from django.utils import timezone
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 
 class PracticeGroup(models.Model):
 

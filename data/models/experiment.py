@@ -2,7 +2,7 @@ import uuid
 from urllib.parse import quote
 from django.utils import timezone
 from django.db import models, connection
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 from django.utils.html import mark_safe
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer

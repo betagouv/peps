@@ -1,7 +1,8 @@
 import uuid
 from django.db import models
 from django.utils import timezone
-from django.contrib.postgres.fields import JSONField, ArrayField
+from django.contrib.postgres.fields import ArrayField
+from django.db.models import JSONField
 from data.utils import get_airtable_media_name, get_airtable_media_content_file
 from .practice import Practice
 

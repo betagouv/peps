@@ -3,7 +3,7 @@ from urllib.parse import quote
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.db import models, connection
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 from django.utils.html import mark_safe
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.utils import optimize_image

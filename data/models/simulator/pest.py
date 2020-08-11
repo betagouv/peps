@@ -1,7 +1,7 @@
 import uuid
 from django.utils import timezone
 from django.db import models
-from django.contrib.postgres.fields import JSONField
+from django.db.models import JSONField
 
 class Pest(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -2,7 +2,8 @@ import uuid
 from enum import Enum
 from django.utils import timezone
 from django.db import models
-from django.contrib.postgres.fields import JSONField, ArrayField
+from django.contrib.postgres.fields import ArrayField
+from django.db.models import JSONField
 
 class SimulatorCulture(models.Model):
 
