@@ -5,7 +5,7 @@ from api.views import RankingsApiView, RefreshDataApiView, FormSchemaView, Geojs
 from api.views import SendTaskView, DiscardActionView, CategoriesView
 from api.views import FarmersView, LoggedUserView, ExperimentView, FarmerView
 from api.views import ExperimentCreateView, UpdateMessageView, ListCreateMessageView
-from api.views import MarkAsReadMessageView
+from api.views import MarkAsReadMessageView, StatsView
 
 urlpatterns = {
     url(r'^calculateRankings/?$', RankingsApiView.as_view(), name='calculate_rankings'),
@@ -20,6 +20,7 @@ urlpatterns = {
     path('experiments/<uuid:pk>', ExperimentView.as_view(), name='experiment_update'),
     path('farmers/<uuid:pk>', FarmerView.as_view(), name='farmer_update'),
     url(r'^geojson/?$', GeojsonView.as_view(), name='geojson'),
+    url(r'^stats/?$', StatsView.as_view(), name='stats'),
 
     url(r'^messages/?$', ListCreateMessageView.as_view(), name='messages'),
     path('messages/<uuid:pk>', UpdateMessageView.as_view(), name='update_message'),

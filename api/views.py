@@ -288,3 +288,22 @@ class MarkAsReadMessageView(APIView):
 
         response_data = JSONRenderer().render(MessageSerializer(Message.objects.filter(pk__in=modified_messages_id), many=True).data)
         return HttpResponse(response_data, content_type="application/json")
+
+class StatsView(APIView):
+    """
+    This view will return statistics on Peps
+    """
+
+    def get(self, request):
+        distinct_messages = Message.objects.values('recipient', 'sender').distinct()
+        existing_correspondance = set()
+
+        for message in distinct_messages:
+            key = ''.join(sorted([str(message['sender']), str(message['recipient'])]))
+            existing_correspondance.add(key)
+
+        return JsonResponse({
+            "approvedExperimentCount": Experiment.objects.filter(approved=True).count(),
+            "approvedFarmerCount": Farmer.objects.filter(approved=True).count(),
+            "contactCount": len(existing_correspondance),
+        })

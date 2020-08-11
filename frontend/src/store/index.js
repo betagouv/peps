@@ -28,6 +28,7 @@ export default new Vuex.Store({
     selectedDepartment: null,
     loggedUser: null,
     geojson: null,
+    stats: null,
 
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -223,6 +224,9 @@ export default new Vuex.Store({
     },
     SET_LAST_MESSAGES_REQUEST(state, date) {
       state.lastMessagesRequest = date.toISOString()
+    },
+    SET_STATS(state, stats) {
+      state.stats = stats
     }
   },
   actions: {
@@ -463,6 +467,12 @@ export default new Vuex.Store({
         context.commit('MARK_AS_READ', response.body)
       }).catch(() => {
       })
+    },
+    fetchStats(context) {
+      let url = '/api/v1/stats'
+      Vue.http.get(url).then(response => {
+        context.commit('SET_STATS', response.body)
+      }).catch(() => {})
     }
   },
   modules: {

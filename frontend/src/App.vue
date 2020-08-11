@@ -11,11 +11,11 @@
         :ctaAction="this.reload"
         :showCloseButton="false"
       />
-      <v-content style="margin-bottom: 20px;">
+      <v-main style="margin-bottom: 20px;">
         <transition name="fade" mode="out-in">
           <router-view />
         </transition>
-      </v-content>
+      </v-main>
       <Footer v-if="!removeFooter" />
     </div>
   </v-app>
@@ -46,6 +46,7 @@ export default {
     this.$store.dispatch("fetchLoggedUser")
     this.$store.dispatch("fetchFarmersAndExperiments")
     this.$store.dispatch("fetchMessages")
+    this.$store.dispatch("fetchStats")
   },
   computed: {
     showErrorMessage() {

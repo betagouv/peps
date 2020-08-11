@@ -105,6 +105,13 @@
         </v-col>
       </v-row>
 
+      <!-- Stats -->
+      <div style="background-color: rgb(224, 244, 238); margin: 16px -16px 0 -16px;padding: 16px;border-radius: 5px;">
+        <h2 class="title pa-0" id="explore-xp" style="margin: 20px 0px 5px 0px;">Le service Peps en chiffres</h2>
+        <p class="body-1 pa-0" style="margin: 5px 0px;">De la transparence sur les données de la communauté d'agriculteurs qui font confiance à Peps</p>
+        <StatsCards />
+      </div>
+
       <!-- About us cards -->
       <h2 class="title pa-0" id="explore-xp" style="margin: 20px 0px 5px 0px;">Le projet Peps, qu'est-ce que c'est ?</h2>
       <p class="body-1 pa-0" style="margin: 5px 0px;">Une philosophie, des personnes et une envie de travailler pour vous</p>
@@ -134,6 +141,7 @@ import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import Constants from "@/constants"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
 import AboutUsCards from "@/components/AboutUsCards.vue"
+import StatsCards from "@/components/StatsCards.vue"
 
 export default {
   name: "Landing",
@@ -156,7 +164,8 @@ export default {
     FarmerCard,
     ExperimentFilter,
     ContributionOverlay,
-    AboutUsCards
+    AboutUsCards,
+    StatsCards
   },
   data() {
     return {
