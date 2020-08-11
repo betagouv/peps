@@ -36,21 +36,21 @@ export default {
           ctaLink: "https://beta.gouv.fr/startups/peps.html",
         },
         {
+          imageSource: "/static/images/agriculteurs_tracteur.jpg",
+          title: "Sur le terrain !",
+          text:
+            "Ce service est construit à partir des retours des utilisateurs et au contact du terrain. Vous pouvez participer !",
+          ctaText: "Nous contacter",
+          ctaTo: { name: "Contact" },
+          ctaLink: null,
+        },
+        {
           imageSource: "/static/images/agriculteurs_echange.jpg",
           title: "Une équipe autonome",
           text:
             "Spécialistes du numérique et de l'agronomie pour développer le meilleur service possible",
           ctaText: "Qui sommes nous ?",
           ctaTo: { name: "QuiSommesNous" },
-          ctaLink: null,
-        },
-        {
-          imageSource: "/static/images/agriculteurs_tracteur.jpg",
-          title: "Sur le terrain !",
-          text:
-            "Ce service est construit à partir des retours des utilisateurs et au contact du terrain",
-          ctaText: "Nous contacter",
-          ctaTo: { name: "Contact" },
           ctaLink: null,
         },
       ],
