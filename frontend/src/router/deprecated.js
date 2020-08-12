@@ -9,11 +9,6 @@ export default [
     }
   },
   {
-    path: '/map',
-    beforeEnter: (route, _, next) => {
-      next({ name: 'Landing' })
-    }
-  }, {
     path: '/agriculteur/:legacyFarmerUrlComponent',
     name: 'DeprecatedFarmer',
     component: LegacyFarmer,

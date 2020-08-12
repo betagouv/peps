@@ -8,6 +8,7 @@ import Profile from '@/views/Profile.vue'
 import Share from '@/views/Share.vue'
 import Messages from '@/views/Messages.vue'
 import store from '@/store/index'
+import Map from '@/views/Map'
 
 export default [
   {
@@ -213,5 +214,10 @@ export default [
         next()
       }
     }
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: Map
   },
 ]

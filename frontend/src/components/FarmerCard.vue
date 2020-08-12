@@ -83,7 +83,7 @@
     <v-card-text
       v-if="farmer.cultures"
       style="padding-bottom: 10px; padding-top: 0;"
-      class="body-2 flex-shink-item"
+      class="body-2 flex-shrink-item"
     >
       <div>{{farmer.cultures}}</div>
     </v-card-text>

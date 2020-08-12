@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       page: 1,
-      cardsPerPage: 12,
+      cardsPerPage: 9,
       lastTransitionBackwards: false
     }
   },
