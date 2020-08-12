@@ -30,7 +30,7 @@ export default {
           imageSource: "/static/images/aidants.jpg",
           title: "Un service public",
           text:
-            "Gratuit et pour tous ! Ce projet s'inscrit dans le plan Ecophyto, financé par le Ministère d'Agriculture et de l'Environnement",
+            "Gratuit et pour tous ! Ce projet s'inscrit dans le plan Ecophyto, financé par le Ministère de l'Agriculture et de l'Alimentation et le Ministère de la Transition Ecologique",
           ctaText: "En savoir plus",
           ctaTo: null,
           ctaLink: "https://beta.gouv.fr/startups/peps.html",
