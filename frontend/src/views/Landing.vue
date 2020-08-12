@@ -107,7 +107,7 @@
 
       <!-- Stats -->
       <div style="background-color: rgb(224, 244, 238); margin: 16px -16px 0 -16px;padding: 16px;border-radius: 5px;">
-        <h2 class="title pa-0" id="explore-xp" style="margin: 20px 0px 5px 0px;">Le service Peps en chiffres</h2>
+        <h2 class="title pa-0" id="explore-xp" style="margin: 0px 0px 5px 0px;">Le service Peps en chiffres</h2>
         <p class="body-1 pa-0" style="margin: 5px 0px;">De la transparence sur les données de la communauté d'agriculteurs qui font confiance à Peps</p>
         <StatsCards />
       </div>

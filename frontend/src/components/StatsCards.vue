@@ -1,13 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col
-        v-for="stat in stats"
-        :key="stat.label"
-        cols="12"
-        sm="6"
-        md="4"
-      >
+      <v-col v-for="stat in stats" :key="stat.label" cols="12" sm="6" md="4">
         <v-card tile elevation="0" color="transparent">
           <v-card-title
             style="font-size: 4em; line-height: normal;"
@@ -19,7 +13,14 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn small outlined color="primary" class="text-none">Voir les statistiques complètes</v-btn>
+    <v-btn
+      small
+      outlined
+      color="primary"
+      href="https://peps-metabase.cleverapps.io/public/dashboard/00536261-3e78-4d92-aa9b-a5996c5bf8fb"
+      target="_blank"
+      class="text-none"
+    >Voir les statistiques complètes</v-btn>
   </div>
 </template>
 
