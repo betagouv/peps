@@ -74,6 +74,16 @@
         <StatsCards />
       </div>
 
+      <!-- Reviews cards -->
+      <div v-if="false">
+        <h2 class="title pa-0" style="margin: 16px 0px 5px 0px;">Paroles de convaincus</h2>
+        <p
+          class="body-1 pa-0"
+          style="margin: 5px 0px;"
+        >Ces agriculteurs ont trouvé des réponses à leurs questions, pourquoi pas vous ?</p>
+        <ReviewsBlock />
+      </div>
+
       <!-- About us cards -->
       <h2
         class="title pa-0"
@@ -107,6 +117,7 @@ import ContributionOverlay from "@/components/ContributionOverlay.vue"
 import AboutUsCards from "@/components/AboutUsCards.vue"
 import StatsCards from "@/components/StatsCards.vue"
 import MapBlock from "@/components/MapBlock.vue"
+import ReviewsBlock from "@/components/ReviewsBlock.vue"
 
 export default {
   name: "Landing",
@@ -127,7 +138,8 @@ export default {
     ContributionOverlay,
     AboutUsCards,
     StatsCards,
-    MapBlock
+    MapBlock,
+    ReviewsBlock,
   },
   data() {
     return {
@@ -137,7 +149,7 @@ export default {
   computed: {
     loggedUser() {
       return this.$store.state.loggedUser
-    }
+    },
   },
   methods: {
     onShareXPClick() {
