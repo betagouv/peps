@@ -17,6 +17,11 @@ export default [
     name: 'Landing',
   },
   {
+    path: '/exploitation',
+    name: 'Map',
+    component: Map
+  },
+  {
     path: '/exploitation/:farmerUrlComponent',
     name: 'Farmer',
     component: Farmer,
@@ -214,10 +219,5 @@ export default [
         next()
       }
     }
-  },
-  {
-    path: '/map',
-    name: 'Map',
-    component: Map
-  },
+  }
 ]
