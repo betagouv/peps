@@ -42,4 +42,4 @@ class RegisterView(FormView):
 
 def logout_view(request):
     logout(request)
-    return redirect('/map')
+    return redirect('/')
