@@ -53,7 +53,6 @@
       </v-card>
     </div>
     <v-btn
-      small
       outlined
       color="primary"
       :to="{name: 'Map'}"

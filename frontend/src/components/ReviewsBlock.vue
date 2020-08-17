@@ -30,7 +30,6 @@
       </v-card>
     </v-col>
      <v-btn
-      small
       outlined
       color="primary"
       href="/register"
