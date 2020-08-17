@@ -27,7 +27,6 @@
         @click="sendContactData()"
         color="primary"
         dark
-        rounded
       >Contactez-moi !</v-btn>
 
       <v-divider />
@@ -40,7 +39,6 @@
         href="mailto:peps@beta.gouv.fr"
         target="_blank"
         dark
-        rounded
       >J'envoie un email</v-btn>
 
       <v-divider />
