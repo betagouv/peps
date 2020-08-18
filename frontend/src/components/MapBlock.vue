@@ -4,13 +4,10 @@
       <router-link :to="{ name: 'Map' }">
         <v-img contain src="/static/images/france-regions.jpg" max-width="300"></v-img>
       </router-link>
-      <div
-        class="d-none d-sm-block"
-        style="margin: 100px -10px 0 -70px; height: 3px; width: 250px; background-color: #CCC; transform: rotate(-20deg);"
-      ></div>
+
       <v-card
         class="d-none d-sm-flex flex-container"
-        style="overflow: hidden;"
+        style="overflow: hidden; margin-left: 90px;"
         :max-width="$vuetify.breakpoint.name === 'sm' ? 300 : 400"
         max-height="300"
       >
