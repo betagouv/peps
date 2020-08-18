@@ -5,6 +5,7 @@
 <head>
     <title>Peps - Créer son compte et commencer à partager ses essais</title>
     <meta description="Un compte est nécessaire pour accéder à certaines fonctionnalités, comme le contact d’autres agriculteurs, afin de garantir la qualité des échanges">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link href="https://tabler.github.io/tabler/assets/css/dashboard.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="icon" href="{% static 'favicon.ico' %}">
@@ -97,7 +98,7 @@
             <div class="container">
                 <div class="my-3 my-md-5">
                     <div class="row row-cards" style="margin-top: 0px;">
-                        <div class="col col-login col-8 mx-auto">
+                        <div class="col col-login col-12 mx-auto">
 
                             <form class="card" method="post">
                                 {% csrf_token %}
@@ -160,7 +161,7 @@
                         </div>
                     </div>
                     <div class="row row-cards">
-                        <div class="col col-login col-8 mx-auto">
+                        <div class="col col-login col-12 mx-auto">
                             <div class="card">
                                 <label class="text-uppercase form-label"
                                     style="text-align: center; padding-top: 20px;">J'ai
