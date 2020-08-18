@@ -10,7 +10,7 @@
               position="top"
               contain
               :max-height="imageMaxHeight"
-              src="/static/images/minagri.png"
+              src="/static/images/minagri.jpg"
             />
           </v-col>
 
@@ -20,7 +20,7 @@
               position="top"
               contain
               :max-height="imageMaxHeight"
-              src="/static/images/mineco.png"
+              src="/static/images/mineco.jpg"
             />
           </v-col>
 
@@ -59,12 +59,6 @@
           </v-col>
         </v-row>
       </v-container>
-
-      <div style="padding-top:20px;">
-        <a href="https://www.beta.gouv.fr/apropos/" target="_blank" style="text-align: center;">
-          <img src="/static/images/betagouv.png" style="height:35px; opacity:0.5;" />
-        </a>
-      </div>
 
       <div
         class="caption ma-2"
