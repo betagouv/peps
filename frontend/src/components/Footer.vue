@@ -4,7 +4,7 @@
     <div style="text-align:center;">
       <v-container class="constrained">
         <v-row align="start">
-          <v-col cols="6" sm="1" :style="'padding:' + minAgriPadding + ';'">
+          <v-col cols="6" sm="2" :style="'padding:' + minAgriPadding + ';'">
             <v-img
               class="white--text align-start"
               position="top"
@@ -27,7 +27,7 @@
           <v-col cols="12" sm="4">
             <p class="text-left caption" style="padding-right: 10px;">
               Peps est un service proposé par le Ministère de l’Agriculture et de l’Alimentation
-              et le Ministère de la Transiton Écologique et Solidaire dans le cadre du plan Ecophyto
+              et le Ministère de la Transiton Écologique dans le cadre du plan Ecophyto
             </p>
           </v-col>
 
