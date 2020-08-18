@@ -85,7 +85,7 @@ export default {
       meta: [
         {
           description:
-            "Grâce aux essais d’agriculteurs, trouvez des réponses à vos questions sur de nombreux thèmes (réduction des charges, autonomie fourragère, maladies…)",
+            "Grâce aux essais d’agriculteurs, trouvez des réponses à vos questions sur de nombreux thèmes (réduction des charges, autonomie, maladies…)",
         },
       ],
     }
