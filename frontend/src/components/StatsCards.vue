@@ -2,13 +2,13 @@
   <div>
     <v-row>
       <v-col v-for="stat in stats" :key="stat.label" cols="12" sm="6" md="4">
-        <v-card tile elevation="0" color="transparent">
+        <v-card tile elevation="0" color="transparent" class="secondary--text">
           <v-card-title
             style="font-size: 4em; line-height: normal;"
             class="primary--text justify-center justify-sm-start"
           >{{stat.value}}</v-card-title>
           <v-card-subtitle
-            class="text-center text-sm-left justify-center justify-sm-start black--text"
+            class="text-center text-sm-left justify-center justify-sm-start"
           >{{stat.label}}</v-card-subtitle>
         </v-card>
       </v-col>

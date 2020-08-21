@@ -122,7 +122,7 @@
               <v-card class="pa-0 fill-height" elevation="0">
                 <v-img class="white--text align-end" height="200" contain :src="member.imageUrl" />
                 <div class="caption grey--text">{{ member.name }}</div>
-                <div class="subtitle-2 black--text">{{ member.title }}</div>
+                <div class="subtitle-2">{{ member.title }}</div>
               </v-card>
             </v-col>
           </v-row>

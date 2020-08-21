@@ -17,7 +17,7 @@
               :src="practice.image || defaultImageUrl"
             />
             <v-card-title class="caption grey--text">{{ practice.mechanism.name }}</v-card-title>
-            <v-card-subtitle class="subtitle-2 black--text">{{ practice.title }}</v-card-subtitle>
+            <v-card-subtitle class="subtitle-2 secondary--text">{{ practice.title }}</v-card-subtitle>
             <v-card-text :style="'margin-bottom:' + textBottomMargin + ';'">
               <div
                 v-for="(infoItem, index) in infoItems(practice)"

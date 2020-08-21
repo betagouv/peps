@@ -25,7 +25,7 @@
           :class="{'user-message': userIsSender(message)}"
           :color="userIsSender(message) ? '#E0F4EE' : '#EEE'"
         >
-          <v-card-text :class="`pa-2 black--text ${mobileView ? 'caption' : 'body-2'}`">{{message.body}}</v-card-text>
+          <v-card-text :class="`pa-2 secondary--text ${mobileView ? 'caption' : 'body-2'}`">{{message.body}}</v-card-text>
           <v-card-subtitle
             style="padding-top: 0 !important; padding-bottom: 5px !important;"
             class="caption pa-2 grey--text d-none d-sm-block"

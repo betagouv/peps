@@ -75,7 +75,7 @@
       </div>
 
       <!-- Reviews cards -->
-      <div v-if="false">
+      <div>
         <h2 class="title pa-0" style="margin: 16px 0px 5px 0px;">Paroles de convaincus</h2>
         <p
           class="body-1 pa-0"

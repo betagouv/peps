@@ -36,7 +36,7 @@
             <v-card-subtitle v-if="image.copyright" class="caption gray--text" style="padding: 5px 5px 0 5px;">
               {{image.copyright}}
             </v-card-subtitle>
-            <v-card-subtitle class="caption black--text" style="padding: 5px;">
+            <v-card-subtitle class="caption secondary--text" style="padding: 5px;">
               {{image.label}}
             </v-card-subtitle>
           </v-card>

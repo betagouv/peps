@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="item in items" :key="item.title" cols="12" sm="6" md="4">
-      <v-card elevation="0">
+      <v-card elevation="0" class="secondary--text">
         <v-img height="180px" contain :src="item.imageSource" />
         <v-card-title>{{item.title}}</v-card-title>
         <v-card-subtitle>{{item.text}}</v-card-subtitle>
