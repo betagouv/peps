@@ -81,67 +81,94 @@
         <div class="field">
           <div
             class="field-title title"
-          >Ajoutez les labels qui vous semblent pertinents pour ce retour d'expérience</div>
-          <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
+          >Sélectionnez jusqu'a 3 étiquettes qui vous semblent les plus pertinents</div>
+          <div class="field-helper">Ils permettent de catégoriser par thèmes les retours d'expérience</div>
+          <v-radio-group
+            v-model="dummyExperiment.tags"
+            :rules="[validators.maxSelected(3)]"
+            hide-details="auto"
+            style="margin-top: 5px; margin-bottom: 5px;"
+          >
+          </v-radio-group>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Maladies"
             value="Maladies"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Insectes et ravageurs"
             value="Insectes et ravageurs"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Adventices"
             value="Adventices"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Environnement & biodiversité"
             value="Environnement & biodiversité"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Diversification"
             value="Diversification"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Autonomie"
             value="Autonomie"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Productivité"
             value="Productivité"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Organisation du travail"
             value="Organisation du travail"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Réduction des charges"
             value="Réduction des charges"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
             label="Autre"
             value="Autre"
+            hide-details
+            :rules="[validators.maxSelected(3)]"
           ></v-checkbox>
         </div>
 

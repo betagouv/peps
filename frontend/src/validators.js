@@ -42,5 +42,12 @@ export default {
     if (!input)
       return true
     return input.length <= 70 || 'Ce champ ne doit pas dépasser les 70 caractères'
+  },
+  maxSelected(maxNumer) {
+    return (input) => {
+      if (!input || input.length <= maxNumer)
+        return true
+      return `Vous pouvez sélectionner jusqu'à ${maxNumer} élements`
+    }
   }
 }
