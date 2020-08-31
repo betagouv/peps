@@ -82,7 +82,7 @@
           <div
             class="field-title title"
           >Sélectionnez jusqu'a 3 étiquettes qui vous semblent les plus pertinents</div>
-          <div class="field-helper">Ils permettent de catégoriser par thèmes les retours d'expérience</div>
+          <div class="field-helper">Elles permettent de catégoriser par thèmes les retours d'expérience</div>
           <v-radio-group
             v-model="dummyExperiment.tags"
             :rules="[validators.maxSelected(3)]"
@@ -205,6 +205,26 @@
             dense
             v-model="dummyExperiment.investment"
           ></v-textarea>
+        </div>
+
+        <!-- CULTURES -->
+        <div class="field">
+          <div class="field-title title">
+            Quelles cultures sont impliquées dans cette exprérience ?
+          </div>
+          <div class="field-helper">Elles permettent de catégoriser par cultures les retours d'expérience</div>
+          <v-autocomplete
+            @input="hasChanged = true"
+            v-model="dummyExperiment.cultures"
+            :items="cultures"
+            outlined
+            chips
+            multiple
+            deletable-chips
+            small-chips
+            hide-details="auto"
+            dense
+          ></v-autocomplete>
         </div>
 
         <!-- EQUIPMENT -->
@@ -511,7 +531,182 @@ export default {
         videos: []
       },
       hasChanged: false,
-      formIsValid: true
+      formIsValid: true,
+      cultures: [
+        {
+          header: 'Cultures'
+        },
+        {
+          text:"Avoine",
+          value:"Avoine",
+        },
+        {
+          text:"Betterave fourragère",
+          value:"Betterave fourragère",
+        },
+        {
+          text:"Betterave sucrière",
+          value:"Betterave sucrière",
+        },
+        {
+          text:"Blé dur",
+          value:"Blé dur",
+        },
+        {
+          text:"Blé tendre d'hiver",
+          value:"Blé tendre d'hiver",
+        },
+        {
+          text:"Blé tendre de printemps",
+          value:"Blé tendre de printemps",
+        },
+        {
+          text:"Chanvre",
+          value:"Chanvre",
+        },
+        {
+          text:"Chia",
+          value:"Chia",
+        },
+        {
+          text:"Colza",
+          value:"Colza",
+        },
+        {
+          text:"Lentilles",
+          value:"Lentilles",
+        },
+        {
+          text:"Lin",
+          value:"Lin",
+        },
+        {
+          text:"Lupin blanc",
+          value:"Lupin blanc",
+        },
+        {
+          text:"Luzerne",
+          value:"Luzerne",
+        },
+        {
+          text:"Epeautre",
+          value:"Epeautre",
+        },
+        {
+          text:"Fétuque",
+          value:"Fétuque",
+        },
+        {
+          text:"Féverole",
+          value:"Féverole",
+        },
+        {
+          text:"Maïs grain",
+          value:"Maïs grain",
+        },
+        {
+          text:"Maïs ensilage",
+          value:"Maïs ensilage",
+        },
+        {
+          text:"Millet",
+          value:"Millet",
+        },
+        {
+          text:"Moutarde",
+          value:"Moutarde",
+        },
+        {
+          text:"Oeillette ou pavot",
+          value:"Oeillette ou pavot",
+        },
+        {
+          text:"Orge d’hiver",
+          value:"Orge d’hiver",
+        },
+        {
+          text:"Orge de printemps",
+          value:"Orge de printemps",
+        },
+        {
+          text:"Pois chiche",
+          value:"Pois chiche",
+        },
+        {
+          text:"Pois d'hiver",
+          value:"Pois d'hiver",
+        },
+        {
+          text:"Pois de printemps",
+          value:"Pois de printemps",
+        },
+        {
+          text:"Pomme de terre",
+          value:"Pomme de terre",
+        },
+        {
+          text:"Quinoa",
+          value:"Quinoa",
+        },
+        {
+          text:"Riz",
+          value:"Riz",
+        },
+        {
+          text:"Sarrasin",
+          value:"Sarrasin",
+        },
+        {
+          text:"Seigle",
+          value:"Seigle",
+        },
+        {
+          text:"Soja",
+          value:"Soja",
+        },
+        {
+          text:"Sorgho",
+          value:"Sorgho",
+        },
+        {
+          text:"Tournesol",
+          value:"Tournesol",
+        },
+        {
+          text:"Triticale",
+          value:"Triticale",
+        },
+        {
+          header: 'Fourrages'
+        },
+        {
+          text:"Graminées fourragères",
+          value:"Graminées fourragères",
+        },
+        {
+          text:"Légumineuses fourragères",
+          value:"Légumineuses fourragères",
+        },
+        {
+          text:"Protéagineux fourragers",
+          value:"Protéagineux fourragers",
+        },
+        {
+          text:"Prairies",
+          value:"Prairies",
+        },
+        {
+          header: 'Autre'
+        },
+        {
+          text:"Pas de culture",
+          value:"Pas de culture",
+        },
+        {
+          text:"Toutes les cultures",
+          value:"Toutes les cultures",
+        },
+      ]
     }
   },
   computed: {
