@@ -2,132 +2,107 @@
   <div>
     <Title :title="title" :breadcrumbs="breadcrumbs" />
     <v-container class="constrained">
-      <div>
-        <div class="display-1 primary--text">Le constat</div>
-        <div class="body-1">
-          Le système agricole actuel est en pleine transformation sous l’effet de différentes
-          dynamiques en particulier la mondialisation du marché agricole - qui entraîne une fluctuation
-          des prix - et la réduction de l’utilisation des produits phytosanitaires - sous l’effet de
-          l’apparition de résistances des adventices/ravageurs, de la demande sociétale et de la
-          réglementation.
-        </div>
-        <div class="body-1">
-          Dans ce contexte, les agriculteurs sont de plus en plus amenés à repenser leur
-          exploitation. Beaucoup cherchent à réduire leurs charges alors que les prix ne sont
-          pas stables et peu prédictibles. D’autres se tournent vers de nouvelles pratiques
-          agroécologiques se substituant à l’action des produits phytosanitaires tandis que
-          certains cherchent des nouvelles cultures ou des nouveaux débouchés afin de diversifier
-          et assurer les revenus. Ces nouvelles pistes ne sont bien évidemment pas exclusives
-          et sont souvent combinées.
-        </div>
-
-        <div class="display-1 primary--text">La proposition</div>
-        <div class="body-1">
-          Peps est d’une plateforme de partage d’expériences entre agriculteurs. Par expérience
-          nous entendons l’ensemble des projets qu’un agriculteur a pu mener, des petits essais
-          pour améliorer l’existant aux grands changements qui transforment structurellement
-          l’exploitation.
-        </div>
-
-        <div class="title">
-          Pourquoi nous avons choisi la piste du partage d’expérience?
-        </div>
-
-        <div class="body-1">
-          A la suite d’entretiens avec des agriculteurs, il ressort que ceux ci sont intéressés
-          par les essais mis en place par d’autres agriculteurs, en particulier quand ils sont
-          proches géographiquement. En outre, le partage et l’entraide sont des pratiques
-          traditionnellement répandues parmi cette profession.
-        </div>
-
-        <div class="body-1">
-          Plus largement, si les agriculteurs ont toujours mené des essais sur leur
-          exploitation, cette aptitude apparaît aujourd’hui d’autant plus primordiale.
-          En effet, l’adoption des pratiques agroécologiques passe nécessairement par leur
-          expérimentation, celles-ci présentant un caractère moins systématique et plus
-          systémique que les produits phytosanitaires. En outre, la diversification et
-          la recherche d’un nouveau modèle pour une exploitation agricole passe par
-          l’introduction de nouvelles cultures dans les rotations et la diversification
-          des débouchés (vente directe, production d’énergie, nouvel atelier…)
-        </div>
-
-        <div class="title">
-          Quel sont les objectifs d’un tel service ?
-        </div>
-
-        <div class="body-1">
-          L’objectif du partage d’expérience est de soutenir la pratique de
-          l’expérimentation chez les agriculteurs en :
-          <ul>
-            <li>
-              favorisant la découverte de nouvelles idées ou de nouvelles
-              manières de mettre en oeuvre des pratiques qu’ils connaissent déjà,
-            </li>
-            <li>
-              montrant ce que fait le terrain et en valorisant un monde agricole qui
-              change,
-            </li>
-            <li>
-              facilitant la mise en contact entre les agriculteurs
-            </li>
-          </ul>
-        </div>
-
-        <div class="title">
-          Comment travaillons-nous pour créer Peps ?
-        </div>
-
-        <div class="body-1">
-          Comme toutes les startups d’État, Peps se construit à partir des retours du terrain.
-          Ainsi, depuis le début du projet nous avons conduit des entretiens avec plus de 150
-          agriculteurs.
-        </div>
-
-        <div class="body-1">
-          Aujourd’hui, nous cherchons à valider la proposition de valeur présentée plus haut
-          c’est à dire nous assurer que les agriculteurs trouvent de l’intérêt dans un tel service.
-          Pour ce faire, nous lançons un prototype avec les agriculteurs volontaires.
-        </div>
-
-        <div class="body-1">
-          Si vous êtes agriculteurs et souhaitez participer au test de ce prototype, <router-link :to="{ name: 'Contact' }">contactez nous</router-link>.
-        </div>
-
-        <div class="display-1 primary--text">Historique</div>
-
-        <div class="body-1">
-          Dans sa première version, nous avions développé un site qui, à partir de quelques
-          données sur l’exploitation de l’agriculteur, proposait automatiquement des pratiques
-          alternatives à la chimie. Ces pratiques étaient documentées à partir des ressources
-          la plateforme d’EcophytoPIC et notre outil s’inscrivait dans le volet diffusion du
-          plan Ecophyto 2+.
-        </div>
-
-        <div class="body-1">
-          Aujourd’hui, la version 2 n’utilise pas ce simulateur, le choix ayant été fait de
-          se focaliser sur le partage d’expérience et la recherche par zone géographique
-          et/ou catégorie. Néanmoins, l’outil demeure fonctionnel et pourra être intégrée
-          à la nouvelle proposition dans un second temps afin de proposer de nouvelles
-          modalités de recherche d’expérience.
-        </div>
+      
+      <div class="title">Un service public numérique</div>
+      <div class="body-1">
+        Le projet Peps a pour but d'accompagner la transition agroécologique des exploitations.
+        Il est  financé  financé par le Ministère de l’Agriculture et de l’Alimentation et le
+        Ministère de la Transition Écologique dans le cadre du plan Ecophyto 2+. Peps est gratuit
+        et repose sur le volontariat. 
+      </div>
+      <div class="body-1">
+        Peps est développé un sein de l’incubateur Beta.gouv de la Direction Interministérielle
+        du Numérique. L’expertise de cet incubateur est de construire des services numériques simples,
+        faciles à utiliser, à l’impact maximal pour les usagers.
       </div>
 
-
-
-      <div style="margin-top: 10px;">
-        <div class="display-1 primary--text">L'équipe actuelle</div>
-        <v-container class="ma-0 pa-5">
-          <v-row>
-            <v-col v-for="(member, index) in team" :key="index" cols="12" sm="3">
-              <v-card class="pa-0 fill-height" elevation="0">
-                <v-img class="white--text align-end" height="200" contain :src="member.imageUrl" />
-                <div class="caption grey--text">{{ member.name }}</div>
-                <div class="subtitle-2">{{ member.title }}</div>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
+      <div class="title">Un monde agricole en pleine mutation</div>
+      <div class="body-1">
+        Entre mondialisation des marchés agricoles et pression pour diminuer l’usage des produits
+        phytosanitaires, les exploitations changent grâce à l’adoption de nouvelles pratiques agroécologiques.
+        Beaucoup cherchent à réduire leurs charges alors que les prix sont peu stables et prédictibles.
+        D’autres cherchent de nouvelles cultures ou de nouveaux débouchés afin de diversifier et assurer
+        les revenus. Dans cette période particulièrement instable pour les exploitations, le partage et
+        l’entraide sont d’autant plus importantes. Échanger et apprendre permet de découvrir de nouvelles
+        idées, d’éviter les échecs et finalement de trouver son équilibre, entre performance économique,
+        agronomique, charge de travail et aspirations personnelles.
       </div>
+
+      <div class="title">Peps facilite l’échange d'expériences entre agriculteurs</div>
+      <div class="body-1">
+        Le site, vous pouvez consulter, partager et échanger autour de retours d’expériences d'agriculteurs.
+        Par expérience nous entendons l’ensemble des projets que vous avez pu mener, des petits essais pour
+        améliorer l’existant aux grands changements qui transforment structurellement votre exploitation. 
+      </div>
+      <div class="body-1">
+        Vous pourrez ainsi découvrir des pratiques concrètes, déjà mises en oeuvre par d’autres agriculteurs.
+        Les témoignages sont variés, autant sur le plan géographique, que sur les thèmes évoqués ou encore le
+        type d’agriculture pratiqué par les exploitants. L’objectif est que chacun puisse découvrir de nouvelles
+        techniques ou projets et en approfondir d’autres.
+      </div>
+      <div class="body-1">
+        La plateforme permet également de se mettre en contact avec d’autres agriculteurs via une messagerie
+        sécurisée. Le contact entre agriculteurs permet de passer de l’idée à l’action. 
+      </div>
+
+      <div class="title">Un développement au plus proche du terrain</div>
+      <div class="body-1">
+        La réussite du projet est mesurée par l’utilité que vous trouvez à utiliser ce site. Il est donc développé
+        grâce au contact constant avec ses utilisateurs, les agriculteurs. Nous sommes à l’écoute de tous retours,
+        questions ou suggestions d’amélioration.
+      </div>
+      <div class="body-1">
+        <router-link :to="{ name: 'Contact' }">Nous contacter</router-link>.
+      </div>
+
+      <div class="title">L'équipe</div>
+      <v-container class="ma-0 pa-5">
+        <v-row>
+          <v-col v-for="(member, index) in team" :key="index" cols="12" sm="3">
+            <v-card class="pa-0 fill-height" elevation="0">
+              <v-img class="white--text align-end" height="200" contain :src="member.imageUrl" />
+              <div class="caption grey--text">{{ member.name }}</div>
+              <div class="subtitle-2">{{ member.title }}</div>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <div class="title">Les soutiens</div>
+      <v-container class="ma-0 pa-5">
+        <v-row>
+          <v-col v-for="(admin, index) in administrations" :key="index" cols="12" :sm="admin.size">
+            <v-card class="pa-0 fill-height" elevation="0" :href="admin.url">
+              <v-img class="white--text align-end" height="200px" :src="admin.imageUrl" contain />
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <!-- <div class="title">On parle de nous</div>
+      <v-container class="ma-0 pa-5">
+        <v-row>
+          <v-col v-for="(article, index) in articles" :key="index" cols="12" sm="4">
+            <v-card class="pa-0 fill-height" elevation="0">
+              <v-img
+                class="white--text align-end"
+                height="100"
+                contain
+                :src="article.imageUrl"
+              />
+              <v-card-title class="caption grey--text">{{ article.journal }}</v-card-title>
+              <v-card-subtitle class="subtitle-2 black--text">{{ article.title }}</v-card-subtitle>
+              <v-btn
+                class="text-none ma-3 fill-height"
+                :href="article.url"
+                target="_blank"
+                small
+                color="primary"
+              >Voir l'article</v-btn>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container> -->
 
     </v-container>
   </div>
@@ -178,6 +153,64 @@ export default {
           imageUrl: "/static/images/benjamin_doberset.png"
         }
       ],
+      administrations: [
+        {
+          imageUrl: "/static/images/dinum.png",
+          size: 2,
+          url: "https://www.numerique.gouv.fr/dinum/"
+        },
+        {
+          imageUrl: "/static/images/minagri.png",
+          size: 2,
+          url: "https://agriculture.gouv.fr/"
+        },
+        {
+          imageUrl: "/static/images/mineco.jpg",
+          size: 2,
+          url: "https://ecologie.gouv.fr/"
+        },
+        {
+          imageUrl: "/static/images/ecophyto.png",
+          size: 2,
+          url: "https://agriculture.gouv.fr/ecophyto"
+        },
+        {
+          imageUrl: "/static/images/inra.jpg",
+          size: 2,
+          url: "https://www.inrae.fr/"
+        },
+        {
+          imageUrl: "/static/images/ofb.png",
+          size: 2,
+          url: "https://ofb.gouv.fr/"
+        }
+      ],
+      articles: [
+        {
+          journal: "Le contrat de solutions",
+          title:
+            "Peps : accompagner les agriculteurs dans la réduction des produits phytosanitaires",
+          imageUrl: "/static/images/contrat-de-solutions.png",
+          url:
+            "https://contratsolutions.fr/actualites/peps-accompagner-les-agriculteurs-dans-la-reduction-des-produits-phytosanitaires/"
+        },
+        {
+          journal: "Agrifind",
+          title:
+            "Peps : Une initiative pour la durabilité agronomique des exploitations agricoles",
+          imageUrl: "/static/images/agrifind.png",
+          url:
+            "https://www.agrifind.fr/peps-une-initiative-pour-la-durabilite-agronomique-des-exploitations-agricoles/"
+        },
+        {
+          journal: "La France Agricole",
+          title:
+            "Task force, enquête flash, start-up d’État, centre de ressources…",
+          imageUrl: "/static/images/la-france-agricole.png",
+          url:
+            "http://www.lafranceagricole.fr/actualites/cultures/sortie-du-glyphosate-task-force-enquete-flash-start-up-detat-centre-de-ressources-1,8,2751982137.html"
+        }
+      ]
     }
   }
 }
