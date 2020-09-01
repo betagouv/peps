@@ -2,19 +2,27 @@
   <div>
     <Title :title="title" :breadcrumbs="breadcrumbs" />
     <v-container class="constrained">
-      
       <div class="title">Un service public numérique</div>
       <div class="body-1">
         Le projet Peps a pour but d'accompagner la transition agroécologique des exploitations.
-        Il est  financé  financé par le Ministère de l’Agriculture et de l’Alimentation et le
+        Il est financé financé par le Ministère de l’Agriculture et de l’Alimentation et le
         Ministère de la Transition Écologique dans le cadre du plan Ecophyto 2+. Peps est gratuit
-        et repose sur le volontariat. 
+        et repose sur le volontariat.
       </div>
       <div class="body-1">
         Peps est développé un sein de l’incubateur Beta.gouv de la Direction Interministérielle
         du Numérique. L’expertise de cet incubateur est de construire des services numériques simples,
         faciles à utiliser, à l’impact maximal pour les usagers.
       </div>
+
+      <v-btn
+        href="https://beta.gouv.fr/"
+        target="_blank"
+        outlined
+        color="primary"
+        class="text-none"
+        style="margin-top: 10px;"
+      >En savoir plus</v-btn>
 
       <div class="title">Un monde agricole en pleine mutation</div>
       <div class="body-1">
@@ -32,7 +40,7 @@
       <div class="body-1">
         Le site, vous pouvez consulter, partager et échanger autour de retours d’expériences d'agriculteurs.
         Par expérience nous entendons l’ensemble des projets que vous avez pu mener, des petits essais pour
-        améliorer l’existant aux grands changements qui transforment structurellement votre exploitation. 
+        améliorer l’existant aux grands changements qui transforment structurellement votre exploitation.
       </div>
       <div class="body-1">
         Vous pourrez ainsi découvrir des pratiques concrètes, déjà mises en oeuvre par d’autres agriculteurs.
@@ -42,7 +50,7 @@
       </div>
       <div class="body-1">
         La plateforme permet également de se mettre en contact avec d’autres agriculteurs via une messagerie
-        sécurisée. Le contact entre agriculteurs permet de passer de l’idée à l’action. 
+        sécurisée. Le contact entre agriculteurs permet de passer de l’idée à l’action.
       </div>
 
       <div class="title">Un développement au plus proche du terrain</div>
@@ -51,19 +59,25 @@
         grâce au contact constant avec ses utilisateurs, les agriculteurs. Nous sommes à l’écoute de tous retours,
         questions ou suggestions d’amélioration.
       </div>
-      <div class="body-1">
-        <router-link :to="{ name: 'Contact' }">Nous contacter</router-link>.
-      </div>
+      <v-btn
+        :to="{ name: 'Contact' }"
+        outlined
+        color="primary"
+        class="text-none"
+        style="margin-top: 10px;"
+      >Nous contacter</v-btn>
 
       <div class="title">L'équipe</div>
       <v-container class="ma-0 pa-5">
         <v-row>
           <v-col v-for="(member, index) in team" :key="index" cols="12" sm="3">
-            <v-card class="pa-0 fill-height" elevation="0">
-              <v-img class="white--text align-end" height="200" contain :src="member.imageUrl" />
-              <div class="caption grey--text">{{ member.name }}</div>
-              <div class="subtitle-2">{{ member.title }}</div>
-            </v-card>
+            <div style="text-align: center">
+              <v-avatar :size="$vuetify.breakpoint.name === 'sm' ? 130 : 180">
+                <v-img :src="member.imageUrl" />
+              </v-avatar>
+            </div>
+            <div class="title" style="text-align: center; margin-bottom: 0px;">{{ member.name }}</div>
+            <div class style="text-align: center;">{{ member.title }}</div>
           </v-col>
         </v-row>
       </v-container>
@@ -102,8 +116,7 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container> -->
-
+      </v-container>-->
     </v-container>
   </div>
 </template>
@@ -117,73 +130,81 @@ export default {
   metaInfo() {
     return {
       title: "Peps - une Startup d'État autonome financée par le plan Ecophyto",
-      meta: [{ description: "Le projet se construit à partir des retours du terrain, avec et pour les agriculteurs. Notre équipe est à votre écoute pour répondre à vos besoins" }]
+      meta: [
+        {
+          description:
+            "Le projet se construit à partir des retours du terrain, avec et pour les agriculteurs. Notre équipe est à votre écoute pour répondre à vos besoins",
+        },
+      ],
     }
   },
   data() {
     return {
-      title: 'Qui sommes-nous ?',
-      breadcrumbs: [{
-        text: 'Accueil',
-        disabled: false,
-        to: { name: "Landing" }
-      }, {
-        text: 'Qui sommes-nous ?',
-        disabled: true,
-      }],
+      title: "Qui sommes-nous ?",
+      breadcrumbs: [
+        {
+          text: "Accueil",
+          disabled: false,
+          to: { name: "Landing" },
+        },
+        {
+          text: "Qui sommes-nous ?",
+          disabled: true,
+        },
+      ],
       team: [
         {
           name: "Maud Blanck",
           title: "Experte métier",
-          imageUrl: "/static/images/maud_blanck.png"
+          imageUrl: "/static/images/maud_blanck.png",
         },
         {
-          name: "Alejandro Mantecon Guillen",
-          title: "CTO / Développement logiciel",
-          imageUrl: "/static/images/alejandro_m_g.png"
+          name: "Alejandro M Guillén",
+          title: "CTO / Développeur",
+          imageUrl: "/static/images/alejandro_m_g.png",
         },
         {
           name: "Mathilde Petit",
           title: "Cheffe de produit informatique",
-          imageUrl: "/static/images/mathilde_petit.png"
+          imageUrl: "/static/images/mathilde_petit.png",
         },
         {
           name: "Benjamin Doberset",
           title: "Chargé de déploiement",
-          imageUrl: "/static/images/benjamin_doberset.png"
-        }
+          imageUrl: "/static/images/benjamin_doberset.png",
+        },
       ],
       administrations: [
         {
           imageUrl: "/static/images/dinum.png",
           size: 2,
-          url: "https://www.numerique.gouv.fr/dinum/"
+          url: "https://www.numerique.gouv.fr/dinum/",
         },
         {
           imageUrl: "/static/images/minagri.png",
           size: 2,
-          url: "https://agriculture.gouv.fr/"
+          url: "https://agriculture.gouv.fr/",
         },
         {
           imageUrl: "/static/images/mineco.jpg",
           size: 2,
-          url: "https://ecologie.gouv.fr/"
+          url: "https://ecologie.gouv.fr/",
         },
         {
           imageUrl: "/static/images/ecophyto.png",
           size: 2,
-          url: "https://agriculture.gouv.fr/ecophyto"
+          url: "https://agriculture.gouv.fr/ecophyto",
         },
         {
           imageUrl: "/static/images/inra.jpg",
           size: 2,
-          url: "https://www.inrae.fr/"
+          url: "https://www.inrae.fr/",
         },
         {
           imageUrl: "/static/images/ofb.png",
           size: 2,
-          url: "https://ofb.gouv.fr/"
-        }
+          url: "https://ofb.gouv.fr/",
+        },
       ],
       articles: [
         {
@@ -192,7 +213,7 @@ export default {
             "Peps : accompagner les agriculteurs dans la réduction des produits phytosanitaires",
           imageUrl: "/static/images/contrat-de-solutions.png",
           url:
-            "https://contratsolutions.fr/actualites/peps-accompagner-les-agriculteurs-dans-la-reduction-des-produits-phytosanitaires/"
+            "https://contratsolutions.fr/actualites/peps-accompagner-les-agriculteurs-dans-la-reduction-des-produits-phytosanitaires/",
         },
         {
           journal: "Agrifind",
@@ -200,7 +221,7 @@ export default {
             "Peps : Une initiative pour la durabilité agronomique des exploitations agricoles",
           imageUrl: "/static/images/agrifind.png",
           url:
-            "https://www.agrifind.fr/peps-une-initiative-pour-la-durabilite-agronomique-des-exploitations-agricoles/"
+            "https://www.agrifind.fr/peps-une-initiative-pour-la-durabilite-agronomique-des-exploitations-agricoles/",
         },
         {
           journal: "La France Agricole",
@@ -208,11 +229,11 @@ export default {
             "Task force, enquête flash, start-up d’État, centre de ressources…",
           imageUrl: "/static/images/la-france-agricole.png",
           url:
-            "http://www.lafranceagricole.fr/actualites/cultures/sortie-du-glyphosate-task-force-enquete-flash-start-up-detat-centre-de-ressources-1,8,2751982137.html"
-        }
-      ]
+            "http://www.lafranceagricole.fr/actualites/cultures/sortie-du-glyphosate-task-force-enquete-flash-start-up-detat-centre-de-ressources-1,8,2751982137.html",
+        },
+      ],
     }
-  }
+  },
 }
 </script>
 
