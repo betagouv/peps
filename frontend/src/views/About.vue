@@ -5,13 +5,13 @@
       <div class="title">Un service public numérique</div>
       <div class="body-1">
         Le projet Peps a pour but d'accompagner la transition agroécologique des exploitations.
-        Il est financé financé par le Ministère de l’Agriculture et de l’Alimentation et le
-        Ministère de la Transition Écologique dans le cadre du plan Ecophyto 2+. Peps est gratuit
-        et repose sur le volontariat.
+        Il est financé par le Ministère de l’Agriculture et de l’Alimentation et le Ministère de
+        la Transition Écologique dans le cadre du plan Ecophyto 2+. Peps est gratuit et repose sur
+        le volontariat.
       </div>
       <div class="body-1">
-        Peps est développé un sein de l’incubateur Beta.gouv de la Direction Interministérielle
-        du Numérique. L’expertise de cet incubateur est de construire des services numériques simples,
+        Peps est développé un sein de l’incubateur Beta.gouv de la Direction Interministérielle du
+        Numérique. L’expertise de cet incubateur est de construire des services numériques simples,
         faciles à utiliser, à l’impact maximal pour les usagers.
       </div>
 
@@ -27,20 +27,21 @@
       <div class="title">Un monde agricole en pleine mutation</div>
       <div class="body-1">
         Entre mondialisation des marchés agricoles et pression pour diminuer l’usage des produits
-        phytosanitaires, les exploitations changent grâce à l’adoption de nouvelles pratiques agroécologiques.
-        Beaucoup cherchent à réduire leurs charges alors que les prix sont peu stables et prédictibles.
-        D’autres cherchent de nouvelles cultures ou de nouveaux débouchés afin de diversifier et assurer
-        les revenus. Dans cette période particulièrement instable pour les exploitations, le partage et
-        l’entraide sont d’autant plus importantes. Échanger et apprendre permet de découvrir de nouvelles
-        idées, d’éviter les échecs et finalement de trouver son équilibre, entre performance économique,
-        agronomique, charge de travail et aspirations personnelles.
+        phytosanitaires, les exploitations changent grâce à l’adoption de nouvelles pratiques
+        agroécologiques. Beaucoup cherchent à réduire leurs charges alors que les prix sont instables
+        et imprédictibles. D’autres cherchent de nouvelles cultures ou de nouveaux débouchés afin de
+        diversifier et assurer les revenus. Dans cette période particulièrement instable pour les exploitations,
+        le partage et l’entraide sont d’autant plus importants. Échanger et apprendre permet d’avoir de
+        nouvelles idées, d’éviter les échecs et finalement de trouver son équilibre, entre performance
+        économique, agronomique, charge de travail et aspirations personnelles. 
       </div>
 
       <div class="title">Peps facilite l’échange d'expériences entre agriculteurs</div>
       <div class="body-1">
-        Le site, vous pouvez consulter, partager et échanger autour de retours d’expériences d'agriculteurs.
-        Par expérience nous entendons l’ensemble des projets que vous avez pu mener, des petits essais pour
-        améliorer l’existant aux grands changements qui transforment structurellement votre exploitation.
+        Sur le site, vous pouvez consulter des témoignages d’agriculteurs, partager vos retours d’expérience
+        et échanger entre agriculteurs autour des retours d’expériences déjà en ligne. Par expériences nous
+        entendons l’ensemble des projets que vous avez pu mener, des petits essais pour améliorer l’existant
+        aux grands changements qui transforment structurellement votre exploitation. 
       </div>
       <div class="body-1">
         Vous pourrez ainsi découvrir des pratiques concrètes, déjà mises en oeuvre par d’autres agriculteurs.
@@ -50,7 +51,8 @@
       </div>
       <div class="body-1">
         La plateforme permet également de se mettre en contact avec d’autres agriculteurs via une messagerie
-        sécurisée. Le contact entre agriculteurs permet de passer de l’idée à l’action.
+        sécurisée. Le contact entre agriculteurs permet de parler concrètement de l’action avec celui qui l’a
+        mise en œuvre en pratique.
       </div>
 
       <div class="title">Un développement au plus proche du terrain</div>
