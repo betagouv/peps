@@ -45,8 +45,10 @@
         })();
 
         window.sendPageView = function (route, previousRoute) {
-            if (previousRoute)
+            if (previousRoute && previousRoute.name && previousRoute.path)
                 _paq.push(['setReferrerUrl', decodeURIComponent(previousRoute.path)])
+            else
+                _paq.push(['setReferrerUrl', document.referrer])
             _paq.push(['setCustomUrl', decodeURIComponent(route.path)])
             _paq.push(['setDocumentTitle', route.name])
 
