@@ -4,24 +4,42 @@
     <Title :breadcrumbs="breadcrumbs" />
 
     <v-container class="constrained">
-      <v-toolbar elevation="0">
+      <v-app-bar
+        style="margin-left: auto; margin-right: auto;"
+        max-width="1000"
+        color="white"
+        :elevation="toolbarOnTop ? 2 : 0"
+        :fixed="toolbarOnTop"
+        id="button-toolbar"
+      >
         <v-toolbar-title class="primary--text"></v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn style="margin-right: 10px;" @click="cancelEdit" class="text-none">
-          <v-icon>mdi-arrow-left</v-icon>Annuler
+        <v-btn
+          :small="$vuetify.breakpoint.name === 'xs'"
+          style="margin-right: 10px;"
+          @click="cancelEdit"
+          class="text-none"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-arrow-left</v-icon>
+          <span v-if="$vuetify.breakpoint.name !== 'xs'">Annuler</span>
         </v-btn>
 
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateFarmer">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder
+        <v-btn
+          :small="$vuetify.breakpoint.name === 'xs'"
+          class="text-none"
+          :disabled="!hasChanged"
+          color="primary"
+          @click="updateFarmer"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-content-save</v-icon>Sauvegarder
         </v-btn>
-      </v-toolbar>
+      </v-app-bar>
 
       <v-form ref="form" v-model="formIsValid">
         <v-row>
           <v-col class="justify-center justify-sm-start d-flex" cols="12" sm="3" md="2">
             <!-- PROFILE IMAGE -->
             <div class="field">
-              
               <div style="position: relative; margin-left: 10px; margin-top: 10px;">
                 <v-avatar size="120" style="border: solid 3px #CCC">
                   <v-img v-if="dummyFarmer.profile_image" :src="dummyFarmer.profile_image"></v-img>
@@ -60,7 +78,10 @@
           <v-col cols="12" sm="9" md="10" class="d-flex flex-column">
             <!-- NAME -->
             <div class="field" style="margin-bottom: 5px;">
-              <div class="field-title title">Votre prénom et nom <span class="mandatory">- obligatoire</span></div>
+              <div class="field-title title">
+                Votre prénom et nom
+                <span class="mandatory">- obligatoire</span>
+              </div>
               <v-text-field
                 hide-details="auto"
                 :rules="[validators.notEmpty]"
@@ -88,7 +109,10 @@
 
         <!-- PHONE NUMBER -->
         <div class="field">
-          <div class="field-title title">Votre numéro téléphone <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Votre numéro téléphone
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <v-text-field
             hide-details="auto"
             @input="hasChanged = true"
@@ -102,7 +126,10 @@
         <!-- CONTACT POSSIBLE -->
 
         <div class="field">
-          <div class="field-title title">Contact <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Contact
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.contact_possible"
@@ -113,7 +140,10 @@
         <!-- EMAIL POSSIBLE -->
 
         <div class="field">
-          <div class="field-title title">Email <span class="mandatory"></span></div>
+          <div class="field-title title">
+            Email
+            <span class="mandatory"></span>
+          </div>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyFarmer.email_for_messages_allowed"
@@ -195,18 +225,6 @@
           ></v-checkbox>
         </div>
       </v-form>
-
-      <v-toolbar elevation="0">
-        <v-toolbar-title class="primary--text"></v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn style="margin-right: 10px;" @click="cancelEdit" class="text-none">
-          <v-icon>mdi-arrow-left</v-icon>Annuler
-        </v-btn>
-
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateFarmer">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder
-        </v-btn>
-      </v-toolbar>
     </v-container>
 
     <v-overlay :value="updateSucceeded || updateFailed" :dark="false">
@@ -251,29 +269,30 @@ export default {
   components: { Title, Loader },
   metaInfo() {
     return {
-      title:
-        "Peps - Mettez à jour vos données personnelles",
+      title: "Peps - Mettez à jour vos données personnelles",
       meta: [
         {
           description:
-            "Modifiez vos données personnelles et votre information de contact"
-        }
-      ]
+            "Modifiez vos données personnelles et votre information de contact",
+        },
+      ],
     }
   },
   props: {
     farmerUrlComponent: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       dummyFarmer: {
-        groups: []
+        groups: [],
       },
       hasChanged: false,
-      formIsValid: true
+      formIsValid: true,
+      toolbarOnTop: false,
+      initialToolbarTop: 0,
     }
   },
   computed: {
@@ -307,19 +326,19 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Landing" }
+          to: { name: "Landing" },
         },
         {
           text: "Mon compte",
           disabled: false,
-          to: { name: "Profile" }
+          to: { name: "Profile" },
         },
         {
           text: this.farmer ? this.farmer.name : "Nouveau profil",
-          disabled: true
-        }
+          disabled: true,
+        },
       ]
-    }
+    },
   },
   methods: {
     updateFarmer() {
@@ -336,7 +355,7 @@ export default {
 
         this.$store.dispatch("patchFarmer", {
           farmer: this.farmer,
-          changes: payload
+          changes: payload,
         })
       } else {
         // Create farmer
@@ -347,7 +366,7 @@ export default {
       this.$store.dispatch("resetFarmerEditLoadingStatus")
       if (success)
         this.$router.push({
-          name: "Profile"
+          name: "Profile",
         })
       else this.resetMediaFields()
     },
@@ -370,7 +389,7 @@ export default {
         this.dummyFarmer.profile_image = undefined
         return
       }
-      utils.toBase64(file, base64 => {
+      utils.toBase64(file, (base64) => {
         this.dummyFarmer.profile_image = base64
       })
     },
@@ -387,11 +406,14 @@ export default {
     handleUnload(e) {
       if (this.hasChanged) {
         e.preventDefault()
-        e.returnValue = ''
+        e.returnValue = ""
       } else {
-        delete e['returnValue']
+        delete e["returnValue"]
       }
-    }
+    },
+    onScroll() {
+      this.toolbarOnTop = window.scrollY > this.initialToolbarTop
+    },
   },
   watch: {
     updateSucceeded(newValue) {
@@ -399,16 +421,22 @@ export default {
     },
     updateFailed(newValue) {
       if (newValue) this.hasChanged = false
-    }
+    },
   },
   beforeMount() {
     this.resetdummyFarmer()
   },
   mounted() {
-    window.addEventListener('beforeunload', this.handleUnload)
+    window.addEventListener("beforeunload", this.handleUnload)
+    this.initialToolbarTop =
+      this.$el.querySelector("#button-toolbar").offsetTop || 0
+  },
+  created() {
+    window.addEventListener("scroll", this.onScroll)
   },
   beforeDestroy() {
-    window.removeEventListener('beforeunload', this.handleUnload)
+    window.removeEventListener("scroll", this.onScroll)
+    window.removeEventListener("beforeunload", this.handleUnload)
   },
   beforeRouteLeave(to, from, next) {
     if (!this.hasChanged) {
@@ -424,7 +452,7 @@ export default {
     } else {
       next(false)
     }
-  }
+  },
 }
 </script>
 

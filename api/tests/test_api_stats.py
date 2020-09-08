@@ -61,27 +61,27 @@ def _populate_database():
         experiment = Experiment(
             name=experiment_name,
             farmer=Farmer.objects.filter(name='Pierre').first(),
-            approved=True,
+            state='Validé',
         )
         experiment.save()
 
     Experiment(
         name="Culture de millet",
         farmer=Farmer.objects.filter(name='Edouard').first(),
-        approved=True,
+        state='Validé',
     ).save()
 
     # Unapproved experiments
     Experiment(
         name="Vente directe",
         farmer=Farmer.objects.filter(name='Pierre').first(),
-        approved=False,
+        state='Brouillon',
     ).save()
 
     Experiment(
         name="Couvert de sarrasin",
         farmer=Farmer.objects.filter(name='Edouard').first(),
-        approved=False,
+        state='Brouillon',
     ).save()
 
     # Message exchange between Philippe and Pierre

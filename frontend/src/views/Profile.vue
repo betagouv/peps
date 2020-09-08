@@ -184,6 +184,41 @@
             </v-hover>
           </v-col>
 
+          <!-- RETOURS D'EXPÉRIENCE EN BROUILLON -->
+          <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            v-for="experiment in draftExperiments"
+            :key="experiment.id"
+            style="min-height: 180px;"
+          >
+            <v-hover>
+              <v-card
+                outlined
+                class="d-flex flex-column fill-height"
+                @click="goToExperiment(experiment)"
+                slot-scope="{ hover }"
+                :elevation="hover ? 4 : 2"
+              >
+                <v-card-title>
+                  Retour d'expérience
+                  <v-icon
+                    small
+                    color="#333"
+                    style="margin-top: 3px; margin-left: 5px;"
+                  >mdi-chevron-right</v-icon>
+                </v-card-title>
+                <v-card-subtitle class="flex-grow-1">{{ experiment.name }}</v-card-subtitle>
+                <v-card-text>
+                  <v-chip small outlined color="blue-grey darken-2">
+                    <v-icon small style="margin-right: 5px;">mdi-lead-pencil</v-icon>Brouillon
+                  </v-chip>
+                </v-card-text>
+              </v-card>
+            </v-hover>
+          </v-col>
+
           <!-- AJOUTER UNE XP -->
           <v-col cols="12" sm="6" md="4" style="min-height: 180px;">
             <v-hover>
@@ -336,15 +371,6 @@ export default {
 
       return this.loggedUser.email
     },
-    pendingExperiments() {
-      if (
-        !this.farmer ||
-        !this.farmer.experiments ||
-        this.farmer.experiments.length === 0
-      )
-        return []
-      return this.farmer.experiments.filter((x) => !x.approved)
-    },
     approvedExperiments() {
       if (
         !this.farmer ||
@@ -352,7 +378,25 @@ export default {
         this.farmer.experiments.length === 0
       )
         return []
-      return this.farmer.experiments.filter((x) => !!x.approved)
+      return this.farmer.experiments.filter((x) => x.state === 'Validé')
+    },
+    pendingExperiments() {
+      if (
+        !this.farmer ||
+        !this.farmer.experiments ||
+        this.farmer.experiments.length === 0
+      )
+        return []
+      return this.farmer.experiments.filter((x) => x.state === 'En attente de validation')
+    },
+    draftExperiments() {
+      if (
+        !this.farmer ||
+        !this.farmer.experiments ||
+        this.farmer.experiments.length === 0
+      )
+        return []
+      return this.farmer.experiments.filter((x) => x.state === 'Brouillon')
     },
     unreadMessageCount() {
       return this.$store.getters.unreadMessageCount

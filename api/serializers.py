@@ -198,6 +198,7 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'external_id',
             'tags',
             'approved',
+            'state',
             'name',
             'short_name',
             'objectives',

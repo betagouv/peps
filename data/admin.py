@@ -65,21 +65,20 @@ class ExperimentForm(forms.ModelForm):
             'cultures': forms.CheckboxSelectMultiple(choices=CULTURES),
         }
 
-class ApprovalFilter(admin.SimpleListFilter):
-    title = 'Approval status'
+class StateFilter(admin.SimpleListFilter):
+    title = 'State'
     parameter_name = ''
 
     def lookups(self, request, model_admin):
         return [
-            ('approved', 'Approved'),
-            ('not_approved', 'Not approved'),
+            ("Brouillon", "Brouillon"),
+            ("En attente de validation", "En attente de validation"),
+            ("Validé", "Validé"),
         ]
 
     def queryset(self, request, queryset):
-        if self.value() == 'approved':
-            return queryset.distinct().filter(approved=True)
-        if self.value() == 'not_approved':
-            return queryset.distinct().filter(approved=False)
+        if self.value():
+            return queryset.distinct().filter(state=self.value())
 
 class AuthorFilter(admin.SimpleListFilter):
     title = 'Author'
@@ -97,8 +96,8 @@ class AuthorFilter(admin.SimpleListFilter):
 
 @admin.register(Experiment)
 class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
-    list_display = ('name', 'author', 'xp_type', 'results', 'approved')
-    list_filter = (ApprovalFilter, AuthorFilter)
+    list_display = ('name', 'author', 'xp_type', 'results', 'icon_state')
+    list_filter = (StateFilter, AuthorFilter)
     search_fields = ('name', )
     readonly_fields = ('html_link', )
 
@@ -106,7 +105,7 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
         ('', {
             'fields': (
                 'html_link',
-                'approved',
+                'state',
                 'farmer',
                 'name',
                 'short_name',
@@ -137,6 +136,19 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
 
     def author(self, obj):
         return format_html('<a href="{0}">{1}</a>'.format('/admin/data/farmer/' + str(obj.farmer.id), obj.farmer.name))
+
+    def icon_state(self, obj):
+        if obj.state == "Brouillon":
+            return format_html('<img src="/static/admin/img/icon-no.svg" alt="True">')
+        elif obj.state == "En attente de validation":
+            return format_html('<img src="/static/images/icon-bang.svg" alt="True">')
+        elif obj.state == "Validé":
+            return format_html('<img src="/static/admin/img/icon-yes.svg" alt="True">')
+        else:
+            return obj.state
+
+    icon_state.allow_tags = True
+    icon_state.short_description = 'State'
 
 
 class ExperimentInline(admin.TabularInline):
@@ -269,6 +281,6 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
             )
         }),
     )
-    list_filter = (ApprovalFilter, )
+    list_filter = (StateFilter, )
     inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
     form = FarmerForm

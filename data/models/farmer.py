@@ -134,7 +134,7 @@ class Farmer(models.Model):
 
     @property
     def approved_experiments(self):
-        return self.experiments.filter(approved=True)
+        return self.experiments.filter(state='Validé')
 
     @property
     def pending_experiments(self):

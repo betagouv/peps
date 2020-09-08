@@ -4,23 +4,44 @@
     <Title :breadcrumbs="breadcrumbs" />
 
     <v-container class="constrained">
-      <v-toolbar elevation="0">
+      <v-app-bar
+        style="margin-left: auto; margin-right: auto;"
+        max-width="1000"
+        color="white"
+        :elevation="toolbarOnTop ? 2 : 0"
+        :fixed="toolbarOnTop"
+        id="button-toolbar"
+      >
         <v-toolbar-title class="primary--text"></v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn style="margin-right: 10px;" @click="cancelEdit" class="text-none">
-          <v-icon>mdi-arrow-left</v-icon>Annuler
+        <v-btn
+          :small="$vuetify.breakpoint.name === 'xs'"
+          style="margin-right: 10px;"
+          @click="cancelEdit"
+          class="text-none"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-arrow-left</v-icon>
+          <span v-if="$vuetify.breakpoint.name !== 'xs'">Annuler</span>
         </v-btn>
 
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateFarmer">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder
+        <v-btn
+          :small="$vuetify.breakpoint.name === 'xs'"
+          class="text-none"
+          :disabled="!hasChanged"
+          color="primary"
+          @click="updateFarmer"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-content-save</v-icon>Sauvegarder
         </v-btn>
-      </v-toolbar>
+      </v-app-bar>
 
       <v-form ref="form" v-model="formIsValid">
-
         <!-- FARM NAME -->
         <div class="field">
-          <div class="field-title title">Le nom de votre exploitation <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Le nom de votre exploitation
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <v-text-field
             hide-details="auto"
             @input="hasChanged = true"
@@ -33,7 +54,10 @@
 
         <!-- PRODUCTIONS -->
         <div class="field">
-          <div class="field-title title">Quelles productions sont présentes sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Quelles productions sont présentes sur l'exploitation ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <div class="field-helper">Vous pouvez en sélectionner plusieurs</div>
           <v-checkbox
             @click.native="hasChanged = true"
@@ -127,7 +151,10 @@
         <!-- INSTALLATION DATE -->
 
         <div class="field">
-          <div class="field-title title">Quand vous êtes-vous installé sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Quand vous êtes-vous installé sur l'exploitation ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <div class="field-helper">Renseignez l'année (par exemple, 2001)</div>
 
           <v-text-field
@@ -138,7 +165,6 @@
             dense
             :value="installationYear"
           ></v-text-field>
-
         </div>
 
         <!-- POSTAL CODE -->
@@ -163,7 +189,9 @@
         <div class="field">
           <div class="field-title title">
             Combien de personnes travaillent sur l'exploitation à temps plein ?
-            <span class="mandatory">- obligatoire</span>
+            <span
+              class="mandatory"
+            >- obligatoire</span>
           </div>
           <div class="field-helper">Comptez-vous et vos associés, salariés et alternants</div>
           <v-text-field
@@ -196,9 +224,7 @@
           <!-- SURFACE CULTURES -->
 
           <div class="field child-field">
-            <div class="field-title subtitle-2">
-              La surface en cultures (en ha.)
-            </div>
+            <div class="field-title subtitle-2">La surface en cultures (en ha.)</div>
             <v-text-field
               hide-details="auto"
               @input="hasChanged = true"
@@ -211,9 +237,9 @@
           <!-- SURFACE MEADOWS -->
 
           <div class="field child-field">
-            <div class="field-title subtitle-2">
-              La surface en prairie et cultures fourragères (en ha.)
-            </div>
+            <div
+              class="field-title subtitle-2"
+            >La surface en prairie et cultures fourragères (en ha.)</div>
             <v-text-field
               hide-details="auto"
               @input="hasChanged = true"
@@ -281,7 +307,10 @@
         <!-- CULTURES -->
 
         <div class="field">
-          <div class="field-title title">Quelles cultures avez-vous sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Quelles cultures avez-vous sur l'exploitation ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <div class="field-helper">Lister les cultures et les espèces fourragères</div>
           <v-textarea
             hide-details="auto"
@@ -298,7 +327,10 @@
         <!-- SOIL TYPE -->
 
         <div class="field">
-          <div class="field-title title">Quels types de sols sont présents sur l'exploitation ? <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Quels types de sols sont présents sur l'exploitation ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <v-textarea
             hide-details="auto"
             rows="3"
@@ -329,7 +361,10 @@
         <!-- DESCRIPTION -->
 
         <div class="field">
-          <div class="field-title title">Pouvez-vous décrire votre exploitation ? <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Pouvez-vous décrire votre exploitation ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <div
             class="field-helper"
           >Son histoire, son fonctionnement, ses particularités, la philosophie et le type d'agriculture pratiquée...</div>
@@ -484,18 +519,6 @@
           <ImagesField :imageArray="dummyFarmer.images" @change="hasChanged = true" />
         </div>
       </v-form>
-
-      <v-toolbar elevation="0">
-        <v-toolbar-title class="primary--text"></v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn style="margin-right: 10px;" @click="cancelEdit" class="text-none">
-          <v-icon>mdi-arrow-left</v-icon>Annuler
-        </v-btn>
-
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateFarmer">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder
-        </v-btn>
-      </v-toolbar>
     </v-container>
 
     <v-overlay :value="updateSucceeded || updateFailed" :dark="false">
@@ -541,21 +564,20 @@ export default {
   components: { Title, Loader, ImagesField },
   metaInfo() {
     return {
-      title:
-        "Peps - Mettez à jour les données de votre exploitation",
+      title: "Peps - Mettez à jour les données de votre exploitation",
       meta: [
         {
           description:
-            "Modifiez le descriptif de votre exploitation, les données associées et la philosophie"
-        }
-      ]
+            "Modifiez le descriptif de votre exploitation, les données associées et la philosophie",
+        },
+      ],
     }
   },
   props: {
     farmerUrlComponent: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -565,11 +587,13 @@ export default {
         groups: [],
         agriculture_types: [],
         images: [],
-        links: []
+        links: [],
       },
+      toolbarOnTop: false,
+      initialToolbarTop: 0,
       hasChanged: false,
       formIsValid: true,
-      showDateModal: false
+      showDateModal: false,
     }
   },
   computed: {
@@ -603,17 +627,17 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Landing" }
+          to: { name: "Landing" },
         },
         {
           text: "Mon compte",
           disabled: false,
-          to: { name: "Profile" }
+          to: { name: "Profile" },
         },
         {
           text: this.farmer ? this.farmer.name : "Nouveau profil",
-          disabled: true
-        }
+          disabled: true,
+        },
       ]
     },
     installationYear() {
@@ -626,10 +650,9 @@ export default {
     },
     hasProductions() {
       const errorMessage = "Vous devez en selectionner au moins une production"
-      if (!this.dummyFarmer || !this.dummyFarmer.production)
-        return errorMessage
+      if (!this.dummyFarmer || !this.dummyFarmer.production) return errorMessage
       return this.dummyFarmer.production.length > 0 || errorMessage
-    }
+    },
   },
   methods: {
     updateFarmer() {
@@ -646,7 +669,7 @@ export default {
 
         this.$store.dispatch("patchFarmer", {
           farmer: this.farmer,
-          changes: payload
+          changes: payload,
         })
       }
     },
@@ -655,7 +678,7 @@ export default {
       this.$store.dispatch("resetFarmerEditLoadingStatus")
       if (success)
         this.$router.push({
-          name: "Profile"
+          name: "Profile",
         })
     },
     cancelEdit() {
@@ -673,7 +696,7 @@ export default {
         this.dummyFarmer.profile_image = undefined
         return
       }
-      utils.toBase64(file, base64 => {
+      utils.toBase64(file, (base64) => {
         this.dummyFarmer.profile_image = base64
       })
     },
@@ -715,21 +738,30 @@ export default {
       } else {
         delete e["returnValue"]
       }
-    }
+    },
+    onScroll() {
+      this.toolbarOnTop = window.scrollY > this.initialToolbarTop
+    },
   },
   watch: {
     updateSucceeded(newValue) {
       if (newValue) this.hasChanged = false
-    }
+    },
   },
   beforeMount() {
     this.resetdummyFarmer()
   },
   mounted() {
+    this.initialToolbarTop =
+      this.$el.querySelector("#button-toolbar").offsetTop || 0
+  },
+  created() {
     window.addEventListener("beforeunload", this.handleUnload)
+    window.addEventListener("scroll", this.onScroll)
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.handleUnload)
+    window.removeEventListener("scroll", this.onScroll)
   },
   beforeRouteLeave(to, from, next) {
     if (!this.hasChanged) {
@@ -745,7 +777,7 @@ export default {
     } else {
       next(false)
     }
-  }
+  },
 }
 </script>
 

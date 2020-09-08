@@ -4,17 +4,64 @@
     <Title :breadcrumbs="breadcrumbs" />
 
     <v-container class="constrained">
-      <v-toolbar elevation="0">
-        <v-toolbar-title class="primary--text"></v-toolbar-title>
+      <v-sheet
+        rounded
+        class="pa-2 caption"
+        v-if="dummyExperiment.state === 'En attente de validation'"
+        color="blue-grey lighten-5"
+      >Ce retour d'expérience est en attente de validation. Vous pouvez toujours apporter des modifications.</v-sheet>
+      <v-app-bar
+        style="margin-left: auto; margin-right: auto;"
+        max-width="1000"
+        color="white"
+        :elevation="toolbarOnTop ? 2 : 0"
+        :fixed="toolbarOnTop"
+        id="button-toolbar"
+      >
+        <v-toolbar-title style="flex-flow: wrap;" class="primary--text"></v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn style="margin-right: 10px;" @click="cancelEdit" class="text-none">
-          <v-icon>mdi-arrow-left</v-icon>Annuler
+        <v-btn
+          :small="$vuetify.breakpoint.name === 'xs'"
+          style="margin-right: 10px;"
+          @click="cancelEdit"
+          class="text-none"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-arrow-left</v-icon>
+          <span v-if="$vuetify.breakpoint.name !== 'xs'">Annuler</span>
         </v-btn>
 
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateExperiment">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder
+        <v-btn
+          class="text-none"
+          :small="$vuetify.breakpoint.name === 'xs'"
+          v-if="dummyExperiment.state === 'Brouillon'"
+          @click="updateDraftExperiment(false)"
+          style="margin-right: 10px;"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-content-save</v-icon>
+          <span v-if="$vuetify.breakpoint.name === 'xs'">Sauvegarder</span>
+          <span v-else>Sauvegarder le brouillon</span>
         </v-btn>
-      </v-toolbar>
+
+        <v-btn
+          class="text-none"
+          :small="$vuetify.breakpoint.name === 'xs'"
+          v-if="dummyExperiment.state === 'Brouillon'"
+          color="primary"
+          @click="submitExperiment(true)"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-check-decagram</v-icon>Valider
+        </v-btn>
+
+        <v-btn
+          class="text-none"
+          :small="$vuetify.breakpoint.name === 'xs'"
+          color="primary"
+          v-if="dummyExperiment.state === 'En attente de validation'"
+          @click="updateExperiment(false)"
+        >
+          <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-content-save</v-icon>Sauvegarder
+        </v-btn>
+      </v-app-bar>
 
       <v-form ref="form" v-model="formIsValid">
         <!-- NAME -->
@@ -60,7 +107,9 @@
         <div class="field">
           <div class="field-title title">
             Dans quels objectifs plus global de l'exploitation cela s'inscrit ?
-            <span class="mandatory">- obligatoire</span>
+            <span
+              class="mandatory"
+            >- obligatoire</span>
           </div>
           <div
             class="field-helper"
@@ -82,14 +131,15 @@
           <div
             class="field-title title"
           >Sélectionnez jusqu'a 3 étiquettes qui vous semblent les plus pertinents</div>
-          <div class="field-helper">Elles permettent de catégoriser par thèmes les retours d'expérience</div>
+          <div
+            class="field-helper"
+          >Elles permettent de catégoriser par thèmes les retours d'expérience</div>
           <v-radio-group
             v-model="dummyExperiment.tags"
             :rules="[validators.maxSelected(3)]"
             hide-details="auto"
             style="margin-top: 5px; margin-bottom: 5px;"
-          >
-          </v-radio-group>
+          ></v-radio-group>
           <v-checkbox
             @click.native="hasChanged = true"
             v-model="dummyExperiment.tags"
@@ -174,9 +224,7 @@
 
         <!-- ONGOING -->
         <div class="field">
-          <div class="field-title title">
-            L'expérience est-elle en cours aujourd'hui ?
-          </div>
+          <div class="field-title title">L'expérience est-elle en cours aujourd'hui ?</div>
           <div
             class="field-helper"
           >Si l'expérience a été intégrée à l'exploitation et est améliorée à la marge, dites Non</div>
@@ -192,9 +240,9 @@
 
         <!-- INVESTMENT -->
         <div class="field">
-          <div class="field-title title">
-            Quels investissements ont été nécessaires pour cette expérience ?
-          </div>
+          <div
+            class="field-title title"
+          >Quels investissements ont été nécessaires pour cette expérience ?</div>
           <div class="field-helper">En temps, en argent, en machines...</div>
           <v-textarea
             hide-details="auto"
@@ -209,10 +257,10 @@
 
         <!-- CULTURES -->
         <div class="field">
-          <div class="field-title title">
-            Quelles cultures sont impliquées dans cette exprérience ?
-          </div>
-          <div class="field-helper">Elles permettent de catégoriser par cultures les retours d'expérience</div>
+          <div class="field-title title">Quelles cultures sont impliquées dans cette exprérience ?</div>
+          <div
+            class="field-helper"
+          >Elles permettent de catégoriser par cultures les retours d'expérience</div>
           <v-autocomplete
             @input="hasChanged = true"
             v-model="dummyExperiment.cultures"
@@ -267,7 +315,10 @@
 
         <!-- SURFACE TYPE -->
         <div class="field">
-          <div class="field-title title">Sur quelle surface portait l'expérience ? <span class="mandatory">- obligatoire</span></div>
+          <div class="field-title title">
+            Sur quelle surface portait l'expérience ?
+            <span class="mandatory">- obligatoire</span>
+          </div>
           <div
             class="field-helper"
           >"Toutes les surfaces" correspond à toutes les surfaces de l'exploitation</div>
@@ -444,18 +495,6 @@
           <VideosField :videoArray="dummyExperiment.videos" @change="hasChanged = true" />
         </div>
       </v-form>
-
-      <v-toolbar elevation="0">
-        <v-toolbar-title class="primary--text"></v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn style="margin-right: 10px;" @click="cancelEdit" class="text-none">
-          <v-icon>mdi-arrow-left</v-icon>Annuler
-        </v-btn>
-
-        <v-btn class="text-none" :disabled="!hasChanged" color="primary" @click="updateExperiment">
-          <v-icon>mdi-content-save</v-icon>Sauvegarder
-        </v-btn>
-      </v-toolbar>
     </v-container>
     <v-overlay :value="updateSucceeded || updateFailed" :dark="false">
       <div>
@@ -467,9 +506,7 @@
             <span v-if="updateSucceeded">
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
               <span v-if="experimentUrlComponent">Votre retour d'expérience a bien été mise à jour !</span>
-              <span
-                v-else
-              >Votre retour d'expérience a bien été créée ! Notre équipe la mettra en ligne bientôt.</span>
+              <span v-else>Votre retour d'expérience a bien été créée !</span>
             </span>
             <span v-else>
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On n'a pas pu mettre à jour le retour d'expérience. Veuillez essayer plus tard.
@@ -510,16 +547,18 @@ export default {
       : "Remplissez ces informations et partagez un retour d'expérience sur Peps"
     return {
       title: title,
-      meta: [{
-        description: description
-      }]
+      meta: [
+        {
+          description: description,
+        },
+      ],
     }
   },
   props: {
     experimentUrlComponent: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
@@ -528,185 +567,188 @@ export default {
         surface_type: [],
         links: [],
         images: [],
-        videos: []
+        videos: [],
+        state: "Brouillon",
       },
+      toolbarOnTop: false,
+      initialToolbarTop: 0,
       hasChanged: false,
       formIsValid: true,
       cultures: [
         {
-          header: 'Cultures'
+          header: "Cultures",
         },
         {
-          text:"Avoine",
-          value:"Avoine",
+          text: "Avoine",
+          value: "Avoine",
         },
         {
-          text:"Betterave fourragère",
-          value:"Betterave fourragère",
+          text: "Betterave fourragère",
+          value: "Betterave fourragère",
         },
         {
-          text:"Betterave sucrière",
-          value:"Betterave sucrière",
+          text: "Betterave sucrière",
+          value: "Betterave sucrière",
         },
         {
-          text:"Blé dur",
-          value:"Blé dur",
+          text: "Blé dur",
+          value: "Blé dur",
         },
         {
-          text:"Blé tendre d'hiver",
-          value:"Blé tendre d'hiver",
+          text: "Blé tendre d'hiver",
+          value: "Blé tendre d'hiver",
         },
         {
-          text:"Blé tendre de printemps",
-          value:"Blé tendre de printemps",
+          text: "Blé tendre de printemps",
+          value: "Blé tendre de printemps",
         },
         {
-          text:"Chanvre",
-          value:"Chanvre",
+          text: "Chanvre",
+          value: "Chanvre",
         },
         {
-          text:"Chia",
-          value:"Chia",
+          text: "Chia",
+          value: "Chia",
         },
         {
-          text:"Colza",
-          value:"Colza",
+          text: "Colza",
+          value: "Colza",
         },
         {
-          text:"Lentilles",
-          value:"Lentilles",
+          text: "Lentilles",
+          value: "Lentilles",
         },
         {
-          text:"Lin",
-          value:"Lin",
+          text: "Lin",
+          value: "Lin",
         },
         {
-          text:"Lupin blanc",
-          value:"Lupin blanc",
+          text: "Lupin blanc",
+          value: "Lupin blanc",
         },
         {
-          text:"Luzerne",
-          value:"Luzerne",
+          text: "Luzerne",
+          value: "Luzerne",
         },
         {
-          text:"Epeautre",
-          value:"Epeautre",
+          text: "Epeautre",
+          value: "Epeautre",
         },
         {
-          text:"Fétuque",
-          value:"Fétuque",
+          text: "Fétuque",
+          value: "Fétuque",
         },
         {
-          text:"Féverole",
-          value:"Féverole",
+          text: "Féverole",
+          value: "Féverole",
         },
         {
-          text:"Maïs grain",
-          value:"Maïs grain",
+          text: "Maïs grain",
+          value: "Maïs grain",
         },
         {
-          text:"Maïs ensilage",
-          value:"Maïs ensilage",
+          text: "Maïs ensilage",
+          value: "Maïs ensilage",
         },
         {
-          text:"Millet",
-          value:"Millet",
+          text: "Millet",
+          value: "Millet",
         },
         {
-          text:"Moutarde",
-          value:"Moutarde",
+          text: "Moutarde",
+          value: "Moutarde",
         },
         {
-          text:"Oeillette ou pavot",
-          value:"Oeillette ou pavot",
+          text: "Oeillette ou pavot",
+          value: "Oeillette ou pavot",
         },
         {
-          text:"Orge d’hiver",
-          value:"Orge d’hiver",
+          text: "Orge d’hiver",
+          value: "Orge d’hiver",
         },
         {
-          text:"Orge de printemps",
-          value:"Orge de printemps",
+          text: "Orge de printemps",
+          value: "Orge de printemps",
         },
         {
-          text:"Pois chiche",
-          value:"Pois chiche",
+          text: "Pois chiche",
+          value: "Pois chiche",
         },
         {
-          text:"Pois d'hiver",
-          value:"Pois d'hiver",
+          text: "Pois d'hiver",
+          value: "Pois d'hiver",
         },
         {
-          text:"Pois de printemps",
-          value:"Pois de printemps",
+          text: "Pois de printemps",
+          value: "Pois de printemps",
         },
         {
-          text:"Pomme de terre",
-          value:"Pomme de terre",
+          text: "Pomme de terre",
+          value: "Pomme de terre",
         },
         {
-          text:"Quinoa",
-          value:"Quinoa",
+          text: "Quinoa",
+          value: "Quinoa",
         },
         {
-          text:"Riz",
-          value:"Riz",
+          text: "Riz",
+          value: "Riz",
         },
         {
-          text:"Sarrasin",
-          value:"Sarrasin",
+          text: "Sarrasin",
+          value: "Sarrasin",
         },
         {
-          text:"Seigle",
-          value:"Seigle",
+          text: "Seigle",
+          value: "Seigle",
         },
         {
-          text:"Soja",
-          value:"Soja",
+          text: "Soja",
+          value: "Soja",
         },
         {
-          text:"Sorgho",
-          value:"Sorgho",
+          text: "Sorgho",
+          value: "Sorgho",
         },
         {
-          text:"Tournesol",
-          value:"Tournesol",
+          text: "Tournesol",
+          value: "Tournesol",
         },
         {
-          text:"Triticale",
-          value:"Triticale",
+          text: "Triticale",
+          value: "Triticale",
         },
         {
-          header: 'Fourrages'
+          header: "Fourrages",
         },
         {
-          text:"Graminées fourragères",
-          value:"Graminées fourragères",
+          text: "Graminées fourragères",
+          value: "Graminées fourragères",
         },
         {
-          text:"Légumineuses fourragères",
-          value:"Légumineuses fourragères",
+          text: "Légumineuses fourragères",
+          value: "Légumineuses fourragères",
         },
         {
-          text:"Protéagineux fourragers",
-          value:"Protéagineux fourragers",
+          text: "Protéagineux fourragers",
+          value: "Protéagineux fourragers",
         },
         {
-          text:"Prairies",
-          value:"Prairies",
+          text: "Prairies",
+          value: "Prairies",
         },
         {
-          header: 'Autre'
+          header: "Autre",
         },
         {
-          text:"Pas de culture",
-          value:"Pas de culture",
+          text: "Pas de culture",
+          value: "Pas de culture",
         },
         {
-          text:"Toutes les cultures",
-          value:"Toutes les cultures",
+          text: "Toutes les cultures",
+          value: "Toutes les cultures",
         },
-      ]
+      ],
     }
   },
   computed: {
@@ -749,17 +791,17 @@ export default {
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Landing" }
+          to: { name: "Landing" },
         },
         {
           text: "Mon compte",
           disabled: false,
-          to: { name: "Profile" }
+          to: { name: "Profile" },
         },
         {
           text: this.experiment ? this.experiment.name : "Nouvelle expérience",
-          disabled: true
-        }
+          disabled: true,
+        },
       ]
     },
     hasSurfaceType() {
@@ -767,18 +809,41 @@ export default {
       if (!this.dummyExperiment || !this.dummyExperiment.surface_type)
         return errorMessage
       return this.dummyExperiment.surface_type.length > 0 || errorMessage
-    }
+    },
   },
   methods: {
-    updateExperiment() {
+    validateSubmission() {
       this.$refs.form.validate()
 
       if (!this.formIsValid) {
         window.scrollTo(0, 0)
         window.alert("Merci de vérifier les champs en rouge et réessayer")
+      }
+
+      return this.formIsValid
+    },
+    updateDraftExperiment() {
+      if (!this.dummyExperiment.name) {
+        window.scrollTo(0, 0)
+        window.alert("Merci de renseigner le nom du retour d'expérience")
         return
       }
 
+      this.dummyExperiment.state = "Brouillon"
+      this.sendUpdateRequest()
+    },
+    submitExperiment() {
+      if (!this.validateSubmission()) return
+
+      this.dummyExperiment.state = "En attente de validation"
+      this.sendUpdateRequest()
+    },
+    updateExperiment() {
+      if (!this.validateSubmission()) return
+
+      this.sendUpdateRequest()
+    },
+    sendUpdateRequest() {
       if (this.experiment) {
         const payload = utils.getObjectDiff(
           this.experiment,
@@ -787,12 +852,12 @@ export default {
 
         this.$store.dispatch("patchExperiment", {
           experiment: this.experiment,
-          changes: payload
+          changes: payload,
         })
       } else {
         this.$store.dispatch("createExperiment", {
           payload: this.dummyExperiment,
-          farmer: this.loggedFarmer
+          farmer: this.loggedFarmer,
         })
       }
     },
@@ -801,7 +866,7 @@ export default {
       this.$store.dispatch("resetExperimentEditLoadingStatus")
       if (success)
         this.$router.push({
-          name: "Profile"
+          name: "Profile",
         })
     },
     cancelEdit() {
@@ -813,6 +878,7 @@ export default {
         this.dummyExperiment.images = this.dummyExperiment.images || []
         this.dummyExperiment.videos = this.dummyExperiment.videos || []
         this.dummyExperiment.links = this.dummyExperiment.links || []
+        this.dummyExperiment.state = this.dummyExperiment.state || "Brouillon"
       }
     },
     addImages(e) {
@@ -822,10 +888,10 @@ export default {
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
-        utils.toBase64(file, base64 => {
+        utils.toBase64(file, (base64) => {
           this.dummyExperiment.images.push({
             image: base64,
-            label: ""
+            label: "",
           })
         })
       }
@@ -855,11 +921,24 @@ export default {
     deleteLink(index) {
       this.dummyExperiment.links.splice(index, 1)
       this.hasChanged = true
-    }
+    },
+    onScroll() {
+      this.toolbarOnTop = window.scrollY > this.initialToolbarTop
+    },
   },
   beforeMount() {
     this.resetDummyExperiment()
-  }
+  },
+  mounted() {
+    this.initialToolbarTop =
+      this.$el.querySelector("#button-toolbar").offsetTop || 0
+  },
+  created() {
+    window.addEventListener("scroll", this.onScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll)
+  },
 }
 </script>
 

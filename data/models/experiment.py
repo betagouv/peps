@@ -4,10 +4,12 @@ from django.utils import timezone
 from django.db import models, connection
 from django.db.models import JSONField
 from django.utils.html import mark_safe
+from django.conf import settings
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer
 from data.utils import optimize_image
 from data.forms import ChoiceArrayField
+from api.utils import AsanaUtils
 
 # (Stored in db, seen in drop-down)
 XP_TYPE = (
@@ -45,6 +47,12 @@ SURFACE_TYPE = (
     ("Des carrés", "Des carrés"),
 )
 
+STATES = (
+    ("Brouillon", "Brouillon"),
+    ("En attente de validation", "En attente de validation"),
+    ("Validé", "Validé"),
+)
+
 def get_next_increment():
     with connection.cursor() as cursor:
         cursor.execute("SELECT nextval('experiment_sequence_number')")
@@ -66,7 +74,7 @@ class Experiment(models.Model):
     airtable_json = JSONField(null=True, blank=True)
 
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
-    approved = models.BooleanField(default=False, db_index=True)
+    state = models.TextField(choices=STATES, default="Brouillon", db_index=True)
     tags = ChoiceArrayField(models.CharField(max_length=255, choices=TAGS), default=list, blank=True, null=True)
     name = models.TextField(max_length=70)
     short_name = models.TextField(max_length=30, null=True, blank=True, help_text='Si ce champ est présent, il sera utilisé pour l\'URL')
@@ -103,6 +111,26 @@ class Experiment(models.Model):
             return mark_safe(f'<a href="{self.url_path}" target="_blank">{unescaped_url}</a>')
         else:
             return 'Pas encore live'
+
+    @property
+    def approved(self):
+        return self.state == 'Validé'
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        """
+        We need to check if the experiment has been put as awaiting for validation to
+        send an Asana task
+        """
+        try:
+            send_task = False
+            if self.state == 'En attente de validation':
+                if self._state.adding or Experiment.objects.get(pk=self.pk).state != 'En attente de validation':
+                    task_name = "Retour d'experience '{0}' est en attente de validation".format(self.name)
+                    AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, '', None)
+        except Exception as _:
+            print('Error creating task in Asana for experiment awaiting validation')
+        finally:
+            super(Experiment, self).save(force_insert, force_update, using, update_fields)
 
 
 # This is sadly necessary because we can't use an ArrayField of ImageFields

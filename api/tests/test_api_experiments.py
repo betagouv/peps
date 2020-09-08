@@ -144,6 +144,49 @@ class TestApi(TestCase):
         finally:
             AsanaUtils.send_task = original_asana_function
 
+    def test_post_validation_state(self):
+        """
+        Ensures a newly created XP set to "En attente de validation" sends an Asana notification
+        """
+        self.client.logout()
+        payload = {'objectives': 'Lorem ipsum', 'name': 'Lorem ipsum', 'state': 'En attente de validation'}
+        url = reverse('experiment_create')
+
+        self.client.login(username='Agnès', password='12345')
+
+        try:
+            original_asana_function = AsanaUtils.send_task
+            AsanaUtils.send_task = MagicMock()
+
+            response = self.client.post(url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+            self.assertEqual(AsanaUtils.send_task.call_count, 2)
+
+        finally:
+            AsanaUtils.send_task = original_asana_function
+
+    def test_patch_validation_state(self):
+        """
+        Ensures a draft XP converted into "En attente de validation" sends an Asana notification
+        """
+        self.client.logout()
+        self.client.login(username='Agnès', password='12345')
+
+        try:
+            original_asana_function = AsanaUtils.send_task
+            AsanaUtils.send_task = MagicMock()
+
+            experiment = Experiment.objects.get(name='Association de cultures')
+            payload = {'state': 'En attente de validation'}
+            url = reverse('experiment_update', kwargs={'pk': str(experiment.id)})
+            self.client.patch(url, payload, format='json')
+
+            AsanaUtils.send_task.assert_called_once()
+
+        finally:
+            AsanaUtils.send_task = original_asana_function
+
     def test_xp_images(self):
         """
         We can add or remove images from the experiment object
@@ -254,6 +297,12 @@ def _populate_database():
         experiment = Experiment(
             name=experiment_name,
             farmer=Farmer.objects.filter(name='Pierre').first(),
-            approved=True,
+            state='Validé',
         )
         experiment.save()
+
+    Experiment(
+        name="Association de cultures",
+        farmer=Farmer.objects.filter(name='Agnès').first(),
+        state="Brouillon"
+    ).save()

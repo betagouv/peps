@@ -303,7 +303,7 @@ class StatsView(APIView):
             existing_correspondance.add(key)
 
         return JsonResponse({
-            "approvedExperimentCount": Experiment.objects.filter(approved=True).count(),
+            "approvedExperimentCount": Experiment.objects.filter(state='Validé').count(),
             "approvedFarmerCount": Farmer.objects.filter(approved=True).count(),
             "contactCount": len(existing_correspondance),
         })
