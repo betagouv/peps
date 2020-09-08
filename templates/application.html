@@ -34,11 +34,11 @@
     <!-- Matomo -->
     <script type="text/javascript">
         var _paq = window._paq || [];
-        _paq.push(['setCookieDomain', '{% analytics_cookie_domain %}']);
+        _paq.push(['setCookieDomain', '{% analytics_domain %}']);
         _paq.push(['setDomains', '{% analytics_domain %}']);
         (function () {
             var u = "//stats.data.gouv.fr/";
-            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
             _paq.push(['setSiteId', "{% analytics_id %}"]);
             var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
             g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
