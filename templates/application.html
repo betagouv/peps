@@ -49,6 +49,7 @@
                 _paq.push(['setReferrerUrl', decodeURIComponent(previousRoute.path)])
             else
                 _paq.push(['setReferrerUrl', document.referrer])
+            _paq.push(['setCustomUrl', decodeURIComponent(route.path) + location.search])
             _paq.push(['setDocumentTitle', route.name])
 
             // remove all previously assigned custom variables, requires Matomo (formerly Piwik) 3.0.2
