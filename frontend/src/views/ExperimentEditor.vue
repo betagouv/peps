@@ -56,7 +56,7 @@
           class="text-none"
           :small="$vuetify.breakpoint.name === 'xs'"
           color="primary"
-          v-if="dummyExperiment.state === 'En attente de validation'"
+          v-if="dummyExperiment.state !== 'Brouillon'"
           @click="updateExperiment(false)"
         >
           <v-icon :small="$vuetify.breakpoint.name === 'xs'">mdi-content-save</v-icon>Sauvegarder
