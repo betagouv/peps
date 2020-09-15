@@ -317,6 +317,15 @@
                             </tr>
                           </tbody>
                         </table>
+
+                        <p style="margin-bottom: 20px;font-size: 0.825em;color: #555;">
+                          Si le bouton ci-dessus ne marche pas, vous pouvez copier-coller ce lien
+                          dans votre navigateur : <br />
+                          <span style="font-style: italic;">
+                            https://{{ site.domain }}{% url 'magicauth-validate-token' token.key %}?next={{ next_view }}
+                            </span>
+                        </p>
+                        <hr />
                         <p style="margin-bottom: 20px;">Pour protéger votre compte, le lien d'authentification
                           contenu dans ce mail n'est valide que pendant 3 heures.
                         </p>
