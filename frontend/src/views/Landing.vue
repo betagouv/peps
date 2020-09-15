@@ -7,7 +7,7 @@
     <v-container class="constrained">
       <!-- Intro top -->
       <v-row>
-        <v-col cols="12" md="9">
+        <v-col cols="12" md="10">
           <div class="display-1">
             Le savoir partagé
             <span
@@ -15,29 +15,60 @@
               style="font-size: 38px; letter-spacing: 0em;"
             >entre agriculteurs</span>
           </div>
-          <v-card-text class="body-1" style="padding: 16px 16px 0px 0;">
-            <span style="font-weight: bold;">Voir et partager</span> ses expériences de pratiques agricoles, se
-            <span
-              style="font-weight: bold;"
-            >mettre en relation et échanger</span>
-          </v-card-text>
-          <v-card-text class="body-1" style="padding: 16px 16px 20px 0;">
-            Peps est un
-            <span style="font-weight: bold;">service public</span> qui permet que les retours de chacun bénéficient aux autres dans la construction d'une agriculture
-            <span
-              style="font-weight: bold;"
-            >plus durable pour l'environnement et les Hommes</span>
-          </v-card-text>
-          <v-btn color="primary" style="margin-bottom: 20px;" href="#explore-xp">
-            <v-icon small style="margin-right: 5px;">mdi-beaker-outline</v-icon>
-            <span class="text-none">Explorer les expériences</span>
-          </v-btn>
+          <v-card-text
+            class="body-1"
+            style="padding: 16px 16px 0px 0;"
+          >Un service public qui soutient une agriculture plus durable, pour ceux et celles qui produisent ainsi que pour l'environnement</v-card-text>
         </v-col>
 
-        <v-col cols="3" class="d-none d-md-flex">
+        <v-col cols="2" class="d-none d-md-flex">
           <v-img src="/static/images/agriculteurs-discussion-salade.jpg"></v-img>
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col cols="12" sm="4">
+          <v-card flat>
+            <v-card-title
+              v-if="$vuetify.breakpoint.name !== 'xs'"
+              style="color: #2c3e50; border-bottom: 4px solid #2c3e50; width: 70%; margin-bottom: 5px; padding: 0 0 5px 0;"
+            >1.</v-card-title>
+            <v-card-text class="pa-0" style="color: #2c3e50;">
+              <span v-if="$vuetify.breakpoint.name === 'xs'">1.</span>
+              <span style="font-weight: bold;">Découvrez</span> les retours d'expériences d'autres agriculteurs
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-card flat>
+            <v-card-title
+              v-if="$vuetify.breakpoint.name !== 'xs'"
+              style="color: #2c3e50; border-bottom: 4px solid #2c3e50; width: 70%; margin-bottom: 5px; padding: 0 0 5px 0;"
+            >2.</v-card-title>
+            <v-card-text class="pa-0" style="color: #2c3e50;">
+              <span v-if="$vuetify.breakpoint.name === 'xs'">2.</span>
+              <span style="font-weight: bold;">Echangez</span> avec les agriculteurs qui ont testé des pratiques qui vous intéressent
+            </v-card-text>
+          </v-card>
+        </v-col>
+        <v-col cols="12" sm="4">
+          <v-card flat>
+            <v-card-title
+              v-if="$vuetify.breakpoint.name !== 'xs'"
+              style="color: #2c3e50; border-bottom: 4px solid #2c3e50; width: 70%; margin-bottom: 5px; padding: 0 0 5px 0;"
+            >3.</v-card-title>
+            <v-card-text class="pa-0" style="color: #2c3e50;">
+              <span v-if="$vuetify.breakpoint.name === 'xs'">3.</span>
+              <span style="font-weight: bold;">Partagez</span> ce que vous mettez en place sur votre exploitation
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-btn color="primary" style="margin: 20px 0;" href="#explore-xp">
+        <span class="text-none">J'explore les pratiques</span>
+        <v-icon small style="margin-right: 5px;">mdi-arrow-right</v-icon>
+      </v-btn>
 
       <!-- Experiment filters -->
       <h2
