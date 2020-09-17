@@ -7,9 +7,9 @@
       <v-sheet
         rounded
         class="pa-2 caption"
-        v-if="dummyExperiment.state === 'En attente de validation'"
+        v-if="bannerText"
         color="blue-grey lighten-5"
-      >Ce retour d'expérience est en attente de validation. Vous pouvez toujours apporter des modifications.</v-sheet>
+      >{{bannerText}}</v-sheet>
       <v-app-bar
         style="margin-left: auto; margin-right: auto;"
         max-width="1000"
@@ -505,8 +505,7 @@
           <v-card-text style="padding: 30px; color: #333;">
             <span v-if="updateSucceeded">
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-check-circle</v-icon>
-              <span v-if="experimentUrlComponent">Votre retour d'expérience a bien été mise à jour !</span>
-              <span v-else>Votre retour d'expérience a bien été créée !</span>
+              {{successPopupText}}
             </span>
             <span v-else>
               <v-icon style="margin-top: -3px; margin-right: 5px;">mdi-emoticon-sad-outline</v-icon>Oops ! On n'a pas pu mettre à jour le retour d'expérience. Veuillez essayer plus tard.
@@ -769,6 +768,20 @@ export default {
         this.$store.state.experimentEditLoadingStatus ===
         Constants.LoadingStatus.ERROR
       )
+    },
+    successPopupText() {
+      if (this.dummyExperiment.state === 'Brouillon')
+        return `Le brouillon de votre retour d'expérience a bien été ${this.experimentUrlComponent ? "mis à jour" : "crée"}. Si vous avez terminé la rédaction, cliquez sur Valider pour que l'équipe Peps l'examine avant sa mise en ligne`
+      if (this.dummyExperiment.state === 'En attente de validation')
+        return "Merci pour votre contribution ! Votre retour d'expérience va être relue par notre équipe avant sa mise en ligne. Cela nous permet de vérifier la pertinence du contenu et de corriger d'éventuelles petites fautes qui auraient échappées à votre vigilance. Nous revenons vers vous rapidement"
+      return "Votre retour d'expérience a bien été mis à jour !"
+    },
+    bannerText() {
+      if (this.dummyExperiment.state === 'Brouillon')
+        return "Ce retour d'expérience est à l'état de brouillon. Quand vous avez terminé la rédaction, cliquez sur Valider pour que l'équipe Peps l'examine avant sa mise en ligne."
+      if (this.dummyExperiment.state === 'En attente de validation')
+        return "Ce retour d'expérience est en attente de validation par notre équipe avant sa mise en ligne. Nous vérifions la pertinence du contenu et corrigeons d'éventuelles petites fautes qui auraient échappées à votre vigilance."
+      return null
     },
     validators() {
       return validators
