@@ -31,11 +31,11 @@
           <v-card flat>
             <v-card-title
               v-if="$vuetify.breakpoint.name !== 'xs'"
-              style="color: #2c3e50; border-bottom: 4px solid #2c3e50; width: 70%; margin-bottom: 5px; padding: 0 0 5px 0;"
-            >1.</v-card-title>
+              style="color: #2c3e50; margin-bottom: 5px; padding: 0 0 5px 0;"
+            >Découvrez</v-card-title>
             <v-card-text class="pa-0" style="color: #2c3e50;">
-              <span v-if="$vuetify.breakpoint.name === 'xs'">1.</span>
-              <span style="font-weight: bold;">Découvrez</span> les retours d'expériences d'autres agriculteurs
+              <span class="font-weight-bold" v-if="$vuetify.breakpoint.name === 'xs'">Découvrez</span>
+               les retours d'expériences d'autres agriculteurs
             </v-card-text>
           </v-card>
         </v-col>
@@ -43,11 +43,11 @@
           <v-card flat>
             <v-card-title
               v-if="$vuetify.breakpoint.name !== 'xs'"
-              style="color: #2c3e50; border-bottom: 4px solid #2c3e50; width: 70%; margin-bottom: 5px; padding: 0 0 5px 0;"
-            >2.</v-card-title>
+              style="color: #2c3e50; margin-bottom: 5px; padding: 0 0 5px 0;"
+            >Échangez</v-card-title>
             <v-card-text class="pa-0" style="color: #2c3e50;">
-              <span v-if="$vuetify.breakpoint.name === 'xs'">2.</span>
-              <span style="font-weight: bold;">Echangez</span> avec les agriculteurs qui ont testé des pratiques qui vous intéressent
+              <span class="font-weight-bold" v-if="$vuetify.breakpoint.name === 'xs'">Échangez</span>
+              avec les agriculteurs qui ont testé des pratiques qui vous intéressent
             </v-card-text>
           </v-card>
         </v-col>
@@ -55,11 +55,11 @@
           <v-card flat>
             <v-card-title
               v-if="$vuetify.breakpoint.name !== 'xs'"
-              style="color: #2c3e50; border-bottom: 4px solid #2c3e50; width: 70%; margin-bottom: 5px; padding: 0 0 5px 0;"
-            >3.</v-card-title>
+              style="color: #2c3e50; margin-bottom: 5px; padding: 0 0 5px 0;"
+            >Partagez</v-card-title>
             <v-card-text class="pa-0" style="color: #2c3e50;">
-              <span v-if="$vuetify.breakpoint.name === 'xs'">3.</span>
-              <span style="font-weight: bold;">Partagez</span> ce que vous mettez en place sur votre exploitation
+              <span class="font-weight-bold" v-if="$vuetify.breakpoint.name === 'xs'">Partagez</span>
+              ce que vous mettez en place sur votre exploitation
             </v-card-text>
           </v-card>
         </v-col>
