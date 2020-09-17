@@ -7,7 +7,7 @@
     <v-container class="constrained">
       <!-- Intro top -->
       <v-row>
-        <v-col cols="12" md="10">
+        <v-col cols="12">
           <div class="display-1">
             Le savoir partagé
             <span
@@ -20,46 +20,27 @@
             style="padding: 16px 16px 0px 0;"
           >Un service public qui soutient une agriculture plus durable, pour ceux et celles qui produisent ainsi que pour l'environnement</v-card-text>
         </v-col>
-
-        <v-col cols="2" class="d-none d-md-flex">
-          <v-img src="/static/images/agriculteurs-discussion-salade.jpg"></v-img>
-        </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" sm="4">
           <v-card flat>
-            <v-card-title
-              v-if="$vuetify.breakpoint.name !== 'xs'"
-              style="color: #2c3e50; margin-bottom: 5px; padding: 0 0 5px 0;"
-            >Découvrez</v-card-title>
-            <v-card-text class="pa-0" style="color: #2c3e50;">
-              <span class="font-weight-bold" v-if="$vuetify.breakpoint.name === 'xs'">Découvrez</span>
-               les retours d'expériences d'autres agriculteurs
+            <v-card-text style="color: #2c3e50;" class="pa-0">
+              <span style="font-size: 1.25rem; font-weight: 500;">Découvrez </span> les retours d'expériences d'autres agriculteurs
             </v-card-text>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4">
           <v-card flat>
-            <v-card-title
-              v-if="$vuetify.breakpoint.name !== 'xs'"
-              style="color: #2c3e50; margin-bottom: 5px; padding: 0 0 5px 0;"
-            >Échangez</v-card-title>
-            <v-card-text class="pa-0" style="color: #2c3e50;">
-              <span class="font-weight-bold" v-if="$vuetify.breakpoint.name === 'xs'">Échangez</span>
-              avec les agriculteurs qui ont testé des pratiques qui vous intéressent
+            <v-card-text style="color: #2c3e50;" class="pa-0">
+              <span style="font-size: 1.25rem; font-weight: 500;">Échangez </span> avec les agriculteurs qui ont testé des pratiques qui vous intéressent
             </v-card-text>
           </v-card>
         </v-col>
         <v-col cols="12" sm="4">
           <v-card flat>
-            <v-card-title
-              v-if="$vuetify.breakpoint.name !== 'xs'"
-              style="color: #2c3e50; margin-bottom: 5px; padding: 0 0 5px 0;"
-            >Partagez</v-card-title>
-            <v-card-text class="pa-0" style="color: #2c3e50;">
-              <span class="font-weight-bold" v-if="$vuetify.breakpoint.name === 'xs'">Partagez</span>
-              ce que vous mettez en place sur votre exploitation
+            <v-card-text style="color: #2c3e50;" class="pa-0">
+              <span style="font-size: 1.25rem; font-weight: 500;">Partagez </span> ce que vous mettez en place sur votre exploitation
             </v-card-text>
           </v-card>
         </v-col>
