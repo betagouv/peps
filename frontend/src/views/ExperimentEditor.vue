@@ -773,14 +773,14 @@ export default {
       if (this.dummyExperiment.state === 'Brouillon')
         return `Le brouillon de votre retour d'expérience a bien été ${this.experimentUrlComponent ? "mis à jour" : "crée"}. Si vous avez terminé la rédaction, cliquez sur Valider pour que l'équipe Peps l'examine avant sa mise en ligne`
       if (this.dummyExperiment.state === 'En attente de validation')
-        return "Merci pour votre contribution ! Votre retour d'expérience va être relue par notre équipe avant sa mise en ligne. Cela nous permet de vérifier la pertinence du contenu et de corriger d'éventuelles petites fautes qui auraient échappées à votre vigilance. Nous revenons vers vous rapidement"
+        return "Merci pour votre contribution ! Votre retour d'expérience va être relue par notre équipe avant sa mise en ligne. Cela nous permet de vérifier la pertinence du contenu et de corriger d'éventuelles petites fautes qui auraient échappé à votre vigilance. Nous revenons vers vous rapidement"
       return "Votre retour d'expérience a bien été mis à jour !"
     },
     bannerText() {
       if (this.dummyExperiment.state === 'Brouillon')
         return "Ce retour d'expérience est à l'état de brouillon. Quand vous avez terminé la rédaction, cliquez sur Valider pour que l'équipe Peps l'examine avant sa mise en ligne."
       if (this.dummyExperiment.state === 'En attente de validation')
-        return "Ce retour d'expérience est en attente de validation par notre équipe avant sa mise en ligne. Nous vérifions la pertinence du contenu et corrigeons d'éventuelles petites fautes qui auraient échappées à votre vigilance."
+        return "Ce retour d'expérience est en attente de validation par notre équipe avant sa mise en ligne. Nous vérifions la pertinence du contenu et corrigeons d'éventuelles petites fautes qui auraient échappé à votre vigilance."
       return null
     },
     validators() {
