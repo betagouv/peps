@@ -33,7 +33,7 @@
         diversifier et assurer les revenus. Dans cette période particulièrement instable pour les exploitations,
         le partage et l’entraide sont d’autant plus importants. Échanger et apprendre permet d’avoir de
         nouvelles idées, d’éviter les échecs et finalement de trouver son équilibre, entre performance
-        économique, agronomique, charge de travail et aspirations personnelles. 
+        économique, agronomique, charge de travail et aspirations personnelles.
       </div>
 
       <div class="title">Peps facilite l’échange d'expériences entre agriculteurs</div>
@@ -41,7 +41,7 @@
         Sur le site, vous pouvez consulter des témoignages d’agriculteurs, partager vos retours d’expérience
         et échanger entre agriculteurs autour des retours d’expériences déjà en ligne. Par expériences nous
         entendons l’ensemble des projets que vous avez pu mener, des petits essais pour améliorer l’existant
-        aux grands changements qui transforment structurellement votre exploitation. 
+        aux grands changements qui transforment structurellement votre exploitation.
       </div>
       <div class="body-1">
         Vous pourrez ainsi découvrir des pratiques concrètes, déjà mises en oeuvre par d’autres agriculteurs.
@@ -95,30 +95,25 @@
         </v-row>
       </v-container>
 
-      <!-- <div class="title">On parle de nous</div>
+      <div class="title">On parle de nous</div>
       <v-container class="ma-0 pa-5">
         <v-row>
           <v-col v-for="(article, index) in articles" :key="index" cols="12" sm="4">
-            <v-card class="pa-0 fill-height" elevation="0">
-              <v-img
-                class="white--text align-end"
-                height="100"
-                contain
-                :src="article.imageUrl"
-              />
+            <v-card outlined class="pa-0 fill-height" elevation="0">
+              <v-img class="white--text align-end" height="100" :src="article.imageUrl" :contain="article.contain" />
               <v-card-title class="caption grey--text">{{ article.journal }}</v-card-title>
               <v-card-subtitle class="subtitle-2 black--text">{{ article.title }}</v-card-subtitle>
               <v-btn
                 class="text-none ma-3 fill-height"
                 :href="article.url"
                 target="_blank"
-                small
                 color="primary"
+                outlined
               >Voir l'article</v-btn>
             </v-card>
           </v-col>
         </v-row>
-      </v-container>-->
+      </v-container>
     </v-container>
   </div>
 </template>
@@ -210,28 +205,49 @@ export default {
       ],
       articles: [
         {
-          journal: "Le contrat de solutions",
+          journal: "Ministère de l'Agriculture et de l'Alimentation",
           title:
-            "Peps : accompagner les agriculteurs dans la réduction des produits phytosanitaires",
-          imageUrl: "/static/images/contrat-de-solutions.png",
+            "Réduction des phytos : Peps facilite les retours d'expériences entre agriculteurs",
+          imageUrl: "https://agriculture.gouv.fr/sites/minagri/files/styles/affichage_pleine-page_790x435/public/12093_072.jpg",
+          contain: false,
           url:
-            "https://contratsolutions.fr/actualites/peps-accompagner-les-agriculteurs-dans-la-reduction-des-produits-phytosanitaires/",
+            "https://agriculture.gouv.fr/reduction-des-phytos-peps-facilite-les-retours-dexperiences-entre-agriculteurs",
         },
         {
-          journal: "Agrifind",
+          journal: "Ministère de la Transition Écologique",
           title:
-            "Peps : Une initiative pour la durabilité agronomique des exploitations agricoles",
-          imageUrl: "/static/images/agrifind.png",
+            "Transition du modèle agricole : Peps facilite les retours d’expérience entre agriculteurs",
+          imageUrl: "https://www.ecologie.gouv.fr/sites/default/files/AB042750.jpg",
+          contain: false,
           url:
-            "https://www.agrifind.fr/peps-une-initiative-pour-la-durabilite-agronomique-des-exploitations-agricoles/",
+            "https://www.ecologie.gouv.fr/transition-du-modele-agricole-peps-facilite-retours-dexperience-entre-agriculteurs",
         },
         {
-          journal: "La France Agricole",
+          journal: "Ministère de la Transition Écologique",
           title:
             "Task force, enquête flash, start-up d’État, centre de ressources…",
-          imageUrl: "/static/images/la-france-agricole.png",
+          imageUrl: "/static/images/mineco.jpg",
+          contain: true,
           url:
-            "http://www.lafranceagricole.fr/actualites/cultures/sortie-du-glyphosate-task-force-enquete-flash-start-up-detat-centre-de-ressources-1,8,2751982137.html",
+            "https://www.ecologie.gouv.fr/lagriculture-et-lalimentation-durables",
+        },
+        {
+          journal: "OFB : Le portail technique",
+          title:
+            "Plan Écophyto, réduire et améliorer l'utilisation des produits phytosanitaires",
+          imageUrl: "https://professionnels.ofb.fr/sites/default/files/phyto.png",
+          contain: false,
+          url:
+            "https://professionnels.ofb.fr/fr/node/286",
+        },
+        {
+          journal: "Écophyto PIC",
+          title:
+            "Transition du modèle agricole : Peps facilite les retours d’expérience entre agriculteurs",
+          imageUrl: "/static/images/ecophyto.png",
+          contain: true,
+          url:
+            "https://ecophytopic.fr/concevoir-son-systeme/transition-du-modele-agricole-peps-facilite-les-retours-dexperience-entre",
         },
       ],
     }
