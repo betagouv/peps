@@ -80,6 +80,24 @@ class StateFilter(admin.SimpleListFilter):
         if self.value():
             return queryset.distinct().filter(state=self.value())
 
+
+class ApprovalFilter(admin.SimpleListFilter):
+    title = 'Approval status'
+    parameter_name = ''
+
+    def lookups(self, request, model_admin):
+        return [
+            ('approved', 'Approved'),
+            ('not_approved', 'Not approved'),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'approved':
+            return queryset.distinct().filter(approved=True)
+        if self.value() == 'not_approved':
+            return queryset.distinct().filter(approved=False)
+
+
 class AuthorFilter(admin.SimpleListFilter):
     title = 'Author'
     parameter_name = 'XP Author'
@@ -281,6 +299,6 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
             )
         }),
     )
-    list_filter = (StateFilter, )
+    list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
     form = FarmerForm
