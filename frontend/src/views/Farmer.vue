@@ -44,7 +44,10 @@
                   :small="isMobile"
                   color="primary"
                   @click="onContactClick"
-                >Contacter {{farmer.name}}</v-btn>
+                >
+                  Discuter avec {{ farmer.name }}
+                  <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                </v-btn>
               </div>
               <div v-if="farmer.links && farmer.links.length > 0" style="margin-top: 10px">
                 <v-btn

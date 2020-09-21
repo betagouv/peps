@@ -35,7 +35,10 @@
                       @click="onContactClick"
                       color="primary"
                       :small="isMobile"
-                    >Contacter {{ farmer.name }}</v-btn>
+                    >
+                      Discuter avec {{ farmer.name }}
+                      <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                    </v-btn>
                   </div>
                 </div>
               </div>
@@ -79,7 +82,10 @@
                   style="margin-bottom: 10px; margin-top: 5px;"
                   @click="onContactClick"
                   color="primary"
-                >Contacter {{ farmer.name }}</v-btn>
+                >
+                  Discuter avec {{ farmer.name }}
+                  <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                </v-btn>
 
                 <v-btn
                   block
@@ -209,7 +215,10 @@
                 @click="onContactClick"
                 style="margin-top: -2px;"
                 color="primary"
-              >Contacter {{ farmer.name }}</v-btn>
+              >
+                Discuter avec {{ farmer.name }}
+                <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+              </v-btn>
             </div>
           </v-col>
           <v-col style="padding-left: 0; padding-right: 0;" cols="12" md="3">
@@ -257,7 +266,7 @@ export default {
         : ""
     return {
       title: title,
-      meta: [{ description: `${tags} ${description}` }]
+      meta: [{ description: `${tags} ${description}` }],
     }
   },
   components: {
@@ -267,40 +276,42 @@ export default {
     FarmerCard,
     ImageGallery,
     VideoGallery,
-    MiniMap
+    MiniMap,
   },
   data() {
     return {
-      contactOverlayVisible: false
+      contactOverlayVisible: false,
     }
   },
   props: {
     farmerUrlComponent: {
       type: String,
-      required: true
+      required: true,
     },
     experimentUrlComponent: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     goToFarmer() {
       window.sendTrackingEvent(this.$route.name, "seeFarmer", this.farmer.name)
       this.$router.push({
         name: "Farmer",
-        params: { farmerUrlComponent: this.farmerUrlComponent }
+        params: { farmerUrlComponent: this.farmerUrlComponent },
       })
     },
     onContactClick() {
-      if (this.$store.state.loggedUser && this.$store.state.loggedUser.farmer_id) {
+      if (
+        this.$store.state.loggedUser &&
+        this.$store.state.loggedUser.farmer_id
+      ) {
         this.$router.push({
           name: "Messages",
           params: {
-            farmerUrlComponent: this.farmerUrlComponent
-          }
+            farmerUrlComponent: this.farmerUrlComponent,
+          },
         })
-        
       } else {
         window.sendTrackingEvent(
           this.$route.name,
@@ -309,7 +320,7 @@ export default {
         )
         this.contactOverlayVisible = true
       }
-    }
+    },
   },
   computed: {
     farmer() {
@@ -338,21 +349,21 @@ export default {
         sol: "mdi-image-filter-hdr",
         fourrages: "mdi-cow",
         "nouvelles-cultures": "mdi-corn",
-        oad: "mdi-cellphone-information"
+        oad: "mdi-cellphone-information",
       }
       if (!this.experiment.tags) return []
       return this.experiment.tags
-        .map(x =>
+        .map((x) =>
           x in icons ? { icon: icons[x], text: x.replace("-", " ") } : null
         )
-        .filter(x => x != null)
+        .filter((x) => x != null)
     },
     breadcrumbs() {
       return [
         {
           text: "Accueil",
           disabled: false,
-          to: { name: "Landing" }
+          to: { name: "Landing" },
         },
         {
           text: this.farmer.name,
@@ -362,17 +373,17 @@ export default {
             params: {
               farmerUrlComponent: this.$store.getters.farmerUrlComponent(
                 this.farmer
-              )
-            }
-          }
+              ),
+            },
+          },
         },
         {
           text: this.experiment.name,
-          disabled: true
-        }
+          disabled: true,
+        },
       ]
-    }
-  }
+    },
+  },
 }
 </script>
 
