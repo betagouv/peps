@@ -66,19 +66,22 @@
                   {{ farmer.postal_code }})
                 </span>
                 <v-btn
-                  block
-                  class="text-none"
+                  height="auto"
+                  min-width="100%"
+                  class="text-none d-block pa-2"
                   style="margin-bottom: 10px; margin-top: 5px;"
                   @click="onContactClick"
                   color="primary"
                 >
-                  Discuter avec {{ farmer.name }}
-                  <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                  <span style="white-space: normal;">
+                    Discuter avec {{ farmer.name }}
+                    <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                  </span>
                 </v-btn>
 
                 <v-btn
-                  block
-                  class="text-none"
+                  class="text-none d-block pa-2"
+                  min-width="100%"
                   color="primary"
                   outlined
                   @click="goToFarmer()"
@@ -200,13 +203,15 @@
             <div class="body-1" style="margin-top: 30px;">
               Pour plus d'informations sur cette expérience :
               <v-btn
-                class="text-none"
+                class="text-none d-block pa-2"
                 @click="onContactClick"
-                style="margin-top: -2px;"
                 color="primary"
+                height="auto"
               >
-                Discuter avec {{ farmer.name }}
-                <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                <span style="white-space: normal;">
+                  Discuter avec {{ farmer.name }}
+                  <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+                </span>
               </v-btn>
             </div>
           </v-col>
