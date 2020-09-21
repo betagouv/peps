@@ -2,18 +2,12 @@
   <v-card class="flex-container" outlined>
 
     <v-list-item class="flex-fix-item" style="margin: 5px 0 0px 0;">
-      <v-list-item-avatar size="40" color="grey" style="margin-right: 8px;">
+      <v-list-item-avatar size="70" color="grey" style="margin-right: 8px;">
         <v-img :src="farmer.profile_image" v-if="farmer.profile_image"></v-img>
         <v-icon v-else>mdi-account</v-icon>
       </v-list-item-avatar>
       <v-list-item-content>
-        <v-list-item-title class="title" style="padding-left: 3px;">
-          <img
-            src="/static/images/marker-icon-2x-red.png"
-            v-if="showMapPin"
-            height="18px"
-            style="display:inline-block; margin-bottom: -3px; margin-right: 2px;"
-          />
+        <v-list-item-title class="subtitle-2" style="padding-left: 3px;">
           {{ farmer.name }}
         </v-list-item-title>
       </v-list-item-content>
@@ -34,24 +28,12 @@
     </v-card-text>
 
     <v-card-text class="flex-fix-item" style="padding-top: 3px; padding-bottom: 0;">
-      <v-btn
-        block
-        class="text-none"
-        color="primary"
-        max-width="50"
-        @click="goToFarmer(farmer)"
-      >Voir le profil</v-btn>
-    </v-card-text>
-
-    <v-card-text
-      v-if="approvedExperiments && approvedExperiments.length > 0"
-      class="body-2 flex-fix-item info-item"
-      style="color: #666; padding-bottom: 0; padding-top: 15px;"
-    >
-      <v-icon size="20" style="margin: -3px 3px 0 0;">mdi-beaker-outline</v-icon>
-      <div
-        style="font-weight: bold;"
-      >{{approvedExperiments.length}} Retour{{approvedExperiments.length > 1 ? 's' : ''}} d'expérience</div>
+      <v-btn block class="text-none d-block pa-2" height="auto" color="primary" @click="onContactClick">
+        <span style="white-space: normal;">
+        Discuter avec {{ farmer.name }}
+        <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
+        </span>
+      </v-btn>
     </v-card-text>
 
     <v-divider class="flex-fix-item" style="margin: 10px 15px 10px 15px;" />
@@ -86,21 +68,8 @@
       <div>{{farmer.cultures}}</div>
     </v-card-text>
 
-    <v-card-text
-      v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
-      class="body-2 flex-fix-item"
-      style="padding: 5px;"
-    >
-      <v-chip
-        small
-        class
-        style="margin-top:-4px; margin-left: 10px;"
-        v-for="(title, index) in (farmer.agriculture_types || [])"
-        :key="index"
-      >{{ title }}</v-chip>
-    </v-card-text>
+    <MiniMap :lat="farmer.lat" :lon="farmer.lon" :size="100" />
 
-    <v-divider class="flex-fix-item" style="margin: 0px 15px 10px 15px;" />
     <v-card-subtitle
       v-if="farmer.groups && farmer.groups.length > 0"
       class="subtitle-2 flex-fix-item"
@@ -112,39 +81,33 @@
         <span v-if="farmer.groups.length > 1 && index < farmer.groups.length - 1">,</span>
       </span>
     </v-card-text>
+
+      <v-btn block class="text-none" text tile color="#2c3e50" style="border-top: solid 1px;" @click="goToFarmer(farmer)">
+        Voir son profil
+      </v-btn>
   </v-card>
 </template>
 
 <script>
+import MiniMap from "@/components/MiniMap.vue"
 
 export default {
   name: "FarmerCard",
+  components: { MiniMap },
   props: {
     farmer: {
       type: Object,
+      required: true,
+    },
+    onContactClick: {
+      type: Function,
       required: true
     },
-    showMapPin: {
-      type: Boolean,
-      default: false
+    goToFarmer: {
+      type: Function,
+      required: true
     }
   },
-  methods: {
-    goToFarmer(farmer) {
-      window.sendTrackingEvent("FarmerCard", "seeProfile", farmer.name)
-      this.$router.push({
-        name: "Farmer",
-        params: { farmerUrlComponent: this.$store.getters.farmerUrlComponent(farmer) }
-      })
-    }
-  },
-  computed: {
-    approvedExperiments() {
-      if (!this.farmer.experiments || this.farmer.experiments.length === 0)
-        return []
-      return this.farmer.experiments.filter(x => !!x.approved)
-    }
-  }
 }
 </script>
 

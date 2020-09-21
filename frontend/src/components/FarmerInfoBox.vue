@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- INSTALLATION DATE -->
-    <div v-if="farmer.installation_date" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.installation_date" class="body-2 info-item">
       <v-icon small left>mdi-calendar-blank-outline</v-icon>
       <div>Installation : {{farmer.installation_date.substring(0, 4)}}</div>
     </div>
 
     <!-- PERSONNEL -->
-    <div v-if="farmer.personnel" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.personnel" class="body-2 info-item">
       <v-icon small left>mdi-card-account-details-outline</v-icon>
       <div>Effectif : {{farmer.personnel}} temps plein</div>
     </div>
@@ -16,7 +16,6 @@
     <div
       v-if="farmer.livestock_types && farmer.livestock_types.length > 0"
       class="body-2 info-item"
-      :style="compact ? 'margin-top: 5px;' : ''"
     >
       <v-icon small left>mdi-cow</v-icon>
       <div>
@@ -30,7 +29,6 @@
     <div
       v-if="farmer.agriculture_types && farmer.agriculture_types.length > 0"
       class="body-2 info-item"
-      :style="compact ? 'margin-top: 5px;' : ''"
     >
       <v-icon small left>mdi-tractor</v-icon>
       <div>
@@ -48,13 +46,13 @@
     </div>
 
     <!-- CULTURES -->
-    <div v-if="farmer.cultures" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.cultures" class="body-2 info-item">
       <v-icon small left>mdi-leaf</v-icon>
       <div>Cultures : {{farmer.cultures}}</div>
     </div>
 
     <!-- GROUPS -->
-    <div v-if="farmer.groups && farmer.groups.length > 0" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.groups && farmer.groups.length > 0" class="body-2 info-item">
       <v-icon small left>mdi-account-group</v-icon>
       <div>
         Groupes :
@@ -66,14 +64,14 @@
     </div>
 
     <!-- SOIL TYPE -->
-    <div v-if="farmer.soil_type" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.soil_type" class="body-2 info-item">
       <v-icon small left>mdi-drag-horizontal</v-icon>
       <div>Type de sol : {{farmer.soil_type}}</div>
     </div>
 
 
     <!-- SURFACE -->
-    <div v-if="farmer.surface" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.surface" class="body-2 info-item">
       <v-icon small left>mdi-texture-box</v-icon>
       <div>
         Surface : {{farmer.surface}} ha
@@ -91,7 +89,7 @@
     </div>
 
     <!-- OUTPUT -->
-    <div v-if="farmer.output" class="body-2 info-item" :style="compact ? 'margin-top: 5px;' : ''">
+    <div v-if="farmer.output" class="body-2 info-item">
       <v-icon small left>mdi-silo</v-icon>
       <div>Potentiel de rendement en blé : {{farmer.output}} quintaux / ha</div>
     </div>
@@ -105,10 +103,6 @@ export default {
     farmer: {
       type: Object,
       required: true
-    },
-    compact: {
-      type: Boolean,
-      default: false
     }
   },
 }

@@ -29,17 +29,6 @@
                     >mdi-check-decagram</v-icon>
                     {{experiment.results}}
                   </div>
-                  <div style="margin-left: 35px; margin-top: 10px;">
-                    <v-btn
-                      class="text-none d-none d-md-flex"
-                      @click="onContactClick"
-                      color="primary"
-                      :small="isMobile"
-                    >
-                      Discuter avec {{ farmer.name }}
-                      <v-icon small style="margin-left: 5px;">mdi-message</v-icon>
-                    </v-btn>
-                  </div>
                 </div>
               </div>
             </v-card>
@@ -222,14 +211,7 @@
             </div>
           </v-col>
           <v-col style="padding-left: 0; padding-right: 0;" cols="12" md="3">
-            <FarmerCard
-              class="d-none d-sm-none d-md-flex"
-              :showMiniMap="true"
-              :ctaSecondary="true"
-              :avatarSize="30"
-              :compact="true"
-              :farmer="farmer"
-            />
+            <FarmerContactCard class="d-none d-sm-none d-md-flex" :farmer="farmer" :onContactClick="onContactClick" :goToFarmer="goToFarmer"/>
           </v-col>
         </v-row>
       </v-container>
@@ -241,7 +223,7 @@
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
-import FarmerCard from "@/components/FarmerCard.vue"
+import FarmerContactCard from "@/components/FarmerContactCard.vue"
 import ImageGallery from "@/components/ImageGallery.vue"
 import VideoGallery from "@/components/VideoGallery.vue"
 import MiniMap from "@/components/MiniMap.vue"
@@ -273,7 +255,7 @@ export default {
     Title,
     NotFound,
     FarmerContactOverlay,
-    FarmerCard,
+    FarmerContactCard,
     ImageGallery,
     VideoGallery,
     MiniMap,
