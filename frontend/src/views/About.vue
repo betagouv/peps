@@ -225,9 +225,9 @@ export default {
         {
           journal: "Ministère de la Transition Écologique",
           title:
-            "Task force, enquête flash, start-up d’État, centre de ressources…",
-          imageUrl: "/static/images/mineco.jpg",
-          contain: true,
+            "L’agriculture et l’alimentation durables",
+          imageUrl: "https://www.ecologie.gouv.fr/sites/default/files/Bandeau-foret-AB045452.jpg",
+          contain: false,
           url:
             "https://www.ecologie.gouv.fr/lagriculture-et-lalimentation-durables",
         },
@@ -244,7 +244,7 @@ export default {
           journal: "Écophyto PIC",
           title:
             "Transition du modèle agricole : Peps facilite les retours d’expérience entre agriculteurs",
-          imageUrl: "/static/images/ecophyto.png",
+          imageUrl: "https://ecophytopic.fr/sites/default/files/styles/a_la_une_175x140_/public/2020-09/PEPS.jpg",
           contain: true,
           url:
             "https://ecophytopic.fr/concevoir-son-systeme/transition-du-modele-agricole-peps-facilite-les-retours-dexperience-entre",
