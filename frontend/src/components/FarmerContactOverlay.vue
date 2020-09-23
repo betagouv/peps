@@ -9,44 +9,57 @@
           :style="'margin-left: 10px; margin-right: 10px; max-width: 600px; max-height:' + windowHeight + 'px'"
           class="overflow-y-auto"
         >
-          <v-card-title>
-            Discuter avec {{ farmer.name }}
-          </v-card-title>
-          <v-card-text>Afin de garantir la qualité des échanges sur la plateforme, il est nécessaire d'avoir un compte avant d'entrer en contact avec un agriculteur.</v-card-text>
-          <v-card-text style="padding-top: 0px; padding-bottom: 20px;">
-            <v-container style="padding-top: 0px; padding-bottom: 0px;">
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  :style="'padding-bottom: 0px; ' + ($vuetify.breakpoint.name !== 'xs' ? 'border-right: solid 1px #DDD;' : '')"
-                >
-                  <div class="subtitle-2">J'ai déjà un compte</div>
-                  <div style="margin-bottom: 20px;">
-                    <v-btn
-                      style="margin-top: 5px;"
-                      class="text-none practice-buttons"
-                      color="primary"
-                      outlined
-                      href="/login"
-                    >M'identifier</v-btn>
-                  </div>
-                </v-col>
-                <v-col cols="12" sm="6" style="padding-bottom: 0px;">
-                  <div class="subtitle-2">Je créé un compte</div>
-                  <div>
-                    <v-btn
-                      style="margin-top: 5px;"
-                      class="text-none practice-buttons"
-                      color="primary"
-                      outlined
-                      href="/register"
-                    >Créer mon compte</v-btn>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
+          <div v-if="step === 1">
+            <v-card-title>1/2 Discuter avec {{ farmer.name }}</v-card-title>
+
+            <v-card-text>
+              <v-form ref="formStep1" v-model="form1IsValid">
+                <v-text-field :rules="[validators.notEmpty]" label="Votre nom" outlined v-model="name"></v-text-field>
+                <v-text-field :rules="[validators.notEmpty, validators.isEmail]" label="Votre email" outlined v-model="email"></v-text-field>
+              </v-form>
+              <div style="text-align: right;">
+                <v-btn color="primary" text class="text-none" :href="`/login?next=/messages/${farmerUrlComponent}`">J'ai déjà utilisé Peps</v-btn>
+                <v-btn class="text-none" color="primary" @click="submitStep1">Envoyer</v-btn>
+              </div>
+            </v-card-text>
+          </div>
+          <div v-if="step === 2">
+            <v-card-title><v-btn icon @click="step = 1;"><v-icon>mdi-arrow-left</v-icon></v-btn> 2/2 Discuter avec {{ farmer.name }}</v-card-title>
+            <v-card-text>
+              Nous allons vous créer un compte avant de commencer la
+              discussion. Rien de compliqué, uniquement un email qui vous sera
+              envoyé pour vous connecter
+              <v-form ref="formStep2" v-model="form2IsValid" :action="`/register?next=/messages/${farmerUrlComponent}`" method="post" @submit="submitStep2">
+                <input type="hidden" name="csrfmiddlewaretoken" :value="csrfToken">
+                <input type="hidden" :value="name" name="name">
+                <input type="hidden" :value="email" name="email">
+                <input type="hidden" :value="email" name="email2">
+                <input type="hidden" value="" name="phone_number">
+                <input type="hidden" :value="true" name="cgu_approved">
+                <v-checkbox :v-model="cguApproved" :rules="[validators.notEmpty]">
+                  <template v-slot:label>
+                    <div>
+                      J'ai lu et j'accepte les 
+                      <a href="/conditions-generales-d-utilisation" class="d-inline" taget="_blank">
+                      conditions d'utilisation
+                      </a>
+                    </div>
+                  </template>
+                </v-checkbox>
+                <v-btn color="primary" type="submit" class="text-none">Créer mon compte</v-btn>
+              </v-form>
+            </v-card-text>
+            <v-card-text>
+              <v-sheet class="pa-2" color="#E0F4EE">
+                <div class="font-weight-medium"><v-icon style="margin-right: 6px;">mdi-information</v-icon>Pourquoi dois-je créer un compte ?</div>
+                <div style="padding-left: 30px;" class="caption">
+                  {{farmer.name}} a très envie de discuter avec vous, beaucoup moins
+                  avec des robots spammeurs... C'est uniquement pour ça qu'on vous
+                  demande de créer un compte Peps.
+                </div>
+              </v-sheet>
+            </v-card-text>
+          </div>
         </v-card>
       </div>
     </v-overlay>
@@ -54,10 +67,18 @@
 </template>
 
 <script>
+import validators from "@/validators"
+
 export default {
   name: "FarmerContactOverlay",
   data: () => ({
     windowHeight: window.innerHeight - 30,
+    step: 1,
+    name: '',
+    email: '',
+    form1IsValid: true,
+    form2IsValid: true,
+    cguApproved: false,
   }),
   props: {
     farmer: {
@@ -70,56 +91,42 @@ export default {
     },
   },
   computed: {
-    loggedUser() {
-      return this.$store.state.loggedUser
+    validators() {
+      return validators
     },
+    csrfToken() {
+      return window.CSRF_TOKEN
+    },
+    farmerUrlComponent() { 
+      return encodeURIComponent(this.$store.getters.farmerUrlComponent(this.farmer))
+    }
   },
   mounted() {
     window.addEventListener("resize", this.onWindowResize)
-    this.name = this.getInitialName()
-    this.email = this.getInitialEmail()
-    this.phoneNumber = this.getInitialPhoneNumber()
+    this.step = 1
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onWindowResize)
+    this.step = 1
   },
   methods: {
     close() {
       this.$emit("done")
+      this.step = 1
     },
     onWindowResize() {
       this.windowHeight = window.innerHeight - 30
     },
-    getInitialName() {
-      if (this.loggedUser && this.loggedUser.farmer_id)
-        return this.$store.getters.farmerWithId(this.loggedUser.farmer_id).name
-      if (
-        this.$store.state.lastContactInfo &&
-        this.$store.state.lastContactInfo.name
-      )
-        return this.$store.state.lastContactInfo.name
-      return null
+    submitStep1() {
+      this.$refs.formStep1.validate()
+      if (this.form1IsValid)
+        this.step = 2
     },
-    getInitialEmail() {
-      if (this.loggedUser) return this.loggedUser.email
-      if (
-        this.$store.state.lastContactInfo &&
-        this.$store.state.lastContactInfo.email
-      )
-        return this.$store.state.lastContactInfo.email
-      return null
-    },
-    getInitialPhoneNumber() {
-      if (this.loggedUser && this.loggedUser.farmer_id)
-        return this.$store.getters.farmerWithId(this.loggedUser.farmer_id)
-          .phone_number
-      if (
-        this.$store.state.lastContactInfo &&
-        this.$store.state.lastContactInfo.phoneNumber
-      )
-        return this.$store.state.lastContactInfo.phoneNumber
-      return null
-    },
+    submitStep2() {
+      console.log(`Send call ${this.name}, ${this.email}`)
+      this.$refs.formStep2.validate()
+      return this.form2IsValid
+    }
   },
 }
 </script>

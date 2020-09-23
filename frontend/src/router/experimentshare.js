@@ -210,14 +210,6 @@ export default [
       return {
         farmerUrlComponent: route.params ? route.params.farmerUrlComponent : undefined,
       }
-    },
-    beforeEnter: (route, _, next) => {
-      // If the user is not logged or the logged user has no farmer profile we redirect
-      if (!store.state.loggedUser || !store.state.loggedUser.farmer_id) {
-        next({ name: 'Landing' })
-      } else {
-        next()
-      }
     }
   }
 ]

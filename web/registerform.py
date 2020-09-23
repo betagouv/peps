@@ -13,7 +13,7 @@ class RegisterForm(forms.ModelForm):
     email = forms.EmailField(label="", widget=forms.EmailInput(attrs={'placeholder': 'Votre email'}))
     email2 = forms.EmailField(label="", widget=forms.EmailInput(attrs={'placeholder': 'Confirmez votre email'}))
     name = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Nom et prénom'}))
-    phone_number = forms.CharField(label="", widget=forms.TextInput(attrs={'placeholder': 'Votre numéro téléphone'}))
+    phone_number = forms.CharField(required=False, label="", widget=forms.TextInput(attrs={'placeholder': 'Votre numéro téléphone'}))
     cgu_approved = forms.BooleanField(label=mark_safe('J\'ai lu et j\'accepte les <a href="/conditions-generales-d-utilisation" target="_blank">conditions d\'utilisation</a>'))
 
     class Meta:
@@ -40,7 +40,7 @@ class RegisterForm(forms.ModelForm):
             )
         try:
             user = User.objects.get(email=email2)
-            raise forms.ValidationError("Nous avons déjà un compte avec cette adresse mail. Voulez-vous <a href='/login'>vous identifier</a> ?")
+            raise forms.ValidationError("Nous avons déjà un compte avec cette adresse mail. Voulez-vous <a onclick=\"window.location='/login'+window.location.search;\" style=\"color: #295a9f; text-decoration: underline; cursor: pointer; \">vous identifier</a> ?")
         except ObjectDoesNotExist as _:
             return email2
 

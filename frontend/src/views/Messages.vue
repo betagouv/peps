@@ -1,5 +1,5 @@
 <template>
-  <div ref="root" v-resize="onResize" class="messages-data-table">
+  <div ref="root" v-resize="onResize" class="messages-data-table" v-if="initialCallsDone && !!loggedFarmerId">
     <Title :breadcrumbs="breadcrumbs" />
     <v-container style="height: 100%; padding-top: 5px; padding-bottom: 0;" v-if="$store.state.farmers.length > 0">
       <v-row style="height: 100%; border: 1px solid #EEE;">
@@ -150,7 +150,7 @@ export default {
        * on top.
        */
       let conversations = []
-      if (!this.loggedFarmerId) return []
+      if (!this.loggedFarmerId || !this.initialCallsDone) return []
       for (let i = 0; i < this.messages.length; i++) {
         const message = this.messages[i]
         const correspondent =
@@ -198,14 +198,25 @@ export default {
       ).messages
     },
     loggedFarmerId() {
-      return this.$store.state.loggedUser.farmer_id
+      if (this.$store.state.loggedUser)
+        return this.$store.state.loggedUser.farmer_id
+      return null
     },
     loading() {
       return (
         this.$store.state.messagesLoadingStatus ===
         Constants.LoadingStatus.LOADING
       )
-    }
+    },
+    initialCallsDone() {
+      const success = Constants.LoadingStatus.SUCCESS
+      const error = Constants.LoadingStatus.ERROR
+      return (
+        this.$store.state.loggedUserLoadingStatus === success &&
+        (this.$store.state.farmersLoadingStatus === success || 
+        this.$store.state.farmersLoadingStatus === error)
+      )
+    },
   },
   methods: {
     toReadableDate(date) {
@@ -289,7 +300,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.activeCorrespondent) this.autoSelectConversation()
+    if (!this.activeCorrespondent && this.initialCallsDone && this.loggedFarmerId) this.autoSelectConversation()
   },
   watch: {
     conversations() {
