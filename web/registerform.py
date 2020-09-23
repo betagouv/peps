@@ -40,7 +40,7 @@ class RegisterForm(forms.ModelForm):
             )
         try:
             user = User.objects.get(email=email2)
-            raise forms.ValidationError("Nous avons déjà un compte avec cet adresse mail. Voulez-vous <a href='/login'>vous identifier</a> ?")
+            raise forms.ValidationError("Nous avons déjà un compte avec cette adresse mail. Voulez-vous <a href='/login'>vous identifier</a> ?")
         except ObjectDoesNotExist as _:
             return email2
 
