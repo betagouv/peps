@@ -118,7 +118,7 @@ class Farmer(models.Model):
     livestock_number = models.TextField(null=True, blank=True)
     soil_type = models.TextField(null=True, blank=True)
     specificities = models.TextField(null=True, blank=True)
-    contact_possible = models.BooleanField(default=False)
+    contact_possible = models.BooleanField(default=True)
 
     email_for_messages_allowed = models.BooleanField(default=True)
 
