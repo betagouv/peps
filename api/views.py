@@ -18,7 +18,7 @@ from data.models import Category, Farmer, Experiment, Message
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
 from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
-from api.serializers import MessageSerializer
+from api.serializers import MessageSerializer, FarmerFastSerializer
 from api.formschema import get_form_schema
 from api.geojson import get_geojson
 from api.models import Response
@@ -147,8 +147,7 @@ class DiscardActionView(CreateAPIView):
 
 
 class FarmersView(ListAPIView):
-    queryset = Farmer.objects.filter(approved=True)
-    serializer_class = FarmerSerializer
+    serializer_class = FarmerFastSerializer
 
     def get_queryset(self):
         """
