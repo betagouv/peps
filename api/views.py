@@ -156,10 +156,10 @@ class FarmersView(ListAPIView):
         to the logged user (even if it is not yet approved)
         """
         user = self.request.user
-        approved_farmers = Farmer.objects.filter(approved=True)
+        queryset = Farmer.objects.filter(approved=True)
         if hasattr(user, 'farmer') and user.farmer:
-            return approved_farmers | Farmer.objects.filter(id=user.farmer.id)
-        return approved_farmers
+            queryset = queryset | Farmer.objects.filter(id=user.farmer.id)
+        return queryset.prefetch_related('images', 'experiments', 'experiments__images', 'experiments__videos')
 
 class ExperimentView(UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer & IsExperimentAuthor]

@@ -316,7 +316,9 @@ class FarmerSerializer(serializers.ModelSerializer):
 
         if user and hasattr(user, 'farmer') and user.farmer == obj:
             return ExperimentSerializer(obj.experiments, context=self.context, many=True).data
-        return ExperimentSerializer(obj.approved_experiments, context=self.context, many=True).data
+
+        prefetched_approved_experiments = [x for x in obj.experiments.all() if x.approved]
+        return ExperimentSerializer(prefetched_approved_experiments, context=self.context, many=True).data
 
     def get_onboarding_shown(self, obj):
         return self._field_if_logged(obj, 'onboarding_shown')
