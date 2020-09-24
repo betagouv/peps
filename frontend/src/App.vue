@@ -47,6 +47,9 @@ export default {
     this.$store.dispatch("fetchFarmersAndExperiments")
     this.$store.dispatch("fetchMessages")
     this.$store.dispatch("fetchStats")
+
+    if (!this.$store.state.geojson)
+      this.$store.dispatch("fetchGeojson")
   },
   computed: {
     showErrorMessage() {

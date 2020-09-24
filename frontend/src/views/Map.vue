@@ -292,14 +292,7 @@ export default {
     farmersLoadingStatus(newValue) {
       if (newValue === Constants.LoadingStatus.SUCCESS) this.refreshMapMarkers()
     },
-  },
-  mounted() {
-    if (
-      !this.geojson &&
-      this.$store.state.geojsonLoadingStatus !== Constants.LoadingStatus.LOADING
-    )
-    this.$store.dispatch("fetchGeojson")
-  },
+  }
 }
 </script>
 

@@ -10,6 +10,7 @@
         style="overflow: hidden; margin-left: 90px;"
         :max-width="$vuetify.breakpoint.name === 'sm' ? 300 : 400"
         max-height="300"
+        v-if="featuredFarmer"
       >
         <v-list-item class="flex-fix-item" style="margin: 5px 0 0px 0;">
           <v-list-item-avatar size="40" color="grey" style="margin-right: 8px;">
