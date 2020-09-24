@@ -4,7 +4,6 @@ import CGU from '@/views/Cgu.vue'
 import About from '@/views/About.vue'
 import Contact from '@/views/Contact.vue'
 import experimentShareRoutes from '@/router/experimentshare.js'
-import simulatorRoutes from '@/router/simulator.js'
 import deprecatedRoutes from '@/router/deprecated.js'
 
 
@@ -34,7 +33,7 @@ const baseRoutes = [
   },
 ]
 
-const routes = [].concat(experimentShareRoutes, simulatorRoutes, deprecatedRoutes, baseRoutes)
+const routes = [].concat(experimentShareRoutes, deprecatedRoutes, baseRoutes)
 
 const router = new VueRouter({
   mode: 'history',
