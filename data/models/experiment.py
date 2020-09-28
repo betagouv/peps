@@ -5,6 +5,7 @@ from django.db import models, connection
 from django.db.models import JSONField
 from django.utils.html import mark_safe
 from django.conf import settings
+from django.urls import reverse
 from django_better_admin_arrayfield.models.fields import ArrayField
 from data.models import Farmer
 from data.utils import optimize_image
@@ -116,6 +117,10 @@ class Experiment(models.Model):
     def approved(self):
         return self.state == 'Validé'
 
+    @property
+    def admin_link(self):
+        return reverse('admin:data_experiment_change', args=(self.id,))
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
         We need to check if the experiment has been put as awaiting for validation to
@@ -123,10 +128,11 @@ class Experiment(models.Model):
         """
         try:
             send_task = False
-            if self.state == 'En attente de validation':
+            if self.state == 'En attente de validation' and self.pk is not None:
                 if self._state.adding or Experiment.objects.get(pk=self.pk).state != 'En attente de validation':
                     task_name = "Retour d'experience '{0}' est en attente de validation".format(self.name)
-                    AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, '', None)
+                    body = "Expérience créée par {0}. Lien pour admin : https://www.peps.beta.gouv.fr{1}".format(self.farmer.name, self.admin_link)
+                    AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, body, None)
         except Exception as _:
             print('Error creating task in Asana for experiment awaiting validation')
         finally:
