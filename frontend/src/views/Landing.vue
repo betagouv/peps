@@ -47,7 +47,7 @@
       </v-row>
 
       <v-btn color="primary" style="margin: 20px 0;" href="#explore-xp">
-        <span class="text-none">J'explore les pratiques</span>
+        <span class="text-none">J'explore les témoignages</span>
         <v-icon small style="margin-right: 5px;">mdi-arrow-right</v-icon>
       </v-btn>
 
