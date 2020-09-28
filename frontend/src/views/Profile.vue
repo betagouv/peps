@@ -279,7 +279,7 @@
             <v-hover>
               <v-card
                 outlined
-                @click="contactUs"
+                @click="goToHelp"
                 class="fill-height"
                 slot-scope="{ hover }"
                 :elevation="hover ? 4 : 2"
@@ -292,7 +292,7 @@
                     style="margin-top: 3px; margin-left: 5px;"
                   >mdi-chevron-right</v-icon>
                 </v-card-title>
-                <v-card-subtitle>Contactez-nous pour répondre à vos questions</v-card-subtitle>
+                <v-card-subtitle>Vous trouverez tous les articles d'aide, les ressources et les conseils sur le site Peps</v-card-subtitle>
               </v-card>
             </v-hover>
           </v-col>
@@ -445,9 +445,9 @@ export default {
         query: { agriculteur: farmerUrlComponent },
       })
     },
-    contactUs() {
-      window.sendTrackingEvent("Profile", "Aide", "Contact")
-      this.$router.push({ name: "Contact" })
+    goToHelp() {
+      window.sendTrackingEvent("Profile", "Aide", "Aide")
+      window.location.href = "https://aide.peps.beta.gouv.fr/"
     },
     goToMessages() {
       window.sendTrackingEvent("Profile", "Messages", this.loggedUser.email)
