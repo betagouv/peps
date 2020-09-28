@@ -148,7 +148,7 @@
                                         {% endfor %}
 
                                         <br />
-                                        <p>{{ form.cgu_approved.label }} {{ form.cgu_approved }} </p>
+                                        <p>{{ form.cgu_approved }} {{ form.cgu_approved.label }}</p>
                                         {% for error in form.cgu_approved.errors %}
                                         <p class="error-message">{{ error }}</p>
                                         {% endfor %}
