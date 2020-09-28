@@ -253,12 +253,13 @@ class FarmerForm(forms.ModelForm):
 
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
-    list_display = ('name', 'postal_code', 'email', 'approved')
+    list_display = ('name', 'postal_code', 'email', 'approved', 'creation_date')
     search_fields = ('name', 'email')
-    readonly_fields = ('html_link', )
+    readonly_fields = ('self_created', 'html_link', )
     fieldsets = (
         ('', {
             'fields': (
+                'self_created',
                 'html_link',
                 'approved',
                 'cgu_approved',
