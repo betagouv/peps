@@ -176,7 +176,7 @@
         </v-col>
 
         <!-- Filter Livestock -->
-        <v-col cols="12" sm="6" md="2" :class="{'d-none': !showFilterArea}">
+        <v-col cols="12" sm="6" :class="{'d-none': !showFilterArea}">
           <div class="filter-title">Uniquement l'élevage</div>
           <v-checkbox
             hide-details
@@ -219,7 +219,7 @@ export default {
     return {
       menu: false,
       showContributionOverlay: false,
-      showFilterArea: false,
+      showFilterArea: true,
       activeFilters: {
         tags: [],
         departments: [],
