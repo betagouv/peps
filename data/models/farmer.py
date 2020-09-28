@@ -132,6 +132,8 @@ class Farmer(models.Model):
 
     onboarding_shown = models.BooleanField(default=False)
 
+    self_created = models.BooleanField(default=False)
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.profile_image:
             self.profile_image = optimize_image(self.profile_image, self.profile_image.name)

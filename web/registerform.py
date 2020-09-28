@@ -47,6 +47,7 @@ class RegisterForm(forms.ModelForm):
     def save(self, commit=True):
         farmer = super(RegisterForm, self).save(commit=False)
         farmer.email = User.objects.normalize_email(self.cleaned_data['email'])
+        farmer.self_created = True
 
         if commit:
             farmer.save()
