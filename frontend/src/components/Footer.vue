@@ -38,6 +38,9 @@
                 <router-link :to="{ name: 'QuiSommesNous' }">En savoir plus</router-link>
               </li>
               <li>
+                <a target="_blank" href="https://aide.peps.beta.gouv.fr/">Aide</a>
+              </li>
+              <li>
                 <router-link :to="{ name: 'Contact' }">Contact</router-link>
               </li>
               <li>
