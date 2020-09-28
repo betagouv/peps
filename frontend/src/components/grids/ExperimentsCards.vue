@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       page: 1,
-      cardsPerPage: 9,
       lastTransitionBackwards: false
     }
   },
@@ -53,6 +52,13 @@ export default {
     }
   },
   computed: {
+    cardsPerPage() {
+      if (this.$vuetify.breakpoint.name === 'xs')
+        return 6
+      if (this.$vuetify.breakpoint.name === 'sm')
+        return 8
+      return 15
+    },
     paginatedExperiments() {
       const startingIndex = (this.page - 1) * this.cardsPerPage
       return this.experiments.slice(
