@@ -2,7 +2,7 @@ import dateutil.parser
 import asana
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
-from django.core.mail import EmailMultiAlternatives, send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.views.decorators.cache import cache_control

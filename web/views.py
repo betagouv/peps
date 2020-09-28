@@ -1,10 +1,11 @@
+import datetime
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import logout
-from django.contrib.auth import login, authenticate
 from django.conf import settings
 from django.urls import reverse_lazy
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
+from api.utils import AsanaUtils
 
 from web.registerform import RegisterForm
 
@@ -38,6 +39,16 @@ class RegisterView(FormView):
         )
         current_site = self.request.site
         form.send_email(current_site, next_view)
+
+        try:
+            AsanaUtils.send_task(
+                settings.ASANA_PROJECT,
+                'Création de compte Peps ({0})'.format(form.data['name']),
+                '{0} a crée son compte sur /register'.format(form.data['name']),
+                None)
+        except Exception as _:
+            print('Error sending task to Asana for newly created user')
+
         return super().form_valid(form)
 
 def logout_view(request):
