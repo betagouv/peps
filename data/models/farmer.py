@@ -69,7 +69,7 @@ def get_next_increment():
 class Farmer(models.Model):
 
     class Meta:
-        ordering = ['name']
+        ordering = ['-creation_date']
 
     # These two are unique values. UUIDs were chosen initially as IDs as they
     # allow client ID generation, less issues when working with multiple DBs, etc.
