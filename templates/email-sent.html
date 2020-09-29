@@ -12,8 +12,10 @@
           <div class="col col-login mx-auto">
               <div class="card-body p-2">
                 <div class="card text-center p-4" style="background-color: white;">
-                  <!-- <i class="fe fe-mail" ></i> <i class="fe fe-check" ></i> -->
-                      <h1 style="color: #008763;">Un email vous a été envoyé pour vous connecter.</h1> Si vous ne le recevez pas, vous pouvez réessayer.
+                      <h1 style="color: #008763;">Un email vous a été envoyé pour vous connecter.</h1> 
+                      <p>Pour vous connecter, cliquez sur le lien dans ce mail. Pour des raisons de sécurité, le lien est valable pendant 3 heures uniquement.</p>
+                      <p>L’email peut mettre un peu de temps à arriver, vérifiez aussi vos spam.</p>
+                      <p>Si vous ne le recevez pas, vous pouvez réessayer.</p>
                 </div>
                 <div class="text-center">
                   <a href="{% url 'magicauth-login' %}?next={{ next_view }}" style="color: #008763;" class="btn btn-secondary">Réessayer</a>
