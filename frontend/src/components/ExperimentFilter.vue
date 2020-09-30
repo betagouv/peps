@@ -6,12 +6,19 @@
     />
     <v-container
       v-if="true"
-      style="padding-top: 10px; padding-bottom: 10px; border: 1px solid rgba(51, 51, 51, 0.11); border-radius: 5px; margin-top: 10px; min-width: 100%;"
+      style="
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border: 1px solid rgba(51, 51, 51, 0.11);
+        border-radius: 5px;
+        margin-top: 10px;
+        min-width: 100%;
+      "
     >
       <v-row class="pa-0 ma-0">
         <!-- Filter Thématique desktop -->
-        <v-col cols="12" class="d-none d-md-flex" style="padding: 0 5px 0 0;">
-          <div class="d-flex" style="min-width: 100%;">
+        <v-col cols="12" class="d-none d-md-flex" style="padding: 0 5px 0 0">
+          <div class="d-flex" style="min-width: 100%">
             <v-chip-group column>
               <v-chip
                 @click="toggleTagFilter(filter)"
@@ -20,13 +27,21 @@
                 :key="index"
                 :outlined="activeFilters.tags.indexOf(filter) === -1"
                 :dark="activeFilters.tags.indexOf(filter) > -1"
-                :color="activeFilters.tags.indexOf(filter) > -1 ? 'primary' : '#999'"
-              >{{filter}}</v-chip>
+                :color="
+                  activeFilters.tags.indexOf(filter) > -1 ? 'primary' : '#999'
+                "
+                >{{ filter }}</v-chip
+              >
             </v-chip-group>
 
-            <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-width="200"
+              offset-x
+            >
               <template v-slot:activator="{ on, attrs }">
-                <v-chip-group style="margin-right: 20px;">
+                <v-chip-group style="margin-right: 20px">
                   <v-badge
                     color="primary"
                     :content="hiddenTagFilters"
@@ -35,7 +50,13 @@
                     offset-x="20"
                     offset-y="18"
                   >
-                    <v-chip v-bind="attrs" v-on="on" class="ma-1" outlined :color="hiddenTagFilters > 0 ? 'primary' : '#999'">
+                    <v-chip
+                      v-bind="attrs"
+                      v-on="on"
+                      class="ma-1"
+                      outlined
+                      :color="hiddenTagFilters > 0 ? 'primary' : '#999'"
+                    >
                       <v-icon small>mdi-plus</v-icon>Plus
                     </v-chip>
                   </v-badge>
@@ -67,9 +88,11 @@
             >
               <v-btn
                 outlined
-                :color="showFilterArea || hiddenFilters > 0 ? 'primary' : '#999'"
+                :color="
+                  showFilterArea || hiddenFilters > 0 ? 'primary' : '#999'
+                "
                 class="text-none ml-auto"
-                style="margin-top: 6px;"
+                style="margin-top: 6px"
                 @click="showFilterArea = !showFilterArea"
               >
                 <v-icon>mdi-filter-variant</v-icon>Filtrer
@@ -98,7 +121,11 @@
 
         <!-- Filter Thématique mobile and tablet -->
         <v-col
-          :class="{'filter': true, 'd-md-none': true, 'd-none': !showFilterArea}"
+          :class="{
+            filter: true,
+            'd-md-none': true,
+            'd-none': !showFilterArea,
+          }"
           cols="12"
           sm="6"
         >
@@ -119,14 +146,18 @@
         </v-col>
 
         <!-- Filter Department -->
-        <v-col :class="{'filter': true, 'd-none': !showFilterArea}" cols="12" sm="6">
+        <v-col
+          :class="{ filter: true, 'd-none': !showFilterArea }"
+          cols="12"
+          sm="6"
+        >
           <div class="filter-title">Département de l'exploitation</div>
           <v-select
             hide-details
             chips
             deletable-chips
             small-chips
-            :items="departments"
+            :items="departmentsSelectItems"
             :item-text="departmentDisplayText"
             item-value="code"
             outlined
@@ -139,7 +170,11 @@
         </v-col>
 
         <!-- Filter Cultures -->
-        <v-col :class="{'filter': true, 'd-none': !showFilterArea}" cols="12" sm="6">
+        <v-col
+          :class="{ filter: true, 'd-none': !showFilterArea }"
+          cols="12"
+          sm="6"
+        >
           <div class="filter-title">Cultures</div>
 
           <v-select
@@ -158,7 +193,11 @@
         </v-col>
 
         <!-- Filter Agriculture type -->
-        <v-col :class="{'filter': true, 'd-none': !showFilterArea}" cols="12" sm="6">
+        <v-col
+          :class="{ filter: true, 'd-none': !showFilterArea }"
+          cols="12"
+          sm="6"
+        >
           <div class="filter-title">Type d'agriculture</div>
           <v-select
             hide-details
@@ -176,33 +215,47 @@
         </v-col>
 
         <!-- Filter Livestock -->
-        <v-col cols="12" sm="6" :class="{'d-none': !showFilterArea}">
+        <v-col cols="12" sm="6" :class="{ 'd-none': !showFilterArea }">
           <div class="filter-title">Uniquement l'élevage</div>
           <v-checkbox
             hide-details
             label="Oui"
-            style="margin-top: 3px;"
+            style="margin-top: 3px"
             v-model="activeFilters.livestock"
-            @change="sendFilterChangeEvent('livestock', [`${activeFilters.livestock}`])"
+            @change="
+              sendFilterChangeEvent('livestock', [`${activeFilters.livestock}`])
+            "
           ></v-checkbox>
         </v-col>
       </v-row>
     </v-container>
 
-    <ExperimentsCards v-if="filteredExperiments.length > 0" :experiments="filteredExperiments" />
+    <ExperimentsCards
+      v-if="filteredExperiments.length > 0"
+      :experiments="filteredExperiments"
+    />
     <div
       v-else
       class="d-flex flex-column align-center pa-5"
-      style="background: #eee; border-radius: 5px; margin-top: 10px;"
+      style="background: #eee; border-radius: 5px; margin-top: 10px"
     >
       <v-icon class="pa-3" color="#999">mdi-beaker-remove-outline</v-icon>
-      <p
-        class="pa-3 caption"
-        style="color: #999; margin-bottom: 10px;"
-      >Il n'y a pas encore de retours d'expérience qui correspondent à vos critères, à vous d'en ajouter une !</p>
-      <v-btn color="primary" outlined style="margin-bottom: 20px;" @click="onShareXPClick">
-        <v-icon color="primary" small style="margin-right: 5px;">mdi-beaker-plus-outline</v-icon>
-        <span style="font-weight:bold;" class="caption text-none">Proposer une expérience</span>
+      <p class="pa-3 caption" style="color: #999; margin-bottom: 10px">
+        Il n'y a pas encore de retours d'expérience qui correspondent à vos
+        critères, à vous d'en ajouter une !
+      </p>
+      <v-btn
+        color="primary"
+        outlined
+        style="margin-bottom: 20px"
+        @click="onShareXPClick"
+      >
+        <v-icon color="primary" small style="margin-right: 5px"
+          >mdi-beaker-plus-outline</v-icon
+        >
+        <span style="font-weight: bold" class="caption text-none"
+          >Proposer une expérience</span
+        >
       </v-btn>
     </div>
   </div>
@@ -222,7 +275,6 @@ export default {
       showFilterArea: true,
       activeFilters: {
         tags: [],
-        departments: [],
         agricultureTypes: [],
         cultures: [],
         livestock: false,
@@ -266,6 +318,17 @@ export default {
       })
     },
 
+    activeDepartmentNumbers() {
+      return [
+        ...new Set(
+          this.$store.getters.experiments
+            .filter((x) =>!!x.approved && !!x.postal_code && x.postal_code.length > 2)
+            .flatMap((x) => x.postal_code.substr(0, 2))
+            .filter((x) => !!x)
+        ),
+      ]
+    },
+
     experimentTags() {
       return [
         ...new Set(
@@ -277,6 +340,7 @@ export default {
         ),
       ]
     },
+
     cultures() {
       return [
         ...new Set(
@@ -298,6 +362,29 @@ export default {
             .filter((x) => !!x && x !== "Autre")
             .sort()
         ),
+      ]
+    },
+
+    departmentsSelectItems() {
+      const activeDepartments = this.departments
+        .filter((x) => this.activeDepartmentNumbers.indexOf(x.code) !== -1)
+        .map((x) => {
+          x.disabled = false
+          return x
+        })
+      const inactiveDepartments = this.departments
+        .filter((x) => this.activeDepartmentNumbers.indexOf(x.code) === -1)
+        .map((x) => {
+          x.disabled = true
+          return x
+        })
+      
+      return [
+        ...activeDepartments,
+        {
+          header: "Pas encore de données sur ces départements :"
+        },
+        ...inactiveDepartments
       ]
     },
 
@@ -369,19 +456,19 @@ export default {
     },
   },
   watch: {
-    'activeFilters.tags': function() {
+    "activeFilters.tags": function () {
       this.$store.dispatch("updateFilters", { filters: this.activeFilters })
     },
-    'activeFilters.departments': function() {
+    "activeFilters.departments": function () {
       this.$store.dispatch("updateFilters", { filters: this.activeFilters })
     },
-    'activeFilters.agricultureTypes': function() {
+    "activeFilters.agricultureTypes": function () {
       this.$store.dispatch("updateFilters", { filters: this.activeFilters })
     },
-    'activeFilters.cultures': function() {
+    "activeFilters.cultures": function () {
       this.$store.dispatch("updateFilters", { filters: this.activeFilters })
     },
-    'activeFilters.livestock': function() {
+    "activeFilters.livestock": function () {
       this.$store.dispatch("updateFilters", { filters: this.activeFilters })
     },
   },
