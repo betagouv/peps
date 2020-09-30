@@ -614,6 +614,14 @@ export default {
           value: "Colza",
         },
         {
+          text: "Haricot",
+          value: "Haricot",
+        },
+        {
+          text: "Lablab",
+          value: "Lablab",
+        },
+        {
           text: "Lentilles",
           value: "Lentilles",
         },
@@ -668,6 +676,10 @@ export default {
         {
           text: "Orge de printemps",
           value: "Orge de printemps",
+        },
+        {
+          text: "Ortie",
+          value: "Ortie",
         },
         {
           text: "Pois chiche",
