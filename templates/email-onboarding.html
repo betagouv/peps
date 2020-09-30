@@ -18,7 +18,7 @@
         }
 
         body {
-            background-color: #f6f6f6;
+            background-color: #eee;
             font-family: sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: 14px;
@@ -34,7 +34,7 @@
       ------------------------------------- */
 
         .body {
-            background-color: #f6f6f6;
+            background-color: #eee;
             width: 100%;
         }
 
@@ -123,6 +123,16 @@
             border-bottom: 1px solid #f6f6f6;
             Margin: 20px 0;
         }
+        .button-container {
+            text-align: center;
+        }
+        a.button {
+            border: solid 1px #008763;
+            padding: 15px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
         /* -------------------------------------
           PRESERVE THESE STYLES IN THE HEAD
@@ -166,6 +176,9 @@
 
     <div class="content">
         <div class="main wrapper">
+            <div style="text-align: center; padding: 20px; background-color: #008763;font-size: 1.3em;font-weight: bold;color: #FFFFFF;margin-bottom: 20px;">
+                Bienvenue sur Peps
+            </div>
             <p>
                 Merci d’avoir créé votre compte sur Peps, il va vous permettre d'accéde
                 à plus de fonctionnalités sur le site. On vous explique :
@@ -192,8 +205,12 @@
             <p>
                 Pour plus d’information sur le sujet, vous pouvez consulter notre
                 <a href="https://aide.peps.beta.gouv.fr/acceder-a-son-compte-creer-ou-modifier-son-profil">
-                    article d’aide</a> sur le sujet
+                    article d’aide associé</a>
             </p>
+            <div class="button-container">
+                <a class="button" href="https://{{ site.domain }}/compte">Accèder à mon compte</a>
+            </div>
+            <hr />
 
             <h2>
                 Partagez vos retours d’expérience
@@ -216,8 +233,14 @@
             <p>
                 Pour plus d’information sur le sujet, vous pouvez consulter notre
                 <a href="https://aide.peps.beta.gouv.fr/creer-ou-modifier-un-retour-dexperience">
-                    article d’aide</a> sur le sujet
+                    article d’aide associé</a>
             </p>
+            <div class="button-container">
+                <a class="button" href="https://{{ site.domain }}/editeur-experience">Partagez une expérience</a>
+            </div>
+            <hr />
+
+
             <h2>
                 Entrer en contact avec d’autres agriculteurs
             </h2>
@@ -237,22 +260,24 @@
             <p>
                 Pour plus d’information sur le sujet, vous pouvez consulter notre
                 <a href="https://aide.peps.beta.gouv.fr/discuter-avec-un-agriculteur-voir-mes-messages">
-                    article d’aide</a> sur le sujet
+                    article d’aide associé</a>
             </p>
 
 
-
-            <p style="font-weight: bold;">Un problème avec ce message ?</p>
-            <p>L'équipe Peps est à votre écoute, pour nous contacter envoyez un message à peps@beta.gouv.fr ou répondez à
-                cet email.</p>
-
-            <p>Bonne journée,</p>
-            <p>L'équipe de Peps</p>
-            <p style="font-size: 0.7em; color: #999;">Vous recevez ce message car vous avez un compte Peps et vous avez
-                donné votre accord pour recevoir des notifications par email.</p>
-            <p style="font-size: 0.7em; color: #999;">Pour régler vos paramètres de contact, <a
-                    href="https://{{ site.domain }}/editeur-profil">c'est par ici</a>. </p>
+            <h2>
+                Nous sommes là pour vous
+            </h2>
+            <p>
+                Une question, des suggestions d’amélioration ou encore des difficultés sur le site :
+                nous sommes disponibles pour vous. Contactez nous ici : <a href="mailto:peps@beta.gouv.fr">peps@beta.gouv.fr </a>
+            </p>
+            <p>Bonne journée à vous et à bientôt,</p>
+            <p>Toute l’équipe Peps : Maud, Benjamin, Alejandro et Mathilde</p>
         </div>
+        <p style="text-align: center; font-size: 0.7em; color: #999;">Vous recevez ce message car vous avez un compte Peps et vous avez
+            donné votre accord pour recevoir des notifications par email.</p>
+        <p style="text-align: center; font-size: 0.7em; color: #999;">Pour régler vos paramètres de contact, <a
+                href="https://{{ site.domain }}/editeur-profil">c'est par ici</a>. </p>
     </div>
 </body>
 
