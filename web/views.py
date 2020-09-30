@@ -38,7 +38,8 @@ class RegisterView(FormView):
             f"/{settings.MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME}/"
         )
         current_site = self.request.site
-        form.send_email(current_site, next_view)
+        form.send_token_email(current_site, next_view)
+        form.send_onboarding_email(current_site)
 
         try:
             AsanaUtils.send_task(

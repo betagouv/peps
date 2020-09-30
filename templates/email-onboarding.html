@@ -1,0 +1,260 @@
+{% load static %}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Bienvenue sur Peps 🌱</title>
+    <style>
+        /* -------------------------------------
+          GLOBAL RESETS
+      ------------------------------------- */
+        img {
+            border: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+        }
+
+        body {
+            background-color: #f6f6f6;
+            font-family: sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* -------------------------------------
+          BODY & CONTAINER
+      ------------------------------------- */
+
+        .body {
+            background-color: #f6f6f6;
+            width: 100%;
+        }
+
+        /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+        .container {
+            display: block;
+            margin: 0 auto !important;
+            /* makes it centered */
+            max-width: 580px;
+            padding: 10px;
+            width: 580px;
+        }
+
+        /* This should also be a block element, so that it will fill 100% of the .container */
+        .content {
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+            max-width: 640px;
+            padding: 10px;
+        }
+
+        /* -------------------------------------
+          HEADER, FOOTER, MAIN
+      ------------------------------------- */
+        .main {
+            background: #ffffff;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        .wrapper {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        /* -------------------------------------
+          TYPOGRAPHY
+      ------------------------------------- */
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #000000;
+            font-family: sans-serif;
+            font-weight: 400;
+            line-height: 1.4;
+            margin: 0;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 35px;
+            font-weight: 300;
+            text-align: center;
+            text-transform: capitalize;
+        }
+
+        p,
+        ul,
+        ol {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 0;
+            margin-bottom: 15px;
+        }
+
+        p li,
+        ul li,
+        ol li {
+            list-style-position: inside;
+            margin-left: 5px;
+        }
+
+        a {
+            color: #008763;
+            text-decoration: underline;
+        }
+
+        /* -------------------------------------
+          OTHER STYLES THAT MIGHT BE USEFUL
+      ------------------------------------- */
+
+        hr {
+            border: 0;
+            border-bottom: 1px solid #f6f6f6;
+            Margin: 20px 0;
+        }
+
+        /* -------------------------------------
+          PRESERVE THESE STYLES IN THE HEAD
+      ------------------------------------- */
+        @media all {
+            .ExternalClass {
+                width: 100%;
+            }
+
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height: 100%;
+            }
+
+            .apple-link a {
+                color: inherit !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                text-decoration: none !important;
+            }
+
+            .btn-primary table td:hover {
+                background-color: #34495e !important;
+            }
+
+            .btn-primary a:hover {
+                background-color: #34495e !important;
+                border-color: #34495e !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="">
+
+    <div class="content">
+        <div class="main wrapper">
+            <p>
+                Merci d’avoir créé votre compte sur Peps, il va vous permettre d'accéde
+                à plus de fonctionnalités sur le site. On vous explique :
+            </p>
+
+            <h2>
+                Créer votre profil d’exploitation
+            </h2>
+            <p>
+                Depuis n’importe quelle page du site, cliquez en haut à droite votre avatar,
+                puis sélectionnez “Mon compte”. Vous arrivez alors sur votre espace, vous pouvez
+                cliquer sur les encarts pour ajouter ou modifier vos informations.
+            </p>
+            <img width="100%" src="https://{{ site.domain }}{% static 'images/onboarding-1.png' %}" />
+
+            <p>
+                <strong>Informations personnelles</strong> : vos données de contact, vos préférences et les
+                informations qui vous concernent directement.
+            </p>
+            <p>
+                <strong>Exploitation</strong> : toutes les données qui constituent votre profil d’exploitation,
+                laissez-vous guider par le questionnaire.
+            </p>
+            <p>
+                Pour plus d’information sur le sujet, vous pouvez consulter notre
+                <a href="https://aide.peps.beta.gouv.fr/acceder-a-son-compte-creer-ou-modifier-son-profil">
+                    article d’aide</a> sur le sujet
+            </p>
+
+            <h2>
+                Partagez vos retours d’expérience
+            </h2>
+            <p>
+                Une fois connecté, vous pouvez ajouter un retour d’expérience depuis votre page
+                “Mon compte” ou en cliquant sur le bouton “Partager une expérience” en haut à
+                droite de chaque page.
+            </p>
+            <img width="100%" src="https://{{ site.domain }}{% static 'images/onboarding-2.png' %}" />
+
+            <p>
+                Laissez vous guider par le questionnaire, vous pouvez sauvegarder le brouillon pendant que
+                vous rédigez.
+            </p>
+            <p>
+                Une fois la rédaction terminée, cliquez sur “Valider”. L’équipe Peps va alors lire votre
+                témoignage avant de le publier.
+            </p>
+            <p>
+                Pour plus d’information sur le sujet, vous pouvez consulter notre
+                <a href="https://aide.peps.beta.gouv.fr/creer-ou-modifier-un-retour-dexperience">
+                    article d’aide</a> sur le sujet
+            </p>
+            <h2>
+                Entrer en contact avec d’autres agriculteurs
+            </h2>
+            <p>
+                Vous pouvez échanger avec n’importe quel agriculteur ayant publié un retour
+                d’expérience sur Peps. Pour commencer la discussion, cliquez sur "Discuter
+                avec …" depuis la page de témoignage ou sur le profil de son exploitation.
+            </p>
+            <img width="100%" src="https://{{ site.domain }}{% static 'images/onboarding-3.png' %}" />
+            <p>
+                La discussion s’affiche, vous pouvez rédiger et envoyer votre message.
+            </p>
+            <p>
+                Pour retrouver les messages envoyés, cliquez depuis n’importe quelle page du site
+                sur "Mes messages"
+            </p>
+            <p>
+                Pour plus d’information sur le sujet, vous pouvez consulter notre
+                <a href="https://aide.peps.beta.gouv.fr/discuter-avec-un-agriculteur-voir-mes-messages">
+                    article d’aide</a> sur le sujet
+            </p>
+
+
+
+            <p style="font-weight: bold;">Un problème avec ce message ?</p>
+            <p>L'équipe Peps est à votre écoute, pour nous contacter envoyez un message à peps@beta.gouv.fr ou répondez à
+                cet email.</p>
+
+            <p>Bonne journée,</p>
+            <p>L'équipe de Peps</p>
+            <p style="font-size: 0.7em; color: #999;">Vous recevez ce message car vous avez un compte Peps et vous avez
+                donné votre accord pour recevoir des notifications par email.</p>
+            <p style="font-size: 0.7em; color: #999;">Pour régler vos paramètres de contact, <a
+                    href="https://{{ site.domain }}/editeur-profil">c'est par ici</a>. </p>
+        </div>
+    </div>
+</body>
+
+</html>

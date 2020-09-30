@@ -200,7 +200,7 @@ SECURE_SSL_REDIRECT = os.getenv('PEPS_FORCE_HTTPS') == 'True'
 
 LOGIN_URL = '/login'
 MAGICAUTH_FROM_EMAIL = 'peps@beta.gouv.fr'
-MAGICAUTH_EMAIL_SUBJECT = 'Accédez à Peps !'
+MAGICAUTH_EMAIL_SUBJECT = 'Votre lien de connexion Peps'
 MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME = 'app'
 MAGICAUTH_EMAIL_FIELD = 'email'
 MAGICAUTH_EMAIL_HTML_TEMPLATE = 'email.html'

@@ -54,7 +54,7 @@ class RegisterForm(forms.ModelForm):
 
         return farmer
 
-    def send_email(self, current_site, next_view):
+    def send_token_email(self, current_site, next_view):
         user_email = self.cleaned_data["email"]
         email_field = settings.MAGICAUTH_EMAIL_FIELD
         field_lookup = {f"{email_field}__iexact": user_email}
@@ -72,6 +72,28 @@ class RegisterForm(forms.ModelForm):
         }
         text_message = loader.render_to_string(text_template, context)
         html_message = loader.render_to_string(html_template, context)
+        send_mail(
+            subject=email_subject,
+            message=text_message,
+            from_email=from_email,
+            html_message=html_message,
+            recipient_list=[user_email],
+            fail_silently=False,
+        )
+
+    def send_onboarding_email(self, current_site):
+        user_email = self.cleaned_data["email"]
+        email_subject = 'Bienvenue sur Peps 🌱'
+        html_template = 'email-onboarding.html'
+        text_template = 'email-onboarding.txt'
+        from_email = settings.MAGICAUTH_FROM_EMAIL
+
+        context = {
+            "site": current_site,
+        }
+        text_message = loader.render_to_string(text_template, context)
+        html_message = loader.render_to_string(html_template, context)
+
         send_mail(
             subject=email_subject,
             message=text_message,

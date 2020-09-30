@@ -1,0 +1,43 @@
+
+Merci d’avoir créé votre compte sur Peps, il va vous permettre d'accéde à plus de fonctionnalités sur le site. On vous explique :
+
+* Créer votre profil d’exploitation
+
+Depuis n’importe quelle page du site, cliquez en haut à droite votre avatar, puis sélectionnez “Mon compte”. Vous arrivez alors sur votre espace, vous pouvez cliquer sur les encarts pour ajouter ou modifier vos informations.
+
+Informations personnelles : vos données de contact, vos préférences et les informations qui vous concernent directement.
+Exploitation : toutes les données qui constituent votre profil d’exploitation. Laissez-vous guider par le questionnaire.
+
+Pour plus d’information sur le sujet, vous pouvez consulter notre article d’aide sur le sujet : https://aide.peps.beta.gouv.fr/acceder-a-son-compte-creer-ou-modifier-son-profil
+
+* Partagez vos retours d’expérience
+
+Une fois connecté, vous pouvez ajouter un retour d’expérience depuis votre page “Mon compte” ou en cliquant sur le bouton “Partager une expérience” en haut à droite de chaque page.
+
+Laissez vous guider par le questionnaire, vous pouvez sauvegarder le brouillon pendant que vous rédigez.
+
+Une fois la rédaction terminée, cliquez sur “Valider”. L’équipe Peps va alors lire votre témoignage avant de le publier.
+
+Pour plus d’information sur le sujet, vous pouvez consulter notre article d’aide sur le sujet : https://aide.peps.beta.gouv.fr/creer-ou-modifier-un-retour-dexperience
+
+* Entrer en contact avec d’autres agriculteurs
+
+Vous pouvez échanger avec n’importe quel agriculteur ayant publié un retour d’expérience sur Peps. Pour commencer la discussion, cliquez sur "Discuter avec …" depuis la page de témoignage ou sur le profil de son exploitation.
+ 
+La discussion s’affiche, vous pouvez rédiger et envoyer votre message. Pour retrouver les messages envoyés, cliquez depuis n’importe quelle page du site sur "Mes messages"
+
+Pour plus d’information sur le sujet, vous pouvez consulter notre article d’aide sur le sujet : https://aide.peps.beta.gouv.fr/discuter-avec-un-agriculteur-voir-mes-messages
+
+----------
+
+L'équipe Peps est à votre écoute, pour nous contacter envoyez un message à peps@beta.gouv.fr ou répondez à cet email.
+    
+Bonne journée,
+L'équipe de Peps
+
+
+----------
+
+Vous recevez ce message car vous avez un compte Peps et vous avez donné votre accord pour recevoir des notifications par email.
+
+Pour régler vos paramètres de contact, c'est par ici : https://{{ site.domain }}/editeur-profil
