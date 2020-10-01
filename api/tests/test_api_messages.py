@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework_api_key.models import APIKey
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from data.models import Farmer, Message
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -197,12 +197,12 @@ class TestApiMessages(TestCase):
 
 
 def _populate_database():
-    User.objects.create_superuser(username='testsuperuser', password='12345')
+    get_user_model().objects.create_superuser(username='testsuperuser', password='12345')
 
     # Approved farmers
     for farmer_name in ('Philippe', 'Pierre', 'Agnès'):
         email = farmer_name + "@farmer.com"
-        User.objects.create_user(farmer_name, email=email, password="12345")
+        get_user_model().objects.create_user(farmer_name, email=email, password="12345")
         farmer = Farmer(
             name=farmer_name,
             lat=45.1808,
@@ -213,7 +213,7 @@ def _populate_database():
         farmer.save()
 
     # Unapproved farmers
-    User.objects.create_user("Edouard", email="Edouard@farmer.com", password="12345")
+    get_user_model().objects.create_user("Edouard", email="Edouard@farmer.com", password="12345")
     Farmer(
         name="Edouard",
         email="Edouard@farmer.com",

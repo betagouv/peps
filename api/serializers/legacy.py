@@ -1,6 +1,5 @@
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from data.models import Practice, Mechanism, Resource, PracticeType
 from data.models import DiscardAction, Category
 

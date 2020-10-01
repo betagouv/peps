@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework_api_key.models import APIKey
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from data.adapters import PracticesAirtableAdapter
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -93,5 +93,5 @@ class TestApiAirtable(TestCase):
             PracticesAirtableAdapter.update = original_function
 
 def _populate_database():
-    User.objects.create_user(username='testuser', password='12345')
-    User.objects.create_superuser(username='testsuperuser', password='12345')
+    get_user_model().objects.create_user(username='testuser', password='12345')
+    get_user_model().objects.create_superuser(username='testsuperuser', password='12345')

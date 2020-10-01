@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from drf_base64.fields import Base64ImageField
 from data.models import Farmer, FarmImage
 from api.serializers import ExperimentFastSerializer, MediaListSerializer

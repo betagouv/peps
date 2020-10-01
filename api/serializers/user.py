@@ -1,12 +1,5 @@
-import uuid
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
-from django.contrib.auth.models import User
-from drf_base64.fields import Base64ImageField, Base64FileField
-from data.models import Practice, Mechanism, Resource, PracticeType
-from data.models import DiscardAction, Category, Farmer, Experiment
-from data.models import ExperimentImage, ExperimentVideo, FarmImage
-from data.models import Message
+from django.contrib.auth import get_user_model
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -23,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = User
+        model = get_user_model()
         fields = (
             'id',
             'email',

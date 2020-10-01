@@ -1,7 +1,6 @@
 import uuid
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from django.contrib.auth.models import User
 from data.models import Farmer
 from data.models import Message
 

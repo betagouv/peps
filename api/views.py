@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.views.decorators.cache import cache_control
 from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
@@ -189,10 +189,10 @@ class ExperimentCreateView(CreateAPIView):
 
 
 class LoggedUserView(RetrieveAPIView):
-    model = User
+    model = get_user_model()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = get_user_model().objects.all()
 
     def get_object(self):
         return self.request.user

@@ -9,7 +9,7 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.test import TestCase, override_settings
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from data.models import Practice, DiscardAction
 from data.models import Resource
 from api.utils import AsanaUtils
@@ -207,8 +207,8 @@ class TestApiTasks(TestCase):
 
 
 def _populate_database():
-    User.objects.create_user(username='testuser', password='12345')
-    User.objects.create_superuser(username='testsuperuser', password='12345')
+    get_user_model().objects.create_user(username='testuser', password='12345')
+    get_user_model().objects.create_superuser(username='testsuperuser', password='12345')
     image_name = 'test-image.jpg'
     image_bytes = None
 

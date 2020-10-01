@@ -1,6 +1,5 @@
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from drf_base64.fields import Base64ImageField, Base64FileField
 from data.models import Experiment
 from data.models import ExperimentImage, ExperimentVideo

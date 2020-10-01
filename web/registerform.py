@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
@@ -39,14 +39,14 @@ class RegisterForm(forms.ModelForm):
                 code='email_mismatch',
             )
         try:
-            user = User.objects.get(email=email2)
+            user = get_user_model().objects.get(email=email2)
             raise forms.ValidationError("Nous avons déjà un compte avec cette adresse mail. Voulez-vous <a onclick=\"window.location='/login'+window.location.search;\" style=\"color: #295a9f; text-decoration: underline; cursor: pointer; \">vous identifier</a> ?")
         except ObjectDoesNotExist as _:
             return email2
 
     def save(self, commit=True):
         farmer = super(RegisterForm, self).save(commit=False)
-        farmer.email = User.objects.normalize_email(self.cleaned_data['email'])
+        farmer.email = get_user_model().objects.normalize_email(self.cleaned_data['email'])
         farmer.self_created = True
 
         if commit:
@@ -58,7 +58,7 @@ class RegisterForm(forms.ModelForm):
         user_email = self.cleaned_data["email"]
         email_field = settings.MAGICAUTH_EMAIL_FIELD
         field_lookup = {f"{email_field}__iexact": user_email}
-        user = User.objects.get(**field_lookup)
+        user = get_user_model().objects.get(**field_lookup)
         token = MagicToken.objects.create(user=user)
         email_subject = settings.MAGICAUTH_EMAIL_SUBJECT
         html_template = settings.MAGICAUTH_EMAIL_HTML_TEMPLATE
