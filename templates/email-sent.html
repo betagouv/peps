@@ -14,11 +14,19 @@
                 <div class="card text-center p-4" style="background-color: white;">
                       <h1 style="color: #008763;">Un email vous a été envoyé pour vous connecter.</h1> 
                       <p>Pour vous connecter, cliquez sur le lien dans ce mail. Pour des raisons de sécurité, le lien est valable pendant 3 heures uniquement.</p>
-                      <p>L’email peut mettre un peu de temps à arriver, vérifiez aussi vos spam.</p>
-                      <p>Si vous ne le recevez pas, vous pouvez réessayer.</p>
+                      <p>L’email peut mettre un peu de temps à arriver, vérifiez aussi vos spam. Si vous ne le recevez pas, vous pouvez réessayer.</p>
                 </div>
                 <div class="text-center">
                   <a href="{% url 'magicauth-login' %}?next={{ next_view }}" style="color: #008763;" class="btn btn-secondary">Réessayer</a>
+                </div>
+                <div class="text-center" style="margin-top: 15px; font-weight: normal;">
+                  <p>
+                    Détenteurs d'une adresse email Orange ou Wanadoo, vérifiez votre portail orange et
+                    sa boite de spam. Nos emails s'y retrouvent parfois contre notre gré.
+                  </p>
+                  <p>
+                    En cas de non réception de l'email de connexion ou de problème persistant contactez <a href="mailto:peps@beta.gouv.fr">peps@beta.gouv.fr</a>
+                  </p>
                 </div>
               </div>
           </div>
