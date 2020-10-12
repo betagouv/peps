@@ -16,8 +16,7 @@
     <v-btn
       outlined
       color="primary"
-      href="https://peps-metabase.cleverapps.io/public/dashboard/00536261-3e78-4d92-aa9b-a5996c5bf8fb"
-      target="_blank"
+      :to="{ name: 'Stats' }"
       class="text-none"
     >Voir les statistiques complètes</v-btn>
   </div>

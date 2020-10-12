@@ -47,7 +47,7 @@
                 <router-link :to="{ name: 'CGU' }">CGU</router-link>
               </li>
               <li>
-                <a target="_blank" href="https://peps-metabase.cleverapps.io/public/dashboard/00536261-3e78-4d92-aa9b-a5996c5bf8fb">Statistiques</a>
+                <router-link :to="{ name: 'Stats' }">Statistiques</router-link>
               </li>
             </ul>
           </v-col>

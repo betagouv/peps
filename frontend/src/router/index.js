@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import CGU from '@/views/Cgu.vue'
 import About from '@/views/About.vue'
 import Contact from '@/views/Contact.vue'
+import Stats from '@/views/Stats.vue'
 import experimentShareRoutes from '@/router/experimentshare.js'
 import deprecatedRoutes from '@/router/deprecated.js'
 
@@ -24,6 +25,11 @@ const baseRoutes = [
     path: '/contact',
     name: 'Contact',
     component: Contact,
+  },
+  {
+    path: '/stats',
+    name: 'Stats',
+    component: Stats,
   },
   {
     path: '*',
