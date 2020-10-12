@@ -85,6 +85,7 @@ class ExperimentFastSerializer(serializers.Serializer):
     xp_type = serializers.CharField()
 
     cultures = serializers.ListField()
+    creation_date = serializers.DateTimeField()
     modification_date = serializers.DateTimeField()
 
 
@@ -124,6 +125,7 @@ class ExperimentSerializer(serializers.ModelSerializer):
             'images',
             'videos',
             'cultures',
+            'creation_date',
             'modification_date',
         )
 

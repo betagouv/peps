@@ -21,13 +21,22 @@
                     <v-icon>mdi-beaker-outline</v-icon>
                   </div>
                   <div style="margin-left: 35px;" class="body-2">
-                    <div class="headline" style="margin-bottom: 10px;">{{ experiment.name }}</div>
-                    <v-icon
-                      style="margin-right: 3px;"
-                      v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
-                      color="primary"
-                    >mdi-check-decagram</v-icon>
-                    {{experiment.results}}
+                    <div class="headline">{{ experiment.name }}</div>
+                    <div style="margin: 10px 0 10px 0;">
+                      <v-icon
+                        style="margin-right: 3px;"
+                        v-if="experiment.results === 'XP qui fonctionne, elle est intégrée à l\'exploitation'"
+                        color="primary"
+                      >mdi-check-decagram</v-icon>
+                      {{experiment.results}}
+                    </div>
+                    <div class="caption grey--text text--darken-2">
+                      <v-icon style="margin-right: 3px;" small>mdi-calendar-clock</v-icon>
+                      Créé le {{toReadableDate(experiment.creation_date)}}
+                      <span v-if="experiment.modification_date && experiment.modification_date != experiment.creation_date">
+                        , mis à jour le {{toReadableDate(experiment.modification_date)}}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -232,6 +241,7 @@ import FarmerContactCard from "@/components/FarmerContactCard.vue"
 import ImageGallery from "@/components/ImageGallery.vue"
 import VideoGallery from "@/components/VideoGallery.vue"
 import MiniMap from "@/components/MiniMap.vue"
+import utils from "@/utils"
 
 export default {
   name: "Experiment",
@@ -308,6 +318,10 @@ export default {
         this.contactOverlayVisible = true
       }
     },
+    toReadableDate(date) {
+      const closeDateOptions = { month: 'long', day: 'numeric' }
+      return utils.toReadableDate(date, null, closeDateOptions, null)
+    }
   },
   computed: {
     farmer() {

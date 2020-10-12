@@ -90,10 +90,10 @@ export default {
       reader.onerror = error
   },
 
-  toReadableDate(date) {
-    const todayOptions = { hour: '2-digit', minute:'2-digit' }
-    const closeDateOptions = { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
-    const farDateOptions = { year: 'numeric', month: 'short', day: 'numeric' }
+  toReadableDate(date, todayOptions, closeDateOptions, farDateOptions) {
+    todayOptions = todayOptions || { hour: '2-digit', minute:'2-digit' }
+    closeDateOptions = closeDateOptions || { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }
+    farDateOptions = farDateOptions || { year: 'numeric', month: 'short', day: 'numeric' }
 
     date = new Date(date)
 
