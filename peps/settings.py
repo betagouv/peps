@@ -199,7 +199,7 @@ MEDIA_URL = '/media/'
 SECURE_SSL_REDIRECT = os.getenv('PEPS_FORCE_HTTPS') == 'True'
 
 LOGIN_URL = '/login'
-MAGICAUTH_FROM_EMAIL = 'peps@beta.gouv.fr'
+MAGICAUTH_FROM_EMAIL = 'contact@peps.beta.gouv.fr'
 MAGICAUTH_EMAIL_SUBJECT = 'Votre lien de connexion Peps'
 MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME = 'app'
 MAGICAUTH_EMAIL_FIELD = 'email'
@@ -219,5 +219,5 @@ ANYMAIL = {
     "MAILJET_API_KEY": os.getenv('PEPS_MJ_APIKEY_PUBLIC'),
     "MAILJET_SECRET_KEY": os.getenv('PEPS_MJ_APIKEY_PRIVATE')
 }
-DEFAULT_FROM_EMAIL = "peps@beta.gouv.fr"
-SERVER_EMAIL = "peps@beta.gouv.fr"
+DEFAULT_FROM_EMAIL = "contact@peps.beta.gouv.fr"
+SERVER_EMAIL = "contact@peps.beta.gouv.fr"

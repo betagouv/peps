@@ -264,7 +264,7 @@ class ListCreateMessageView(ListCreateAPIView):
         email = EmailMultiAlternatives(
             email_subject,
             text_message,
-            'peps@beta.gouv.fr',
+            settings.DEFAULT_FROM_EMAIL,
             [email_address],
             headers={}
         )
