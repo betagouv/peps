@@ -59,6 +59,21 @@
       >Explorez les retours d'expérience</h2>
       <ExperimentFilter />
 
+      <!-- Newsletter -->
+      <div
+        style="background-color: rgb(224, 244, 238); margin: 30px -16px 0 -16px;padding: 16px;border-radius: 5px;"
+      >
+      <h2
+        class="title pa-0"
+        style="margin: 0px 0px 5px 0px;"
+      >Actualités</h2>
+      <p
+        class="body-1 pa-0"
+        style="margin: 5px 0px;"
+      >Soyez prévenu si de nouveaux retours d'expérience sont publiés sur Peps. Les actualités vous seront envoyées par email régulièrement (mais pas trop)</p>
+      <MailChimpForm />
+      </div>
+
       <!-- Experiments by location -->
       <h2
         class="title pa-0"
@@ -76,7 +91,6 @@
       >
         <h2
           class="title pa-0"
-          id="explore-xp"
           style="margin: 0px 0px 5px 0px;"
         >Le service Peps en chiffres</h2>
         <p
@@ -99,7 +113,6 @@
       <!-- About us cards -->
       <h2
         class="title pa-0"
-        id="explore-xp"
         style="margin: 20px 0px 5px 0px;"
       >Le projet Peps, qu'est-ce que c'est ?</h2>
       <p
@@ -130,6 +143,7 @@ import AboutUsCards from "@/components/AboutUsCards.vue"
 import StatsCards from "@/components/StatsCards.vue"
 import MapBlock from "@/components/MapBlock.vue"
 import ReviewsBlock from "@/components/ReviewsBlock.vue"
+import MailChimpForm from "@/components/MailChimpForm.vue"
 
 export default {
   name: "Landing",
@@ -152,6 +166,7 @@ export default {
     StatsCards,
     MapBlock,
     ReviewsBlock,
+    MailChimpForm
   },
   data() {
     return {
