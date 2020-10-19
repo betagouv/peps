@@ -2,7 +2,7 @@
   <div>
     <v-form
       lazy-validation
-      @submit="validate"
+      @submit="onSubmit"
       id="mailchimpform"
       ref="form"
       action="https://gouv.us3.list-manage.com/subscribe/post?u=d220b6a57be23c698418d7a35&amp;id=9c06c2f16a"
@@ -62,10 +62,10 @@ import validators from "@/validators"
 export default {
   name: "MailChimpForm",
   methods: {
-    validate() {
-      console.log("asdsadasd asd")
+    onSubmit() {
+      window.sendTrackingEvent(this.$route.name, "newsletter", "subscribe")
       return this.$refs.form.validate()
-    },
+    }
   },
   computed: {
     validators() {
