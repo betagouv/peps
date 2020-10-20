@@ -3,7 +3,7 @@
     <Title :title="title" :breadcrumbs="breadcrumbs" />
     <v-container class="constrained">
       <v-card-text style="color: #333;">
-        <div class="display-1">Conditions générales d'utilisation de « nom du produit »</div>
+        <div class="display-1">Conditions générales d'utilisation de Peps</div>
         <div class="body-2">
           <p>Les présentes conditions d’utilisation (CGU) sont mise en œuvre conformément à l’article L. 112-9 du code des relations entre le public et l’administration. Elles s’imposent aux usagers.</p>
         </div>
