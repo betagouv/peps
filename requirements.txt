@@ -40,7 +40,7 @@ pytz==2019.3
 requests==2.22.0
 requests-oauthlib==0.8.0
 rope==0.14.0
-s3transfer==0.3.1
+s3transfer==0.3.3
 sentry-sdk==0.13.1
 six==1.15.0
 sqlparse==0.3.0
