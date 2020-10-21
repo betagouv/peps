@@ -6,10 +6,12 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
+    target-branch: "development"
     directory: "/"
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
+    target-branch: "development"
     directory: "/frontend"
     schedule:
       interval: "daily"
