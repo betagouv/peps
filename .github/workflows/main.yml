@@ -1,4 +1,4 @@
-name: Django CI
+name: Peps CI
 
 on: [push]
 
@@ -50,7 +50,7 @@ jobs:
         run: |
           python3 manage.py test --exclude-tag=legacy
 
-      - name: Test VueJS project
+      - name: Test Vue project
         working-directory: ./frontend
         run: |
           npm install
