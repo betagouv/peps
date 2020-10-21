@@ -1,0 +1,46 @@
+name: Django CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6!
+          
+      - name: Setup PostgreSQL
+        uses: Harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql db: postgres
+          postgresql user: postgres 
+          postgresql password: postgres  
+          
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install -r requirements.txt 
+          
+      - name: Django Testing project
+        env:
+          PEPS_DEBUG: True
+          PEPS_SECRET: test
+          PEPS_ALLOWED_HOSTS: localhost
+          PEPS_DB_USER: postgres
+          PEPS_DB_PASSWORD: postgres
+          PEPS_DB_HOST: localhost
+          PEPS_DB_PORT: 5432
+          PEPS_DB_NAME: postgres
+          PEPS_STATICFILES_STORAGE: django.contrib.staticfiles.storage.StaticFilesStorage
+          PEPS_DEFAULT_FILE_STORAGE: peps.pepsfilestorage.PepsFileStorage
+        run: |
+          python3 manage.py test --exclude-tag=legacy
