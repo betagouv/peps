@@ -17,7 +17,7 @@
     "vue-browserupdate": "1.2.0",
     "vue-meta": "^2.4.0",
     "vue-resource": "1.5.1",
-    "vue-router": "3.3.2",
+    "vue-router": "3.4.7",
     "vue-unique-id": "^3.1.0",
     "vue2-leaflet": "2.5.2",
     "vuetify": "2.3.8",
