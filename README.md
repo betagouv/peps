@@ -79,23 +79,28 @@ python manage.py createsuperuser
 
 ## Test
 
-You should be ready to go. First, run this command to fetch the test data from Airtable:
+You should be ready to go.
+
+To run the tests concerning the current product, simply run:
+```
+python manage.py test --exclude-tag=legacy
+```
+
+If you wish to include tests for the legacy product (suggestion engine), you must first fetch the latest data from Airtable:
 ```
 python manage.py generatetestdata
 ...
 Successfully generated test data
 ```
-
-
-Now run the following command to ensure everything is OK:
+Now you can run the following command to run the entirety of the test suite:
 
 ```
 python manage.py test
 ```
 
-### Updating test mock data
+### Updating legacy test mock data
 
-API tests rely on mock data available under ```api/tests/testdata```. To update these files with the latest Airtable data, you can run the following command:
+Legacy engine tests rely on mock data available under ```api/tests/testdata```. To update these files with the latest Airtable data, you can run the following command:
 
 ```
 python manage.py generatetestdata
