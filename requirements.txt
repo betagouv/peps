@@ -11,7 +11,7 @@ django-anymail==7.1.0
 django-better-admin-arrayfield==1.0.6
 django-magicauth==0.5
 django-silk==4.1.0
-django-storages==1.9.1
+django-storages==1.10.1
 django-webpack-loader==0.6.0
 djangorestframework==3.12.1
 djangorestframework-api-key==1.4.0
