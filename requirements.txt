@@ -35,7 +35,7 @@ pylint==2.6.0
 pylint-django==2.3.0
 pylint-plugin-utils==0.5
 python-dateutil==2.8.1
-python-dotenv==0.10.3
+python-dotenv==0.14.0
 pytz==2019.3
 requests==2.22.0
 requests-oauthlib==0.8.0
