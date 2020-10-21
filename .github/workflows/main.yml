@@ -23,14 +23,19 @@ jobs:
         with:
           postgresql db: postgres
           postgresql user: postgres 
-          postgresql password: postgres  
+          postgresql password: postgres
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
           
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt 
           
-      - name: Django Testing project
+      - name: Test Django project
         env:
           PEPS_DEBUG: True
           PEPS_SECRET: test
@@ -44,3 +49,10 @@ jobs:
           PEPS_DEFAULT_FILE_STORAGE: peps.pepsfilestorage.PepsFileStorage
         run: |
           python3 manage.py test --exclude-tag=legacy
+
+      - name: Test VueJS project
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test:unit
