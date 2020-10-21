@@ -229,11 +229,12 @@ class TestApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(Experiment.objects.get(name="Allongement").images.count(), 2)
-        self.assertEqual(Experiment.objects.get(name="Allongement").images.last().label, 'new image!')
+        self.assertEqual(Experiment.objects.get(name="Allongement").images.order_by('label').last().label, 'new image!')
 
         images_json = response.data['images']
         self.assertEqual(len(images_json), 2)
-        self.assertEqual(images_json[0]['label'], 'new image!')
+        self.assertEqual(len(list(filter(lambda x: x['label'] == 'new image!', images_json))), 1)
+        self.assertEqual(len(list(filter(lambda x: x['label'] == 'hello world', images_json))), 1)
 
         # Remove the image
         payload = {'images': []}
