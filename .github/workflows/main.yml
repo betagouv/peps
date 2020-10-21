@@ -44,3 +44,12 @@ jobs:
           PEPS_DEFAULT_FILE_STORAGE: peps.pepsfilestorage.PepsFileStorage
         run: |
           python3 manage.py test --exclude-tag=legacy
+
+      - name: VueJS Testing project
+        uses: actions/setup-node@v1
+        working-directory: ./frontend
+        with:
+          node-version: 12.x
+        run: npm install
+        run: npm run build --if-present
+        run: npm run test:unit
