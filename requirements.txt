@@ -14,7 +14,7 @@ django-silk==4.1.0
 django-storages==1.10.1
 django-webpack-loader==0.6.0
 djangorestframework==3.12.1
-djangorestframework-api-key==1.4.0
+djangorestframework-api-key==2.0.0
 djangorestframework-camel-case==1.0.3
 docutils==0.15.2
 drf-base64==2.0
