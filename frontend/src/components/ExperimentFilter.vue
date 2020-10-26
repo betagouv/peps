@@ -12,6 +12,7 @@
       ref="search"
       outlined
       hide-details="auto"
+      clearable
     >
     </v-text-field>
     <v-container
