@@ -4,16 +4,6 @@
       :visible="showContributionOverlay"
       @done="showContributionOverlay = false"
     />
-    <!-- Recherche -->
-    <v-text-field
-      prepend-inner-icon="mdi-magnify"
-      placeholder="Cherchez des mots clé"
-      @input="searchTermChanged"
-      ref="search"
-      outlined
-      hide-details="auto"
-    >
-    </v-text-field>
     <v-container
       v-if="true"
       style="
@@ -289,9 +279,6 @@ export default {
         cultures: [],
         livestock: false,
       },
-      searchTerm: "",
-      searchDebounceTimer: null,
-      searchDebounceMs: 300
     }
   },
   computed: {
@@ -320,21 +307,13 @@ export default {
           !this.activeFilters.livestock ||
           (x.livestock_types && x.livestock_types.length > 0)
 
-        const searchTermMatches =
-          !this.searchTerm ||
-          this.searchTerm.length < 3 ||
-          x.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          (x.cultures && x.cultures.join(' ').toLowerCase().includes(this.searchTerm.toLowerCase())) ||
-          (x.tags && x.tags.join(' ').toLowerCase().includes(this.searchTerm.toLowerCase()))
-
         return (
           isApproved &&
           tagSelected &&
           departmentSelected &&
           agricultureTypeSelected &&
           cultureSelected &&
-          livestockSelected &&
-          searchTermMatches
+          livestockSelected
         )
       })
     },
@@ -343,9 +322,7 @@ export default {
       return [
         ...new Set(
           this.$store.getters.experiments
-            .filter(
-              (x) => !!x.approved && !!x.postal_code && x.postal_code.length > 2
-            )
+            .filter((x) =>!!x.approved && !!x.postal_code && x.postal_code.length > 2)
             .flatMap((x) => x.postal_code.substr(0, 2))
             .filter((x) => !!x)
         ),
@@ -401,13 +378,13 @@ export default {
           x.disabled = true
           return x
         })
-
+      
       return [
         ...activeDepartments,
         {
-          header: "Pas encore de données sur ces départements :",
+          header: "Pas encore de données sur ces départements :"
         },
-        ...inactiveDepartments,
+        ...inactiveDepartments
       ]
     },
 
@@ -477,12 +454,6 @@ export default {
         window.alert("Vous n'avez pas un profil agriculteur sur notre site")
       else this.showContributionOverlay = true
     },
-    searchTermChanged(searchTerm) {
-      clearTimeout(this.searchDebounceTimer)
-      this.searchDebounceTimer = setTimeout(() => {
-        this.searchTerm = searchTerm
-      }, this.searchDebounceMs)
-    }
   },
   watch: {
     "activeFilters.tags": function () {
@@ -499,7 +470,7 @@ export default {
     },
     "activeFilters.livestock": function () {
       this.$store.dispatch("updateFilters", { filters: this.activeFilters })
-    }
+    },
   },
   beforeMount() {
     this.activeFilters = this.$store.state.xpSelectionFilters
