@@ -275,6 +275,8 @@
 <script>
 import ExperimentsCards from "@/components/grids/ExperimentsCards"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
+import Fuse from "fuse.js"
+import { normalizeSync } from 'normalize-diacritics'
 
 export default {
   name: "ExperimentFilter",
@@ -296,8 +298,29 @@ export default {
     }
   },
   computed: {
+    fuse() {
+      return new Fuse(this.$store.getters.experiments, {
+        threshold: 0.5,
+        getFn() {
+          const fn = Fuse.config.getFn.apply(this, arguments)
+          if (typeof(fn) === 'string')
+            return normalizeSync(fn)
+          if (fn && fn.constructor === Array)
+            return fn.map(normalizeSync)
+          return fn
+        },
+        keys: [
+          "name",
+          "cultures",
+          "tags"
+        ]
+      })
+    },
+    searchResults() {
+      return this.searchTerm ? this.fuse.search(this.searchTerm).map(x => x.item) : this.$store.getters.experiments
+    },
     filteredExperiments() {
-      return this.$store.getters.experiments.filter((x) => {
+      return this.searchResults.filter((x) => {
         const isApproved = !!x.approved
         const tagSelected =
           this.activeFilters.tags.length === 0 ||
@@ -321,21 +344,13 @@ export default {
           !this.activeFilters.livestock ||
           (x.livestock_types && x.livestock_types.length > 0)
 
-        const searchTermMatches =
-          !this.searchTerm ||
-          this.searchTerm.length < 3 ||
-          x.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          (x.cultures && x.cultures.join(' ').toLowerCase().includes(this.searchTerm.toLowerCase())) ||
-          (x.tags && x.tags.join(' ').toLowerCase().includes(this.searchTerm.toLowerCase()))
-
         return (
           isApproved &&
           tagSelected &&
           departmentSelected &&
           agricultureTypeSelected &&
           cultureSelected &&
-          livestockSelected &&
-          searchTermMatches
+          livestockSelected
         )
       })
     },
@@ -481,7 +496,7 @@ export default {
     searchTermChanged(searchTerm) {
       clearTimeout(this.searchDebounceTimer)
       this.searchDebounceTimer = setTimeout(() => {
-        this.searchTerm = searchTerm
+        this.searchTerm = searchTerm ? normalizeSync(searchTerm) : searchTerm
       }, this.searchDebounceMs)
     }
   },
