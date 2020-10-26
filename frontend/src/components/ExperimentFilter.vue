@@ -285,7 +285,7 @@ export default {
     return {
       menu: false,
       showContributionOverlay: false,
-      showFilterArea: true,
+      showFilterArea: false,
       activeFilters: {
         tags: [],
         agricultureTypes: [],
