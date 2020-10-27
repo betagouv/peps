@@ -14,16 +14,27 @@ const headers = {
 }
 
 function addFarmerFieldsToExperiment(experiment, farmer) {
-  experiment.farmerId = farmer.id
+  experiment.farmer_name = farmer.name
+  experiment.farmer_url_slug = `${farmer.farm_name || farmer.name}--${farmer.sequence_number}` // TODO - refactor duplicate code
   experiment.postal_code = farmer.postal_code
   experiment.agriculture_types = farmer.agriculture_types
   experiment.livestock_types = farmer.livestock_types
 }
 
 export default new Vuex.Store({
-  plugins: [createPersistedState({ key: 'vuex-' + dataVersion })],
+  plugins: [createPersistedState({ 
+    key: 'vuex-' + dataVersion,
+    reducer: state => ({
+      geojson: state.geojson,
+      xpPaginationPage: state.xpPaginationPage,
+      xpSelectionFilters: state.xpSelectionFilters,
+      selectedFarmerId: state.selectedFarmerId,
+    }),
+  })],
   state: {
     farmers: [],
+    farmerBriefs: [],
+    experimentBriefs: [],
     selectedFarmerId: null,
     selectedDepartment: null,
     loggedUser: null,
@@ -36,6 +47,7 @@ export default new Vuex.Store({
     implementationLoadingStatus: Constants.LoadingStatus.IDLE,
     categoriesLoadingStatus: Constants.LoadingStatus.IDLE,
     farmersLoadingStatus: Constants.LoadingStatus.IDLE,
+    experimentBriefsLoadingStatus: Constants.LoadingStatus.IDLE,
     experimentEditLoadingStatus: Constants.LoadingStatus.IDLE,
     farmerEditLoadingStatus: Constants.LoadingStatus.IDLE,
     loggedUserLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -88,8 +100,20 @@ export default new Vuex.Store({
     SET_FARMERS_LOADING(state, status) {
       state.farmersLoadingStatus = status
     },
+    SET_FARMER_BRIEFS_LOADING(state, status) {
+      state.farmersLoadingStatus = status
+    },
+    SET_EXPERIMENT_BRIEFS_LOADING(state, status) {
+      state.farmersLoadingStatus = status
+    },
     SET_FARMERS(state, farmers) {
       state.farmers = farmers
+    },
+    SET_FARMER_BRIEFS(state, farmerBriefs) {
+      state.farmerBriefs = farmerBriefs
+    },
+    SET_EXPERIMENT_BRIEFS(state, experimentBriefs) {
+      state.experimentBriefs = experimentBriefs
     },
     SET_FORM_SCHEMAS(state, formDefinitions) {
       state.miaFormDefinition = formDefinitions['practices_form'] || {}
@@ -173,6 +197,14 @@ export default new Vuex.Store({
         if (updatedFarmer.experiments)
           updatedFarmer.experiments.forEach(y => addFarmerFieldsToExperiment(y, updatedFarmer))
         state.farmers.splice(farmerIndex, 1, updatedFarmer)
+      }
+    },
+    ADD_FARMER(state, newFarmer) {
+      const farmerIndex = state.farmers.findIndex(x => x.id === newFarmer.id)
+      if (farmerIndex === -1) {
+        if (newFarmer.experiments)
+          newFarmer.experiments.forEach(y => addFarmerFieldsToExperiment(y, newFarmer))
+        state.farmers.push(newFarmer)
       }
     },
     ADD_XP_TO_FARMER(state, { newExperiment, farmer }) {
@@ -271,12 +303,24 @@ export default new Vuex.Store({
         context.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.ERROR)
       })
     },
-
+    fetchExperimentBriefs(context) {
+      context.commit('SET_EXPERIMENT_BRIEFS_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.get('/api/v1/experimentBriefs').then(response => {
+        const body = response.body
+        context.commit('SET_EXPERIMENT_BRIEFS', body)
+        context.commit('SET_EXPERIMENT_BRIEFS_LOADING', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_EXPERIMENT_BRIEFS_LOADING', Constants.LoadingStatus.ERROR)
+      })
+    },
     fetchLoggedUser(context) {
       context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.LOADING)
       Vue.http.get('/api/v1/loggedUser').then(response => {
         context.commit('SET_LOGGED_USER', response.body)
-        context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+        Vue.http.get('/api/v1/farmers/' + response.body.farmer_sequence_number).then(farmer => {
+          context.commit('ADD_FARMER', farmer.body)
+          context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+        })
       }).catch(() => {
         context.commit('SET_LOGGED_USER', null)
         context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.ERROR)
@@ -578,7 +622,7 @@ export default new Vuex.Store({
       return (experiment => `${experiment.short_name || experiment.name}--${experiment.sequence_number}`)
     },
     selectedFarmer(state) {
-      return state.farmers.find(x => x.id === state.selectedFarmerId)
+      return state.farmerBriefs.find(x => x.id === state.selectedFarmerId)
     },
     experiments(state) {
       return state.farmers.flatMap(x => x.experiments).filter(x => !!x).sort((a, b) => {

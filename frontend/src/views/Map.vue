@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="farmersFetched">
     <Title :breadcrumbs="breadcrumbs" />
     <v-container class="constrained">
       <v-row style="padding: 0 16px 0 16px;">
@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { LMap, LGeoJson, LMarker } from "vue2-leaflet"
 import { latLng, latLngBounds, polygon, icon } from "leaflet"
 import L from "leaflet"
@@ -99,6 +100,7 @@ export default {
   },
   data() {
     return {
+      farmersFetched: false,
       showContributionOverlay: false,
       markersInfo: [],
       showGeolocation: !!window.navigator.geolocation,
@@ -148,6 +150,9 @@ export default {
     }
   },
   computed: {
+    farmers() {
+      return this.$store.state.farmerBriefs
+    },
     geojson() {
       return this.$store.state.geojson
     },
@@ -214,9 +219,7 @@ export default {
     },
     refreshMapMarkers() {
       this.markersInfo = []
-      for (const farmer of this.$store.state.farmers.filter(
-        (x) => !!x.approved
-      )) {
+      for (const farmer of this.farmers) {
         this.markersInfo.push(
           Object.assign(
             {},
@@ -292,6 +295,24 @@ export default {
     farmersLoadingStatus(newValue) {
       if (newValue === Constants.LoadingStatus.SUCCESS) this.refreshMapMarkers()
     },
+  },
+  mounted() {
+    const farmerBriefs = this.$store.state.farmerBriefs
+    if (farmerBriefs && farmerBriefs.length > 0) {
+      this.farmersFetched = true
+      return
+    }
+
+    this.$store.commit('SET_FARMER_BRIEFS_LOADING', Constants.LoadingStatus.LOADING)
+    Vue.http.get('/api/v1/farmerBriefs').then(response => {
+      const body = response.body
+      this.$store.commit('SET_FARMER_BRIEFS', body)
+      this.$store.commit('SET_FARMER_BRIEFS_LOADING', Constants.LoadingStatus.SUCCESS)
+      this.farmersFetched = true
+    }).catch(() => {
+      this.$store.commit('SET_FARMER_BRIEFS_LOADING', Constants.LoadingStatus.ERROR)
+      this.farmersFetched = false
+    })
   }
 }
 </script>

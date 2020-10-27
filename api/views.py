@@ -17,8 +17,9 @@ from data.adapters import PracticesAirtableAdapter
 from data.models import Category, Farmer, Experiment, Message
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
-from api.serializers import FarmerSerializer, UserSerializer, ExperimentSerializer
-from api.serializers import MessageSerializer, FarmerFastSerializer
+from api.serializers import FarmerSerializer, LoggedUserSerializer, ExperimentSerializer
+from api.serializers import MessageSerializer, FarmerFastSerializer, ExperimentBriefsFastSerializer
+from api.serializers import FarmerBriefsFastSerializer
 from api.formschema import get_form_schema
 from api.geojson import get_geojson
 from api.models import Response
@@ -160,6 +161,41 @@ class FarmersView(ListAPIView):
             queryset = queryset | Farmer.objects.filter(id=user.farmer.id)
         return queryset.prefetch_related('images', 'experiments', 'experiments__images', 'experiments__videos')
 
+
+class FarmersRetrieveView(RetrieveAPIView):
+    model = Farmer
+    serializer_class = FarmerFastSerializer
+    queryset = Farmer.objects.filter(approved=True)
+    lookup_field = 'sequence_number'
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Farmer.objects.filter(approved=True)
+        if hasattr(user, 'farmer') and user.farmer:
+            queryset = queryset | Farmer.objects.filter(id=user.farmer.id)
+        return queryset.prefetch_related('images', 'experiments', 'experiments__images', 'experiments__videos')
+
+
+class FarmerBriefsListView(ListAPIView):
+    serializer_class = FarmerBriefsFastSerializer
+
+    def get_queryset(self):
+        """
+        We will return approved experiments in a short format only
+        """
+        queryset = Farmer.objects.filter(approved=True)
+        return queryset
+
+class ExperimentBriefsListView(ListAPIView):
+    serializer_class = ExperimentBriefsFastSerializer
+
+    def get_queryset(self):
+        """
+        We will return approved experiments in a short format only
+        """
+        queryset = Experiment.objects.filter(state="Validé")
+        return queryset.prefetch_related('images', 'farmer')
+
 class ExperimentView(UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer & IsExperimentAuthor]
     serializer_class = ExperimentSerializer
@@ -190,7 +226,7 @@ class ExperimentCreateView(CreateAPIView):
 
 class LoggedUserView(RetrieveAPIView):
     model = get_user_model()
-    serializer_class = UserSerializer
+    serializer_class = LoggedUserSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = get_user_model().objects.all()
 
@@ -231,7 +267,7 @@ class ListCreateMessageView(ListCreateAPIView):
                 queryset = queryset & Message.objects.filter(sent_at__gte=date)
             except Exception as _:
                 raise ValidationError('Invalid date querystring parameter')
-        return queryset
+        return queryset.prefetch_related('recipient', 'sender')
 
     def perform_create(self, serializer):
         serializer.save()

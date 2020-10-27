@@ -89,7 +89,6 @@ class ExperimentFastSerializer(serializers.Serializer):
     modification_date = serializers.DateTimeField()
 
 
-
 class ExperimentSerializer(serializers.ModelSerializer):
     images = MediaListSerializer(required=False, child=ExperimentImageSerializer(required=False))
     videos = MediaListSerializer(required=False, child=ExperimentVideoSerializer(required=False))
@@ -172,3 +171,25 @@ class ExperimentSerializer(serializers.ModelSerializer):
             experiment_video_serializer.update(experiment.videos.all(), video_validated_data)
 
         return experiment
+
+
+class ExperimentBriefsFastSerializer(serializers.Serializer):
+    """
+    Serializer to be used in retrieval actions. Only limited
+    information is exposed, meant for a card display.
+    """
+    images = MediaListSerializer(required=False, child=ExperimentImageFastSerializer(required=False))
+    id = serializers.UUIDField(read_only=True)
+    sequence_number = serializers.IntegerField(read_only=True)
+    tags = serializers.ListField()
+    name = serializers.CharField()
+    short_name = serializers.CharField()
+    cultures = serializers.ListField()
+    creation_date = serializers.DateTimeField()
+    modification_date = serializers.DateTimeField()
+    farmer = serializers.PrimaryKeyRelatedField(read_only=True)
+    farmer_url_slug = serializers.SlugRelatedField(source="farmer", slug_field='url_slug', read_only=True)
+    livestock_types = serializers.SlugRelatedField(source="farmer", slug_field='livestock_types', read_only=True)
+    postal_code = serializers.SlugRelatedField(source="farmer", slug_field='postal_code', read_only=True)
+    farmer_name = serializers.SlugRelatedField(source="farmer", slug_field='name', read_only=True)
+    agriculture_types = serializers.SlugRelatedField(source="farmer", slug_field='agriculture_types', read_only=True)

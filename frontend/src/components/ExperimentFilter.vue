@@ -298,8 +298,9 @@ export default {
     }
   },
   computed: {
+
     fuse() {
-      return new Fuse(this.$store.getters.experiments, {
+      return new Fuse(this.$store.getters.experimentBriefs, {
         threshold: 0.4,
         ignoreLocation: true,
         getFn() {
@@ -331,11 +332,10 @@ export default {
       })
     },
     searchResults() {
-      return this.searchTerm ? this.fuse.search(this.searchTerm).map(x => x.item) : this.$store.getters.experiments
+      return this.searchTerm ? this.fuse.search(this.searchTerm).map(x => x.item) : this.$store.state.experimentBriefs
     },
     filteredExperiments() {
       return this.searchResults.filter((x) => {
-        const isApproved = !!x.approved
         const tagSelected =
           this.activeFilters.tags.length === 0 ||
           (!!x.tags &&
@@ -359,7 +359,6 @@ export default {
           (x.livestock_types && x.livestock_types.length > 0)
 
         return (
-          isApproved &&
           tagSelected &&
           departmentSelected &&
           agricultureTypeSelected &&
@@ -372,9 +371,9 @@ export default {
     activeDepartmentNumbers() {
       return [
         ...new Set(
-          this.$store.getters.experiments
+          this.$store.state.experimentBriefs
             .filter(
-              (x) => !!x.approved && !!x.postal_code && x.postal_code.length > 2
+              (x) => !!x.postal_code && x.postal_code.length > 2
             )
             .flatMap((x) => x.postal_code.substr(0, 2))
             .filter((x) => !!x)
@@ -385,8 +384,7 @@ export default {
     experimentTags() {
       return [
         ...new Set(
-          this.$store.getters.experiments
-            .filter((x) => !!x.approved)
+          this.$store.state.experimentBriefs
             .flatMap((x) => x.tags)
             .filter((x) => !!x && x !== "Autre")
             .sort()
@@ -397,8 +395,7 @@ export default {
     cultures() {
       return [
         ...new Set(
-          this.$store.getters.experiments
-            .filter((x) => !!x.approved)
+          this.$store.state.experimentBriefs
             .flatMap((x) => x.cultures)
             .filter((x) => !!x)
             .sort()
@@ -409,8 +406,7 @@ export default {
     agricultureTypes() {
       return [
         ...new Set(
-          this.$store.getters.experiments
-            .filter((x) => !!x.approved)
+          this.$store.state.experimentBriefs
             .flatMap((x) => x.agriculture_types)
             .filter((x) => !!x && x !== "Autre")
             .sort()

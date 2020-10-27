@@ -57,7 +57,7 @@
         id="explore-xp"
         style="margin: 16px 0px 10px 0px;"
       >Explorez les retours d'expérience</h2>
-      <ExperimentFilter />
+      <ExperimentFilter v-if="experimentsFetched" />
 
       <!-- Newsletter -->
       <div
@@ -137,6 +137,8 @@
 </template>
 
 <script>
+import Vue from "vue"
+import Constants from "@/constants"
 import ExperimentFilter from "@/components/ExperimentFilter.vue"
 import ContributionOverlay from "@/components/ContributionOverlay.vue"
 import AboutUsCards from "@/components/AboutUsCards.vue"
@@ -171,6 +173,7 @@ export default {
   data() {
     return {
       showContributionOverlay: false,
+      experimentsFetched: false
     }
   },
   computed: {
@@ -188,6 +191,24 @@ export default {
       else this.showContributionOverlay = true
     },
   },
+  mounted() {
+    const experimentBriefs = this.$store.state.experimentBriefs
+    if (experimentBriefs && experimentBriefs.length > 0) {
+      this.experimentsFetched = true
+      return
+    }
+
+    this.$store.commit('SET_EXPERIMENT_BRIEFS_LOADING', Constants.LoadingStatus.LOADING)
+    Vue.http.get('/api/v1/experimentBriefs').then(response => {
+      const body = response.body
+      this.$store.commit('SET_EXPERIMENT_BRIEFS', body)
+      this.$store.commit('SET_EXPERIMENT_BRIEFS_LOADING', Constants.LoadingStatus.SUCCESS)
+      this.experimentsFetched = true
+    }).catch(() => {
+      this.$store.commit('SET_EXPERIMENT_BRIEFS_LOADING', Constants.LoadingStatus.ERROR)
+      this.experimentsFetched = false
+    })
+  }
 }
 </script>
 

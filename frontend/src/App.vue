@@ -44,7 +44,6 @@ export default {
   mounted() {
     this.$store.dispatch("resetLoaders")
     this.$store.dispatch("fetchLoggedUser")
-    this.$store.dispatch("fetchFarmersAndExperiments")
     this.$store.dispatch("fetchMessages")
     this.$store.dispatch("fetchStats")
 

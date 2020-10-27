@@ -1,3 +1,4 @@
+import json
 import os
 import base64
 from unittest.mock import MagicMock
@@ -275,6 +276,22 @@ class TestApi(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(Experiment.objects.get(name="Allongement").videos.count(), 0)
+
+    def test_xp_retrieve_briefs(self):
+        """
+        Tests the endpoint for fetching the XP briefs
+        """
+        self.client.logout()
+        response = self.client.get(reverse('get_xp_briefs'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+
+        # Only approved XPs should be here
+        self.assertEqual(len(body), 3)
+
+        for experiment in body:
+            self.assertTrue(experiment['name'] != "Association de cultures")
 
 
 def _populate_database():

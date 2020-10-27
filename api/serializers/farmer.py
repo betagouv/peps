@@ -126,6 +126,7 @@ class FarmerFastSerializer(serializers.Serializer, FieldRetrievers):
     onboarding_shown = get_writable_method_field(serializers.BooleanField)()
     phone_number = get_writable_method_field(serializers.CharField)()
     email = serializers.SerializerMethodField()
+    url_slug = serializers.CharField(read_only=True)
 
 
 class FarmerSerializer(serializers.ModelSerializer, FieldRetrievers):
@@ -144,6 +145,7 @@ class FarmerSerializer(serializers.ModelSerializer, FieldRetrievers):
             'external_id',
             'experiments',
             'sequence_number',
+            'url_slug'
         ]
         fields = (
             'id',
@@ -179,6 +181,7 @@ class FarmerSerializer(serializers.ModelSerializer, FieldRetrievers):
             'onboarding_shown',
             'phone_number',
             'email',
+            'url_slug'
         )
 
     def update(self, instance, validated_data):
@@ -195,3 +198,30 @@ class FarmerSerializer(serializers.ModelSerializer, FieldRetrievers):
             farmer_image_serializer.update(farmer.images.all(), image_validated_data)
 
         return farmer
+
+class FarmerBriefsFastSerializer(serializers.Serializer):
+
+    """
+    Serializer to be used in retrieval actions. By bypassing
+    the overhead of the ModelSerializer it is significantly
+    faster : https://hakibenita.com/django-rest-framework-slow
+    """
+    id = serializers.UUIDField(read_only=True)
+    sequence_number = serializers.IntegerField(read_only=True)
+    external_id = serializers.CharField(read_only=True)
+    approved = serializers.BooleanField()
+    name = serializers.CharField()
+    farm_name = serializers.CharField()
+    production = serializers.ListField()
+    groups = serializers.ListField()
+    agriculture_types = serializers.ListField()
+    profile_image = Base64ImageField()
+    experiments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    lat = serializers.DecimalField(max_digits=9, decimal_places=6)
+    lon = serializers.DecimalField(max_digits=9, decimal_places=6)
+    cultures = serializers.CharField()
+    surface = serializers.CharField()
+    surface_cultures = serializers.CharField()
+    surface_meadows = serializers.CharField()
+    output = serializers.CharField()
+    url_slug = serializers.CharField(read_only=True)

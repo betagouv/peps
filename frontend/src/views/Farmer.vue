@@ -1,7 +1,7 @@
 <template>
   <div>
     <FarmerContactOverlay
-      v-if="!!farmer"
+      v-if="!!farmer && farmer"
       :farmer="farmer"
       :visible="contactOverlayVisible"
       @done="contactOverlayVisible = false"
@@ -125,6 +125,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import ExperimentCard from "@/components/ExperimentCard"
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
@@ -166,7 +167,8 @@ export default {
   },
   data() {
     return {
-      contactOverlayVisible: false
+      contactOverlayVisible: false,
+      farmerNotFound: false,
     }
   },
   props: {
@@ -183,14 +185,6 @@ export default {
       if (this.farmer && this.farmer.postal_code)
         return utils.postalCodeToDepartmentRegion(this.farmer.postal_code)
       return ""
-    },
-    farmerNotFound() {
-      return (
-        this.$store.state.farmersLoadingStatus ===
-          Constants.LoadingStatus.SUCCESS &&
-        this.$store.state.farmers.length > 0 &&
-        !this.farmer
-      )
     },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs"
@@ -259,6 +253,28 @@ export default {
         this.contactOverlayVisible = true
       }
     }
+  },
+  mounted() {
+    if (this.farmer) {
+      return
+    }
+
+    let sequenceNumber
+    try {
+      sequenceNumber = this.farmerUrlComponent.split('--')[1]
+    } catch (error) {
+      this.farmerNotFound = true
+      return
+    }
+
+    this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
+    Vue.http.get(`/api/v1/farmers/${sequenceNumber}`).then(response => {
+      this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
+      this.$store.commit('ADD_FARMER', response.body)
+    }).catch(() => {
+      this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.IDLE)
+      this.farmerNotFound = true
+    })
   }
 }
 </script>

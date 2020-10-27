@@ -234,6 +234,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Title from "@/components/Title.vue"
 import NotFound from "@/components/NotFound.vue"
 import FarmerContactOverlay from "@/components/FarmerContactOverlay.vue"
@@ -242,6 +243,7 @@ import ImageGallery from "@/components/ImageGallery.vue"
 import VideoGallery from "@/components/VideoGallery.vue"
 import MiniMap from "@/components/MiniMap.vue"
 import utils from "@/utils"
+import Constants from "@/constants"
 
 export default {
   name: "Experiment",
@@ -278,6 +280,7 @@ export default {
   data() {
     return {
       contactOverlayVisible: false,
+      farmerNotFound: false
     }
   },
   props: {
@@ -327,6 +330,9 @@ export default {
     farmer() {
       return this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
     },
+    experimentNotFound() {
+      return this.farmer && !this.experiment
+    },
     isMobile() {
       return this.$vuetify.breakpoint.name === "xs"
     },
@@ -336,9 +342,6 @@ export default {
         this.farmer,
         this.experimentUrlComponent
       )
-    },
-    experimentNotFound() {
-      return this.$store.getters.experiments.length > 0 && !this.experiment
     },
     icons() {
       const icons = {
@@ -374,7 +377,7 @@ export default {
             params: {
               farmerUrlComponent: this.$store.getters.farmerUrlComponent(
                 this.farmer
-              ),
+              ) || '',
             },
           },
         },
@@ -385,6 +388,27 @@ export default {
       ]
     },
   },
+  mounted() {
+    if (this.farmer)
+      return
+
+    let sequenceNumber
+    try {
+      sequenceNumber = this.farmerUrlComponent.split('--')[1]
+    } catch (error) {
+      this.$router.push({ name: "Landing" })
+      return
+    }
+
+    this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
+    Vue.http.get(`/api/v1/farmers/${sequenceNumber}`).then(response => {
+      this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
+      this.$store.commit('ADD_FARMER', response.body)
+    }).catch(() => {
+      this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.IDLE)
+      this.farmerNotFound = true
+    })
+  }
 }
 </script>
 

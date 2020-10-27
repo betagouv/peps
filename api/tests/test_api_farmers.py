@@ -378,6 +378,30 @@ class TestApi(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_retrieve_individual_by_sequence_number(self):
+        """
+        Tests the endpoint for fetching the individual farmer
+        by sequence number
+        """
+        self.client.logout()
+        philippe = Farmer.objects.get(name="Philippe")
+        response = self.client.get(reverse('get_farmer', kwargs={'sequence_number': philippe.sequence_number}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+        self.assertEqual(body.get('name'), 'Philippe')
+
+    def test_retrieve_briefs(self):
+        """
+        Tests the endpoint for fetching the short farmer representation
+        """
+        self.client.logout()
+        response = self.client.get(reverse('get_farmer_briefs'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        body = json.loads(response.content.decode())
+        self.assertEqual(len(body), 3)
+
 def _populate_database():
     get_user_model().objects.create_superuser(username='testsuperuser', password='12345')
 

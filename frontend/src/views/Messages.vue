@@ -1,7 +1,7 @@
 <template>
-  <div ref="root" v-resize="onResize" class="messages-data-table" v-if="initialCallsDone && !!loggedFarmerId">
+  <div ref="root" v-resize="onResize" class="messages-data-table" v-if="!messagesLoading && !newCorrespondentLoading && !!loggedFarmerId">
     <Title :breadcrumbs="breadcrumbs" />
-    <v-container style="height: 100%; padding-top: 5px; padding-bottom: 0;" v-if="$store.state.farmers.length > 0">
+    <v-container style="height: 100%; padding-top: 5px; padding-bottom: 0;">
       <v-row style="height: 100%; border: 1px solid #EEE;">
         <v-col
           cols="2"
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Title from "@/components/Title.vue"
 import MessageEditor from "@/components/MessageEditor.vue"
 import utils from "@/utils"
@@ -75,6 +76,7 @@ export default {
   data() {
     return {
       activeCorrespondent: null,
+      newCorrespondent: null,
       breadcrumbs: [
         {
           text: "Accueil",
@@ -94,34 +96,6 @@ export default {
     }
   },
   computed: {
-    headers() {
-      const largeHeaders = [
-        { text: "", value: "new", sortable: false, width: 40 },
-        { text: "De", value: "sender.name", width: "15%" },
-        { text: "Sujet", value: "subject" },
-        { text: "Message", value: "body" },
-        { text: "Date", value: "sent_at", width: 130 }
-      ]
-      const midHeaders = [
-        { text: "", value: "new", sortable: false, width: 40 },
-        { text: "De", value: "sender.name", width: "20%" },
-        { text: "Sujet", value: "subject" },
-        { text: "Date", value: "sent_at", width: 130 }
-      ]
-      const smallHeaders = [
-        { text: "De", value: "sender.name", width: "30%" },
-        { text: "Sujet", value: "subject" }
-      ]
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return smallHeaders
-        case "sm":
-        case "md":
-          return midHeaders
-        default:
-          return largeHeaders
-      }
-    },
     messages() {
       /*
        * The messages are returned in chronological order
@@ -140,7 +114,7 @@ export default {
        * These conversations are a data structure in the form of:
        * array [
        *  {
-       *     correspondent: { id: <id>, name: <name>, farm_name: <farm_name> },
+       *     correspondent: { id: <id>, name: <name>, farm_name: <farm_name>, sequence_number: <seq_number>... },
        *     messages: [<messages in inverse chronological order>]
        *  },
        *  {...},
@@ -149,8 +123,10 @@ export default {
        * The list will be sorted the conversations that contain the most recent messages
        * on top.
        */
+      if (!this.loggedFarmerId || this.messagesLoading) return []
+
       let conversations = []
-      if (!this.loggedFarmerId || !this.initialCallsDone) return []
+
       for (let i = 0; i < this.messages.length; i++) {
         const message = this.messages[i]
         const correspondent =
@@ -168,25 +144,24 @@ export default {
           })
       }
 
-      // Lastly, if we have a farmerUrlComponent designing a farmer for whom we have not
-      // communicated, we add this to the very top of the array with an empty messages array.
+      // Lastly, if we have a newCorrespondent we add this to the very top
+      // of the array with an empty messages array.
       // This is for the case of the first message to someone
-      if (this.farmerUrlComponent) {
-        const farmer = this.farmerWithUrlComponent(this.farmerUrlComponent)
-        const element = conversations.find(
-          x => x.correspondent.id === farmer.id
-        )
-        if (!element) {
-          conversations.unshift({
-            correspondent: {
-              id: farmer.id,
-              name: farmer.name,
-              farm_name: farmer.farm_name,
-              profile_image: farmer.profile_image
-            },
-            messages: []
-          })
-        }
+      if (this.newCorrespondent) {
+        conversations.unshift({
+          correspondent: {
+            id: this.newCorrespondent.id,
+            name: this.newCorrespondent.name,
+            farm_name: this.newCorrespondent.farm_name,
+            profile_image: this.newCorrespondent.profile_image,
+            agriculture_types: this.newCorrespondent.agriculture_types,
+            groups: this.newCorrespondent.groups,
+            production: this.newCorrespondent.production,
+            sequence_number: this.newCorrespondent.sequence_number,
+            url_slug: this.newCorrespondent.url_slug
+          },
+          messages: []
+        })
       }
 
       return conversations
@@ -202,29 +177,25 @@ export default {
         return this.$store.state.loggedUser.farmer_id
       return null
     },
-    loading() {
+    messagesLoading() {
       return (
         this.$store.state.messagesLoadingStatus ===
+        Constants.LoadingStatus.LOADING || 
+        this.$store.state.messagesLoadingStatus ===
+        Constants.LoadingStatus.IDLE
+      )
+    },
+    newCorrespondentLoading() {
+      return this.$store.state.farmersLoadingStatus ===
         Constants.LoadingStatus.LOADING
-      )
-    },
-    initialCallsDone() {
-      const success = Constants.LoadingStatus.SUCCESS
-      const error = Constants.LoadingStatus.ERROR
-      return (
-        this.$store.state.loggedUserLoadingStatus === success &&
-        (this.$store.state.farmersLoadingStatus === success || 
-        this.$store.state.farmersLoadingStatus === error)
-      )
-    },
+    }
   },
   methods: {
     toReadableDate(date) {
       return utils.toReadableDate(date)
     },
     goToConversation(conversation) {
-      const farmer = conversation.correspondent
-      const urlComponent = this.$store.getters.farmerUrlComponent(farmer)
+      const urlComponent = conversation.correspondent.url_slug
       this.$router
         .push({
           name: "Messages",
@@ -242,67 +213,66 @@ export default {
         titleHeight}px`
     },
     autoSelectConversation() {
-      /*
-       * Depending on multiple factors, this method will select one of the conversations by default
-       */
+      // If there are no messages there is nothing to select
+      if (this.messagesLoading || this.conversations.length === 0)
+        return
 
-      // If there are no conversations, no action will be taken
-      if (this.loading) return
-
-      if (this.farmerUrlComponent) {
-        // If the farmer specified in the URL does not exist, we fallback to the first conversation
-
-        // TODO: check farmers in messages too, they might not be approved yet
-        const farmer = this.farmerWithUrlComponent(this.farmerUrlComponent)
-        if (!farmer && this.conversations.length > 0) {
-          this.goToConversation(this.conversations[0])
-          return
-        }
-
-        // If we have no conversations with the farmer specified in the URL, we fallback to the first conversation as well
-        const conversation = this.conversations.find(
-          x => x.correspondent.id === farmer.id
-        )
-        if (!conversation && this.conversations.length > 0) {
-          this.goToConversation(this.conversations[0])
-          return
-        }
-
-        // Otherwise, we will go to the conversation with the farmer specified in the URL
+      // If we have messages from the farmer specified in the URL, we select them.
+      // Otherwise we select the first conversation
+      const conversation = this.farmerUrlComponent ? this.conversations.find(
+        x => x.correspondent.url_slug === this.farmerUrlComponent
+      ) : null
+      if (conversation) {
+        this.goToConversation(conversation)
         this.activeCorrespondent = conversation.correspondent
-      } else if (this.conversations.length > 0) {
-        // If there was no farmer specified in the URL, we default to the first conversation
+      } else {
         this.goToConversation(this.conversations[0])
       }
     },
     unreadMessagesNumber(messages) {
-      /*
-       * Counts the unread messages for which the logged user is the recipient
-       */
       if (!this.loggedFarmerId) return 0
       return messages.filter(
         x => x.recipient.id === this.loggedFarmerId && x.new
       ).length
     },
-    farmerWithUrlComponent(urlComponent) {
-      let farmer = this.$store.getters.farmerWithUrlComponent(
-        urlComponent
-      )
+    fetchNewCorrespondentIfNeeded() {
+      if (this.messagesLoading)
+        return
+
+      // We need to look for the new correspondent if we have a url_slug in the URL that is not present in any
+      // existing messages.
+      if (!this.farmerUrlComponent || this.messages.find(x => x.sender.url_slug === this.farmerUrlComponent || x.recipient.url_slug === this.farmerUrlComponent))
+        return
+
+      const farmer = this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
       if (farmer)
-        return farmer
-      const sequenceNumber = parseInt(urlComponent.split('--')[1])
-      if (!isNaN(sequenceNumber)) {
-        let senders = this.messages.map(x => x.sender)
-        let recipients = this.messages.map(x => x.recipient)
-        farmer = senders.concat(recipients).find(x => x.sequence_number === sequenceNumber)
+        this.newCorrespondent = farmer
+
+      let sequenceNumber
+      try {
+        sequenceNumber = this.farmerUrlComponent.split('--')[1]
+      } catch (error) {
+        return
       }
-      return farmer
-    }
-  },
+
+      this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.LOADING)
+      Vue.http.get(`/api/v1/farmers/${sequenceNumber}`).then(response => {
+        this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.SUCCESS)
+        this.$store.commit('ADD_FARMER', response.body)
+        this.newCorrespondent = response.body
+      }).catch(() => {
+        this.$store.commit('SET_FARMERS_LOADING', Constants.LoadingStatus.IDLE)
+      })
+    },
+},
   mounted() {
-    if (!this.activeCorrespondent && this.initialCallsDone && this.loggedFarmerId) this.autoSelectConversation()
+    this.fetchNewCorrespondentIfNeeded()
+    if (!this.activeCorrespondent && this.loggedFarmerId) this.autoSelectConversation()
   },
   watch: {
+    messages() {
+      this.fetchNewCorrespondentIfNeeded()
+    },
     conversations() {
       // When conversations change, we need to select one if there is no active correspondent selected
       if (!this.activeCorrespondent) this.autoSelectConversation()

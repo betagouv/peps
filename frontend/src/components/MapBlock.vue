@@ -22,14 +22,12 @@
 
             <v-list-item-subtitle
               style="padding-left: 4px;"
-              v-if="featuredFarmer.production && featuredFarmer.production.length > 0"
+              v-if="featuredFarmer.production"
             >
               <span
                 class="caption"
                 style="margin-right: 4px;"
-                v-for="(title, index) in (featuredFarmer.production || [])"
-                :key="index"
-              >{{ title }}</span>
+              >{{ featuredFarmer.production }}</span>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -62,24 +60,22 @@
 <script>
 export default {
   name: "MapBlock",
-  computed: {
-    featuredFarmer() {
-      const featured = this.$store.state.farmers.find(
-        (x) => x.name === "Eric Bonnefoy"
-      )
-      if (featured) return featured
-      return this.$store.state.farmers[
-        Math.floor(Math.random() * this.$store.state.farmers.length)
-      ]
-    },
-  },
+  data: () => ({
+    featuredFarmer: {
+      profile_image: "https://cellar-c2.services.clever-cloud.com/peps-prod/media/attjuMglgRBPmfdIX.jpg",
+      name: "Eric Bonnefoy",
+      production: "Grandes cultures",
+      description: " Je me suis installé en GAEC avec mes parents sur l'exploitation familiale de polyculture élevage laitier montbéliardes. Nous avons toujours fait des céréales, en particulier du blé panifiable, on travaillait avec un meunier. Au départ à la retraite de mes parents, je me suis mis en GAEC avec mon frère, ma belle soeur et mon épouse. Il y a 7 ans, on a séparé l'exploitation en 2, mon frère a gardé le troupeau laitier et un peu de céréales et moi uniquement des céréales. Je suis aujourd'hui en SARL avec mon épouse (SARL Bonnefoy). Je travaille pour Lu, avec une biscuiterie à côté de Besançon. Je suis la charte Lu Harmony, j'ai 7ha de plantes mellifères, je travaille avec un apiculteur, j'ai un stockage à la ferme sans insecticide. Pour moi ces démarches de vente en local et de biodiversité sont importantes. Je suis engagé dans plusieurs réseaux : Arvalis CRC, le groupe des producteurs Lu de la région et je suis ambassadeur Passion Céréales en région.",
+      url_slug: "SARL Bonnefoy--19",
+    }
+  }),
   methods: {
     goToFarmer(farmer) {
       window.sendTrackingEvent("FarmerMapBlock", "seeProfile", farmer.name)
       this.$router.push({
         name: "Farmer",
         params: {
-          farmerUrlComponent: this.$store.getters.farmerUrlComponent(farmer),
+          farmerUrlComponent: this.featuredFarmer.url_slug,
         },
       })
     },
