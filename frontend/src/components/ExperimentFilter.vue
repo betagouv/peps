@@ -300,7 +300,7 @@ export default {
   computed: {
     fuse() {
       return new Fuse(this.$store.getters.experiments, {
-        threshold: 0.5,
+        threshold: 0.4,
         ignoreLocation: true, 
         getFn() {
           const fn = Fuse.config.getFn.apply(this, arguments)
