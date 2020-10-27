@@ -301,11 +301,11 @@ export default {
     fuse() {
       return new Fuse(this.$store.getters.experiments, {
         threshold: 0.4,
-        ignoreLocation: true, 
+        ignoreLocation: true,
         getFn() {
           const fn = Fuse.config.getFn.apply(this, arguments)
           if (typeof(fn) === 'string')
-            return normalizeSync(fn)
+            return normalizeSync(fn).replace(/_/g, " ")
           if (fn && fn.constructor === Array)
             return fn.map(normalizeSync)
           return fn
@@ -313,10 +313,20 @@ export default {
         keys: [
           {
             name: "name",
-            weight: 3
+            weight: 4
           },
-          "cultures",
-          "tags"
+          {
+            name: "short_name",
+            weight: 5
+          },
+          {
+            name: "cultures",
+            weight: 2
+          },
+          {
+            name: "objectives",
+            weight: 1
+          }
         ]
       })
     },
