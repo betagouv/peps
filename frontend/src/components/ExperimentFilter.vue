@@ -301,6 +301,7 @@ export default {
     fuse() {
       return new Fuse(this.$store.getters.experiments, {
         threshold: 0.5,
+        ignoreLocation: true, 
         getFn() {
           const fn = Fuse.config.getFn.apply(this, arguments)
           if (typeof(fn) === 'string')
@@ -310,7 +311,10 @@ export default {
           return fn
         },
         keys: [
-          "name",
+          {
+            name: "name",
+            weight: 3
+          },
           "cultures",
           "tags"
         ]
