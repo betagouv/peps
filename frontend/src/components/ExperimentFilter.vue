@@ -507,6 +507,7 @@ export default {
       clearTimeout(this.searchDebounceTimer)
       this.searchDebounceTimer = setTimeout(() => {
         this.searchTerm = searchTerm ? normalizeSync(searchTerm) : searchTerm
+        window.sendTrackingEvent(this.$route.name, "search term", this.searchTerm)
       }, this.searchDebounceMs)
     }
   },
