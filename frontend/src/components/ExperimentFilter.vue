@@ -5,18 +5,38 @@
       @done="showContributionOverlay = false"
     />
     <!-- Recherche -->
-    <v-text-field
-      prepend-inner-icon="mdi-magnify"
-      placeholder="Cherchez des mots clé"
-      @input="searchTermChanged"
-      ref="search"
-      outlined
-      hide-details="auto"
-      clearable
-    >
-    </v-text-field>
+    <v-row class="align-center" style="padding:12px;">
+      <v-text-field
+        prepend-inner-icon="mdi-magnify"
+        placeholder="Cherchez des mots clé"
+        @input="searchTermChanged"
+        ref="search"
+        outlined
+        hide-details="auto"
+        clearable
+      >
+      </v-text-field>
+      <div class="d-none d-sm-flex" style="width: 10px;margin-left: 10px;border-left: solid 1px #c4bfbf;height: 50px;"></div>
+      <v-badge
+            class="d-none d-sm-flex"
+            color="primary"
+            :content="hiddenFilters"
+            :value="hiddenFilters"
+            overlap
+          >
+            <v-btn
+              outlined
+              :color="showFilterArea || hiddenFilters > 0 ? 'primary' : '#999'"
+              class="text-none"
+              @click="showFilterArea = !showFilterArea"
+            >
+              <v-icon>mdi-filter-variant</v-icon>Filtrer
+            </v-btn>
+          </v-badge>
+    </v-row>
+    
     <v-container
-      v-if="true"
+      :class="{'d-none': removeFilterArea}"
       style="
         padding-top: 10px;
         padding-bottom: 10px;
@@ -27,93 +47,9 @@
       "
     >
       <v-row class="pa-0 ma-0">
-        <!-- Filter Thématique desktop -->
-        <v-col cols="12" class="d-none d-md-flex" style="padding: 0 5px 0 0">
-          <div class="d-flex" style="min-width: 100%">
-            <v-chip-group column>
-              <v-chip
-                @click="toggleTagFilter(filter)"
-                class="ma-1"
-                v-for="(filter, index) in experimentTags.slice(0, 5)"
-                :key="index"
-                :outlined="activeFilters.tags.indexOf(filter) === -1"
-                :dark="activeFilters.tags.indexOf(filter) > -1"
-                :color="
-                  activeFilters.tags.indexOf(filter) > -1 ? 'primary' : '#999'
-                "
-                >{{ filter }}</v-chip
-              >
-            </v-chip-group>
-
-            <v-menu
-              v-model="menu"
-              :close-on-content-click="false"
-              :nudge-width="200"
-              offset-x
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-chip-group style="margin-right: 20px">
-                  <v-badge
-                    color="primary"
-                    :content="hiddenTagFilters"
-                    :value="hiddenTagFilters"
-                    overlap
-                    offset-x="20"
-                    offset-y="18"
-                  >
-                    <v-chip
-                      v-bind="attrs"
-                      v-on="on"
-                      class="ma-1"
-                      outlined
-                      :color="hiddenTagFilters > 0 ? 'primary' : '#999'"
-                    >
-                      <v-icon small>mdi-plus</v-icon>Plus
-                    </v-chip>
-                  </v-badge>
-                </v-chip-group>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <v-checkbox
-                    hide-details
-                    dense
-                    multiple
-                    v-for="(filter, index) in experimentTags.slice(5)"
-                    :key="index"
-                    :label="filter"
-                    :value="filter"
-                    v-model="activeFilters.tags"
-                    @change="sendFilterChangeEvent('tags', activeFilters.tags)"
-                  ></v-checkbox>
-                </v-card-text>
-              </v-card>
-            </v-menu>
-            <v-badge
-              color="primary"
-              :content="hiddenFilters"
-              :value="hiddenFilters"
-              overlap
-              offset-x="10"
-              offset-y="15"
-            >
-              <v-btn
-                outlined
-                :color="
-                  showFilterArea || hiddenFilters > 0 ? 'primary' : '#999'
-                "
-                class="text-none ml-auto"
-                style="margin-top: 6px"
-                @click="showFilterArea = !showFilterArea"
-              >
-                <v-icon>mdi-filter-variant</v-icon>Filtrer
-              </v-btn>
-            </v-badge>
-          </div>
-        </v-col>
-
-        <v-col cols="12" class="d-md-none">
+        <v-col cols="12">
           <v-badge
+            class="d-sm-none"
             color="primary"
             :content="hiddenFilters"
             :value="hiddenFilters"
@@ -134,7 +70,6 @@
         <v-col
           :class="{
             filter: true,
-            'd-md-none': true,
             'd-none': !showFilterArea,
           }"
           cols="12"
@@ -451,16 +386,17 @@ export default {
     hiddenFilters() {
       // How many filters are active and under the collapsable drawer ?
       let count = 0
-      const isMobile =
-        this.$vuetify.breakpoint.name === "sm" ||
-        this.$vuetify.breakpoint.name === "xs"
-      if (this.activeFilters.tags.length > 0 && isMobile) count++
+      if (this.activeFilters.tags.length > 0) count++
       if (this.activeFilters.departments.length > 0) count++
       if (this.activeFilters.cultures.length > 0) count++
       if (this.activeFilters.agricultureTypes.length > 0) count++
       if (this.activeFilters.livestock) count++
       return count
     },
+    removeFilterArea() {
+      const isMobile = this.$vuetify.breakpoint.name === "xs"
+      return !isMobile && !this.showFilterArea
+    }
   },
   methods: {
     toggleTagFilter(filter) {
