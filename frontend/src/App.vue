@@ -1,6 +1,10 @@
 <template>
   <v-app>
     <div id="app-wrapper">
+      <v-sheet v-if="!removeBanner" class="pa-3 body-2" style="text-align: center;" color="#E0F4EE">
+        Nous avons besoin de vos retours pour continuer à développer ce projet - 
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeLPTZMXD7-ROJpXeSYH-YHjXULvG1HIBjmeahgdwfgagi08w/viewform" target="_blank">répondre au sondage</a> 🙏
+      </v-sheet>
       <Header />
       <Loader v-if="initialCallsLoading" :loading="true" />
       <OverlayMessage
@@ -69,6 +73,9 @@ export default {
       )
     },
     removeFooter() {
+      return this.$route.name === "Messages"
+    },
+    removeBanner() {
       return this.$route.name === "Messages"
     },
     loggedUser() {
