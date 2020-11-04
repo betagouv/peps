@@ -235,7 +235,7 @@ export default {
   computed: {
 
     fuse() {
-      return new Fuse(this.$store.getters.experimentBriefs, {
+      return new Fuse(this.$store.state.experimentBriefs, {
         threshold: 0.4,
         ignoreLocation: true,
         getFn() {
