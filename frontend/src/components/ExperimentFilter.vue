@@ -235,7 +235,7 @@ export default {
   computed: {
 
     fuse() {
-      return new Fuse(this.$store.state.experimentBriefs, {
+      return new Fuse(this.$store.getters.experimentBriefs, {
         threshold: 0.4,
         ignoreLocation: true,
         getFn() {
@@ -267,7 +267,7 @@ export default {
       })
     },
     searchResults() {
-      return this.searchTerm ? this.fuse.search(this.searchTerm).map(x => x.item) : this.$store.state.experimentBriefs
+      return this.searchTerm ? this.fuse.search(this.searchTerm).map(x => x.item) : this.$store.getters.experimentBriefs
     },
     filteredExperiments() {
       return this.searchResults.filter((x) => {
@@ -306,7 +306,7 @@ export default {
     activeDepartmentNumbers() {
       return [
         ...new Set(
-          this.$store.state.experimentBriefs
+          this.$store.getters.experimentBriefs
             .filter(
               (x) => !!x.postal_code && x.postal_code.length > 2
             )
@@ -319,7 +319,7 @@ export default {
     experimentTags() {
       return [
         ...new Set(
-          this.$store.state.experimentBriefs
+          this.$store.getters.experimentBriefs
             .flatMap((x) => x.tags)
             .filter((x) => !!x && x !== "Autre")
             .sort()
@@ -330,7 +330,7 @@ export default {
     cultures() {
       return [
         ...new Set(
-          this.$store.state.experimentBriefs
+          this.$store.getters.experimentBriefs
             .flatMap((x) => x.cultures)
             .filter((x) => !!x)
             .sort()
@@ -341,7 +341,7 @@ export default {
     agricultureTypes() {
       return [
         ...new Set(
-          this.$store.state.experimentBriefs
+          this.$store.getters.experimentBriefs
             .flatMap((x) => x.agriculture_types)
             .filter((x) => !!x && x !== "Autre")
             .sort()

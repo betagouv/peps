@@ -633,6 +633,15 @@ export default new Vuex.Store({
         return 0
       })
     },
+    experimentBriefs(state) {
+      return state.experimentBriefs.sort((a, b) => {
+        if (a.modification_date < b.modification_date)
+          return 1
+        if (a.modification_date > b.modification_date)
+          return -1
+        return 0
+      })
+    },
     hasUnreadMessages(state) {
       const loggedUser = state.loggedUser
       if (!loggedUser)
