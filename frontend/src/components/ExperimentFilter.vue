@@ -275,10 +275,11 @@ export default {
           this.activeFilters.tags.length === 0 ||
           (!!x.tags &&
             x.tags.some((y) => this.activeFilters.tags.indexOf(y) > -1))
+
         const departmentSelected =
           this.activeFilters.departments.length === 0 ||
-          this.activeFilters.departments.indexOf(x.postal_code.substr(0, 2)) !==
-            -1
+          this.activeFilters.departments.find(code => x.postal_code.startsWith(code))
+
         const agricultureTypeSelected =
           this.activeFilters.agricultureTypes.length === 0 ||
           this.activeFilters.agricultureTypes.some(
@@ -310,7 +311,9 @@ export default {
             .filter(
               (x) => !!x.postal_code && x.postal_code.length > 2
             )
-            .flatMap((x) => x.postal_code.substr(0, 2))
+            .flatMap((x) => x.postal_code.startsWith('97') ?
+              x.postal_code.substr(0, 3) :
+              x.postal_code.substr(0, 2))
             .filter((x) => !!x)
         ),
       ]
@@ -373,9 +376,26 @@ export default {
     },
 
     departments() {
-      return this.$store.state.geojson
+      const mapDepartments = this.$store.state.geojson
         ? this.$store.state.geojson.features.map((x) => x.properties)
         : []
+      const domToms = [{
+        "code": "971",
+        "nom": "Guadeloupe"
+      },{
+        "code": "972",
+        "nom": "Martinique"
+      }, {
+        "code": "973",
+        "nom": "Guyane"
+      }, {
+        "code": "974",
+        "nom": "La Réunion"
+      }, {
+        "code": "976",
+        "nom": "Mayotte"
+      }]
+      return mapDepartments.concat(domToms)
     },
     hiddenTagFilters() {
       // On desktop mode, how many tag filters under the "+plus" chip are active ?
