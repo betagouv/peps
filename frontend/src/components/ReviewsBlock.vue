@@ -10,9 +10,9 @@
             </v-avatar>
             <div class="body-2 font-weight-bold" style="margin-top: 10px;">{{ item.farmer.name }}</div>
             <div
-              v-if="item.farmer.production && item.farmer.production.length > 0"
+              v-if="item.farmer.production"
               class="caption grey--text"
-            >{{ item.farmer.production[0] }}</div>
+            >{{ item.farmer.production }}</div>
             <v-btn
               text
               small
@@ -43,17 +43,20 @@
 <script>
 export default {
   name: "ReviewsBlock",
-  computed: {
-    items() {
-      const items = [
-        {
-          farmer: this.farmerWithName("Thierry Desvaux"),
-          review:
-            "Génial, enfin un site pour partager nos expériences et surtout échanger avec des agriculteurs qui innovent.",
+  data: () => {
+    return {
+      items: [{
+        farmer: {
+          profile_image: 'https://cellar-c2.services.clever-cloud.com/peps-prod/media/attZe1vXrlvrHX0sl.jpg',
+          name: 'Thierry Desvaux',
+          production: 'Grandes cultures',
+          urlSlug: 'sep de bord--83'
         },
-      ]
-      return items.filter((x) => !!x.farmer)
-    },
+        review: "Génial, enfin un site pour partager nos expériences et surtout échanger avec des agriculteurs qui innovent.",
+      }]
+    }
+  },
+  computed: {
     loggedUser() {
       return this.$store.state.loggedUser
     }
@@ -68,7 +71,7 @@ export default {
       this.$router.push({
         name: "Farmer",
         params: {
-          farmerUrlComponent: this.$store.getters.farmerUrlComponent(farmer),
+          farmerUrlComponent: farmer.urlSlug,
         },
       })
     },
