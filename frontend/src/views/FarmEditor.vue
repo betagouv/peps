@@ -516,7 +516,7 @@
         <div class="field">
           <div class="field-title title">Photos de votre exploitation</div>
           <div class="field-helper">Vous pouvez en ajouter plusieurs</div>
-          <ImagesField :imageArray="dummyFarmer.images" @change="hasChanged = true" />
+          <ImagesField :imageArray.sync="dummyFarmer.images" @change="hasChanged = true" />
         </div>
       </v-form>
     </v-container>

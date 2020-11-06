@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col
-      v-for="(video, index) in videoArray"
-      :key="index"
+      v-for="video in videoArray"
+      :key="video.video"
       class="d-flex child-flex"
       cols="12"
       sm="6"
@@ -13,7 +13,7 @@
           <source type="video/mp4" :src="video.video" />Votre navigateur ne peut pas afficher des vidéos.
         </video>
         <div style="position: absolute; top: 10px; left: 10px;">
-          <v-btn fab small @click="deleteVideo(index)">
+          <v-btn fab small @click="deleteVideo(video.video)">
             <v-icon color="red">mdi-trash-can-outline</v-icon>
           </v-btn>
         </div>
@@ -71,8 +71,8 @@ export default {
     emitChange() {
       this.$emit("change", this.videoArray)
     },
-    deleteVideo(index) {
-      this.videoArray.splice(index, 1)
+    deleteVideo(video) {
+      this.$emit('update:videoArray', this.videoArray.filter(x => x.video !== video))
       this.emitChange()
     },
     addVideo(e) {
@@ -83,10 +83,15 @@ export default {
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
         utils.toBase64(file, base64 => {
-          this.videoArray.push({
+
+          if (this.videoArray.some(x => x.video === base64)) {
+            return
+          }
+
+          this.$emit('update:videoArray', this.videoArray.concat({
             video: base64,
             label: ""
-          })
+          }))
         })
       }
     }
