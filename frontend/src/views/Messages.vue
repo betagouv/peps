@@ -280,7 +280,7 @@ export default {
     $route(to) {
       // We need to manually update our parameters in case of a route change:
       // https://router.vuejs.org/guide/essentials/dynamic-matching.html#reacting-to-params-changes
-      this.farmerUrlComponent = to.params.farmerUrlComponent
+      this.$emit('update:farmerUrlComponent', to.params.farmerUrlComponent)
       this.autoSelectConversation()
     }
   }
