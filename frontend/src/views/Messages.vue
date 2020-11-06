@@ -241,8 +241,10 @@ export default {
 
       // We need to look for the new correspondent if we have a url_slug in the URL that is not present in any
       // existing messages.
-      if (!this.farmerUrlComponent || this.messages.find(x => x.sender.url_slug === this.farmerUrlComponent || x.recipient.url_slug === this.farmerUrlComponent))
+      if (!this.farmerUrlComponent || this.messages.find(x => x.sender.url_slug === this.farmerUrlComponent || x.recipient.url_slug === this.farmerUrlComponent)) {
+        this.newCorrespondent = null
         return
+      }
 
       const farmer = this.$store.getters.farmerWithUrlComponent(this.farmerUrlComponent)
       if (farmer)
