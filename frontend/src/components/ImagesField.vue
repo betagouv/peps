@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col
-      v-for="(image, index) in imageArray"
-      :key="index"
+      v-for="image in imageArray"
+      :key="image.image"
       class="d-flex child-flex"
       cols="12"
       sm="6"
@@ -11,7 +11,7 @@
       <v-card flat class="d-flex flex-column fill-height">
         <v-img :src="image.image" aspect-ratio="1.4" class="grey lighten-2"></v-img>
         <div style="position: absolute; top: 10px; left: 10px;">
-          <v-btn fab small @click="deleteImage(index)">
+          <v-btn fab small @click="deleteImage(image.image)">
             <v-icon color="red">mdi-trash-can-outline</v-icon>
           </v-btn>
         </div>
@@ -69,8 +69,8 @@ export default {
     emitChange() {
       this.$emit("change", this.imageArray)
     },
-    deleteImage(index) {
-      this.imageArray.splice(index, 1)
+    deleteImage(image) {
+      this.$emit('update:imageArray', this.imageArray.filter(x => x.image !== image))
       this.emitChange()
     },
     addImages(e) {
@@ -81,13 +81,17 @@ export default {
       for (let i = 0; i < files.length; i++) {
         const file = files[i]
         utils.toBase64(file, base64 => {
-          this.imageArray.push({
+
+          if (this.imageArray.some(x => x.image === base64))
+            return
+
+          this.$emit('update:imageArray', this.imageArray.concat({
             image: base64,
             label: ""
-          })
+          }))
         })
       }
-    },
+    }
   },
   mounted() {
     if (this.$el) {

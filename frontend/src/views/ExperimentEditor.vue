@@ -485,14 +485,14 @@
         <div class="field">
           <div class="field-title title">Images</div>
           <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
-          <ImagesField :imageArray="dummyExperiment.images" @change="hasChanged = true" />
+          <ImagesField :imageArray.sync="dummyExperiment.images" @change="hasChanged = true" />
         </div>
 
         <!-- VIDEOS -->
         <div class="field">
           <div class="field-title title">Vidéos</div>
           <div class="field-helper grey--text">Vous pouvez en ajouter plusieurs</div>
-          <VideosField :videoArray="dummyExperiment.videos" @change="hasChanged = true" />
+          <VideosField :videoArray.sync="dummyExperiment.videos" @change="hasChanged = true" />
         </div>
       </v-form>
     </v-container>
