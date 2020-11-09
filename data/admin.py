@@ -112,6 +112,10 @@ class AuthorFilter(admin.SimpleListFilter):
         if self.value():
             return queryset.distinct().filter(farmer__name=self.value())
 
+class ThemeInline(admin.TabularInline):
+    model = Experiment.theme_set.through
+    extra = 0
+
 @admin.register(Experiment)
 class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_display = ('name', 'author', 'xp_type', 'results', 'icon_state')
@@ -149,7 +153,7 @@ class ExperimentAdmin(admin.ModelAdmin, DynamicArrayMixin):
             )
         }),
     )
-    inlines = (ExperimentImageInline, ExperimentVideoInline)
+    inlines = (ThemeInline, ExperimentImageInline, ExperimentVideoInline, )
     form = ExperimentForm
 
     def author(self, obj):
