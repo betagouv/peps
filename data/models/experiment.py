@@ -96,7 +96,7 @@ class Experiment(models.Model):
     cultures = ArrayField(models.TextField(), default=list, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} -- {self.farmer.name}'
 
     @property
     def url_path(self):

@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from django.core.exceptions import ValidationError
 from data.models import Experiment, Farmer, ExperimentImage, ExperimentVideo, FarmImage
-from data.models import CULTURES
+from data.models import CULTURES, Theme
 
 admin.site.site_header = 'Administration Peps'
 
@@ -303,3 +303,32 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
     list_filter = (ApprovalFilter, )
     inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
     form = FarmerForm
+
+class ThemeForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        forms.ModelForm.__init__(self, *args, **kwargs)
+        self.fields['experiments'].queryset = Experiment.objects.order_by('name')
+
+    class Meta:
+        model = Theme
+        exclude = []
+        widgets = {
+            'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'description': forms.Textarea(attrs={'cols': 55, 'rows': 8}),
+        }
+
+@admin.register(Theme)
+class ThemeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'active', 'creation_date')
+    form = ThemeForm
+    search_fields = ('name', )
+    readonly_fields = ('creation_date', 'modification_date', )
+    filter_vertical = ('experiments', )
+    fields = (
+        'active',
+        'name',
+        'description',
+        'experiments',
+    )
+
