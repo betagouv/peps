@@ -14,12 +14,12 @@ from rest_framework.generics import UpdateAPIView, ListCreateAPIView
 from rest_framework.exceptions import ValidationError
 from rest_framework import permissions, authentication, status
 from data.adapters import PracticesAirtableAdapter
-from data.models import Category, Farmer, Experiment, Message
+from data.models import Category, Farmer, Experiment, Message, Theme
 from api.engine import Engine
 from api.serializers import ResponseSerializer, DiscardActionSerializer, CategorySerializer
 from api.serializers import FarmerSerializer, LoggedUserSerializer, ExperimentSerializer
 from api.serializers import MessageSerializer, FarmerFastSerializer, ExperimentBriefsFastSerializer
-from api.serializers import FarmerBriefsFastSerializer
+from api.serializers import FarmerBriefsFastSerializer, ThemeFastSerializer
 from api.formschema import get_form_schema
 from api.geojson import get_geojson
 from api.models import Response
@@ -195,6 +195,10 @@ class ExperimentBriefsListView(ListAPIView):
         """
         queryset = Experiment.objects.filter(state="Validé")
         return queryset.prefetch_related('images', 'farmer')
+
+class ThemeListView(ListAPIView):
+    serializer_class = ThemeFastSerializer
+    queryset = Theme.objects.filter(active=True)
 
 class ExperimentView(UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer & IsExperimentAuthor]

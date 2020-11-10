@@ -319,6 +319,7 @@ class ThemeForm(forms.ModelForm):
         exclude = []
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
+            'copyright': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'description': forms.Textarea(attrs={'cols': 55, 'rows': 8}),
         }
 
@@ -327,11 +328,14 @@ class ThemeAdmin(admin.ModelAdmin):
     list_display = ('name', 'active', 'creation_date')
     form = ThemeForm
     search_fields = ('name', )
-    readonly_fields = ('creation_date', 'modification_date', )
+    readonly_fields = ('creation_date', 'modification_date', 'html_link', )
     filter_vertical = ('experiments', )
     fields = (
+        'html_link',
         'active',
         'name',
+        'image',
+        'copyright',
         'description',
         'experiments',
     )

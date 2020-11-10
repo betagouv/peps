@@ -40,6 +40,7 @@ export default new Vuex.Store({
     loggedUser: null,
     geojson: null,
     stats: null,
+    themes: [],
 
     formDefinitionsLoadingStatus: Constants.LoadingStatus.IDLE,
     suggestionsLoadingStatus: Constants.LoadingStatus.IDLE,
@@ -53,6 +54,7 @@ export default new Vuex.Store({
     loggedUserLoadingStatus: Constants.LoadingStatus.IDLE,
     geojsonLoadingStatus: Constants.LoadingStatus.IDLE,
     messagesLoadingStatus: Constants.LoadingStatus.IDLE,
+    themesLoadingStatus: Constants.LoadingStatus.IDLE,
 
     messages: [],
     lastMessagesRequest: null,
@@ -104,7 +106,7 @@ export default new Vuex.Store({
       state.farmersLoadingStatus = status
     },
     SET_EXPERIMENT_BRIEFS_LOADING(state, status) {
-      state.farmersLoadingStatus = status
+      state.experimentBriefsLoadingStatus = status
     },
     SET_FARMERS(state, farmers) {
       state.farmers = farmers
@@ -158,6 +160,8 @@ export default new Vuex.Store({
       state.experimentEditLoadingStatus = Constants.LoadingStatus.IDLE
       state.farmerEditLoadingStatus = Constants.LoadingStatus.IDLE
       state.messagesLoadingStatus = Constants.LoadingStatus.IDLE
+      state.themesLoadingStatus = Constants.LoadingStatus.IDLE
+      state.experimentBriefsLoadingStatus = Constants.LoadingStatus.IDLE
     },
     RESET_MESSAGES_LOADING_STATUS(state){
       state.messagesLoadingStatus = Constants.LoadingStatus.IDLE
@@ -247,6 +251,9 @@ export default new Vuex.Store({
     SET_MESSAGES_LOADING_STATUS(state, status) {
       state.messagesLoadingStatus = status
     },
+    SET_THEMES_LOADING_STATUS(state, status) {
+      state.themesLoadingStatus = status
+    },
     MARK_AS_READ(state, messages) {
       for (let i = 0; i < messages.length; i++) {
         const message = state.messages.find(x => x.id === messages[i].id)
@@ -259,6 +266,9 @@ export default new Vuex.Store({
     },
     SET_STATS(state, stats) {
       state.stats = stats
+    },
+    SET_THEMES(state, themes) {
+      state.themes = themes
     }
   },
   actions: {
@@ -324,6 +334,16 @@ export default new Vuex.Store({
       }).catch(() => {
         context.commit('SET_LOGGED_USER', null)
         context.commit('SET_LOGGED_USER_LOADING_STATUS', Constants.LoadingStatus.ERROR)
+      })
+    },
+    fetchThemes(context) {
+      context.commit('SET_THEMES_LOADING_STATUS', Constants.LoadingStatus.LOADING)
+      Vue.http.get('/api/v1/themes').then(response => {
+        const body = response.body
+        context.commit('SET_THEMES', body)
+        context.commit('SET_THEMES_LOADING_STATUS', Constants.LoadingStatus.SUCCESS)
+      }).catch(() => {
+        context.commit('SET_THEMES_LOADING_STATUS', Constants.LoadingStatus.ERROR)
       })
     },
     sendContactData(context, { name, email, phoneNumber }) { // From contact page

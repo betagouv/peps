@@ -9,6 +9,8 @@ import Share from '@/views/Share.vue'
 import Messages from '@/views/Messages.vue'
 import store from '@/store/index'
 import Map from '@/views/Map'
+import Themes from '@/views/Themes.vue'
+import Theme from '@/views/Theme.vue'
 
 export default [
   {
@@ -211,5 +213,30 @@ export default [
         farmerUrlComponent: route.params ? route.params.farmerUrlComponent : undefined,
       }
     }
-  }
+  },
+  {
+    path: '/themes',
+    component: Themes,
+    name: 'Themes',
+  },
+  {
+    path: '/themes/:themeUrlComponent',
+    name: 'Theme',
+    component: Theme,
+    props: (route) => ({
+      themeUrlComponent: route.params.themeUrlComponent
+    }),
+    beforeEnter: (route, _, next) => {
+      if (!route.params.themeUrlComponent) {
+        next({ name: 'Themes' })
+        return
+      }
+      const isValidComponent = route.params.themeUrlComponent.indexOf('--') >= 0
+      if (isValidComponent) {
+        next()
+      } else {
+        next({ name: 'Themes' })
+      }
+    }
+  },
 ]

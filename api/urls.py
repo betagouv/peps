@@ -6,7 +6,7 @@ from api.views import SendTaskView, DiscardActionView, CategoriesView
 from api.views import FarmersView, LoggedUserView, ExperimentView, FarmerView
 from api.views import ExperimentCreateView, UpdateMessageView, ListCreateMessageView
 from api.views import MarkAsReadMessageView, StatsView, ExperimentBriefsListView
-from api.views import FarmersRetrieveView, FarmerBriefsListView
+from api.views import FarmersRetrieveView, FarmerBriefsListView, ThemeListView
 
 urlpatterns = {
     url(r'^calculateRankings/?$', RankingsApiView.as_view(), name='calculate_rankings'),
@@ -25,6 +25,7 @@ urlpatterns = {
     path('farmers/<uuid:pk>', FarmerView.as_view(), name='farmer_update'),
     url(r'^geojson/?$', GeojsonView.as_view(), name='geojson'),
     url(r'^stats/?$', StatsView.as_view(), name='stats'),
+    url(r'^themes/?$', ThemeListView.as_view(), name='get_themes'),
 
     url(r'^messages/?$', ListCreateMessageView.as_view(), name='messages'),
     path('messages/<uuid:pk>', UpdateMessageView.as_view(), name='update_message'),

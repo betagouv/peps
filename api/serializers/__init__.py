@@ -24,3 +24,5 @@ from .user import LoggedUserSerializer
 
 from .message import MessageFarmer
 from .message import MessageSerializer
+
+from .theme import ThemeFastSerializer
