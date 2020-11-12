@@ -1,7 +1,7 @@
 import json
 from rest_framework.test import APIClient
 from rest_framework import status
-from django.test import TestCase, tag
+from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from data.models import Farmer, Experiment, Theme
@@ -12,7 +12,6 @@ class TestThemes(TestCase):
         _populate_database()
         self.client = APIClient(enforce_csrf_checks=False)
 
-    @tag('DEBUG')
     def test_get_active_themes(self):
         """
         Tests the endpoint for themes. Should return
@@ -23,6 +22,15 @@ class TestThemes(TestCase):
         body = json.loads(response.content.decode())
 
         self.assertEqual(len(body), 2)
+
+    def test_include_only_approved_xps(self):
+        response = self.client.get(reverse('get_themes'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        body = json.loads(response.content.decode())
+
+        autres = next(filter(lambda x: x.get('name') == "Les tricos", body))
+        self.assertEqual(len(autres.get('experiments')), 1)
+        self.assertEqual(autres['experiments'][0].get('name'), 'Lâchés de tricos')
 
 def _populate_database():
     get_user_model().objects.create_superuser(username='testsuperuser', password='12345')
@@ -104,6 +112,7 @@ def _populate_database():
     )
     tricos_theme.save()
     tricos_theme.experiments.set([
+        Experiment.objects.get(name="Vente directe"), # not approved yet
         Experiment.objects.get(name="Lâchés de tricos"),
     ])
     
