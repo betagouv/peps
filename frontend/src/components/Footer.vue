@@ -49,6 +49,9 @@
               <li>
                 <router-link :to="{ name: 'Stats' }">Statistiques</router-link>
               </li>
+              <li>
+                <router-link :to="{ name: 'Themes' }">Les thèmes</router-link>
+              </li>
             </ul>
           </v-col>
 
