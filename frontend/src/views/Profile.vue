@@ -7,7 +7,7 @@
       text="Juste un instant s'il vous plaît."
     />
     <v-container v-else class="constrained">
-      <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" />
+      <!-- <AdminCard v-if="loggedUser && !!loggedUser.is_superuser" /> -->
 
       <div class="ma-0" v-if="farmer">
         <!-- PROFILE CARD -->
@@ -311,13 +311,12 @@
 
 <script>
 import Title from "@/components/Title.vue"
-import AdminCard from "@/components/AdminCard.vue"
 import Loader from "@/components/Loader"
 import Constants from "@/constants"
 
 export default {
   name: "Profile",
-  components: { Title, AdminCard, Loader },
+  components: { Title, Loader },
   metaInfo() {
     return {
       title: "Peps - Profil utilisateur",
