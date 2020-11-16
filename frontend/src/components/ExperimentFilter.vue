@@ -5,7 +5,7 @@
       @done="showContributionOverlay = false"
     />
     <!-- Recherche -->
-    <v-row class="align-center" style="padding:12px;">
+    <!-- <v-row class="align-center" style="padding:12px;">
       <v-text-field
         prepend-inner-icon="mdi-magnify"
         placeholder="Cherchez des mots clé"
@@ -33,7 +33,7 @@
               <v-icon>mdi-filter-variant</v-icon>Filtrer
             </v-btn>
           </v-badge>
-    </v-row>
+    </v-row> -->
     
     <v-container
       :class="{'d-none': removeFilterArea}"
@@ -220,7 +220,7 @@ export default {
     return {
       menu: false,
       showContributionOverlay: false,
-      showFilterArea: false,
+      showFilterArea: true,
       activeFilters: {
         tags: [],
         agricultureTypes: [],
