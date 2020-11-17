@@ -16,8 +16,9 @@
     <v-btn
       outlined
       color="primary"
-      :to="{ name: 'Stats' }"
+      @click="goToStats"
       class="text-none"
+      id="stats-button"
     >Voir les statistiques complètes</v-btn>
   </div>
 </template>
@@ -50,5 +51,13 @@ export default {
       return stats
     },
   },
+  methods: {
+    goToStats() {
+      window.sendTrackingEvent("Landing", "StatsCards", "See stats")
+      this.$router.push({
+        name: "Stats"
+      })
+    }
+  }
 }
 </script>

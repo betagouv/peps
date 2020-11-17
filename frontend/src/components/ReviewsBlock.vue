@@ -16,6 +16,7 @@
             <v-btn
               text
               small
+              id="reviews-farmer-btn"
               class="text-none text-decoration-underline"
               color="primary"
               @click="goToFarmer(item.farmer)"
@@ -31,6 +32,7 @@
       </v-col>
     </v-row>
     <v-btn
+      id="reviews-register"
       outlined
       color="primary"
       href="/register"
@@ -62,10 +64,6 @@ export default {
     }
   },
   methods: {
-    farmerWithName(name) {
-      const farmers = this.$store.state.farmers
-      return farmers.find((x) => x.name === name)
-    },
     goToFarmer(farmer) {
       window.sendTrackingEvent("FarmerMapBlock", "seeProfile", farmer.name)
       this.$router.push({

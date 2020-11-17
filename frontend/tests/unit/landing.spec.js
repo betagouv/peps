@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Landing from '@/views/Landing.vue'
 import ExperimentFilter from '@/components/ExperimentFilter'
 import MailChimpForm from "@/components/MailChimpForm.vue"
