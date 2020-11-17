@@ -66,6 +66,7 @@
       <h2
         class="title pa-0"
         style="margin: 0px 0px 5px 0px;"
+        id="actualites"
       >Actualités</h2>
       <p
         class="body-1 pa-0"
@@ -78,6 +79,7 @@
       <h2
         class="title pa-0"
         style="margin: 16px 0px 5px 0px;"
+        id="location"
       >Des exploitations sur tout le territoire</h2>
       <p
         class="body-1 pa-0"
@@ -92,6 +94,7 @@
         <h2
           class="title pa-0"
           style="margin: 0px 0px 5px 0px;"
+          id="stats"
         >Le service Peps en chiffres</h2>
         <p
           class="body-1 pa-0"
@@ -102,7 +105,7 @@
 
       <!-- Reviews cards -->
       <div>
-        <h2 class="title pa-0" style="margin: 16px 0px 5px 0px;">Paroles de convaincus</h2>
+        <h2 class="title pa-0" id="reviews" style="margin: 16px 0px 5px 0px;">Paroles de convaincus</h2>
         <p
           class="body-1 pa-0"
           style="margin: 5px 0px;"
@@ -114,6 +117,7 @@
       <h2
         class="title pa-0"
         style="margin: 20px 0px 5px 0px;"
+        id="about"
       >Le projet Peps, qu'est-ce que c'est ?</h2>
       <p
         class="body-1 pa-0"
