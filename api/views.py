@@ -1,3 +1,4 @@
+import os
 import dateutil.parser
 import asana
 from django.http import HttpResponse, JsonResponse
@@ -249,21 +250,13 @@ class FarmerView(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
-class UpdateMessageView(UpdateAPIView):
-    permission_classes = [permissions.IsAuthenticated & IsFarmer]
-    serializer_class = MessageSerializer
-
-    def get_queryset(self):
-        farmer = self.request.user.farmer
-        return Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
-
 class ListCreateMessageView(ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated & IsFarmer]
     serializer_class = MessageSerializer
 
     def get_queryset(self):
         farmer = self.request.user.farmer
-        queryset = Message.objects.filter(recipient=farmer) | Message.objects.filter(sender=farmer)
+        queryset = Message.objects.filter(recipient=farmer, pending_delivery=False) | Message.objects.filter(sender=farmer)
         if self.request.method == "GET" and self.request.GET.get('since'):
             try:
                 date_string = self.request.GET.get('since')
@@ -274,11 +267,18 @@ class ListCreateMessageView(ListCreateAPIView):
         return queryset.prefetch_related('recipient', 'sender')
 
     def perform_create(self, serializer):
-        serializer.save()
+        farmer = self.request.user.farmer
+        can_send_messages = farmer.can_send_messages
+        serializer.save(pending_delivery=not can_send_messages)
         try:
-            self.send_email()
+            if can_send_messages:
+                self.send_email()
+            else:
+                task_name = 'Message de ' + str(farmer.name) + ' en attente de validation'
+                notes = str(farmer.name) + "a tenté d'envoyer un message, mais il n'est pas encore authorisé."
+                AsanaUtils.send_task(settings.ASANA_PROJECT, task_name, notes, None)
         except Exception as _:
-            pass 
+            pass
 
     def send_email(self):
         recipient_id = self.request.data.get('recipient')
@@ -286,6 +286,9 @@ class ListCreateMessageView(ListCreateAPIView):
 
         if not recipient_farmer.email_for_messages_allowed:
             return
+
+        protocol = 'https://' if os.getenv('PEPS_SECURE') == 'True' else 'http://'
+        domain = protocol + os.getenv('PEPS_HOSTNAME', '')
 
         sender_farmer = self.request.user.farmer
         email_address = recipient_farmer.user.email
@@ -296,8 +299,8 @@ class ListCreateMessageView(ListCreateAPIView):
             'recipient_name': recipient_farmer.name,
             'sender_name': sender_farmer.name,
             'body': self.request.data.get('body'),
-            'link': '/messages/{0}'.format(sender_farmer.url_slug),
-            'site': self.request.site
+            'link': '/messages',
+            'domain': domain,
         }
         text_message = loader.render_to_string(text_template, context)
         html_message = loader.render_to_string(html_template, context)

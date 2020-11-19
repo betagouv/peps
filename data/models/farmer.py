@@ -140,6 +140,11 @@ class Farmer(models.Model):
             self.profile_image = optimize_image(self.profile_image, self.profile_image.name)
         if self.email:
             self.email = get_user_model().objects.normalize_email(self.email)
+        if self.can_send_messages:
+            for message in self.sent_messages.filter(pending_delivery=True):
+                message.pending_delivery = False
+                message.save()
+                message.send_email()
         super(Farmer, self).save(force_insert, force_update, using, update_fields)
 
     @property

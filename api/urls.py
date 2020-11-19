@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from api.views import RankingsApiView, RefreshDataApiView, FormSchemaView, GeojsonView
 from api.views import SendTaskView, DiscardActionView, CategoriesView
 from api.views import FarmersView, LoggedUserView, ExperimentView, FarmerView
-from api.views import ExperimentCreateView, UpdateMessageView, ListCreateMessageView
+from api.views import ExperimentCreateView, ListCreateMessageView
 from api.views import MarkAsReadMessageView, StatsView, ExperimentBriefsListView
 from api.views import FarmersRetrieveView, FarmerBriefsListView, ThemeListView
 
@@ -28,7 +28,6 @@ urlpatterns = {
     url(r'^themes/?$', ThemeListView.as_view(), name='get_themes'),
 
     url(r'^messages/?$', ListCreateMessageView.as_view(), name='messages'),
-    path('messages/<uuid:pk>', UpdateMessageView.as_view(), name='update_message'),
     path('messages/markAsRead', MarkAsReadMessageView.as_view(), name='mark_as_read'),
 }
 

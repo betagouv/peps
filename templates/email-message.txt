@@ -2,7 +2,7 @@ Bonjour {{recipient_name}},
 
 {{sender_name}} vous a envoyé un message sur Peps.
 
-Pour le voir, vous avez juste à cliquer sur ce lien : https://{{ site.domain }}{{lien}}
+Pour le voir, vous avez juste à cliquer sur ce lien : {{ domain }}{{ link }}
 
 Un problème avec ce message ?
 
