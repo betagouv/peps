@@ -32,7 +32,7 @@
             "name": "Django",
             "type": "python",
             "request": "launch",
-            "pythonPath": "${workspaceRoot}/venv/bin/python",
+            "python": "${workspaceRoot}/venv/bin/python",
             "program": "${workspaceFolder}/manage.py",
             "cwd": "${workspaceRoot}",
             "args": [
@@ -47,7 +47,7 @@
             "type": "python",
             "request": "launch",
             "stopOnEntry": false,
-            "pythonPath": "${workspaceRoot}/venv/bin/python",
+            "python": "${workspaceRoot}/venv/bin/python",
             "program": "${workspaceFolder}/manage.py",
             "cwd": "${workspaceRoot}",
             "args": [
@@ -62,7 +62,7 @@
             "type": "python",
             "request": "launch",
             "stopOnEntry": false,
-            "pythonPath": "${workspaceRoot}/venv/bin/python",
+            "python": "${workspaceRoot}/venv/bin/python",
             "program": "${workspaceFolder}/manage.py",
             "cwd": "${workspaceRoot}",
             "args": [
