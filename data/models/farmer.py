@@ -91,6 +91,7 @@ class Farmer(models.Model):
     airtable_url = models.TextField(null=True)
 
     cgu_approved = models.BooleanField(default=False)
+    can_send_messages = models.BooleanField(default=False)
 
     name = models.TextField(null=True, blank=True)
     farm_name = models.TextField(null=True, blank=True)

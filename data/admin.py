@@ -267,6 +267,7 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
                 'html_link',
                 'approved',
                 'cgu_approved',
+                'can_send_messages',
             )
         }),
         ('Informations Personnelles', {
