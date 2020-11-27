@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib import admin
+from django.db.models import Count
 from django.utils.html import format_html
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from django.core.exceptions import ValidationError
 from data.models import Experiment, Farmer, ExperimentImage, ExperimentVideo, FarmImage
-from data.models import CULTURES, Theme
+from data.models import CULTURES, Theme, Message
 
 admin.site.site_header = 'Administration Peps'
 
@@ -83,7 +84,7 @@ class StateFilter(admin.SimpleListFilter):
 
 class ApprovalFilter(admin.SimpleListFilter):
     title = 'Approval status'
-    parameter_name = ''
+    parameter_name = 'approval'
 
     def lookups(self, request, model_admin):
         return [
@@ -96,6 +97,26 @@ class ApprovalFilter(admin.SimpleListFilter):
             return queryset.distinct().filter(approved=True)
         if self.value() == 'not_approved':
             return queryset.distinct().filter(approved=False)
+
+
+class MessageAuthorizationFilter(admin.SimpleListFilter):
+    title = 'Message authorization'
+    parameter_name = 'message_authorization'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('not_authorized', 'Not Authorized'),
+            ('authorized', 'Authorized'),
+            ('pending_authorization', 'Needs Message Authorization'),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'pending_authorization':
+            return queryset.annotate(sent_messages_count=Count('sent_messages')).filter(can_send_messages=False, sent_messages_count__gte=1)
+        if self.value() == 'authorized':
+            return queryset.filter(can_send_messages=True)
+        if self.value() == 'not_authorized':
+            return queryset.filter(can_send_messages=False)
 
 
 class AuthorFilter(admin.SimpleListFilter):
@@ -255,9 +276,28 @@ class FarmerForm(forms.ModelForm):
             raise ValidationError('Another farmer already has this email', code='invalid')
         return self.cleaned_data['email']
 
+class MessageInline(admin.TabularInline):
+    model = Message
+    fk_name = 'sender'
+    show_change_link = True
+    fields = ('sent_at', 'body')
+    extra = 0
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_view_permission(self, request, obj=None):
+        return True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
-    list_display = ('name', 'postal_code', 'email', 'approved', 'creation_date')
+    list_display = ('name', 'postal_code', 'email', 'approved', 'creation_date', 'message_authorization_state')
     search_fields = ('name', 'email')
     readonly_fields = ('self_created', 'html_link', )
     fieldsets = (
@@ -305,9 +345,19 @@ class FarmerAdmin(admin.ModelAdmin, DynamicArrayMixin):
             )
         }),
     )
-    list_filter = (ApprovalFilter, )
-    inlines = (FarmImageInline, ExperimentInline, AddExperimentInline)
+    list_filter = (ApprovalFilter, MessageAuthorizationFilter)
+    inlines = (FarmImageInline, ExperimentInline, AddExperimentInline, MessageInline)
     form = FarmerForm
+
+    def message_authorization_state(self, obj):
+        if not obj.can_send_messages and obj.sent_messages.count() > 0:
+            return format_html('<img src="/static/images/message-pending.svg" alt="True">')
+        if obj.can_send_messages:
+            return format_html('<img src="/static/images/message-authorized.svg" alt="True">')
+        return format_html('<img src="/static/images/message-unauthorized.svg" alt="True">')
+
+    message_authorization_state.allow_tags = True
+    message_authorization_state.short_description = 'Message authorization'
 
 class ThemeForm(forms.ModelForm):
 
@@ -341,3 +391,36 @@ class ThemeAdmin(admin.ModelAdmin):
         'experiments',
     )
 
+
+class DeliveredFilter(admin.SimpleListFilter):
+    title = 'Delivered'
+    parameter_name = 'delivered'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('delivery_pending', 'Delivery pending'),
+            ('delivered', 'Delivered'),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == 'delivery_pending':
+            return queryset.filter(pending_delivery=True)
+        if self.value() == 'delivered':
+            return queryset.filter(pending_delivery=False)
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('sender', 'recipient', 'sent_at', 'read_at', 'delivered')
+    search_fields = ('sender', 'recipient', 'sent_at', 'read_at')
+    readonly_fields = ('sender', 'recipient', 'sent_at', 'read_at', 'replied_at')
+    fields = ('sender', 'recipient', 'sent_at', 'read_at', 'replied_at', 'body')
+    list_filter = (DeliveredFilter, )
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def delivered(self, obj):
+        if obj.pending_delivery:
+            return format_html('<img src="/static/images/message-pending.svg" alt="True">')
+        
+        return format_html('<img src="/static/images/message-authorized.svg" alt="True">')

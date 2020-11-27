@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg12"
+   version="1.1"
+   y="0px"
+   x="0px"
+   width="16"
+   height="16"
+   viewBox="0 0 48 48">
+  <metadata
+     id="metadata18">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>28 mail </dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs16" />
+  <title
+     id="title2">28 mail </title>
+  <g
+     id="g6"
+     data-name="28 mail">
+    <path
+       style="fill:#2faa39;fill-opacity:1"
+       id="path4"
+       d="M24,2A22,22,0,1,0,46,24,22,22,0,0,0,24,2ZM13,14H35a2.89,2.89,0,0,1,1,.19L24.58,22.4a1,1,0,0,1-1.13,0L12,14.19A2.89,2.89,0,0,1,13,14ZM10,31V17a3,3,0,0,1,.41-1.48l9.2,6.58L10.66,32.85A2.94,2.94,0,0,1,10,31Zm25,3H13a3.39,3.39,0,0,1-.64-.07l8.89-10.66,1,.75a3,3,0,0,0,1.73.54A3.06,3.06,0,0,0,25.73,24l1.18-.85,8.74,10.73A2.82,2.82,0,0,1,35,34Zm3-3a3,3,0,0,1-.65,1.84L28.53,22l9.06-6.5A2.89,2.89,0,0,1,38,17Z" />
+  </g>
+</svg>
