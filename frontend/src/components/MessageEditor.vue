@@ -36,6 +36,9 @@
 
     <v-divider style="margin-bottom: 10px"></v-divider>
 
+    <p class="caption grey--text" style="padding-left: 10px; margin: 0;">
+      Ne partagez pas d'informations sensibles (par ex. mot de passe, numéro de carte bleue, etc). Ces messages peuvent être lus pour des fins de modération.
+    </p>
     <div class="d-flex d-sm-block align-center">
       <v-textarea
         :rows="mobileView ? 1 : 3"
