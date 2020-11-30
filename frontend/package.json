@@ -11,7 +11,7 @@
   "dependencies": {
     "core-js": "3.6.5",
     "fuse.js": "^6.4.3",
-    "leaflet": "1.6.0",
+    "leaflet": "1.7.1",
     "normalize-diacritics": "^2.12.0",
     "register-service-worker": "^1.7.1",
     "short-uuid": "4.1.0",
