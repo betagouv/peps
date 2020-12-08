@@ -20,7 +20,7 @@ class FarmerSitemap(Sitemap):
 
 class ExperimentSitemap(Sitemap):
     def items(self):
-        return Experiment.objects.filter(approved=True)
+        return Experiment.objects.filter(state="Validé")
 
     def location(self, obj):
         return obj.url_path
