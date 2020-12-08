@@ -3,7 +3,7 @@ from data.models import Farmer, Experiment
 
 class FarmerSitemap(Sitemap):
     def items(self):
-        return Farmer.objects.filter(approved=True)
+        return Farmer.objects.filter(approved=True).order_by('id')
 
     def location(self, obj):
         return obj.url_path
@@ -20,7 +20,7 @@ class FarmerSitemap(Sitemap):
 
 class ExperimentSitemap(Sitemap):
     def items(self):
-        return Experiment.objects.filter(state="Validé")
+        return Experiment.objects.filter(state="Validé").order_by('id')
 
     def location(self, obj):
         return obj.url_path
