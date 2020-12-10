@@ -144,3 +144,6 @@ frontend/*.sw?
 
 # Build output stats
 frontend/webpack-stats.json
+
+# Celery
+celerybeat-schedule.db
