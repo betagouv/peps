@@ -73,8 +73,6 @@ describe('Landing.vue', () => {
         state: { experimentBriefs },
       })
     })
-    const header = "Actualités"
-    expect(wrapper.find('h2#actualites').text()).toEqual(header)
     expect(wrapper.findComponent(MailChimpForm).exists()).toBe(true)
   })
 

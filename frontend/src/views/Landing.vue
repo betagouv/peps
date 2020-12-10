@@ -22,58 +22,25 @@
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="12" sm="4">
-          <v-card flat>
-            <v-card-text style="color: #2c3e50;" class="pa-0">
-              <span style="font-size: 1.25rem; font-weight: 500;">Découvrez </span> les retours d'expériences d'autres agriculteurs
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-card flat>
-            <v-card-text style="color: #2c3e50;" class="pa-0">
-              <span style="font-size: 1.25rem; font-weight: 500;">Échangez </span> avec les agriculteurs qui ont testé des pratiques qui vous intéressent
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-card flat>
-            <v-card-text style="color: #2c3e50;" class="pa-0">
-              <span style="font-size: 1.25rem; font-weight: 500;">Partagez </span> ce que vous mettez en place sur votre exploitation
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
+      <!-- Newsletter -->
+      <div
+        style="background-color: rgb(224, 244, 238); margin: 10px -16px 30px -16px;padding: 16px;border-radius: 5px;"
+      >
+      <p
+        class="body-1 pa-0"
+        style="margin: 5px 0px;"
+      >Les retours d'expérience de ceux et celles qui font l'agriculture de demain, directement dans votre boite email.</p>
+      <MailChimpForm />
+      </div>
 
-      <v-btn color="primary" style="margin: 20px 0;" href="#explore-xp">
-        <span class="text-none">J'explore les témoignages</span>
-        <v-icon small style="margin-right: 5px;">mdi-arrow-right</v-icon>
-      </v-btn>
 
       <!-- Experiment filters -->
       <h2
         class="title pa-0"
         id="explore-xp"
-        style="margin: 16px 0px 10px 0px;"
+        style="margin: 30px 0px 10px 0px;"
       >Explorez les retours d'expérience</h2>
       <ExperimentFilter v-if="experimentsFetched" />
-
-      <!-- Newsletter -->
-      <div
-        style="background-color: rgb(224, 244, 238); margin: 30px -16px 0 -16px;padding: 16px;border-radius: 5px;"
-      >
-      <h2
-        class="title pa-0"
-        style="margin: 0px 0px 5px 0px;"
-        id="actualites"
-      >Actualités</h2>
-      <p
-        class="body-1 pa-0"
-        style="margin: 5px 0px;"
-      >Soyez prévenu si de nouveaux retours d'expérience sont publiés sur Peps. Les actualités vous seront envoyées par email régulièrement (mais pas trop)</p>
-      <MailChimpForm />
-      </div>
 
       <!-- Experiments by location -->
       <h2
