@@ -1,0 +1,9 @@
+Bonjour {{recipient_name}},
+
+La semaine dernière, {{sender_name}} vous a envoyé un message sur Peps.
+
+Pour le voir, vous avez juste à cliquer sur ce lien : {{ domain }}{{ link }}
+
+Un problème avec ce message ?
+
+L'équipe Peps est à votre écoute, pour nous contacter envoyez un message à peps@beta.gouv.fr ou répondez à cet email.

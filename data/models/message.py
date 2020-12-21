@@ -24,6 +24,7 @@ class Message(models.Model):
     sender_deleted_at = models.DateTimeField(null=True, blank=True)
     recipient_deleted_at = models.DateTimeField(null=True, blank=True)
     pending_delivery = models.BooleanField(default=False)
+    notified = models.BooleanField(default=False)
 
     @property
     def new(self):
