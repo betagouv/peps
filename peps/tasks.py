@@ -8,7 +8,7 @@ import django.core.mail as mail
 
 @app.task()
 def remind_recipients():
-    cutoff_date = datetime.today() - timedelta(days=1)
+    cutoff_date = datetime.today() - timedelta(days=7)
     messages = (Message
                 .objects
                 .filter(notified=False)
