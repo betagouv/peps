@@ -25,6 +25,7 @@ djangorestframework-api-key==1.4.0
 djangorestframework-camel-case==1.0.3
 docutils==0.15.2
 drf-base64==2.0
+freezegun==1.0.0
 gprof2dot==2019.11.30
 idna==2.8
 importlib-metadata==3.1.1
