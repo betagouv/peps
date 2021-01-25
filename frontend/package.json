@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "3.6.5",
+    "core-js": "3.8.3",
     "fuse.js": "^6.4.6",
     "leaflet": "1.7.1",
     "normalize-diacritics": "^2.12.0",
