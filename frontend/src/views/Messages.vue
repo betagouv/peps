@@ -1,7 +1,7 @@
 <template>
   <div ref="root" v-resize="onResize" class="messages-data-table" v-if="!messagesLoading && !newCorrespondentLoading && !!loggedFarmerId">
     <Title :breadcrumbs="breadcrumbs" />
-    <v-container style="height: 100%; padding-top: 5px; padding-bottom: 0;">
+    <v-container fill-height class="pt-0 pb-0">
       <v-row style="height: 100%; border: 1px solid #EEE;">
         <v-col
           cols="2"
