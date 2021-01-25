@@ -49,7 +49,9 @@
           ></v-text-field>
         </v-col>
         <v-col cols="auto">
-          <v-btn type="submit" height="40px" outlined color="primary" class="text-none" form="mailchimpform">Recevoir les nouveautés</v-btn>
+          <v-btn type="submit" height="40px" color="primary" class="text-none" form="mailchimpform">
+            Recevoir les témoignages
+          </v-btn>
         </v-col>
       </v-row>
     </v-form>
