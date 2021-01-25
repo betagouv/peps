@@ -6,6 +6,7 @@
       v-model="page"
       :length="pages"
       color="#333"
+      class="mb-3 mt-5"
     ></v-pagination>
     <transition-group name="list" tag="div" class="row" mode="out-in" style="margin-left: -24px; margin-right: -24px;">
       <v-col
@@ -24,6 +25,7 @@
       v-if="pages > 1"
       v-model="page"
       :length="pages"
+      class="mb-0 mt-3"
     ></v-pagination>
   </v-container>
 </template>
