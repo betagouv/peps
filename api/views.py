@@ -299,7 +299,7 @@ class ListCreateMessageView(ListCreateAPIView):
             'recipient_name': recipient_farmer.name,
             'sender_name': sender_farmer.name,
             'body': self.request.data.get('body'),
-            'link': '/messages',
+            'link': '/login?next=/messages',
             'domain': domain,
         }
         text_message = loader.render_to_string(text_template, context)
