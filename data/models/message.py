@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.template import loader
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from magicauth.models import MagicToken
 
 class Message(models.Model):
 
@@ -45,11 +46,12 @@ class Message(models.Model):
         email_subject = "Nouveau message de {0} sur Peps".format(self.sender.name)
         html_template = 'email-message.html'
         text_template = 'email-message.txt'
+        token = MagicToken.objects.create(user=self.recipient.user)
         context = {
             'recipient_name': self.recipient.name,
             'sender_name': self.sender.name,
             'body': self.body,
-            'link': '/messages',
+            'token': token,
             'domain': domain,
         }
         text_message = loader.render_to_string(text_template, context)
