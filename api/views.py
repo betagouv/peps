@@ -14,7 +14,6 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.generics import UpdateAPIView, ListCreateAPIView
 from rest_framework.exceptions import ValidationError
 from rest_framework import permissions, authentication, status
-from magicauth.models import MagicToken
 from data.adapters import PracticesAirtableAdapter
 from data.models import Category, Farmer, Experiment, Message, Theme
 from api.engine import Engine
@@ -296,12 +295,11 @@ class ListCreateMessageView(ListCreateAPIView):
         email_subject = "Nouveau message de {0} sur Peps".format(sender_farmer.name)
         html_template = 'email-message.html'
         text_template = 'email-message.txt'
-        token = MagicToken.objects.create(user=recipient_farmer.user)
         context = {
             'recipient_name': recipient_farmer.name,
-            'token': token,
             'sender_name': sender_farmer.name,
             'body': self.request.data.get('body'),
+            'link': '/login?next=/messages',
             'domain': domain,
         }
         text_message = loader.render_to_string(text_template, context)
