@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6.12]
+        python-version: [3.6.13]
 
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.6
         uses: actions/setup-python@v1
         with:
-          python-version: 3.6.12
+          python-version: 3.6.13
           
       - name: Setup PostgreSQL
         uses: Harmon758/postgresql-action@v1.0.0
