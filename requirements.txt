@@ -13,7 +13,7 @@ click==7.1.2
 click-didyoumean==0.0.3
 click-plugins==1.1.1
 click-repl==0.1.6
-Django==3.1.1
+Django==3.1.6
 django-anymail==8.1
 django-better-admin-arrayfield==1.4.0
 django-magicauth==0.5
