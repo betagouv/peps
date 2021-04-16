@@ -1,6 +1,6 @@
 amqp==5.0.2
 asana==0.9.1
-asgiref==3.2.10
+asgiref==3.3.4
 astroid==2.4.2
 autopep8==1.5.4
 billiard==3.6.3.0
@@ -13,7 +13,7 @@ click==7.1.2
 click-didyoumean==0.0.3
 click-plugins==1.1.1
 click-repl==0.1.6
-Django==3.1.1
+Django==3.2
 django-anymail==8.1
 django-better-admin-arrayfield==1.4.0
 django-magicauth==0.5
@@ -58,6 +58,7 @@ six==1.15.0
 sqlparse==0.3.0
 toml==0.10.1
 typed-ast==1.4.0
+typing-extensions==3.7.4.3
 urllib3==1.25.11
 vine==5.0.0
 wcwidth==0.2.5
