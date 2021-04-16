@@ -220,3 +220,5 @@ ANYMAIL = {
 }
 DEFAULT_FROM_EMAIL = "contact@peps.beta.gouv.fr"
 SERVER_EMAIL = "contact@peps.beta.gouv.fr"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
