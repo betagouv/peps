@@ -3,7 +3,7 @@
     <Title :title="title" :breadcrumbs="breadcrumbs" />
     <v-container class="constrained">
       <iframe
-          src="https://peps-metabase.cleverapps.io/public/dashboard/00536261-3e78-4d92-aa9b-a5996c5bf8fb"
+          src="https://peps-metabase.cleverapps.io/public/dashboard/2b2701c3-70ea-4851-9f9e-a8771bffecdf"
           style="border: 1px solid rgb(204, 204, 204);box-shadow: 3px 3px 7px -3px #999;"
           width="100%"
           height="1100"
