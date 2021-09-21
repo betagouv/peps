@@ -411,7 +411,7 @@ class DeliveredFilter(admin.SimpleListFilter):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('sender', 'recipient', 'sent_at', 'read_at', 'delivered')
-    search_fields = ('sender', 'recipient', 'sent_at', 'read_at')
+    search_fields = ('sender__name', 'recipient__name', 'sent_at', 'read_at')
     readonly_fields = ('sender', 'recipient', 'sent_at', 'read_at', 'replied_at')
     fields = ('sender', 'recipient', 'sent_at', 'read_at', 'replied_at', 'body')
     list_filter = (DeliveredFilter, )
