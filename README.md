@@ -1,6 +1,6 @@
 # Peps
 
-Peps helps find personalized agricultural practices to reduce pesticide use.
+Peps helps share experiments between farmers to reduce pesticide use.
 
 📱 The repository for Peps' mobile application [can be found here](https://github.com/betagouv/peps-app).
 
@@ -44,8 +44,6 @@ PEPS_DB_PASSWORD='your-pgsql-password'
 PEPS_DB_HOST='127.0.0.1'
 PEPS_DB_PORT='5432'
 PEPS_DB_NAME='your-db-name'
-PEPS_AIRTABLE_KEY='your-airtable-api-key'
-PEPS_AIRTABLE_PRACTICES_BASE=xxxxxxxx
 PEPS_ALLOWED_HOSTS=127.0.0.1,0.0.0.0
 PEPS_MJ_APIKEY_PUBLIC=xxxxxxxx
 PEPS_MJ_APIKEY_PRIVATE=xxxxxxxx
@@ -86,27 +84,7 @@ You should be ready to go.
 
 To run the tests concerning the current product, simply run:
 ```
-python manage.py test --exclude-tag=legacy
-```
-
-If you wish to include tests for the legacy product (suggestion engine), you must first fetch the latest data from Airtable:
-```
-python manage.py generatetestdata
-...
-Successfully generated test data
-```
-Now you can run the following command to run the entirety of the test suite:
-
-```
 python manage.py test
-```
-
-### Updating legacy test mock data
-
-Legacy engine tests rely on mock data available under ```api/tests/testdata```. To update these files with the latest Airtable data, you can run the following command:
-
-```
-python manage.py generatetestdata
 ```
 
 ## Web applications and frontend
@@ -115,7 +93,7 @@ There are two different client-side code locations in this repository:
 
 ### 1- ```/web```
 
-These are templates and client-side elements that adhere to Django's standard way of doing things. These are currently used for utility views - such as the one showing the weight of the practices in real time.
+These are templates and client-side elements that adhere to Django's standard way of doing things.
 
 The views here are not meant to be shown to the final user.
 

@@ -87,8 +87,6 @@ class Farmer(models.Model):
 
     modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
-    airtable_json = JSONField(null=True, blank=True)
-    airtable_url = models.TextField(null=True)
 
     cgu_approved = models.BooleanField(default=False)
     can_send_messages = models.BooleanField(default=False)

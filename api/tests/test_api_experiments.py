@@ -14,7 +14,6 @@ from api.utils import AsanaUtils
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
-@override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
 class TestApi(TestCase):
 
     def setUp(self):
