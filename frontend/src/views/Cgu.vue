@@ -114,3 +114,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.subtitle-3 {
+  font-weight: bold;
+  margin: 10px 0;
+}
+</style>
