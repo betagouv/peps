@@ -3,7 +3,7 @@
     <Title :title="title" :breadcrumbs="breadcrumbs" />
     <v-container class="constrained">
       <v-card-text style="color: #333;">
-        <div class="display-1">Conditions générales d'utilisation de Peps</div>
+        <div class="display-1">Conditions générales d'utilisation du Service de Retours d'expérience entre agriculteurs</div>
         <div class="body-2">
           <p>Les présentes conditions d’utilisation (CGU) sont mise en œuvre conformément à l’article L. 112-9 du code des relations entre le public et l’administration. Elles s’imposent aux usagers.</p>
         </div>
@@ -14,7 +14,7 @@
         </div>
         <div class="subtitle-2">2 - Parcours usagers</div>
         <p>Le Service est une plateforme numérique de partage d’expériences avec deux parcours usagers.</p>
-        <p>Un parcours visiteur, ouvert à tous, permettant de lire les fiches exploitations et expériences présentent sur la plateforme et d’entrer en contact avec l’agriculteur qui les partage. La création d’un compte est facultative.</p>
+        <p>Un parcours visiteur, ouvert à tous, permettant de lire les fiches exploitations et expériences présentes sur la plateforme et d’entrer en contact avec l’agriculteur qui les partage. La création d’un compte est facultative.</p>
         <p>Un parcours « partageur » où une personne du monde agricole (ci-après nommé « Partageur ») partage sur la plateforme des informations sur son exploitation et les expériences qu’il a pu y mener. Dans ce parcours, la création d’un compte est obligatoire.</p>
         <p>La création du compte s’effectue au moyen d’une adresse e-mail. Elle peut être faite directement par l’équipe chargée du Service ou par l’usager. Le compte ne nécessite pas de mot de passe mais un lien d’accès est envoyé à l’e-mail renseigné. Un compte permet de créer et modifier une fiche exploitation et des fiches expériences. Afin que ces fiches soient publiées sur le Service, le compte doit être approuvé par l’équipe chargée du service. Un compte permet de choisir la possibilité d’être contacté par d’autres agriculteurs.</p>
         <p>Le Service permet la prise de contact avec les usagers partageant leurs expériences. Celle-ci est intermédiée par l’équipe du Service qui délivre les coordonnées de ces derniers après une demande de l’usager.</p>
