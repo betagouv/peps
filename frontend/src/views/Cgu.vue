@@ -4,8 +4,8 @@
     <v-container class="constrained">
       <v-card-text style="color: #333;">
         <div class="display-1">Conditions générales d'utilisation du Service de Retours d'expérience entre agriculteurs</div>
-        <div class="body-2">
-          <p>Les présentes conditions d’utilisation (CGU) sont mise en œuvre conformément à l’article L. 112-9 du code des relations entre le public et l’administration. Elles s’imposent aux usagers.</p>
+        <div class="body-2 mt-4">
+          <p>Pour une Agriculture du Vivant<br />Mise à jour le 02/11/2021</p>
         </div>
         <div class="subtitle-2">1 - Présentation</div>
         <div class="body-2">
