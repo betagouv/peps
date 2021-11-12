@@ -72,7 +72,6 @@ class Experiment(models.Model):
     external_id = models.CharField(max_length=100, db_index=True, null=True)
     modification_date = models.DateTimeField(auto_now=True)
     creation_date = models.DateTimeField(default=timezone.now)
-    airtable_json = JSONField(null=True, blank=True)
 
     farmer = models.ForeignKey(Farmer, related_name='experiments', on_delete=models.CASCADE, null=True)
     state = models.TextField(choices=STATES, default="Brouillon", db_index=True)

@@ -1,14 +1,5 @@
 from .medialist import MediaListSerializer
 
-from .legacy import MechanismSerializer
-from .legacy import ResourceSerializer
-from .legacy import PracticeTypeSerializer
-from .legacy import PracticeSerializer
-from .legacy import ResponseItemSerializer
-from .legacy import ResponseSerializer
-from .legacy import DiscardActionSerializer
-from .legacy import CategorySerializer
-
 from .experiment import ExperimentImageSerializer
 from .experiment import ExperimentVideoSerializer
 from .experiment import ExperimentFastSerializer

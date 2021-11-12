@@ -7,11 +7,9 @@ from rest_framework import status
 from rest_framework_api_key.models import APIKey
 from django.conf import settings
 from django.core.files.base import ContentFile
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from data.models import Practice, DiscardAction
-from data.models import Resource
 from api.utils import AsanaUtils
 
 # In these tests we will mock some protected functions so we'll need to access them
@@ -19,7 +17,6 @@ from api.utils import AsanaUtils
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
-@override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
 class TestApiTasks(TestCase):
 
     def setUp(self):
@@ -74,7 +71,6 @@ class TestApiTasks(TestCase):
                     "datetime": "2019-10-09T12:02:17+00:00",
                     "problem": "Contacter un conseiller",
                     "answers": "What help do you need?\nNothing",
-                    "practice_id": "recKGS5iSIiD26eah",
                 },
                 format='json',
                 **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
@@ -84,10 +80,9 @@ class TestApiTasks(TestCase):
             date = datetime.datetime(2019, 10, 9, 12, 2, 17, tzinfo=dateutil.tz.tzlocal())
             problem = 'Contacter un conseiller'
             name = 'Jean-Michel'
-            url = 'https://airtable.com/tblobpdQDxkzcllWo/recKGS5iSIiD26eah'
             tel = '07 77 08 81 79'
             responses = 'What help do you need?\nNothing'
-            notes = '{0}\n\n{1} a besoin d\'aide pour implémenter la pratique {2}.\n\nNum tel : {3}\n\nRéponses :\n{4}'.format(problem, name, url, tel, responses)
+            notes = '{0}\n\n{1} a partagé son information de contact.\n\nNum tel : {2}\n\nRéponses :\n{3}'.format(problem, name, tel, responses)
             AsanaUtils.send_task.assert_called_once_with(asana_project, 'Jean-Michel', notes, date)
 
         finally:
@@ -182,50 +177,6 @@ class TestApiTasks(TestCase):
             AsanaUtils.send_task = original_function
 
 
-    def test_discard_action(self):
-        """
-        Tests the task API endpoint used to create discard actions.
-        """
-
-        self.client.logout()
-
-        response = self.client.post(
-            reverse('discard_action'),
-            {
-                "practice_airtable_id": "recHLVNm0nhc2R1mN",
-                "reason": "Cette pratique a été testée ou est en place sur mon exploitation",
-            },
-            format='json',
-            **{'HTTP_AUTHORIZATION': 'Api-Key ' + self.key},
-        )
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(DiscardAction.objects.all().count(), 1)
-
-        discard_action = DiscardAction.objects.first()
-        self.assertEqual(discard_action.reason, 'Cette pratique a été testée ou est en place sur mon exploitation')
-        self.assertEqual(discard_action.practice_airtable_id, 'recHLVNm0nhc2R1mN')
-
-
 def _populate_database():
     get_user_model().objects.create_user(username='testuser', password='12345')
     get_user_model().objects.create_superuser(username='testsuperuser', password='12345')
-    image_name = 'test-image.jpg'
-    image_bytes = None
-
-    with open(CURRENT_DIR + '/' + image_name, 'rb') as image:
-        image_bytes = image.read()
-
-    resource = Resource(
-        external_id='recpbs29kfas9i',
-        url='https://test.test/resource.pdf'
-    )
-    resource.image.save(image_name, ContentFile(image_bytes), save=True)
-    resource.save()
-
-    for external_id in ('recZxlcM61qaDoOkc', 'recYK5ljTyL3b18J3', 'recvSDrARAcmKogbD'):
-        practice = Practice(
-            external_id=external_id,
-            main_resource=resource,
-        )
-        practice.image.save(image_name, ContentFile(image_bytes), save=True)
-        practice.save()

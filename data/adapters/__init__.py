@@ -1,1 +1,0 @@
-from .practices import PracticesAirtableAdapter

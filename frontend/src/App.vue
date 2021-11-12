@@ -54,11 +54,7 @@ export default {
     showErrorMessage() {
       const error = Constants.LoadingStatus.ERROR
       return (
-        this.$store.state.formDefinitionsLoadingStatus === error ||
-        this.$store.state.suggestionsLoadingStatus === error ||
-        this.$store.state.categoriesLoadingStatus === error ||
-        this.$store.state.farmersLoadingStatus === error ||
-        this.$store.state.implementationLoadingStatus === error
+        this.$store.state.farmersLoadingStatus === error
       )
     },
     initialCallsLoading() {

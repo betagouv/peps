@@ -48,8 +48,6 @@ class ExperimentForm(forms.ModelForm):
             'sequence_number',
             'external_id',
             'modification_date',
-            'airtable_json',
-            'airtable_url',
             'creation_date',
         ]
         model = Experiment
@@ -253,7 +251,7 @@ class FarmerForm(forms.ModelForm):
 
     class Meta:
         model = Farmer
-        exclude = ('airtable_json', 'airtable_url', 'external_id', 'creation_date', 'user', 'livestock_type')
+        exclude = ('external_id', 'creation_date', 'user', 'livestock_type')
         widgets = {
             'name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),
             'farm_name': forms.Textarea(attrs={'cols': 35, 'rows': 1}),

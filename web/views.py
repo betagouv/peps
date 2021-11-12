@@ -9,14 +9,6 @@ from api.utils import AsanaUtils
 
 from web.registerform import RegisterForm
 
-class SimulatorFormView(UserPassesTestMixin, TemplateView):
-    """
-    This view is the in-house basic form.
-    """
-    template_name = 'basic-form.html'
-
-    def test_func(self):
-        return self.request.user.is_superuser
 
 class VueAppDisplayView(TemplateView):
     """

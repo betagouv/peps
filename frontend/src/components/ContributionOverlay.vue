@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import formutils from "@/formutils"
 import Constants from "@/constants"
 import Loader from "@/components/Loader.vue"
 
@@ -162,13 +161,6 @@ export default {
         this.$store.state.contactLoadingStatus === Constants.LoadingStatus.ERROR
       )
     },
-    complete() {
-      return formutils.formIsComplete(
-        this.contactSchema,
-        this.contactOptions,
-        this.$store.state.contactFormData
-      )
-    },
     showBorder() {
       return this.$vuetify.breakpoint.name != 'xs'
     }
@@ -187,10 +179,6 @@ export default {
     cancelImplementation() {
       window.sendTrackingEvent("Landing", "shareXP cancel", "")
       this.$emit("done")
-    },
-    sendImplementation() {
-      window.sendTrackingEvent("Landing", "shareXP confirm", "")
-      this.$store.dispatch("sendContributionInfo")
     },
     onWindowResize() {
       this.windowHeight = window.innerHeight - 30
