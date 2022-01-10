@@ -3,6 +3,7 @@ import os
 import datetime
 import pytz
 from unittest.mock import MagicMock
+from unittest import skip
 from urllib.parse import quote_plus
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -16,6 +17,7 @@ from api.utils import AsanaUtils
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+@skip("Redirection en place vers rex-agri")
 class TestApiMessages(TestCase):
 
     def setUp(self):

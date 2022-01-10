@@ -1,5 +1,6 @@
 import os
 from unittest.mock import Mock
+from unittest import skip
 import requests
 from django.test import TestCase, override_settings, tag
 from api.engine import Engine
@@ -10,6 +11,7 @@ CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(CURRENT_DIR))
 
 @tag('legacy')
+@skip("Redirection en place vers rex-agri")
 @override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0, MEDIA_ROOT=os.path.join(BASE_DIR, 'media/test'))
 class TestEngine(TestCase):
     def setUp(self):

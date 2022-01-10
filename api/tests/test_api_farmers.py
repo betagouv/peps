@@ -4,6 +4,7 @@ import base64
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey
+from unittest import skip
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -13,6 +14,7 @@ from data.models import Farmer, Experiment
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 @override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
+@skip("Redirection en place vers rex-agri")
 class TestApi(TestCase):
 
     def setUp(self):

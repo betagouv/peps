@@ -2,6 +2,7 @@ import json
 import os
 import base64
 from unittest.mock import MagicMock
+from unittest import skip
 from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework_api_key.models import APIKey
@@ -15,6 +16,7 @@ from api.utils import AsanaUtils
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 @override_settings(AIRTABLE_REQUEST_INTERVAL_SECONDS=0.0)
+@skip("Redirection en place vers rex-agri")
 class TestApi(TestCase):
 
     def setUp(self):

@@ -1,7 +1,9 @@
+from unittest import skip
 from django.test import TestCase, Client
 from django.urls import reverse
 from rest_framework import status
 
+@skip("Redirection en place vers rex-agri")
 class TestSitemaps(TestCase):
 
     def setUp(self):

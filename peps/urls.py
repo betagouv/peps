@@ -4,12 +4,17 @@ from django.urls import path
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 from magicauth.urls import urlpatterns as magicauth_urls
 from web.views import VueAppDisplayView
 
 urlpatterns = [
     path('admin/', admin.site.urls)
 ]
+
+migration_view = RedirectView.as_view(url='https://rex-agri.agroecologie.org/%(rest)s', permanent=True)
+migration_redirect_url = url(r'^(?P<rest>.*)', migration_view, name='migration')
+urlpatterns.append(migration_redirect_url)
 
 urlpatterns.append(url(r'', include('web.urls')))
 urlpatterns.append(url(r'^api/v1/', include('api.urls')))

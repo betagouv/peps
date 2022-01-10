@@ -1,4 +1,5 @@
 import json
+from unittest import skip
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.test import TestCase
@@ -6,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from data.models import Farmer, Experiment, Message
 
+@skip("Redirection en place vers rex-agri")
 class TestStats(TestCase):
 
     def setUp(self):
