@@ -1,4 +1,7 @@
-# Peps
+# ⚠️ Ce repo n'est plus maintenu.
+## Peps a été transféré à l'association Pour Une Agriculture du Vivant. La nouvelle plateforme est disponible [ici](https://rex-agri.agroecologie.org/).
+--------------------
+## Peps
 
 Peps helps find personalized agricultural practices to reduce pesticide use.
 
